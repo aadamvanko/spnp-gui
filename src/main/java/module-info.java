@@ -6,4 +6,5 @@ module cz.muni.fi {
 
     opens cz.muni.fi.spnp.gui to javafx.fxml;
     exports cz.muni.fi.spnp.gui;
+    exports cz.muni.fi.spnp.gui.graph;
 }
