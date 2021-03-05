@@ -1,17 +1,29 @@
 package cz.muni.fi.spnp.gui.mainwindow;
 
+import cz.muni.fi.spnp.gui.elementsoutline.ElementsOutineView;
+import cz.muni.fi.spnp.gui.functions.FunctionsCategoriesView;
 import cz.muni.fi.spnp.gui.graph.*;
-import javafx.geometry.Orientation;
+import cz.muni.fi.spnp.gui.menu.MenuView;
+import cz.muni.fi.spnp.gui.projects.ProjectsView;
+import cz.muni.fi.spnp.gui.propertieseditor.PropertiesEditorView;
+import cz.muni.fi.spnp.gui.quickactions.QuickActionsView;
+import cz.muni.fi.spnp.gui.statusbar.StatusBarView;
+import cz.muni.fi.spnp.gui.toolbar.ToolbarView;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class MainWindowController {
 
-    private BorderPane borderPane;
+    private final BorderPane borderPane;
+    private MenuView menuView;
+    private ProjectsView projectsView;
+    private QuickActionsView quickActionsView;
+    private ElementsOutineView elementsOutlineView;
+    private FunctionsCategoriesView functionsCategoriesView;
+    private StatusBarView statusBarView;
+    private ToolbarView toolbarView;
+    private PropertiesEditorView propertiesEditorView;
 
     public MainWindowController() {
         borderPane = new BorderPane();
@@ -24,26 +36,25 @@ public class MainWindowController {
     }
 
     private Node createCenterPanel() {
-        HBox hboxGraphToolbar = new HBox();
-        hboxGraphToolbar.getChildren().add(new Button("cursor"));
-        hboxGraphToolbar.getChildren().add(new Button("mover"));
-
-        Graph graph = new Graph();
-        addGraphComponents(graph);
-        Layout layout = new RandomLayout(graph);
-        layout.execute();
-
         VBox vbox = new VBox();
-        vbox.getChildren().add(hboxGraphToolbar);
-        vbox.getChildren().add(graph.getScrollPane());
+
+        toolbarView = new ToolbarView();
+        vbox.getChildren().add(toolbarView.getRoot());
+
+        GraphView graphView = new GraphView();
+        addGraphComponents(graphView);
+        Layout layout = new RandomLayout(graphView);
+        layout.execute();
+        vbox.getChildren().add(graphView.getRoot());
+
         return vbox;
     }
 
-    private void addGraphComponents(Graph graph) {
+    private void addGraphComponents(GraphView graphView) {
 
-        Model model = graph.getModel();
+        Model model = graphView.getModel();
 
-        graph.beginUpdate();
+        graphView.beginUpdate();
 
         model.addCell("Cell A", CellType.RECTANGLE);
         model.addCell("Cell B", CellType.RECTANGLE);
@@ -61,100 +72,43 @@ public class MainWindowController {
         model.addEdge("Cell D", "Cell F");
         model.addEdge("Cell D", "Cell G");
 
-        graph.endUpdate();
+        graphView.endUpdate();
 
     }
 
     private Node createRightPanel() {
-        TableView tableViewProperties = new TableView();
-        tableViewProperties.setPlaceholder(new Label("No rows to display"));
-
-        TreeItem treeItemCategoryGeneral = new TreeItem("General");
-        treeItemCategoryGeneral.getChildren().add(new TreeItem("general_function_1"));
-        treeItemCategoryGeneral.getChildren().add(new TreeItem("general_function_2"));
-
-        TreeItem treeItemCategoryGuard = new TreeItem("Guard");
-        treeItemCategoryGuard.getChildren().add(new TreeItem("guard_function_1"));
-        treeItemCategoryGuard.getChildren().add(new TreeItem("guard_function_2"));
-
-        TreeView treeViewFunctions = new TreeView();
-        TreeItem treeItemRoot = new TreeItem("Functions");
-        treeItemRoot.getChildren().add(treeItemCategoryGeneral);
-        treeItemRoot.getChildren().add(treeItemCategoryGuard);
-        treeViewFunctions.setRoot(treeItemRoot);
-
-
         VBox vbox = new VBox();
-        vbox.getChildren().add(tableViewProperties);
-        vbox.getChildren().add(treeViewFunctions);
+        propertiesEditorView = new PropertiesEditorView();
+        vbox.getChildren().add(propertiesEditorView.getRoot());
+
+        functionsCategoriesView = new FunctionsCategoriesView();
+        vbox.getChildren().add(functionsCategoriesView.getRoot());
         return vbox;
     }
 
     private Node createBottomPanel() {
-        TextArea textArea = new TextArea();
-        textArea.setPrefRowCount(1);
-        textArea.setEditable(false);
-        textArea.setText("All went good");
-        return textArea;
+        statusBarView = new StatusBarView();
+        return statusBarView.getRoot();
     }
 
     private Node createLeftPanel() {
-        TreeItem treeItemProject1 = new TreeItem("Project 1");
-        treeItemProject1.getChildren().add(new TreeItem("Diagram 1"));
-        treeItemProject1.getChildren().add(new TreeItem("Diagram 2"));
-        treeItemProject1.getChildren().add(new TreeItem("Diagram 3"));
-
-
-        TreeItem treeItemProject2 = new TreeItem("Project 2");
-        treeItemProject2.getChildren().add(new TreeItem("Diagram 4"));
-        treeItemProject2.getChildren().add(new TreeItem("Diagram 5"));
-
-        TreeView treeViewProjects = new TreeView();
-        TreeItem treeItemRoot = new TreeItem("Projects");
-        treeItemRoot.getChildren().add(treeItemProject1);
-        treeItemRoot.getChildren().add(treeItemProject2);
-        treeViewProjects.setRoot(treeItemRoot);
-
-        TreeItem treeItemDiagram1Elements = new TreeItem("Diagram 1");
-        treeItemDiagram1Elements.getChildren().add(new TreeItem("Node A"));
-        treeItemDiagram1Elements.getChildren().add(new TreeItem("Node B"));
-        treeItemDiagram1Elements.getChildren().add(new TreeItem("Transition 1"));
-        treeItemDiagram1Elements.getChildren().add(new TreeItem("Transition 2"));
-
-        TreeView treeViewGraphElements = new TreeView();
-        TreeItem treeItemRootGraphElements = new TreeItem("Diagram graph elements");
-        treeItemRootGraphElements.getChildren().add(treeItemDiagram1Elements);
-        treeViewGraphElements.setRoot(treeItemRootGraphElements);
-
         VBox vbox = new VBox();
-        vbox.getChildren().add(treeViewProjects);
-        vbox.getChildren().add(treeViewGraphElements);
+
+        projectsView = new ProjectsView();
+        vbox.getChildren().add(projectsView.getRoot());
+
+        elementsOutlineView = new ElementsOutineView();
+        vbox.getChildren().add(elementsOutlineView.getRoot());
         return vbox;
     }
 
     private Node createTopPanel() {
-        Menu menuFile = new Menu("File");
-        Menu menuEdit = new Menu("Edit");
-        Menu menuView = new Menu("View");
-        Menu menuTools = new Menu("Tools");
-        Menu menuHelp = new Menu("Help");
-
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().add(menuFile);
-        menuBar.getMenus().add(menuEdit);
-        menuBar.getMenus().add(menuView);
-        menuBar.getMenus().add(menuTools);
-        menuBar.getMenus().add(menuHelp);
-
-        Button buttonNewProject = new Button("new project");
-
-        HBox quickActionsBar = new HBox();
-        quickActionsBar.getChildren().add(buttonNewProject);
-
         VBox vbox = new VBox();
-//        vbox.getChildren().add(new Separator(Orientation.HORIZONTAL));
-        vbox.getChildren().add(menuBar);
-        vbox.getChildren().add(quickActionsBar);
+        menuView = new MenuView();
+        vbox.getChildren().add(menuView.getRoot());
+
+        quickActionsView = new QuickActionsView();
+        vbox.getChildren().add(quickActionsView.getRoot());
         return vbox;
     }
 

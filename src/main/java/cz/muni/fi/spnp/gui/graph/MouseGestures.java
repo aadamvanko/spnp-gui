@@ -8,21 +8,7 @@ public class MouseGestures {
 
     final DragContext dragContext = new DragContext();
 
-    Graph graph;
-
-    public MouseGestures( Graph graph) {
-        this.graph = graph;
-    }
-
-    public void makeDraggable( final Node node) {
-
-
-        node.setOnMousePressed(onMousePressedEventHandler);
-        node.setOnMouseDragged(onMouseDraggedEventHandler);
-        node.setOnMouseReleased(onMouseReleasedEventHandler);
-
-    }
-
+    GraphView graphView;
     EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
         @Override
@@ -30,13 +16,22 @@ public class MouseGestures {
 
             Node node = (Node) event.getSource();
 
-            double scale = graph.getScale();
+            double scale = graphView.getScale();
 
             dragContext.x = node.getBoundsInParent().getMinX() * scale - event.getScreenX();
-            dragContext.y = node.getBoundsInParent().getMinY()  * scale - event.getScreenY();
+            dragContext.y = node.getBoundsInParent().getMinY() * scale - event.getScreenY();
 
         }
     };
+
+    public void makeDraggable(final Node node) {
+
+
+        node.setOnMousePressed(onMousePressedEventHandler);
+        node.setOnMouseDragged(onMouseDraggedEventHandler);
+        node.setOnMouseReleased(onMouseReleasedEventHandler);
+
+    }
 
     EventHandler<MouseEvent> onMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 
@@ -49,7 +44,7 @@ public class MouseGestures {
             double offsetY = event.getScreenY() + dragContext.y;
 
             // adjust the offset in case we are zoomed
-            double scale = graph.getScale();
+            double scale = graphView.getScale();
 
             offsetX /= scale;
             offsetY /= scale;
@@ -58,6 +53,10 @@ public class MouseGestures {
 
         }
     };
+
+    public MouseGestures(GraphView graphView) {
+        this.graphView = graphView;
+    }
 
     EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
 

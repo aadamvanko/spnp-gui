@@ -7,15 +7,15 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    Graph graph = new Graph();
+    GraphView graphView = new GraphView();
 
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
 
-        graph = new Graph();
+        graphView = new GraphView();
 
-        root.setCenter(graph.getScrollPane());
+        root.setCenter(graphView.getRoot());
 
         Scene scene = new Scene(root, 1024, 768);
         //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -25,16 +25,16 @@ public class Main extends Application {
 
         addGraphComponents();
 
-        Layout layout = new RandomLayout(graph);
+        Layout layout = new RandomLayout(graphView);
         layout.execute();
 
     }
 
     private void addGraphComponents() {
 
-        Model model = graph.getModel();
+        Model model = graphView.getModel();
 
-        graph.beginUpdate();
+        graphView.beginUpdate();
 
         model.addCell("Cell A", CellType.RECTANGLE);
         model.addCell("Cell B", CellType.RECTANGLE);
@@ -52,7 +52,7 @@ public class Main extends Application {
         model.addEdge("Cell D", "Cell F");
         model.addEdge("Cell D", "Cell G");
 
-        graph.endUpdate();
+        graphView.endUpdate();
 
     }
 

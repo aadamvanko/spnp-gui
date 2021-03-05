@@ -5,19 +5,19 @@ import java.util.Random;
 
 public class RandomLayout extends Layout {
 
-    Graph graph;
+    GraphView graphView;
 
     Random rnd = new Random();
 
-    public RandomLayout(Graph graph) {
+    public RandomLayout(GraphView graphView) {
 
-        this.graph = graph;
+        this.graphView = graphView;
 
     }
 
     public void execute() {
 
-        List<Cell> cells = graph.getModel().getAllCells();
+        List<Cell> cells = graphView.getModel().getAllCells();
 
         for (Cell cell : cells) {
 

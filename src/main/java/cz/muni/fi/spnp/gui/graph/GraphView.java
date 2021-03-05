@@ -1,16 +1,17 @@
 package cz.muni.fi.spnp.gui.graph;
 
+import cz.muni.fi.spnp.gui.propertieseditor.Component;
 import javafx.scene.Group;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-public class Graph {
+public class GraphView extends Component {
 
-    private Model model;
+    private final Model model;
 
-    private Group canvas;
+    private final Group canvas;
 
-    private ZoomableScrollPane scrollPane;
+    private final ZoomableScrollPane scrollPane;
 
     MouseGestures mouseGestures;
 
@@ -21,7 +22,7 @@ public class Graph {
      */
     CellLayer cellLayer;
 
-    public Graph() {
+    public GraphView() {
 
         this.model = new Model();
 
@@ -43,7 +44,8 @@ public class Graph {
 
     }
 
-    public ScrollPane getScrollPane() {
+    @Override
+    public Node getRoot() {
         return this.scrollPane;
     }
 
