@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui;
 
 import cz.muni.fi.spnp.gui.mainwindow.MainWindowController;
+import cz.muni.fi.spnp.gui.model.Model;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,9 +13,11 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private Model model;
 
     @Override
     public void start(Stage stage) throws IOException {
+        model = new Model();
         MainWindowController mainWindowController = new MainWindowController();
 
         scene = new Scene(mainWindowController.getRoot(), 960, 540);
