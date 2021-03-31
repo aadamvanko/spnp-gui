@@ -2,7 +2,13 @@ package cz.muni.fi.spnp.gui.mainwindow;
 
 import cz.muni.fi.spnp.gui.elementsoutline.ElementsOutineView;
 import cz.muni.fi.spnp.gui.functions.FunctionsCategoriesView;
-import cz.muni.fi.spnp.gui.graph.*;
+import cz.muni.fi.spnp.gui.graph.GraphView;
+import cz.muni.fi.spnp.gui.graph.elements.arc.ArcController;
+import cz.muni.fi.spnp.gui.graph.elements.arc.InhibitorArcController;
+import cz.muni.fi.spnp.gui.graph.elements.arc.StandardArcController;
+import cz.muni.fi.spnp.gui.graph.elements.place.PlaceController;
+import cz.muni.fi.spnp.gui.graph.elements.transition.ImmediateTransitionController;
+import cz.muni.fi.spnp.gui.graph.elements.transition.TimedTransitionController;
 import cz.muni.fi.spnp.gui.menu.MenuView;
 import cz.muni.fi.spnp.gui.projects.ProjectsView;
 import cz.muni.fi.spnp.gui.propertieseditor.PropertiesEditorView;
@@ -24,6 +30,7 @@ public class MainWindowController {
     private StatusBarView statusBarView;
     private ToolbarView toolbarView;
     private PropertiesEditorView propertiesEditorView;
+    private GraphView graphView;
 
     public MainWindowController() {
         borderPane = new BorderPane();
@@ -36,44 +43,28 @@ public class MainWindowController {
     }
 
     private Node createCenterPanel() {
-        VBox vbox = new VBox();
+        PlaceController pc1 = new PlaceController(100, 100);
+        PlaceController pc2 = new PlaceController(500, 100);
+        PlaceController pc4 = new PlaceController(100, 200);
+        TimedTransitionController ttc1 = new TimedTransitionController(300, 100);
+        ArcController ac1 = new StandardArcController(pc1, ttc1);
+        ArcController ac2 = new StandardArcController(ttc1, pc2);
+        ImmediateTransitionController itc1 = new ImmediateTransitionController(300, 200);
+        ArcController ac3 = new InhibitorArcController(pc4, itc1);
+        PlaceController pc3 = new PlaceController(100, 500);
 
-        toolbarView = new ToolbarView();
-        vbox.getChildren().add(toolbarView.getRoot());
+        graphView = new GraphView();
+        pc1.addToParent(graphView);
+        pc2.addToParent(graphView);
+        ttc1.addToParent(graphView);
+        ac1.addToParent(graphView);
+        ac2.addToParent(graphView);
+        itc1.addToParent(graphView);
+        pc3.addToParent(graphView);
+        pc4.addToParent(graphView);
+        ac3.addToParent(graphView);
 
-        GraphView graphView = new GraphView();
-        addGraphComponents(graphView);
-        Layout layout = new RandomLayout(graphView);
-        layout.execute();
-        vbox.getChildren().add(graphView.getRoot());
-
-        return vbox;
-    }
-
-    private void addGraphComponents(GraphView graphView) {
-
-        Model model = graphView.getModel();
-
-        graphView.beginUpdate();
-
-        model.addCell("Cell A", CellType.RECTANGLE);
-        model.addCell("Cell B", CellType.RECTANGLE);
-        model.addCell("Cell C", CellType.RECTANGLE);
-        model.addCell("Cell D", CellType.TRIANGLE);
-        model.addCell("Cell E", CellType.TRIANGLE);
-        model.addCell("Cell F", CellType.RECTANGLE);
-        model.addCell("Cell G", CellType.RECTANGLE);
-
-        model.addEdge("Cell A", "Cell B");
-        model.addEdge("Cell A", "Cell C");
-        model.addEdge("Cell B", "Cell C");
-        model.addEdge("Cell C", "Cell D");
-        model.addEdge("Cell B", "Cell E");
-        model.addEdge("Cell D", "Cell F");
-        model.addEdge("Cell D", "Cell G");
-
-        graphView.endUpdate();
-
+        return graphView.getZoomableScrollPane();
     }
 
     private Node createRightPanel() {

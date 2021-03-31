@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui.graph;
+package cz.muni.fi.spnp.gui.graph.canvas;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -8,23 +8,26 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
 
 public class ZoomableScrollPane extends ScrollPane {
-    Group zoomGroup;
-    Scale scaleTransform;
-    Node content;
-    double scaleValue = 1.0;
-    double delta = 0.1;
+    private final Group zoomGroup;
+    private final Scale scaleTransform;
+    private final double delta = 0.1;
+    private double scaleValue = 1.0;
 
     public ZoomableScrollPane(Node content) {
-        this.content = content;
         Group contentGroup = new Group();
         zoomGroup = new Group();
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(content);
         setContent(contentGroup);
+
         scaleTransform = new Scale(scaleValue, scaleValue, 0, 0);
         zoomGroup.getTransforms().add(scaleTransform);
 
         zoomGroup.setOnScroll(new ZoomHandler());
+    }
+
+    public Group getZoomGroup() {
+        return zoomGroup;
     }
 
     public double getScaleValue() {
@@ -36,41 +39,34 @@ public class ZoomableScrollPane extends ScrollPane {
     }
 
     public void zoomTo(double scaleValue) {
-
         this.scaleValue = scaleValue;
-
+        double oldHValue = getHvalue();
+        double oldVValue = getVvalue();
         scaleTransform.setX(scaleValue);
         scaleTransform.setY(scaleValue);
-
+        setHvalue(oldHValue);
+        setVvalue(oldVValue);
     }
 
     public void zoomActual() {
-
         scaleValue = 1;
         zoomTo(scaleValue);
-
     }
 
     public void zoomOut() {
         scaleValue -= delta;
-
         if (Double.compare(scaleValue, 0.1) < 0) {
             scaleValue = 0.1;
         }
-
         zoomTo(scaleValue);
     }
 
     public void zoomIn() {
-
         scaleValue += delta;
-
         if (Double.compare(scaleValue, 10) > 0) {
             scaleValue = 10;
         }
-
         zoomTo(scaleValue);
-
     }
 
     /**
@@ -80,7 +76,6 @@ public class ZoomableScrollPane extends ScrollPane {
      *            zoom if this parameter is true.
      */
     public void zoomToFit(boolean minimizeOnly) {
-
         double scaleX = getViewportBounds().getWidth() / getContent().getBoundsInLocal().getWidth();
         double scaleY = getViewportBounds().getHeight() / getContent().getBoundsInLocal().getHeight();
 
@@ -101,26 +96,20 @@ public class ZoomableScrollPane extends ScrollPane {
                 scale = 1;
             }
         }
-
         // apply zoom
         zoomTo(scale);
-
     }
 
     private class ZoomHandler implements EventHandler<ScrollEvent> {
 
         @Override
         public void handle(ScrollEvent scrollEvent) {
-            // if (scrollEvent.isControlDown())
-            {
-
+            if (scrollEvent.isControlDown()) {
                 if (scrollEvent.getDeltaY() < 0) {
-                    scaleValue -= delta;
+                    zoomOut();
                 } else {
-                    scaleValue += delta;
+                    zoomIn();
                 }
-
-                zoomTo(scaleValue);
 
                 scrollEvent.consume();
             }
