@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.model;
 
-import cz.muni.fi.spnp.gui.propertieseditor.PlaceViewModel;
+import cz.muni.fi.spnp.gui.components.propertieseditor.PlaceViewModel;
 
 import java.util.HashMap;
 import java.util.Map;
