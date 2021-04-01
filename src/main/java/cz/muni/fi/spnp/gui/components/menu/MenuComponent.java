@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.components.menu;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -10,8 +11,8 @@ public class MenuComponent extends ApplicationComponent {
 
     private final MenuBar menuBar;
 
-    public MenuComponent(Model model) {
-        super(model);
+    public MenuComponent(Model model, Notifications notifications) {
+        super(model, notifications);
 
         menuBar = new MenuBar();
 

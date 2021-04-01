@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.components.elementsoutline;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -11,8 +12,8 @@ public class DiagramOutlineComponent extends ApplicationComponent {
 
     private final TreeView treeView;
 
-    public DiagramOutlineComponent(Model model) {
-        super(model);
+    public DiagramOutlineComponent(Model model, Notifications notifications) {
+        super(model, notifications);
 
         treeView = new TreeView();
 

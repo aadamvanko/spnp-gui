@@ -10,6 +10,7 @@ import cz.muni.fi.spnp.gui.components.quickactions.QuickActionsComponent;
 import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
 import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 public class MainWindowController {
 
     private final Model model;
+    private final Notifications notifications;
 
     private final BorderPane borderPane;
     private MenuComponent menuComponent;
@@ -31,6 +33,7 @@ public class MainWindowController {
 
     public MainWindowController() {
         model = new Model();
+        notifications = new Notifications();
         borderPane = new BorderPane();
 
         borderPane.setTop(createTopPanel());
@@ -41,8 +44,8 @@ public class MainWindowController {
     }
 
     private Node createCenterPanel() {
-        toolbarComponent = new ToolbarComponent(model);
-        graphComponent = new GraphComponent(model);
+        toolbarComponent = new ToolbarComponent(model, notifications);
+        graphComponent = new GraphComponent(model, notifications);
 
         VBox vBox = new VBox(toolbarComponent.getRoot(), graphComponent.getRoot());
         return vBox;
@@ -50,36 +53,36 @@ public class MainWindowController {
 
     private Node createRightPanel() {
         VBox vbox = new VBox();
-        propertiesComponent = new PropertiesComponent(model);
+        propertiesComponent = new PropertiesComponent(model, notifications);
         vbox.getChildren().add(propertiesComponent.getRoot());
 
-        functionsCategoriesComponent = new FunctionsCategoriesComponent(model);
+        functionsCategoriesComponent = new FunctionsCategoriesComponent(model, notifications);
         vbox.getChildren().add(functionsCategoriesComponent.getRoot());
         return vbox;
     }
 
     private Node createBottomPanel() {
-        statusBarComponent = new StatusBarComponent(model);
+        statusBarComponent = new StatusBarComponent(model, notifications);
         return statusBarComponent.getRoot();
     }
 
     private Node createLeftPanel() {
         VBox vbox = new VBox();
 
-        projectsComponent = new ProjectsComponent(model);
+        projectsComponent = new ProjectsComponent(model, notifications);
         vbox.getChildren().add(projectsComponent.getRoot());
 
-        elementsOutlineView = new DiagramOutlineComponent(model);
+        elementsOutlineView = new DiagramOutlineComponent(model, notifications);
         vbox.getChildren().add(elementsOutlineView.getRoot());
         return vbox;
     }
 
     private Node createTopPanel() {
         VBox vbox = new VBox();
-        menuComponent = new MenuComponent(model);
+        menuComponent = new MenuComponent(model, notifications);
         vbox.getChildren().add(menuComponent.getRoot());
 
-        quickActionsComponent = new QuickActionsComponent(model);
+        quickActionsComponent = new QuickActionsComponent(model, notifications);
         vbox.getChildren().add(quickActionsComponent.getRoot());
         return vbox;
     }

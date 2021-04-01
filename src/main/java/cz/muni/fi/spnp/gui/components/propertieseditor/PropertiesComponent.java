@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.components.propertieseditor;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
@@ -13,8 +14,8 @@ public class PropertiesComponent extends ApplicationComponent {
     private final VBox vbox;
     private final Map<GraphElementType, PropertiesEditor> editors;
 
-    public PropertiesComponent(Model model) {
-        super(model);
+    public PropertiesComponent(Model model, Notifications notifications) {
+        super(model, notifications);
 
         vbox = new VBox();
         editors = new HashMap<>();
