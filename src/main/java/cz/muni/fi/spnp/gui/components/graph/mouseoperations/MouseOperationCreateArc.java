@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
+import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
@@ -119,6 +120,10 @@ public class MouseOperationCreateArc extends MouseOperation {
                     arcController = new InhibitorArcController((PlaceController) fromElement, (TransitionController) toElement);
                 }
                 arcController.addToParent(graphView);
+
+                if (graphView.getCursorMode() == CursorMode.CREATE) {
+                    graphView.setCursorMode(CursorMode.VIEW);
+                }
             }
         }
     }

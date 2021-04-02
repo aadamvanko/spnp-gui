@@ -89,7 +89,7 @@ public class GraphView {
 
         if (mouseEvent.getButton() == MouseButton.PRIMARY && cursorMode == CursorMode.VIEW) {
             mouseOperation = new MouseOperationSelection(this);
-        } else if (mouseEvent.getButton() == MouseButton.PRIMARY && cursorMode == CursorMode.CREATE || cursorMode == CursorMode.CREATE_MULTIPLE) {
+        } else if (mouseEvent.getButton() == MouseButton.PRIMARY && isInCreateMode()) {
             mouseOperation = new MouseOperationCreate(this);
         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
             mouseOperation = new MouseOperationPanning(this);
@@ -99,6 +99,10 @@ public class GraphView {
             return;
         }
         mouseOperation.mousePressedHandler(null, mouseEvent);
+    }
+
+    private boolean isInCreateMode() {
+        return cursorMode == CursorMode.CREATE || cursorMode == CursorMode.CREATE_MULTIPLE;
     }
 
     private void onMouseDragged(MouseEvent mouseEvent) {
@@ -137,7 +141,7 @@ public class GraphView {
     public void graphElementPressed(GraphElement graphElement, MouseEvent mouseEvent) {
         finishMouseOperation();
 
-        if (mouseEvent.getButton() == MouseButton.PRIMARY && cursorMode == CursorMode.CREATE) {
+        if (mouseEvent.getButton() == MouseButton.PRIMARY && isInCreateMode()) {
             mouseOperation = new MouseOperationCreateArc(this);
         } else if (mouseEvent.getButton() == MouseButton.PRIMARY && cursorMode == CursorMode.VIEW) {
             mouseOperation = new MouseOperationMoving(this);
@@ -264,11 +268,14 @@ public class GraphView {
     }
 
     public void setCreateElementType(GraphElementType createElementType) {
-        cursorMode = CursorMode.CREATE;
         this.createElementType = createElementType;
     }
 
     public List<GraphElement> getElements() {
         return elements;
+    }
+
+    public CursorMode getCursorMode() {
+        return cursorMode;
     }
 }

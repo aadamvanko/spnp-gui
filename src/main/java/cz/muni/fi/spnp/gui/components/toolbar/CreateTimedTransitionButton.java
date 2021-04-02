@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
-public class CreateTimedTransitionButton extends CustomImageButton {
+public class CreateTimedTransitionButton extends CustomImageToggleButton {
     public CreateTimedTransitionButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);
 
@@ -20,8 +20,8 @@ public class CreateTimedTransitionButton extends CustomImageButton {
         rectangle.setLayoutX(2);
         rectangle.setLayoutY(2);
 
-        button.setPrefSize(48, 48);
+        toggleButton.setPrefSize(48, 48);
 
-        button.setGraphic(rectangle);
+        toggleButton.setGraphic(rectangle);
     }
 }

@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
+import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
@@ -50,6 +51,10 @@ public class MouseOperationCreate extends MouseOperation {
             newElement.addToParent(graphView);
             if (graphView.isSnappingEnabled()) {
                 newElement.snapToGrid();
+            }
+
+            if (graphView.getCursorMode() == CursorMode.CREATE) {
+                graphView.setCursorMode(CursorMode.VIEW);
             }
         }
     }

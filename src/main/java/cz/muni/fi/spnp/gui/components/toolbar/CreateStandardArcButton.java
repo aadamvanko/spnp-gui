@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
-public class CreateStandardArcButton extends CustomImageButton {
+public class CreateStandardArcButton extends CustomImageToggleButton {
     public CreateStandardArcButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);
 
@@ -20,7 +20,7 @@ public class CreateStandardArcButton extends CustomImageButton {
         pane.getChildren().add(line);
         pane.getChildren().add(arrow.getShape());
 
-        button.setPrefSize(48, 48);
-        button.setGraphic(pane);
+        toggleButton.setPrefSize(48, 48);
+        toggleButton.setGraphic(pane);
     }
 }

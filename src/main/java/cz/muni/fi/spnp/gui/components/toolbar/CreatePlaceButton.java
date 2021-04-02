@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 
-public class CreatePlaceButton extends CustomImageButton {
+public class CreatePlaceButton extends CustomImageToggleButton {
 
     public CreatePlaceButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);
@@ -20,7 +20,7 @@ public class CreatePlaceButton extends CustomImageButton {
         circle.setLayoutX(1);
         circle.setLayoutY(16);
 
-        button.setPrefSize(48, 48);
-        button.setGraphic(circle);
+        toggleButton.setPrefSize(48, 48);
+        toggleButton.setGraphic(circle);
     }
 }

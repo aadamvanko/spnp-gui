@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class CreateImmediateTransitionButton extends CustomImageButton {
+public class CreateImmediateTransitionButton extends CustomImageToggleButton {
     public CreateImmediateTransitionButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);
 
@@ -14,7 +14,7 @@ public class CreateImmediateTransitionButton extends CustomImageButton {
         rectangle.setWidth(9);
         rectangle.setFill(Color.BLACK);
 
-        button.setPrefSize(48, 48);
-        button.setGraphic(rectangle);
+        toggleButton.setPrefSize(48, 48);
+        toggleButton.setGraphic(rectangle);
     }
 }

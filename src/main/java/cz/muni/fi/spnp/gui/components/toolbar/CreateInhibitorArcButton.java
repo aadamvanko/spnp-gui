@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
-public class CreateInhibitorArcButton extends CustomImageButton {
+public class CreateInhibitorArcButton extends CustomImageToggleButton {
     public CreateInhibitorArcButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);
 
@@ -20,7 +20,7 @@ public class CreateInhibitorArcButton extends CustomImageButton {
         pane.getChildren().add(line);
         pane.getChildren().add(circleEnding.getShape());
 
-        button.setPrefSize(48, 48);
-        button.setGraphic(pane);
+        toggleButton.setPrefSize(48, 48);
+        toggleButton.setGraphic(pane);
     }
 }
