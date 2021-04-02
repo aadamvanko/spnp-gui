@@ -16,7 +16,7 @@ public class MouseOperationMoving extends MouseOperation {
 
     @Override
     public void mousePressedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
-        if (graphView.getSelected().size() <= 1) {
+        if (graphView.getSelected().size() <= 1 || !graphView.getSelected().contains(graphElement)) {
             graphView.select(graphElement);
         }
 
