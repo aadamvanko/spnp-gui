@@ -1,6 +1,5 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
-import cz.muni.fi.spnp.gui.Debug;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.TransitionViewModel;
 import javafx.beans.property.Property;
@@ -15,22 +14,15 @@ public abstract class TransitionPropertiesEditor extends PropertiesEditor {
     private final TextField guardFunctionTextField;
 
     public TransitionPropertiesEditor() {
-        priorityLabel = new Label("Prioritykkkkasdasdasdasdasdaskkkkkkk:");
-        Debug.addGreenBg(priorityLabel);
+        priorityLabel = new Label("Priority:");
         priorityTextField = new IntegerTextField();
-        guardFunctionLabel = new Label("I DONT SEE THIS");
+        guardFunctionLabel = new Label("Guard function:");
         guardFunctionTextField = new TextField();
-
-        Debug.addYellowBg(guardFunctionLabel);
-//        Debug.addBlueBg(guardFunctionTextField);
-
 
         gridPane.add(priorityLabel, 0, 1);
         gridPane.add(priorityTextField.getTextField(), 1, 1);
         gridPane.add(guardFunctionLabel, 0, 2);
         gridPane.add(guardFunctionTextField, 1, 2);
-        gridPane.add(new Label("USELESS"), 0, 3);
-        gridPane.add(new TextField(), 1, 3);
     }
 
     @Override
@@ -38,14 +30,14 @@ public abstract class TransitionPropertiesEditor extends PropertiesEditor {
         super.bindViewModel(viewModel);
         TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
         priorityTextField.getTextFormatter().valueProperty().bindBidirectional((Property) transitionViewModel.priorityProperty());
-        guardFunctionLabel.textProperty().bind(transitionViewModel.guardFunctionProperty());
+        guardFunctionTextField.textProperty().bind(transitionViewModel.guardFunctionProperty());
     }
 
     @Override
     public void unbindViewModel() {
         TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
         priorityTextField.getTextFormatter().valueProperty().unbindBidirectional((Property) transitionViewModel.priorityProperty());
-        guardFunctionLabel.textProperty().unbind();
+        guardFunctionTextField.textProperty().unbind();
         super.unbindViewModel();
     }
 

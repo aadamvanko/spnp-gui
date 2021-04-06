@@ -1,6 +1,5 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
-import cz.muni.fi.spnp.gui.Debug;
 import cz.muni.fi.spnp.gui.components.UIComponent;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.scene.Node;
@@ -17,7 +16,6 @@ public abstract class PropertiesEditor implements UIComponent {
 
     public PropertiesEditor() {
         gridPane = new GridPane();
-        Debug.addRedBg(gridPane);
 
         nameLabel = new Label("Name:");
         nameTextField = new TextField();

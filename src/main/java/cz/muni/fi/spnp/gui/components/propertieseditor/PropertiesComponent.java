@@ -37,8 +37,6 @@ public class PropertiesComponent extends ApplicationComponent implements Selecte
 
         vbox = new VBox();
         vbox.getChildren().add(editors.get(null).getRoot());
-//        vbox.getChildren().clear();
-//        vbox.getChildren().set(0, editors.get(ImmediateTransitionController.class).getRoot());
 
         notifications.addSelectedElementsChangeListener(this);
     }
