@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridPane;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Highlightable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -23,6 +24,7 @@ public abstract class GraphElement implements Highlightable, Movable {
 
     private GraphView graphView;
     private boolean highlighted;
+    private ElementViewModel viewModel;
 
     public GraphView getGraphView() {
         return graphView;
@@ -151,4 +153,16 @@ public abstract class GraphElement implements Highlightable, Movable {
     }
 
     public abstract Node getContextMenuNode();
+
+    public void bindViewModel(ElementViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public void unbindViewModel() {
+        this.viewModel = null;
+    }
+
+    public ElementViewModel getViewModel() {
+        return viewModel;
+    }
 }

@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.graph.elements.place;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcController;
+import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -73,6 +74,10 @@ public class PlaceController extends ConnectableGraphElement {
     }
 
     private void createBindings() {
+        PlaceViewModel placeViewModel = new PlaceViewModel();
+        nameLabel.textProperty().bind(placeViewModel.nameProperty());
+        tokensCountText.textProperty().bind(placeViewModel.numberOfTokensProperty().asString());
+        bindViewModel(placeViewModel);
     }
 
     @Override

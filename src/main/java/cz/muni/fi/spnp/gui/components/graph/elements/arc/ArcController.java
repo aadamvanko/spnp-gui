@@ -17,17 +17,21 @@ public abstract class ArcController extends GraphElement {
 
     public static int LINE_WIDTH = 2;
 
-    private final Group container;
-    private final Group groupLines;
-    private final List<ArcDragMark> dragMarks;
-    private final ConnectableGraphElement fromElement;
-    private final ConnectableGraphElement toElement;
+    private Group container;
+    private Group groupLines;
+    private List<ArcDragMark> dragMarks;
+    private ConnectableGraphElement fromElement;
+    private ConnectableGraphElement toElement;
     protected Group groupSymbols;
     protected List<Line> lines;
     protected ArcEnding ending;
     private ArcDragMark lastAddedDragMark;
 
     public ArcController(ConnectableGraphElement from, ConnectableGraphElement to) {
+        createView(from, to);
+    }
+
+    private void createView(ConnectableGraphElement from, ConnectableGraphElement to) {
         lines = new ArrayList<>();
         dragMarks = new ArrayList<>();
         this.fromElement = from;

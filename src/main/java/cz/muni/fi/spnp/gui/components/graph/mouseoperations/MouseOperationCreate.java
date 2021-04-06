@@ -49,6 +49,9 @@ public class MouseOperationCreate extends MouseOperation {
 
         if (newElement != null) {
             newElement.addToParent(graphView);
+            newElement.getViewModel().setDiagramViewModel(graphView.getDiagramViewModel());
+            graphView.getDiagramViewModel().addElement(newElement.getViewModel());
+
             if (graphView.isSnappingEnabled()) {
                 newElement.snapToGrid();
             }

@@ -32,10 +32,10 @@ public class MainWindowController {
     private GraphComponent graphComponent;
 
     public MainWindowController() {
-        model = new Model();
         notifications = new Notifications();
-        borderPane = new BorderPane();
+        model = new Model(notifications);
 
+        borderPane = new BorderPane();
         borderPane.setTop(createTopPanel());
         borderPane.setLeft(createLeftPanel());
         borderPane.setBottom(createBottomPanel());

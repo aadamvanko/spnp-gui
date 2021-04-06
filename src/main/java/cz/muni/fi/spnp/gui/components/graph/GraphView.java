@@ -4,8 +4,11 @@ import cz.muni.fi.spnp.gui.components.graph.canvas.GridPane;
 import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcDragMark;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
+import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -33,8 +36,12 @@ public class GraphView {
     private GraphElementType createElementType;
     private MouseOperation mouseOperation;
     private boolean snappingToGrid;
+    private final Notifications notifications;
+    private DiagramViewModel diagramViewModel;
 
-    public GraphView() {
+    public GraphView(Notifications notifications) {
+        this.notifications = notifications;
+
         layerBottom = new Group();
         layerMiddle = new Group();
         layerTop = new Group();
@@ -69,6 +76,12 @@ public class GraphView {
 
         setSnappingToGrid(true);
         adjustCanvasSize();
+    }
+
+    public void select(List<GraphElement> selectedElements) {
+        resetSelection();
+        this.selected = selectedElements;
+        fireSelectedElementsChanged();
     }
 
     public void setCursorMode(CursorMode cursorMode) {
@@ -180,15 +193,22 @@ public class GraphView {
         mouseOperation = null;
     }
 
-    public void select(List<GraphElement> selectedElements) {
-        resetSelection();
-        this.selected = selectedElements;
-    }
-
     public void select(GraphElement graphElement) {
         resetSelection();
         graphElement.enableHighlight();
         selected.add(graphElement);
+        fireSelectedElementsChanged();
+    }
+
+    private void fireSelectedElementsChanged() {
+        if (selected.size() == 1 && selected.get(0) instanceof ArcDragMark) {
+            return;
+        }
+        notifications.selectedElementsChanged(selected);
+    }
+
+    public DiagramViewModel getDiagramViewModel() {
+        return diagramViewModel;
     }
 
     public void resetSelection() {
@@ -277,5 +297,9 @@ public class GraphView {
 
     public CursorMode getCursorMode() {
         return cursorMode;
+    }
+
+    public void setDiagramViewModel(DiagramViewModel diagramViewModel) {
+        this.diagramViewModel = diagramViewModel;
     }
 }

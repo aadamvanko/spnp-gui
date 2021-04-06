@@ -36,7 +36,7 @@ public class GraphComponent extends ApplicationComponent implements
         graphViews = new HashMap<>();
 
         addGraphView("Diagram 1", createMockGraphView());
-        addGraphView("Diagram 2", new GraphView());
+        addGraphView("Diagram 2", new GraphView(notifications));
 
         tabPane.getSelectionModel().selectedItemProperty().addListener(changeEvent -> {
             var selectedTab = tabPane.getSelectionModel().getSelectedItem();
@@ -71,7 +71,7 @@ public class GraphComponent extends ApplicationComponent implements
         ArcController ac3 = new InhibitorArcController(pc4, itc1);
         PlaceController pc3 = new PlaceController(100, 500);
 
-        GraphView mockGraphView = new GraphView();
+        GraphView mockGraphView = new GraphView(notifications);
         pc1.addToParent(mockGraphView);
         pc2.addToParent(mockGraphView);
         ttc1.addToParent(mockGraphView);

@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.notifications;
 
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 
 import java.util.ArrayList;
@@ -11,11 +12,13 @@ public class Notifications {
     private final List<CursorModeChangeListener> cursorModeChangeListeners;
     private final List<CreateElementTypeChangeListener> createElementTypeChangeListeners;
     private final List<ToggleGridSnappingListener> toggleGridSnappingListeners;
+    private final List<SelectedElementsChangeListener> selectedElementsChangeListeners;
 
     public Notifications() {
         cursorModeChangeListeners = new ArrayList<>();
         createElementTypeChangeListeners = new ArrayList<>();
         toggleGridSnappingListeners = new ArrayList<>();
+        selectedElementsChangeListeners = new ArrayList<>();
     }
 
     public void addCursorModeChangeListener(CursorModeChangeListener listener) {
@@ -54,4 +57,15 @@ public class Notifications {
         toggleGridSnappingListeners.forEach(listener -> listener.gridSnappingToggled());
     }
 
+    public void addSelectedElementsChangeListener(SelectedElementsChangeListener listener) {
+        selectedElementsChangeListeners.add(listener);
+    }
+
+    public void removeSelectedElementsChangeListener(SelectedElementsChangeListener listener) {
+        selectedElementsChangeListeners.remove(listener);
+    }
+
+    public void selectedElementsChanged(List<GraphElement> selectedElements) {
+        selectedElementsChangeListeners.forEach(listener -> listener.onSelectedElementsChanged(selectedElements));
+    }
 }

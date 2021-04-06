@@ -3,6 +3,8 @@ package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.Intersections;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.TransitionViewModel;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -46,6 +48,14 @@ public abstract class TransitionController extends ConnectableGraphElement {
             nameLabel.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
             container.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
         }
+    }
+
+    @Override
+    public void bindViewModel(ElementViewModel viewModel) {
+        TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
+        nameLabel.textProperty().bind(transitionViewModel.nameProperty());
+        // TODO priority, guard function
+        super.bindViewModel(viewModel);
     }
 
     public VBox getRoot() {

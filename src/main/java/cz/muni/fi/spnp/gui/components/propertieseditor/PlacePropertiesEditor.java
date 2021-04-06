@@ -1,35 +1,36 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
-import javafx.scene.Node;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import javafx.beans.property.Property;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 
 public class PlacePropertiesEditor extends PropertiesEditor {
 
-    private final GridPane gridPane;
-
-    private final Label nameLabel;
-
-    private final TextField nameTextField;
+    private final Label numberOfTokensLabel;
+    private final IntegerTextField numberOfTokensTextField;
 
     public PlacePropertiesEditor() {
-        gridPane = new GridPane();
 
-        nameLabel = new Label("Name:");
-        nameTextField = new TextField();
-//        nameLabel.setAlignment(Pos.BASELINE_CENTER);
-        gridPane.add(nameLabel, 0, 0);
-        gridPane.add(nameTextField, 1, 0);
-    }
+        numberOfTokensLabel = new Label("Tokens:");
+        numberOfTokensTextField = new IntegerTextField();
 
-    public void bindEntity(PlaceViewModel placeViewModel) {
-        nameTextField.textProperty().bindBidirectional(placeViewModel.name);
+        gridPane.add(numberOfTokensLabel, 0, 1);
+        gridPane.add(numberOfTokensTextField.getTextField(), 1, 1);
     }
 
     @Override
-    public Node getRoot() {
-        return gridPane;
+    public void bindViewModel(ElementViewModel viewModel) {
+        super.bindViewModel(viewModel);
+        PlaceViewModel placeViewModel = (PlaceViewModel) viewModel;
+        numberOfTokensTextField.getTextFormatter().valueProperty().bindBidirectional((Property) placeViewModel.numberOfTokensProperty());
+    }
+
+    @Override
+    public void unbindViewModel() {
+        PlaceViewModel placeViewModel = (PlaceViewModel) viewModel;
+        numberOfTokensTextField.getTextFormatter().valueProperty().unbindBidirectional((Property) placeViewModel.numberOfTokensProperty());
+        super.unbindViewModel();
     }
 
 }

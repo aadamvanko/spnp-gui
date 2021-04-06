@@ -120,6 +120,8 @@ public class MouseOperationCreateArc extends MouseOperation {
                     arcController = new InhibitorArcController((PlaceController) fromElement, (TransitionController) toElement);
                 }
                 arcController.addToParent(graphView);
+                arcController.getViewModel().setDiagramViewModel(graphView.getDiagramViewModel());
+                graphView.getDiagramViewModel().addElement(arcController.getViewModel());
 
                 if (graphView.getCursorMode() == CursorMode.CREATE) {
                     graphView.setCursorMode(CursorMode.VIEW);
