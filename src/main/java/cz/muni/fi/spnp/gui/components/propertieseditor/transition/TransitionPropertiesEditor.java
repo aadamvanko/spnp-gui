@@ -1,5 +1,7 @@
-package cz.muni.fi.spnp.gui.components.propertieseditor;
+package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
+import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
+import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.TransitionViewModel;
 import javafx.beans.property.Property;

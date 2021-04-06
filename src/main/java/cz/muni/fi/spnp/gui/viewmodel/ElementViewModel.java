@@ -5,7 +5,7 @@ import javafx.beans.property.StringProperty;
 
 public abstract class ElementViewModel {
 
-    private final StringProperty name = new SimpleStringProperty("place");
+    private final StringProperty name = new SimpleStringProperty("element");
     private DiagramViewModel diagramViewModel;
 
     public StringProperty nameProperty() {

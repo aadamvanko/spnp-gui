@@ -4,7 +4,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.IntegerStringConverter;
 
-class IntegerTextField {
+public class IntegerTextField {
     private final TextField textField;
 
     public IntegerTextField() {
