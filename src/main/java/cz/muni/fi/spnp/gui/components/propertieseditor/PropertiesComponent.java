@@ -15,8 +15,10 @@ import cz.muni.fi.spnp.gui.components.propertieseditor.transition.TimedTransitio
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.notifications.SelectedElementsChangeListener;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,8 @@ public class PropertiesComponent extends ApplicationComponent implements Selecte
         editors.put(TimedTransitionController.class, new TimedTransitionPropertiesEditor());
 
         vbox = new VBox();
+        vbox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        vbox.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         vbox.getChildren().add(editors.get(null).getRoot());
 
         notifications.addSelectedElementsChangeListener(this);
