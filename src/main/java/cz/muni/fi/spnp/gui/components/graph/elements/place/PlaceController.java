@@ -82,8 +82,8 @@ public class PlaceController extends ConnectableGraphElement {
 
     @Override
     public Point2D getShapeCenter() {
-        double x = circle.getLayoutX() + circleStack.getTranslateX() + container.getTranslateX();
-        double y = circle.getLayoutY() + circleStack.getTranslateY() + container.getTranslateY();
+        double x = circle.getLayoutX() + circleStack.getLayoutX() + container.getTranslateX();
+        double y = circle.getLayoutY() + circleStack.getLayoutY() + container.getTranslateY();
         return new Point2D(x, y);
     }
 
