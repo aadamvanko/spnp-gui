@@ -36,4 +36,8 @@ public class Model {
         selectedDiagram = diagramViewModel;
         notifications.selectedDiagramChanged(selectedDiagram);
     }
+
+    public ProjectViewModel getSelectedProject() {
+        return selectedProject;
+    }
 }

@@ -1,12 +1,15 @@
 package cz.muni.fi.spnp.gui.components.menu;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
-import cz.muni.fi.spnp.gui.components.menu.views.define.DefinesView;
+import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesView;
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.notifications.SelectedDiagramChangeListener;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -17,6 +20,8 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
     private final MenuBar menuBar;
     private final DefinesView definesView;
     private final MenuItem menuItemViewDefines;
+    private final FunctionsView functionsView;
+    private final MenuItem menuItemViewFunctions;
 
     public MenuComponent(Model model, Notifications notifications) {
         super(model, notifications);
@@ -34,8 +39,18 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
         definesView = new DefinesView();
         menuItemViewDefines = new MenuItem("Defines");
         menuItemViewDefines.setDisable(true);
-        menuItemViewDefines.setOnAction(this::onViewDefinesClick);
+        menuItemViewDefines.setOnAction(actionEvent -> {
+            definesView.getStage().showAndWait();
+        });
         menuView.getItems().add(menuItemViewDefines);
+
+        functionsView = new FunctionsView();
+        menuItemViewFunctions = new MenuItem("Functions");
+        menuItemViewFunctions.setDisable(true);
+        menuItemViewFunctions.setOnAction(actionEvent -> {
+            functionsView.getStage().showAndWait();
+        });
+        menuView.getItems().add(menuItemViewFunctions);
 
         menuBar.getMenus().add(menuView);
 
@@ -46,10 +61,6 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
         menuBar.getMenus().add(menuHelp);
 
         notifications.addSelectedDiagramChangeListener(this);
-    }
-
-    private void onViewDefinesClick(ActionEvent actionEvent) {
-        definesView.getStage().showAndWait();
     }
 
     @Override
