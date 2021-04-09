@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui.components.menu.views.define;
+package cz.muni.fi.spnp.gui.components.menu.views.defines;
 
 import cz.muni.fi.spnp.core.transformators.spnp.code.Define;
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;

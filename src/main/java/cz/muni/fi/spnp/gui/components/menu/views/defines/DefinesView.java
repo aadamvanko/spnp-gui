@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui.components.menu.views.define;
+package cz.muni.fi.spnp.gui.components.menu.views.defines;
 
 import cz.muni.fi.spnp.core.transformators.spnp.code.Define;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
@@ -64,6 +64,7 @@ public class DefinesView extends UIWindowComponent {
         vbox.getChildren().add(buttonsHbox);
 
         var scene = new Scene(vbox);
+        stage.setTitle("Defines");
         stage.setScene(scene);
     }
 

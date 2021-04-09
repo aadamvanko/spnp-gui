@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui.components.menu.views.define;
+package cz.muni.fi.spnp.gui.components.menu.views.defines;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
