@@ -13,6 +13,7 @@ import cz.muni.fi.spnp.gui.notifications.CreateElementTypeChangeListener;
 import cz.muni.fi.spnp.gui.notifications.CursorModeChangeListener;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.notifications.ToggleGridSnappingListener;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -56,6 +57,12 @@ public class GraphComponent extends ApplicationComponent implements
         if (selectedGraphView == null) {
             selectedGraphView = graphView;
         }
+
+        if (graphView.getDiagramViewModel() == null) {
+            var diagramViewModel = new DiagramViewModel(model.getSelectedProject());
+            graphView.setDiagramViewModel(diagramViewModel);
+        }
+
         graphViews.put(diagramName, graphView);
         tabPane.getTabs().add(new Tab(diagramName, graphView.getZoomableScrollPane()));
     }
