@@ -3,15 +3,15 @@ package cz.muni.fi.spnp.gui.model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
     private final Notifications notifications;
-
-    private final List<ProjectViewModel> projects = new ArrayList<>();
-
+    private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
     private final ProjectViewModel selectedProject;
     private DiagramViewModel selectedDiagram;
 
@@ -25,7 +25,7 @@ public class Model {
 
     public void addProject(ProjectViewModel projectViewModel) {
         projects.add(projectViewModel);
-//        notifications.newProjectAdded(projectViewModel);
+        notifications.newProjectAdded(projectViewModel);
     }
 
     public void selectProject(String projectName) {
@@ -39,5 +39,14 @@ public class Model {
 
     public ProjectViewModel getSelectedProject() {
         return selectedProject;
+    }
+
+    public boolean projectExists(String name) {
+        var found = projects.stream().filter(project -> project.nameProperty().get().equals(name));
+        return found.count() > 0;
+    }
+
+    public ObservableList<ProjectViewModel> getProjects() {
+        return projects;
     }
 }

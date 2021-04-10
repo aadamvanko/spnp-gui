@@ -3,13 +3,11 @@ package cz.muni.fi.spnp.gui.components.menu;
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
+import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.notifications.SelectedDiagramChangeListener;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -22,6 +20,8 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
     private final MenuItem menuItemViewDefines;
     private final FunctionsView functionsView;
     private final MenuItem menuItemViewFunctions;
+    private final NewProjectView newProjectView;
+    private final MenuItem menuItemNewProject;
 
     public MenuComponent(Model model, Notifications notifications) {
         super(model, notifications);
@@ -29,6 +29,12 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
         menuBar = new MenuBar();
 
         Menu menuFile = new Menu("File");
+        newProjectView = new NewProjectView(model);
+        menuItemNewProject = new MenuItem("New Project");
+        menuItemNewProject.setOnAction(actionEvent -> {
+            newProjectView.getStage().showAndWait();
+        });
+        menuFile.getItems().add(menuItemNewProject);
         menuBar.getMenus().add(menuFile);
 
         Menu menuEdit = new Menu("Edit");

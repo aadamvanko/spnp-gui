@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.viewmodel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,10 @@ public class ProjectViewModel {
 
         DiagramViewModel diagramViewModel = diagrams.remove(diagramName);
 //        notifications.diagramRemoved(this, diagramViewModel);
+    }
+
+    public Collection<DiagramViewModel> getDiagrams() {
+        return diagrams.values();
     }
 //    private Map<String, FunctionViewModel> functions;
 }
