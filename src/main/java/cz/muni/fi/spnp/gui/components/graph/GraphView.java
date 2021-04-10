@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph;
 
-import cz.muni.fi.spnp.gui.components.graph.canvas.GridPane;
+import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
@@ -27,7 +27,7 @@ public class GraphView {
     private final Group layerBottom;
     private final Group layerMiddle;
     private final Group layerTop;
-    private final GridPane gridPane;
+    private final GridBackgroundPane gridBackgroundPane;
     private final ZoomableScrollPane zoomableScrollPane;
     private final List<GraphElement> elements;
     private final Rectangle rectangleSelection;
@@ -45,13 +45,13 @@ public class GraphView {
         layerBottom = new Group();
         layerMiddle = new Group();
         layerTop = new Group();
-        gridPane = new GridPane();
-        gridPane.setMinHeight(150);
-        gridPane.setMinWidth(300);
-        gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1.0))));
-        gridPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-        gridPane.getChildren().addAll(layerBottom, layerMiddle, layerTop);
-        zoomableScrollPane = new ZoomableScrollPane(gridPane);
+        gridBackgroundPane = new GridBackgroundPane();
+        gridBackgroundPane.setMinHeight(150);
+        gridBackgroundPane.setMinWidth(300);
+        gridBackgroundPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1.0))));
+        gridBackgroundPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        gridBackgroundPane.getChildren().addAll(layerBottom, layerMiddle, layerTop);
+        zoomableScrollPane = new ZoomableScrollPane(gridBackgroundPane);
 
         elements = new ArrayList<>();
         selected = new ArrayList<>();
@@ -70,9 +70,9 @@ public class GraphView {
         rectangleSelection.setVisible(true);
         addToLayerTop(rectangleSelection);
 
-        gridPane.setOnMousePressed(this::onMousePressed);
-        gridPane.setOnMouseDragged(this::onMouseDragged);
-        gridPane.setOnMouseReleased(this::onMouseReleased);
+        gridBackgroundPane.setOnMousePressed(this::onMousePressed);
+        gridBackgroundPane.setOnMouseDragged(this::onMouseDragged);
+        gridBackgroundPane.setOnMouseReleased(this::onMouseReleased);
 
         setSnappingToGrid(true);
         adjustCanvasSize();
@@ -89,7 +89,7 @@ public class GraphView {
     }
 
     public void setSnappingToGrid(boolean snappingToGrid) {
-        gridPane.setDotsVisibility(snappingToGrid);
+        gridBackgroundPane.setDotsVisibility(snappingToGrid);
         if (!this.snappingToGrid && snappingToGrid) {
             elements.forEach(element -> element.snapToGrid());
         }
@@ -226,8 +226,8 @@ public class GraphView {
         adjustCanvasSize();
     }
 
-    public GridPane getGridPane() {
-        return gridPane;
+    public GridBackgroundPane getGridPane() {
+        return gridBackgroundPane;
     }
 
     public ZoomableScrollPane getZoomableScrollPane() {
@@ -267,8 +267,8 @@ public class GraphView {
     }
 
     public void adjustCanvasSize() {
-        double maxX = gridPane.getMinWidth();
-        double maxY = gridPane.getMinHeight();
+        double maxX = gridBackgroundPane.getMinWidth();
+        double maxY = gridBackgroundPane.getMinHeight();
         for (var element : elements) {
             if (!(element instanceof MouseSelectable)) {
                 continue;
@@ -279,8 +279,8 @@ public class GraphView {
             maxX = Math.max(maxX, rightBottom.getX());
             maxY = Math.max(maxY, rightBottom.getY());
         }
-        gridPane.setPrefWidth(maxX + GridPane.SPACING_X);
-        gridPane.setPrefHeight(maxY + GridPane.SPACING_Y);
+        gridBackgroundPane.setPrefWidth(maxX + GridBackgroundPane.SPACING_X);
+        gridBackgroundPane.setPrefHeight(maxY + GridBackgroundPane.SPACING_Y);
     }
 
     public GraphElementType getCreateElementType() {

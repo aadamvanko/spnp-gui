@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.canvas.GridPane;
+import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
@@ -69,8 +69,8 @@ public class MouseOperationCreateArc extends MouseOperation {
     }
 
     private Point2D preventInvalidCoordinates(Point2D point) {
-        double x = Math.max(point.getX(), GridPane.SPACING_X);
-        double y = Math.max(point.getY(), GridPane.SPACING_Y);
+        double x = Math.max(point.getX(), GridBackgroundPane.SPACING_X);
+        double y = Math.max(point.getY(), GridBackgroundPane.SPACING_Y);
         x = Math.min(x, graphView.getGridPane().getWidth());
         y = Math.min(y, graphView.getGridPane().getHeight());
         return new Point2D(x, y);

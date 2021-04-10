@@ -6,12 +6,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 
-public class GridPane extends Pane {
+public class GridBackgroundPane extends Pane {
     public static final int SPACING_X = 20;
     public static final int SPACING_Y = 20;
     private final Canvas canvas = new Canvas();
 
-    public GridPane() {
+    public GridBackgroundPane() {
         getChildren().add(canvas);
     }
 

@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.elements;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.canvas.GridPane;
+import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Highlightable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
@@ -89,8 +89,8 @@ public abstract class GraphElement implements Highlightable, Movable {
     }
 
     private Point2D preventNegativeCoordinates(Point2D point) {
-        double x = Math.max(point.getX(), GridPane.SPACING_X * MIN_PADDING_FACTOR);
-        double y = Math.max(point.getY(), GridPane.SPACING_Y * MIN_PADDING_FACTOR);
+        double x = Math.max(point.getX(), GridBackgroundPane.SPACING_X * MIN_PADDING_FACTOR);
+        double y = Math.max(point.getY(), GridBackgroundPane.SPACING_Y * MIN_PADDING_FACTOR);
         return new Point2D(x, y);
     }
 
@@ -99,12 +99,12 @@ public abstract class GraphElement implements Highlightable, Movable {
         Point2D movedCorner = leftTop.add(snapOffset);
         double moveCenterX = 0;
         if (!isValidX(movedCorner.getX())) {
-            moveCenterX = GridPane.SPACING_X;
+            moveCenterX = GridBackgroundPane.SPACING_X;
         }
 
         double moveCenterY = 0;
         if (!isValidY(movedCorner.getY())) {
-            moveCenterY = GridPane.SPACING_Y;
+            moveCenterY = GridBackgroundPane.SPACING_Y;
         }
 
         Point2D movedCenter = new Point2D(moveCenterX, moveCenterY);
@@ -124,11 +124,11 @@ public abstract class GraphElement implements Highlightable, Movable {
     }
 
     private boolean isValidX(double x) {
-        return x > GridPane.SPACING_X * MIN_PADDING_FACTOR;
+        return x > GridBackgroundPane.SPACING_X * MIN_PADDING_FACTOR;
     }
 
     private boolean isValidY(double y) {
-        return y > GridPane.SPACING_Y * MIN_PADDING_FACTOR;
+        return y > GridBackgroundPane.SPACING_Y * MIN_PADDING_FACTOR;
     }
 
     protected Point2D calculateSnapOffset(Point2D center) {
@@ -138,18 +138,18 @@ public abstract class GraphElement implements Highlightable, Movable {
     }
 
     private Point2D calculateSnapPoint(Point2D point) {
-        int columnIndex = (int) (point.getX() / GridPane.SPACING_X);
-        int rowIndex = (int) (point.getY() / GridPane.SPACING_Y);
-        int remainderX = (int) point.getX() % GridPane.SPACING_X;
-        int remainderY = (int) point.getY() % GridPane.SPACING_Y;
+        int columnIndex = (int) (point.getX() / GridBackgroundPane.SPACING_X);
+        int rowIndex = (int) (point.getY() / GridBackgroundPane.SPACING_Y);
+        int remainderX = (int) point.getX() % GridBackgroundPane.SPACING_X;
+        int remainderY = (int) point.getY() % GridBackgroundPane.SPACING_Y;
 
-        if (remainderX > GridPane.SPACING_X / 2) columnIndex++;
-        if (remainderY > GridPane.SPACING_Y / 2) rowIndex++;
+        if (remainderX > GridBackgroundPane.SPACING_X / 2) columnIndex++;
+        if (remainderY > GridBackgroundPane.SPACING_Y / 2) rowIndex++;
 
         if (rowIndex == 0) rowIndex++;
         if (columnIndex == 0) columnIndex++;
 
-        return new Point2D(columnIndex * GridPane.SPACING_X, rowIndex * GridPane.SPACING_Y);
+        return new Point2D(columnIndex * GridBackgroundPane.SPACING_X, rowIndex * GridBackgroundPane.SPACING_Y);
     }
 
     public abstract Node getContextMenuNode();

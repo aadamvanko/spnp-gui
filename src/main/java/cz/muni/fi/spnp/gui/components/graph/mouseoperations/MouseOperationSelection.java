@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.canvas.GridPane;
+import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcController;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
@@ -36,19 +36,19 @@ public class MouseOperationSelection extends MouseOperation {
 
     @Override
     public void mouseDraggedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
-        GridPane gridPane = graphView.getGridPane();
-        var localPoint = gridPane.screenToLocal(mouseEvent.getScreenX(), mouseEvent.getScreenY());
+        GridBackgroundPane gridBackgroundPane = graphView.getGridPane();
+        var localPoint = gridBackgroundPane.screenToLocal(mouseEvent.getScreenX(), mouseEvent.getScreenY());
 
-        if (gridPane.contains(localPoint.getX() + 1, 0)) {
+        if (gridBackgroundPane.contains(localPoint.getX() + 1, 0)) {
             rectangleSelection.setWidth(mouseEvent.getX() - rectangleSelection.getTranslateX());
         } else {
-            rectangleSelection.setWidth(gridPane.getWidth() - rectangleSelection.getTranslateX() - 1);
+            rectangleSelection.setWidth(gridBackgroundPane.getWidth() - rectangleSelection.getTranslateX() - 1);
         }
 
-        if (gridPane.contains(0, localPoint.getY() + 1)) {
+        if (gridBackgroundPane.contains(0, localPoint.getY() + 1)) {
             rectangleSelection.setHeight(mouseEvent.getY() - rectangleSelection.getTranslateY());
         } else {
-            rectangleSelection.setHeight(gridPane.getHeight() - rectangleSelection.getTranslateY() - 1);
+            rectangleSelection.setHeight(gridBackgroundPane.getHeight() - rectangleSelection.getTranslateY() - 1);
         }
 //        rectangleSelection.setWidth((int)(mouseEvent.getX() - rectangleSelection.getTranslateX()));
 //        rectangleSelection.setHeight((int)(mouseEvent.getY() - rectangleSelection.getTranslateY()));
