@@ -29,12 +29,16 @@ public class DiagramViewModel {
         functions.add(new Function("function2", FunctionType.Generic, "double d = 10;"));
     }
 
-    public StringProperty nameProperty() {
-        return name;
-    }
-
     public void addElement(ElementViewModel elementViewModel) {
         elements.add(elementViewModel);
+    }
+
+    public ProjectViewModel getProject() {
+        return projectViewModel;
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 
     public ObservableList<Define> getDefines() {

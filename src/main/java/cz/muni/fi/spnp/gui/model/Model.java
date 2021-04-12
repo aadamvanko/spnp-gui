@@ -17,10 +17,10 @@ public class Model {
 
     public Model(Notifications notifications) {
         this.notifications = notifications;
-
-        ProjectViewModel project = new ProjectViewModel("Project 1");
-        projects.add(project);
-        selectedProject = project;
+        selectedProject = null;
+//        ProjectViewModel project = new ProjectViewModel("Project 1");
+//        projects.add(project);
+//        selectedProject = project;
     }
 
     public void addProject(ProjectViewModel projectViewModel) {
@@ -48,5 +48,14 @@ public class Model {
 
     public ObservableList<ProjectViewModel> getProjects() {
         return projects;
+    }
+
+    public ProjectViewModel getProject(String name) {
+        for (var project : projects) {
+            if (project.nameProperty().get().equals(name)) {
+                return project;
+            }
+        }
+        return null;
     }
 }

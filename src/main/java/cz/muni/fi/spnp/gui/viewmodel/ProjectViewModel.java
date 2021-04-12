@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
+import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -9,9 +10,11 @@ import java.util.Map;
 
 public class ProjectViewModel {
     private final Map<String, DiagramViewModel> diagrams = new HashMap<>();
+    private final Notifications notifications;
     private final StringProperty name;
 
-    public ProjectViewModel(String name) {
+    public ProjectViewModel(Notifications notifications, String name) {
+        this.notifications = notifications;
         this.name = new SimpleStringProperty(name);
     }
 
@@ -21,6 +24,7 @@ public class ProjectViewModel {
 
     public void addDiagram(DiagramViewModel diagramViewModel) {
         diagrams.put(diagramViewModel.nameProperty().get(), diagramViewModel);
+        notifications.newDiagramAdded(diagramViewModel);
     }
 
     public void renameDiagram(String oldName, String newName) {
@@ -37,6 +41,10 @@ public class ProjectViewModel {
 
     public Collection<DiagramViewModel> getDiagrams() {
         return diagrams.values();
+    }
+
+    public boolean diagramExists(String name) {
+        return diagrams.containsKey(name);
     }
 //    private Map<String, FunctionViewModel> functions;
 }

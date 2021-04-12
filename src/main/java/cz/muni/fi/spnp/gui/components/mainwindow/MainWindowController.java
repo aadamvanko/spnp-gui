@@ -11,6 +11,8 @@ import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
 import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -41,6 +43,12 @@ public class MainWindowController {
         borderPane.setBottom(createBottomPanel());
         borderPane.setRight(createRightPanel());
         borderPane.setCenter(createCenterPanel());
+
+        var project1 = new ProjectViewModel(notifications, "Project1");
+        model.addProject(project1);
+        var diagram1 = new DiagramViewModel(project1);
+        diagram1.nameProperty().set("Diagram1");
+        project1.addDiagram(diagram1);
     }
 
     private Node createCenterPanel() {

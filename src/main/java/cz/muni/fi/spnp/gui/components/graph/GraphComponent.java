@@ -9,10 +9,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceController;
 import cz.muni.fi.spnp.gui.components.graph.elements.transition.ImmediateTransitionController;
 import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionController;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.CreateElementTypeChangeListener;
-import cz.muni.fi.spnp.gui.notifications.CursorModeChangeListener;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
-import cz.muni.fi.spnp.gui.notifications.ToggleGridSnappingListener;
+import cz.muni.fi.spnp.gui.notifications.*;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.geometry.Side;
 import javafx.scene.Node;
@@ -23,10 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GraphComponent extends ApplicationComponent implements
-        CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener {
+        CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener, NewDiagramAddedListener, SelectedDiagramChangeListener {
 
     private final TabPane tabPane;
-    private final Map<String, GraphView> graphViews;
+    private final Map<Tab, GraphView> graphViews;
     private GraphView selectedGraphView;
 
     public GraphComponent(Model model, Notifications notifications) {
@@ -44,13 +41,13 @@ public class GraphComponent extends ApplicationComponent implements
             if (selectedTab == null) {
                 return;
             }
-            String title = selectedTab.textProperty().get();
-            selectedGraphView = graphViews.get(title);
+            selectedGraphView = graphViews.get(selectedTab);
         });
 
         notifications.addCursorModeChangeListener(this);
         notifications.addCreateElementTypeChangeListener(this);
         notifications.addToggleGridSnappingListener(this);
+        notifications.addNewDiagramAddedListener(this);
     }
 
     private void addGraphView(String diagramName, GraphView graphView) {
@@ -63,8 +60,10 @@ public class GraphComponent extends ApplicationComponent implements
             graphView.setDiagramViewModel(diagramViewModel);
         }
 
-        graphViews.put(diagramName, graphView);
-        tabPane.getTabs().add(new Tab(diagramName, graphView.getZoomableScrollPane()));
+        var tab = new Tab(diagramName, graphView.getZoomableScrollPane());
+        graphViews.put(tab, graphView);
+        tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
     }
 
     private GraphView createMockGraphView() {
@@ -120,5 +119,17 @@ public class GraphComponent extends ApplicationComponent implements
             return;
         }
         selectedGraphView.setSnappingToGrid(!selectedGraphView.isSnappingEnabled());
+    }
+
+    @Override
+    public void onNewDiagramAdded(DiagramViewModel diagramViewModel) {
+        var graphView = new GraphView(notifications);
+        graphView.setDiagramViewModel(diagramViewModel);
+        var tabName = String.format("%s/%s", diagramViewModel.getProject().nameProperty().get(), diagramViewModel.nameProperty().get());
+        addGraphView(tabName, graphView);
+    }
+
+    @Override
+    public void onSelectedDiagramChanged(DiagramViewModel diagramViewModel) {
     }
 }

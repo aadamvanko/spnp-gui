@@ -17,6 +17,7 @@ public class Notifications {
     private final List<SelectedElementsChangeListener> selectedElementsChangeListeners;
     private final List<SelectedDiagramChangeListener> selectedDiagramChangeListeners;
     private final List<NewProjectAddedListener> newProjectAddedListeners;
+    private final List<NewDiagramAddedListener> newDiagramAddedListeners;
 
     public Notifications() {
         cursorModeChangeListeners = new ArrayList<>();
@@ -25,6 +26,7 @@ public class Notifications {
         selectedElementsChangeListeners = new ArrayList<>();
         selectedDiagramChangeListeners = new ArrayList<>();
         newProjectAddedListeners = new ArrayList<>();
+        newDiagramAddedListeners = new ArrayList<>();
     }
 
     public void addCursorModeChangeListener(CursorModeChangeListener listener) {
@@ -91,11 +93,23 @@ public class Notifications {
         newProjectAddedListeners.add(listener);
     }
 
-    public void removeNewProjectAddedListner(NewProjectAddedListener listener) {
+    public void removeNewProjectAddedListener(NewProjectAddedListener listener) {
         newProjectAddedListeners.remove(listener);
     }
 
     public void newProjectAdded(ProjectViewModel projectViewModel) {
         newProjectAddedListeners.forEach(listener -> listener.onNewProjectAdded(projectViewModel));
+    }
+
+    public void addNewDiagramAddedListener(NewDiagramAddedListener listener) {
+        newDiagramAddedListeners.add(listener);
+    }
+
+    public void removeNewDiagramAddedListener(NewDiagramAddedListener listener) {
+        newDiagramAddedListeners.remove(listener);
+    }
+
+    public void newDiagramAdded(DiagramViewModel diagramViewModel) {
+        newDiagramAddedListeners.forEach(listener -> listener.onNewDiagramAdded(diagramViewModel));
     }
 }

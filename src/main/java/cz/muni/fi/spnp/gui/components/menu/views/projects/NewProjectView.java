@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu.views.projects;
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,7 +16,7 @@ import javafx.scene.layout.VBox;
 public class NewProjectView extends UIWindowComponent {
     private final Model model;
 
-    public NewProjectView(Model model) {
+    public NewProjectView(Model model, Notifications notifications) {
         this.model = model;
 
         var vbox = new VBox();
@@ -41,7 +42,7 @@ public class NewProjectView extends UIWindowComponent {
                 return;
             }
 
-            var project = new ProjectViewModel(name);
+            var project = new ProjectViewModel(notifications, name);
             model.addProject(project);
             stage.close();
         });

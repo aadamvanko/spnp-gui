@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.components.projects;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.notifications.NewDiagramAddedListener;
 import cz.muni.fi.spnp.gui.notifications.NewProjectAddedListener;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
@@ -14,7 +15,7 @@ import javafx.scene.control.TreeView;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-public class ProjectsComponent extends ApplicationComponent implements NewProjectAddedListener {
+public class ProjectsComponent extends ApplicationComponent implements NewProjectAddedListener, NewDiagramAddedListener {
 
     private final TreeView treeView;
     private final TreeItem treeItemRoot;
@@ -30,6 +31,7 @@ public class ProjectsComponent extends ApplicationComponent implements NewProjec
         treeItemRoot.setExpanded(true);
 
         notifications.addNewProjectAddedListener(this);
+        notifications.addNewDiagramAddedListener(this);
     }
 
     @Override
@@ -49,5 +51,22 @@ public class ProjectsComponent extends ApplicationComponent implements NewProjec
         }
         treeItemRoot.getChildren().add(treeItemProject);
         treeItemProject.setExpanded(true);
+    }
+
+    @Override
+    public void onNewDiagramAdded(DiagramViewModel diagramViewModel) {
+        var projectTreeItem = getProjectTreeItem(diagramViewModel.getProject().nameProperty().get());
+        var diagramTreeItem = new TreeItem(diagramViewModel.nameProperty().get());
+        projectTreeItem.getChildren().add(diagramTreeItem);
+    }
+
+    private TreeItem getProjectTreeItem(String name) {
+        for (var child : treeItemRoot.getChildren()) {
+            var treeItem = (TreeItem) child;
+            if (treeItem.getValue().equals(name)) {
+                return treeItem;
+            }
+        }
+        return null;
     }
 }
