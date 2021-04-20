@@ -44,6 +44,9 @@ public class PlaceController extends ConnectableGraphElement {
         tokensCountText = new Text("3");
         tokensCountText.setBoundsType(TextBoundsType.VISUAL);
         tokensCountText.setSmooth(true);
+        tokensCountText.textProperty().addListener((observable, oldValue, newValue) -> {
+            tokensCountText.setVisible(!newValue.equals("0"));
+        });
         registerMouseHandlers(tokensCountText);
 
         circleStack = new StackPane();
