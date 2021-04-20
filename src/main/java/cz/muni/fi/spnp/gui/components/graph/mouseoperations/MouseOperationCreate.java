@@ -1,13 +1,14 @@
 package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
+import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
-import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.ImmediateTransitionController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionController;
+import cz.muni.fi.spnp.gui.viewmodel.ConnectableElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.TimedTransitionViewModel;
 import javafx.scene.input.MouseEvent;
 
 public class MouseOperationCreate extends MouseOperation {
@@ -30,31 +31,29 @@ public class MouseOperationCreate extends MouseOperation {
     @Override
     public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
         var position = graphView.getGridPane().screenToLocal(mouseEvent.getScreenX(), mouseEvent.getScreenY());
-        ConnectableGraphElement newElement = null;
+
+        ConnectableElementViewModel newViewModel = null;
         switch (createElementType) {
             case PLACE:
-                newElement = new PlaceController(position.getX(), position.getY());
+                newViewModel = new PlaceViewModel("place", position.getX(), position.getY(), 0);
                 break;
 
             case TIMED_TRANSITION:
-                newElement = new TimedTransitionController(position.getX(), position.getY());
+                newViewModel = new TimedTransitionViewModel("timedTransition", position.getX(), position.getY(), 0, TransitionDistributionType.Constant);
                 break;
 
             case IMMEDIATE_TRANSITION:
-                newElement = new ImmediateTransitionController(position.getX(), position.getY());
+                newViewModel = new ImmediateTransitionViewModel("immediateTransition", position.getX(), position.getY(), 1);
                 break;
 
             default:
+                System.out.println("WHAAAAAAAAAAAAAAAAAAAAAAT");
         }
 
-        if (newElement != null) {
-            newElement.addToParent(graphView);
-            newElement.getViewModel().setDiagramViewModel(graphView.getDiagramViewModel());
-            graphView.getDiagramViewModel().addElement(newElement.getViewModel());
-
-            if (graphView.isSnappingEnabled()) {
-                newElement.snapToGrid();
-            }
+        if (newViewModel != null) {
+            var diagramViewModel = graphView.getDiagramViewModel();
+            newViewModel.setDiagramViewModel(diagramViewModel);
+            diagramViewModel.addElement(newViewModel);
 
             if (graphView.getCursorMode() == CursorMode.CREATE) {
                 graphView.setCursorMode(CursorMode.VIEW);

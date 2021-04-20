@@ -9,17 +9,10 @@ public class InhibitorArcController extends ArcController {
     public InhibitorArcController(PlaceController from, TransitionController to) {
         super(from, to);
         createView();
-        createBindings(from, to);
     }
 
     private void createView() {
         ending = new ArcEndingCircle(lines.get(0));
         groupSymbols.getChildren().add(ending.getShape());
-    }
-
-    private void createBindings(ConnectableGraphElement from, ConnectableGraphElement to) {
-        InhibitorArcViewModel inhibitorArcViewModel = new InhibitorArcViewModel(from.getViewModel(), to.getViewModel());
-        // binding to controls
-        bindViewModel(inhibitorArcViewModel);
     }
 }

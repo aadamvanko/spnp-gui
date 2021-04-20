@@ -1,13 +1,13 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.place;
 
 import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesEditor;
+import cz.muni.fi.spnp.gui.components.propertieseditor.PositionableElementPropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.property.Property;
 import javafx.scene.control.Label;
 
-public class PlacePropertiesEditor extends PropertiesEditor {
+public class PlacePropertiesEditor extends PositionableElementPropertiesEditor {
 
     private final Label numberOfTokensLabel;
     private final IntegerTextField numberOfTokensTextField;
@@ -17,8 +17,8 @@ public class PlacePropertiesEditor extends PropertiesEditor {
         numberOfTokensLabel = new Label("Tokens:");
         numberOfTokensTextField = new IntegerTextField();
 
-        gridPane.add(numberOfTokensLabel, 0, 1);
-        gridPane.add(numberOfTokensTextField.getTextField(), 1, 1);
+        gridPane.add(numberOfTokensLabel, 0, 3);
+        gridPane.add(numberOfTokensTextField.getTextField(), 1, 3);
     }
 
     @Override

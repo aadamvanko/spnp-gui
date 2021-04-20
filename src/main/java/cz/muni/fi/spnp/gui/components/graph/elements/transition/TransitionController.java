@@ -24,7 +24,7 @@ public abstract class TransitionController extends ConnectableGraphElement {
     private final VBox container;
     protected Rectangle rectangle;
 
-    public TransitionController(double x, double y) {
+    public TransitionController() {
         rectangle = new Rectangle();
         registerMouseHandlers(rectangle);
 
@@ -41,8 +41,6 @@ public abstract class TransitionController extends ConnectableGraphElement {
         container.setMaxWidth(0);
         container.setAlignment(Pos.CENTER);
         container.setFillWidth(false);
-        container.setTranslateX(x);
-        container.setTranslateY(y);
 
         if (false) {
             nameLabel.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
@@ -52,10 +50,14 @@ public abstract class TransitionController extends ConnectableGraphElement {
 
     @Override
     public void bindViewModel(ElementViewModel viewModel) {
+        super.bindViewModel(viewModel);
+
         TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
         nameLabel.textProperty().bind(transitionViewModel.nameProperty());
         // TODO priority, guard function
-        super.bindViewModel(viewModel);
+
+        container.setTranslateX(transitionViewModel.positionXProperty().get());
+        container.setTranslateY(transitionViewModel.positionYProperty().get());
     }
 
     public VBox getRoot() {

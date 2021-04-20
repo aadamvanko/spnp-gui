@@ -5,11 +5,11 @@ import javafx.beans.property.StringProperty;
 
 public abstract class ElementViewModel {
 
-    private final StringProperty name = new SimpleStringProperty("element");
     private DiagramViewModel diagramViewModel;
+    private final StringProperty name = new SimpleStringProperty("element");
 
-    public StringProperty nameProperty() {
-        return name;
+    public ElementViewModel(String name) {
+        this.name.set(name);
     }
 
     public DiagramViewModel getDiagramViewModel() {
@@ -18,5 +18,9 @@ public abstract class ElementViewModel {
 
     public void setDiagramViewModel(DiagramViewModel diagramViewModel) {
         this.diagramViewModel = diagramViewModel;
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 }

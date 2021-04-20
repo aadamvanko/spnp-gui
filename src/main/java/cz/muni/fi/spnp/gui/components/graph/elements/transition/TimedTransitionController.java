@@ -1,14 +1,14 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
+import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.TimedTransitionViewModel;
 import javafx.scene.paint.Color;
 
 public class TimedTransitionController extends TransitionController {
 
-    public TimedTransitionController(double x, double y) {
-        super(x, y);
+    public TimedTransitionController() {
+        super();
         createView();
-        createBindings();
     }
 
     private void createView() {
@@ -19,10 +19,4 @@ public class TimedTransitionController extends TransitionController {
         rectangle.setFill(Color.WHITE);
         rectangle.setSmooth(true);
     }
-
-    private void createBindings() {
-        TimedTransitionViewModel timedTransitionViewModel = new TimedTransitionViewModel();
-        bindViewModel(timedTransitionViewModel);
-    }
-
 }

@@ -41,7 +41,7 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
         });
         menuFile.getItems().add(menuItemNewProject);
 
-        newDiagramView = new NewDiagramView(model);
+        newDiagramView = new NewDiagramView(model, notifications);
         menuItemNewDiagram = new MenuItem("New Diagram");
         menuItemNewDiagram.setDisable(true);
         menuItemNewDiagram.setOnAction(actionEvent -> {

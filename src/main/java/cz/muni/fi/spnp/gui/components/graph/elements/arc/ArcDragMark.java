@@ -24,8 +24,6 @@ public class ArcDragMark extends GraphElement implements MouseSelectable {
         rectangle.setFill(Color.WHITE);
         setCenterPosition(x, y);
         rectangle.setSmooth(true);
-
-        registerMouseHandlers(rectangle);
     }
 
     public Rectangle getShape() {
@@ -49,6 +47,7 @@ public class ArcDragMark extends GraphElement implements MouseSelectable {
     public void addToParent(GraphView parent) {
         super.addToParent(parent);
         arc.getGroupSymbols().getChildren().add(rectangle);
+        registerMouseHandlers(rectangle);
     }
 
     @Override
@@ -57,6 +56,7 @@ public class ArcDragMark extends GraphElement implements MouseSelectable {
 
         arc.removeDragMark(this);
         arc.getGroupSymbols().getChildren().remove(rectangle);
+        unregisterMouseHandlers(rectangle);
     }
 
     @Override

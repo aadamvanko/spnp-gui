@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class ArcController extends GraphElement {
 
-    public static int LINE_WIDTH = 2;
+    public static int LINE_WIDTH = 4;
 
     private Group container;
     private Group groupLines;
@@ -224,11 +224,16 @@ public abstract class ArcController extends GraphElement {
         fromElement.removeArc(this);
         toElement.removeArc(this);
 
+        // TODO not good
+        destroyDragMarks(parent);
+
+        super.removeFromParent(parent);
+    }
+
+    private void destroyDragMarks(GraphView parent) {
         while (dragMarks.size() > 0) {
             dragMarks.get(0).removeFromParent(parent);
         }
-
-        super.removeFromParent(parent);
     }
 
     @Override

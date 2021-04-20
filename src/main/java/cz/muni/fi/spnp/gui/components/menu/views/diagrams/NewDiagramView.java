@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu.views.diagrams;
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.scene.Scene;
@@ -14,10 +15,12 @@ import javafx.util.StringConverter;
 
 public class NewDiagramView extends UIWindowComponent {
     private final Model model;
+    private final Notifications notifications;
     private final ChoiceBox<ProjectViewModel> choiceBoxProject;
 
-    public NewDiagramView(Model model) {
+    public NewDiagramView(Model model, Notifications notifications) {
         this.model = model;
+        this.notifications = notifications;
 
         var vbox = new VBox();
         var gridPane = new GridPane();
@@ -49,7 +52,7 @@ public class NewDiagramView extends UIWindowComponent {
                 return;
             }
 
-            var diagram = new DiagramViewModel(project);
+            var diagram = new DiagramViewModel(notifications, project);
             diagram.nameProperty().set(name);
             project.addDiagram(diagram);
             stage.close();

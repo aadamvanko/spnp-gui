@@ -1,14 +1,14 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
 import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesEditor;
+import cz.muni.fi.spnp.gui.components.propertieseditor.PositionableElementPropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.TransitionViewModel;
 import javafx.beans.property.Property;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public abstract class TransitionPropertiesEditor extends PropertiesEditor {
+public abstract class TransitionPropertiesEditor extends PositionableElementPropertiesEditor {
 
     private final Label priorityLabel;
     private final IntegerTextField priorityTextField;
@@ -21,10 +21,10 @@ public abstract class TransitionPropertiesEditor extends PropertiesEditor {
         guardFunctionLabel = new Label("Guard function:");
         guardFunctionTextField = new TextField();
 
-        gridPane.add(priorityLabel, 0, 1);
-        gridPane.add(priorityTextField.getTextField(), 1, 1);
-        gridPane.add(guardFunctionLabel, 0, 2);
-        gridPane.add(guardFunctionTextField, 1, 2);
+        gridPane.add(priorityLabel, 0, 3);
+        gridPane.add(priorityTextField.getTextField(), 1, 3);
+        gridPane.add(guardFunctionLabel, 0, 4);
+        gridPane.add(guardFunctionTextField, 1, 4);
     }
 
     @Override

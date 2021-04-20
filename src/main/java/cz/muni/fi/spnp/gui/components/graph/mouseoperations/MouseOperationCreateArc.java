@@ -9,6 +9,9 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.*;
 import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceController;
 import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionController;
+import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.InhibitorArcViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.StandardArcViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
@@ -112,16 +115,14 @@ public class MouseOperationCreateArc extends MouseOperation {
                 }
             }
 
-            ArcController arcController = null;
             if (toElement != null) {
+                ArcViewModel arcViewModel = null;
                 if (createElementType == GraphElementType.STANDARD_ARC) {
-                    arcController = new StandardArcController(fromElement, toElement);
+                    arcViewModel = new StandardArcViewModel("standardArc", fromElement.getViewModel(), toElement.getViewModel());
                 } else {
-                    arcController = new InhibitorArcController((PlaceController) fromElement, (TransitionController) toElement);
+                    arcViewModel = new InhibitorArcViewModel("inhibitorArc", fromElement.getViewModel(), toElement.getViewModel());
                 }
-                arcController.addToParent(graphView);
-                arcController.getViewModel().setDiagramViewModel(graphView.getDiagramViewModel());
-                graphView.getDiagramViewModel().addElement(arcController.getViewModel());
+                graphView.getDiagramViewModel().addElement(arcViewModel);
 
                 if (graphView.getCursorMode() == CursorMode.CREATE) {
                     graphView.setCursorMode(CursorMode.VIEW);

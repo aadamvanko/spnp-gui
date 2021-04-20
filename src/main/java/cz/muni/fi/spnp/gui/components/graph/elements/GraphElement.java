@@ -48,6 +48,12 @@ public abstract class GraphElement implements Highlightable, Movable {
         node.setOnMouseReleased(this::onMouseReleasedHandler);
     }
 
+    protected void unregisterMouseHandlers(Node node) {
+        node.setOnMousePressed(null);
+        node.setOnMouseDragged(null);
+        node.setOnMouseReleased(null);
+    }
+
     public void onMousePressedHandler(MouseEvent mouseEvent) {
         mouseEvent.consume();
 

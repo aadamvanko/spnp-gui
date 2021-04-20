@@ -8,7 +8,9 @@ import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcDragMark;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ConnectableElementViewModel;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -299,7 +301,17 @@ public class GraphView {
         return cursorMode;
     }
 
-    public void setDiagramViewModel(DiagramViewModel diagramViewModel) {
+    public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
+        resetSelection();
+        this.elements.clear();
+
         this.diagramViewModel = diagramViewModel;
+        var graphElementFactory = new GraphElementFactory(this);
+        diagramViewModel.getElements().stream()
+                .filter(elementViewModel -> elementViewModel instanceof ConnectableElementViewModel)
+                .forEach(elementViewModel -> graphElementFactory.createGraphElement(elementViewModel));
+        diagramViewModel.getElements().stream()
+                .filter(elementViewModel -> elementViewModel instanceof ArcViewModel)
+                .forEach(elementViewModel -> graphElementFactory.createGraphElement(elementViewModel));
     }
 }

@@ -2,15 +2,10 @@ package cz.muni.fi.spnp.gui.components.graph;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcController;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.InhibitorArcController;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.StandardArcController;
-import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.ImmediateTransitionController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionController;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.*;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -20,7 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GraphComponent extends ApplicationComponent implements
-        CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener, NewDiagramAddedListener, SelectedDiagramChangeListener {
+        CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener,
+        NewDiagramAddedListener, NewElementAddedListener, SelectedDiagramChangeListener {
 
     private final TabPane tabPane;
     private final Map<Tab, GraphView> graphViews;
@@ -32,9 +28,6 @@ public class GraphComponent extends ApplicationComponent implements
         tabPane = new TabPane();
         tabPane.setSide(Side.BOTTOM);
         graphViews = new HashMap<>();
-
-        addGraphView("Diagram 1", createMockGraphView());
-        addGraphView("Diagram 2", new GraphView(notifications));
 
         tabPane.getSelectionModel().selectedItemProperty().addListener(changeEvent -> {
             var selectedTab = tabPane.getSelectionModel().getSelectedItem();
@@ -48,6 +41,8 @@ public class GraphComponent extends ApplicationComponent implements
         notifications.addCreateElementTypeChangeListener(this);
         notifications.addToggleGridSnappingListener(this);
         notifications.addNewDiagramAddedListener(this);
+        notifications.addNewElementAddedListener(this);
+        notifications.addSelectedDiagramChangeListener(this);
     }
 
     private void addGraphView(String diagramName, GraphView graphView) {
@@ -56,38 +51,14 @@ public class GraphComponent extends ApplicationComponent implements
         }
 
         if (graphView.getDiagramViewModel() == null) {
-            var diagramViewModel = new DiagramViewModel(model.getSelectedProject());
-            graphView.setDiagramViewModel(diagramViewModel);
+            var diagramViewModel = new DiagramViewModel(notifications, model.getSelectedProject());
+            graphView.bindDiagramViewModel(diagramViewModel);
         }
 
         var tab = new Tab(diagramName, graphView.getZoomableScrollPane());
         graphViews.put(tab, graphView);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
-    }
-
-    private GraphView createMockGraphView() {
-        PlaceController pc1 = new PlaceController(100, 100);
-        PlaceController pc2 = new PlaceController(500, 100);
-        PlaceController pc4 = new PlaceController(100, 200);
-        TimedTransitionController ttc1 = new TimedTransitionController(300, 100);
-        ArcController ac1 = new StandardArcController(pc1, ttc1);
-        ArcController ac2 = new StandardArcController(ttc1, pc2);
-        ImmediateTransitionController itc1 = new ImmediateTransitionController(300, 200);
-        ArcController ac3 = new InhibitorArcController(pc4, itc1);
-        PlaceController pc3 = new PlaceController(100, 500);
-
-        GraphView mockGraphView = new GraphView(notifications);
-        pc1.addToParent(mockGraphView);
-        pc2.addToParent(mockGraphView);
-        ttc1.addToParent(mockGraphView);
-        ac1.addToParent(mockGraphView);
-        ac2.addToParent(mockGraphView);
-        itc1.addToParent(mockGraphView);
-        pc3.addToParent(mockGraphView);
-        pc4.addToParent(mockGraphView);
-        ac3.addToParent(mockGraphView);
-        return mockGraphView;
     }
 
     @Override
@@ -124,12 +95,22 @@ public class GraphComponent extends ApplicationComponent implements
     @Override
     public void onNewDiagramAdded(DiagramViewModel diagramViewModel) {
         var graphView = new GraphView(notifications);
-        graphView.setDiagramViewModel(diagramViewModel);
+        graphView.bindDiagramViewModel(diagramViewModel);
         var tabName = String.format("%s/%s", diagramViewModel.getProject().nameProperty().get(), diagramViewModel.nameProperty().get());
         addGraphView(tabName, graphView);
     }
 
     @Override
     public void onSelectedDiagramChanged(DiagramViewModel diagramViewModel) {
+    }
+
+    @Override
+    public void onNewElementAdded(ElementViewModel elementViewModel) {
+        if (selectedGraphView == null) {
+            return;
+        }
+
+        var graphElementFactory = new GraphElementFactory(selectedGraphView);
+        graphElementFactory.createGraphElement(elementViewModel);
     }
 }

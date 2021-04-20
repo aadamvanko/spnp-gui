@@ -17,7 +17,7 @@ public abstract class PropertiesEditor implements UIComponent {
     public PropertiesEditor() {
         gridPane = new GridPane();
 
-        nameLabel = new Label("Name:");
+        nameLabel = new Label("Name");
         nameTextField = new TextField();
 
         gridPane.add(nameLabel, 0, 0);

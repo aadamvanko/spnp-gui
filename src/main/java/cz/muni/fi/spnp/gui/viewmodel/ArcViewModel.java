@@ -11,7 +11,8 @@ public class ArcViewModel extends ElementViewModel {
     private final ElementViewModel fromViewModel;
     private final ElementViewModel toViewModel;
 
-    public ArcViewModel(ElementViewModel fromViewModel, ElementViewModel toViewModel) {
+    public ArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel) {
+        super(name);
         this.fromViewModel = fromViewModel;
         this.toViewModel = toViewModel;
     }
@@ -22,6 +23,14 @@ public class ArcViewModel extends ElementViewModel {
         } else {
             return ArcDirection.Output;
         }
+    }
+
+    public ElementViewModel getFromViewModel() {
+        return fromViewModel;
+    }
+
+    public ElementViewModel getToViewModel() {
+        return toViewModel;
     }
 
     public IntegerProperty multiplicityProperty() {

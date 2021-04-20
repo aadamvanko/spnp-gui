@@ -5,10 +5,9 @@ import javafx.scene.paint.Color;
 
 public class ImmediateTransitionController extends TransitionController {
 
-    public ImmediateTransitionController(double x, double y) {
-        super(x, y);
+    public ImmediateTransitionController() {
+        super();
         createView();
-        createBindings();
     }
 
     private void createView() {
@@ -16,10 +15,5 @@ public class ImmediateTransitionController extends TransitionController {
         rectangle.setWidth(9);
         rectangle.setFill(Color.BLACK);
         rectangle.setSmooth(true);
-    }
-
-    private void createBindings() {
-        ImmediateTransitionViewModel immediateTransitionViewModel = new ImmediateTransitionViewModel();
-        bindViewModel(immediateTransitionViewModel);
     }
 }

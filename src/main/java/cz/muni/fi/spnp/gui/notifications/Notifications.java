@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Notifications {
     private final List<SelectedDiagramChangeListener> selectedDiagramChangeListeners;
     private final List<NewProjectAddedListener> newProjectAddedListeners;
     private final List<NewDiagramAddedListener> newDiagramAddedListeners;
+    private final List<NewElementAddedListener> newElementAddedListeners;
 
     public Notifications() {
         cursorModeChangeListeners = new ArrayList<>();
@@ -27,6 +29,7 @@ public class Notifications {
         selectedDiagramChangeListeners = new ArrayList<>();
         newProjectAddedListeners = new ArrayList<>();
         newDiagramAddedListeners = new ArrayList<>();
+        newElementAddedListeners = new ArrayList<>();
     }
 
     public void addCursorModeChangeListener(CursorModeChangeListener listener) {
@@ -111,5 +114,17 @@ public class Notifications {
 
     public void newDiagramAdded(DiagramViewModel diagramViewModel) {
         newDiagramAddedListeners.forEach(listener -> listener.onNewDiagramAdded(diagramViewModel));
+    }
+
+    public void addNewElementAddedListener(NewElementAddedListener listener) {
+        newElementAddedListeners.add(listener);
+    }
+
+    public void removeNewElementAddedListener(NewElementAddedListener listener) {
+        newElementAddedListeners.remove(listener);
+    }
+
+    public void newElementAdded(ElementViewModel elementViewModel) {
+        newElementAddedListeners.forEach(listener -> listener.onNewElementAdded(elementViewModel));
     }
 }

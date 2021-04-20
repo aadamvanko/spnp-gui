@@ -1,8 +1,10 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.place;
 
+import cz.muni.fi.spnp.core.models.places.Place;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcController;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -25,12 +27,11 @@ public class PlaceController extends ConnectableGraphElement {
     private Label nameLabel;
     private VBox container;
 
-    public PlaceController(double x, double y) {
-        createView(x, y);
-        createBindings();
+    public PlaceController() {
+        createView();
     }
 
-    private void createView(double x, double y) {
+    private void createView() {
         circle = new Circle();
         circle.setRadius(20);
         circle.setStrokeWidth(1);
@@ -63,8 +64,6 @@ public class PlaceController extends ConnectableGraphElement {
         container.setMaxWidth(0);
         container.setAlignment(Pos.CENTER);
         container.setFillWidth(false);
-        container.setTranslateX(x);
-        container.setTranslateY(y);
 
         if (false) {
             circleStack.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
@@ -73,11 +72,24 @@ public class PlaceController extends ConnectableGraphElement {
         }
     }
 
-    private void createBindings() {
-        PlaceViewModel placeViewModel = new PlaceViewModel();
+    @Override
+    public void bindViewModel(ElementViewModel elementViewModel) {
+        super.bindViewModel(elementViewModel);
+
+        PlaceViewModel placeViewModel = (PlaceViewModel) elementViewModel;
         nameLabel.textProperty().bind(placeViewModel.nameProperty());
         tokensCountText.textProperty().bind(placeViewModel.numberOfTokensProperty().asString());
-        bindViewModel(placeViewModel);
+
+        container.setTranslateX(placeViewModel.positionXProperty().get());
+        container.setTranslateY(placeViewModel.positionYProperty().get());
+    }
+
+    @Override
+    public void unbindViewModel() {
+        nameLabel.textProperty().unbind();
+        tokensCountText.textProperty().unbind();
+
+        super.unbindViewModel();
     }
 
     @Override
