@@ -3,12 +3,18 @@ package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +32,25 @@ public abstract class ArcController extends GraphElement {
     protected List<Line> lines;
     protected ArcEnding ending;
     private ArcDragMark lastAddedDragMark;
+    private Text textMultiplicty;
 
     public ArcController(ConnectableGraphElement from, ConnectableGraphElement to) {
-        createView(from, to);
-    }
-
-    private void createView(ConnectableGraphElement from, ConnectableGraphElement to) {
         lines = new ArrayList<>();
         dragMarks = new ArrayList<>();
         this.fromElement = from;
         this.toElement = to;
 
+        createView(from, to);
+    }
+
+    private void createView(ConnectableGraphElement from, ConnectableGraphElement to) {
+        textMultiplicty = new Text();
+        textMultiplicty.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            textMultiplicty.setVisible(!newValue.equals("1"));
+        });
+
         groupLines = new Group();
-        groupSymbols = new Group();
+        groupSymbols = new Group(textMultiplicty);
         container = new Group(groupLines, groupSymbols);
 
         createFirstLine();
@@ -51,6 +63,23 @@ public abstract class ArcController extends GraphElement {
         Line line = createLine(fromElement.getShapeCenter(), toElement.getShapeCenter());
         lines.add(line);
         groupLines.getChildren().add(line);
+
+        updateMultiplicityPosition();
+    }
+
+    private void updateMultiplicityPosition() {
+        Line line = lines.get(lines.size() / 2);
+        var start = new Point2D(line.getStartX(), line.getStartY());
+        var end = new Point2D(line.getEndX(), line.getEndY());
+        var midpoint = start.midpoint(end);
+        var vector = end.subtract(start).normalize();
+        var perpendicular = new Point2D(vector.getY(), -vector.getX());
+        double OFFSET = 10;
+        var pos = midpoint.add(perpendicular.multiply(OFFSET));
+        textMultiplicty.setX(pos.getX());
+        textMultiplicty.setY(pos.getY());
+        textMultiplicty.setX(textMultiplicty.getX() - textMultiplicty.getLayoutBounds().getWidth() / 2);
+        textMultiplicty.setY(textMultiplicty.getY() + textMultiplicty.getLayoutBounds().getHeight() / 4);
     }
 
     public Node getRoot() {
@@ -106,6 +135,21 @@ public abstract class ArcController extends GraphElement {
         }
     }
 
+    @Override
+    public void bindViewModel(ElementViewModel viewModel) {
+        super.bindViewModel(viewModel);
+
+        var arcViewModel = (ArcViewModel) viewModel;
+        textMultiplicty.textProperty().bind(arcViewModel.multiplicityProperty().asString());
+    }
+
+    @Override
+    public void unbindViewModel() {
+        textMultiplicty.textProperty().unbind();
+
+        super.unbindViewModel();
+    }
+
     private void createDragMark(Line sourceLine, Point2D position) {
         int index = lines.indexOf(sourceLine);
 
@@ -147,6 +191,8 @@ public abstract class ArcController extends GraphElement {
         if (index == dragMarks.size() - 1) {
             setEnd(toElement.getBorderConnectionPoint(getLineStart(lines.get(index + 1))));
         }
+
+        updateMultiplicityPosition();
     }
 
     private Point2D getLineEnd(Line line) {
@@ -192,6 +238,7 @@ public abstract class ArcController extends GraphElement {
     public void updateEnds(ConnectableGraphElement source) {
         setStart(fromElement.getBorderConnectionPoint(getLineEnd(lines.get(0))));
         setEnd(toElement.getBorderConnectionPoint(getLineStart(lines.get(lines.size() - 1))));
+        updateMultiplicityPosition();
     }
 
     @Override
@@ -295,6 +342,8 @@ public abstract class ArcController extends GraphElement {
         lineTo.setEndY(lineFrom.getEndY());
         lines.remove(lineFrom);
         groupLines.getChildren().remove(lineFrom);
+
+        updateMultiplicityPosition();
     }
 
     @Override
