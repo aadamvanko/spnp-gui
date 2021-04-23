@@ -1,23 +1,18 @@
-package cz.muni.fi.spnp.gui.components.elementsoutline;
+package cz.muni.fi.spnp.gui.components.diagramoutline;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.NewElementAddedListener;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.notifications.SelectedDiagramChangeListener;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class DiagramOutlineComponent extends ApplicationComponent implements SelectedDiagramChangeListener {
@@ -25,9 +20,12 @@ public class DiagramOutlineComponent extends ApplicationComponent implements Sel
     private TreeView<DisplayableViewModel> treeView;
     private TreeItem<DisplayableViewModel> treeItemRoot;
     private ListChangeListener<? super DisplayableViewModel> listChangeListener;
+    private final TreeItemsIconsLoader treeItemsIconsLoader;
 
     public DiagramOutlineComponent(Model model, Notifications notifications) {
         super(model, notifications);
+
+        treeItemsIconsLoader = new TreeItemsIconsLoader(16);
 
         createView();
 
@@ -52,8 +50,10 @@ public class DiagramOutlineComponent extends ApplicationComponent implements Sel
                     textProperty().unbind();
                     if (empty) {
                         setText(null);
+                        setGraphic(null);
                     } else {
                         textProperty().bind(item.nameProperty());
+                        setGraphic(treeItemsIconsLoader.createIcon(item));
                     }
                 }
             };

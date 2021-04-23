@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.projects;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
+import cz.muni.fi.spnp.gui.components.diagramoutline.TreeItemsIconsLoader;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.NewDiagramAddedListener;
 import cz.muni.fi.spnp.gui.notifications.NewProjectAddedListener;
@@ -15,6 +16,8 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -25,9 +28,12 @@ public class ProjectsComponent extends ApplicationComponent implements NewProjec
 
     private TreeView<DisplayableViewModel> treeView;
     private TreeItem<DisplayableViewModel> treeItemRoot;
+    private final TreeItemsIconsLoader treeItemsIconsLoader;
 
     public ProjectsComponent(Model model, Notifications notifications) {
         super(model, notifications);
+
+        treeItemsIconsLoader = new TreeItemsIconsLoader(16);
 
         createView();
 
@@ -52,8 +58,10 @@ public class ProjectsComponent extends ApplicationComponent implements NewProjec
                     textProperty().unbind();
                     if (empty) {
                         setText(null);
+                        setGraphic(null);
                     } else {
                         textProperty().bind(item.nameProperty());
+                        setGraphic(treeItemsIconsLoader.createIcon(item));
                     }
                 }
             };
