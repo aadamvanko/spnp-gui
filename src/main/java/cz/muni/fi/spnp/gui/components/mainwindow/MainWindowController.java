@@ -17,7 +17,9 @@ import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import javafx.scene.Node;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -102,6 +104,11 @@ public class MainWindowController {
         graphComponent = new GraphComponent(model, notifications);
 
         VBox vBox = new VBox(toolbarComponent.getRoot(), graphComponent.getRoot());
+
+        var graphComponentRegion = (Region) graphComponent.getRoot();
+        graphComponentRegion.prefWidthProperty().bind(vBox.widthProperty());
+        graphComponentRegion.prefHeightProperty().bind(vBox.heightProperty());
+
         return vBox;
     }
 

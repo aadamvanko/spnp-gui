@@ -18,12 +18,23 @@ public class GraphComponent extends ApplicationComponent implements
         CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener,
         NewDiagramAddedListener, NewElementAddedListener, SelectedDiagramChangeListener {
 
-    private final TabPane tabPane;
-    private final Map<Tab, GraphView> graphViews;
+    private TabPane tabPane;
+    private Map<Tab, GraphView> graphViews;
 
     public GraphComponent(Model model, Notifications notifications) {
         super(model, notifications);
 
+        createView();
+
+        notifications.addCursorModeChangeListener(this);
+        notifications.addCreateElementTypeChangeListener(this);
+        notifications.addToggleGridSnappingListener(this);
+        notifications.addNewDiagramAddedListener(this);
+        notifications.addNewElementAddedListener(this);
+        notifications.addSelectedDiagramChangeListener(this);
+    }
+
+    private void createView() {
         tabPane = new TabPane();
         tabPane.setSide(Side.BOTTOM);
         graphViews = new HashMap<>();
@@ -38,13 +49,6 @@ public class GraphComponent extends ApplicationComponent implements
             var diagram = graphViews.get(selectedTab).getDiagramViewModel();
             model.selectDiagram(diagram);
         });
-
-        notifications.addCursorModeChangeListener(this);
-        notifications.addCreateElementTypeChangeListener(this);
-        notifications.addToggleGridSnappingListener(this);
-        notifications.addNewDiagramAddedListener(this);
-        notifications.addNewElementAddedListener(this);
-        notifications.addSelectedDiagramChangeListener(this);
     }
 
     private void addGraphView(String tabName, GraphView graphView) {
