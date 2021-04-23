@@ -6,32 +6,88 @@ import cz.muni.fi.spnp.gui.notifications.NewDiagramAddedListener;
 import cz.muni.fi.spnp.gui.notifications.NewProjectAddedListener;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.collections.ListChangeListener;
+import javafx.css.PseudoClass;
 import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProjectsComponent extends ApplicationComponent implements NewProjectAddedListener, NewDiagramAddedListener {
+public class ProjectsComponent extends ApplicationComponent implements NewProjectAddedListener {
 
-    private final TreeView treeView;
-    private final TreeItem treeItemRoot;
+    private TreeView<DisplayableViewModel> treeView;
+    private TreeItem<DisplayableViewModel> treeItemRoot;
 
     public ProjectsComponent(Model model, Notifications notifications) {
         super(model, notifications);
 
-        treeView = new TreeView();
-        treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        treeItemRoot = new TreeItem("Projects");
-        treeView.setRoot(treeItemRoot);
-        treeItemRoot.setExpanded(true);
+        createView();
 
         notifications.addNewProjectAddedListener(this);
-        notifications.addNewDiagramAddedListener(this);
+    }
+
+    private void createView() {
+        treeView = new TreeView<>();
+        treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        treeItemRoot = createItem(new DisplayableViewModel("PROJECTS ROOT"));
+        treeView.setRoot(treeItemRoot);
+        treeView.setShowRoot(false);
+        treeItemRoot.setExpanded(true);
+
+        treeView.setCellFactory(tv -> {
+            var cell = new TreeCell<DisplayableViewModel>() {
+
+                @Override
+                protected void updateItem(DisplayableViewModel item, boolean empty) {
+                    super.updateItem(item, empty);
+                    textProperty().unbind();
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        textProperty().bind(item.nameProperty());
+                    }
+                }
+            };
+
+            cell.setOnMouseClicked(mouseEvent -> {
+                var sourceItem = cell.getItem();
+                if (sourceItem instanceof DiagramViewModel && mouseEvent.getClickCount() == 2) {
+                    model.selectDiagram((DiagramViewModel) sourceItem);
+                }
+            });
+
+            return cell;
+        });
+    }
+
+    private TreeItem<DisplayableViewModel> createItem(DisplayableViewModel object) {
+        TreeItem<DisplayableViewModel> item = new TreeItem<>(object);
+        item.setExpanded(true);
+        if (object instanceof ProjectViewModel) {
+            var projectObject = (ProjectViewModel) object;
+            item.getChildren().addAll(projectObject.getDiagrams().stream().map(this::createItem).collect(Collectors.toList()));
+            projectObject.getDiagrams().addListener((ListChangeListener.Change<? extends DisplayableViewModel> change) -> {
+                while (change.next()) {
+                    if (change.wasAdded()) {
+                        item.getChildren().addAll(change.getAddedSubList().stream().map(this::createItem).collect(Collectors.toList()));
+                    }
+                    if (change.wasRemoved()) {
+                        item.getChildren().removeIf(treeItem -> change.getRemoved().contains(treeItem.getValue()));
+                    }
+                }
+            });
+        }
+
+        return item;
     }
 
     @Override
@@ -41,32 +97,6 @@ public class ProjectsComponent extends ApplicationComponent implements NewProjec
 
     @Override
     public void onNewProjectAdded(ProjectViewModel projectViewModel) {
-        var treeItemProject = new TreeItem(projectViewModel.nameProperty().get());
-        var orderedDiagrams = projectViewModel.getDiagrams()
-                .stream()
-                .sorted(Comparator.comparing((diagramViewModel) -> diagramViewModel.nameProperty().get()))
-                .collect(Collectors.toList());
-        for (var diagram : orderedDiagrams) {
-            treeItemProject.getChildren().add(diagram.nameProperty());
-        }
-        treeItemRoot.getChildren().add(treeItemProject);
-        treeItemProject.setExpanded(true);
-    }
-
-    @Override
-    public void onNewDiagramAdded(DiagramViewModel diagramViewModel) {
-        var projectTreeItem = getProjectTreeItem(diagramViewModel.getProject().nameProperty().get());
-        var diagramTreeItem = new TreeItem(diagramViewModel.nameProperty().get());
-        projectTreeItem.getChildren().add(diagramTreeItem);
-    }
-
-    private TreeItem getProjectTreeItem(String name) {
-        for (var child : treeItemRoot.getChildren()) {
-            var treeItem = (TreeItem) child;
-            if (treeItem.getValue().equals(name)) {
-                return treeItem;
-            }
-        }
-        return null;
+        treeItemRoot.getChildren().add(createItem(projectViewModel));
     }
 }

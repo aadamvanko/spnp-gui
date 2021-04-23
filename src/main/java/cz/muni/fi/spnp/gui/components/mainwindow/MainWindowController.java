@@ -83,6 +83,12 @@ public class MainWindowController {
         diagram1.nameProperty().set("diagram1");
         project1.addDiagram(diagram1);
 
+        var diagram2 = new DiagramViewModel(notifications, project1);
+        diagram2.nameProperty().set("diagram2");
+        project1.addDiagram(diagram2);
+
+        model.selectDiagram(diagram1);
+
         //
 //        PlaceController pc1 = new PlaceController(100, 100);
 //        PlaceController pc2 = new PlaceController(500, 100);

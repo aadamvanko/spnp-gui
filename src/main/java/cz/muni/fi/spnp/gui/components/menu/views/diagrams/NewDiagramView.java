@@ -55,6 +55,7 @@ public class NewDiagramView extends UIWindowComponent {
             var diagram = new DiagramViewModel(notifications, project);
             diagram.nameProperty().set(name);
             project.addDiagram(diagram);
+            model.selectDiagram(diagram);
             stage.close();
         });
         buttonsPanel.getChildren().add(buttonCreate);

@@ -20,7 +20,6 @@ public class GraphComponent extends ApplicationComponent implements
 
     private final TabPane tabPane;
     private final Map<Tab, GraphView> graphViews;
-    private GraphView selectedGraphView;
 
     public GraphComponent(Model model, Notifications notifications) {
         super(model, notifications);
@@ -32,9 +31,12 @@ public class GraphComponent extends ApplicationComponent implements
         tabPane.getSelectionModel().selectedItemProperty().addListener(changeEvent -> {
             var selectedTab = tabPane.getSelectionModel().getSelectedItem();
             if (selectedTab == null) {
+                model.selectDiagram(null);
                 return;
             }
-            selectedGraphView = graphViews.get(selectedTab);
+
+            var diagram = graphViews.get(selectedTab).getDiagramViewModel();
+            model.selectDiagram(diagram);
         });
 
         notifications.addCursorModeChangeListener(this);
@@ -45,20 +47,24 @@ public class GraphComponent extends ApplicationComponent implements
         notifications.addSelectedDiagramChangeListener(this);
     }
 
-    private void addGraphView(String diagramName, GraphView graphView) {
-        if (selectedGraphView == null) {
-            selectedGraphView = graphView;
-        }
+    private void addGraphView(String tabName, GraphView graphView) {
+        var tab = new Tab(tabName, graphView.getZoomableScrollPane());
+        tab.setOnClosed(event -> {
+            graphViews.remove(tab);
+        });
 
-        if (graphView.getDiagramViewModel() == null) {
-            var diagramViewModel = new DiagramViewModel(notifications, model.getSelectedProject());
-            graphView.bindDiagramViewModel(diagramViewModel);
-        }
-
-        var tab = new Tab(diagramName, graphView.getZoomableScrollPane());
         graphViews.put(tab, graphView);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
+    }
+
+    private GraphView getSelectedGraphView() {
+        var selectedTab = tabPane.getSelectionModel().getSelectedItem();
+        if (selectedTab == null) {
+            return null;
+        }
+
+        return graphViews.get(selectedTab);
     }
 
     @Override
@@ -68,28 +74,28 @@ public class GraphComponent extends ApplicationComponent implements
 
     @Override
     public void onCursorModeChanged(CursorMode cursorMode) {
-        if (selectedGraphView == null) {
+        if (getSelectedGraphView() == null) {
             return;
         }
         System.out.println("Cursor mode changed to " + cursorMode);
-        selectedGraphView.setCursorMode(cursorMode);
+        getSelectedGraphView().setCursorMode(cursorMode);
     }
 
 
     @Override
     public void onCreateElementTypeChanged(GraphElementType graphElementType) {
-        if (selectedGraphView == null) {
+        if (getSelectedGraphView() == null) {
             return;
         }
-        selectedGraphView.setCreateElementType(graphElementType);
+        getSelectedGraphView().setCreateElementType(graphElementType);
     }
 
     @Override
     public void gridSnappingToggled() {
-        if (selectedGraphView == null) {
+        if (getSelectedGraphView() == null) {
             return;
         }
-        selectedGraphView.setSnappingToGrid(!selectedGraphView.isSnappingEnabled());
+        getSelectedGraphView().setSnappingToGrid(!getSelectedGraphView().isSnappingEnabled());
     }
 
     @Override
@@ -102,15 +108,41 @@ public class GraphComponent extends ApplicationComponent implements
 
     @Override
     public void onSelectedDiagramChanged(DiagramViewModel diagramViewModel) {
+        if (diagramViewModel == null) {
+            return;
+        }
+
+        if (isOpened(diagramViewModel)) {
+            var tab = getTabForDiagram(diagramViewModel);
+            tabPane.getSelectionModel().select(tab);
+        } else {
+            var tabName = String.format("%s/%s", diagramViewModel.getProject().nameProperty().get(), diagramViewModel.nameProperty().get());
+            var graphView = new GraphView(notifications);
+            graphView.bindDiagramViewModel(diagramViewModel);
+            addGraphView(tabName, graphView);
+        }
+    }
+
+    private Tab getTabForDiagram(DiagramViewModel diagramViewModel) {
+        for (var entry : graphViews.entrySet()) {
+            if (entry.getValue().getDiagramViewModel() == diagramViewModel) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    private boolean isOpened(DiagramViewModel diagramViewModel) {
+        return getTabForDiagram(diagramViewModel) != null;
     }
 
     @Override
     public void onNewElementAdded(ElementViewModel elementViewModel) {
-        if (selectedGraphView == null) {
+        if (getSelectedGraphView() == null) {
             return;
         }
 
-        var graphElementFactory = new GraphElementFactory(selectedGraphView);
+        var graphElementFactory = new GraphElementFactory(getSelectedGraphView());
         graphElementFactory.createGraphElement(elementViewModel);
     }
 }

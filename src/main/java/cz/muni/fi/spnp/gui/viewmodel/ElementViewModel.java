@@ -3,13 +3,12 @@ package cz.muni.fi.spnp.gui.viewmodel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public abstract class ElementViewModel {
+public abstract class ElementViewModel extends DisplayableViewModel {
 
     private DiagramViewModel diagramViewModel;
-    private final StringProperty name = new SimpleStringProperty("element");
 
     public ElementViewModel(String name) {
-        this.name.set(name);
+        super(name);
     }
 
     public DiagramViewModel getDiagramViewModel() {
@@ -18,9 +17,5 @@ public abstract class ElementViewModel {
 
     public void setDiagramViewModel(DiagramViewModel diagramViewModel) {
         this.diagramViewModel = diagramViewModel;
-    }
-
-    public StringProperty nameProperty() {
-        return name;
     }
 }

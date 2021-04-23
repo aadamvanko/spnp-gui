@@ -20,6 +20,7 @@ public class Notifications {
     private final List<NewProjectAddedListener> newProjectAddedListeners;
     private final List<NewDiagramAddedListener> newDiagramAddedListeners;
     private final List<NewElementAddedListener> newElementAddedListeners;
+    private final List<DiagramDeletedListener> diagramDeletedListeners;
 
     public Notifications() {
         cursorModeChangeListeners = new ArrayList<>();
@@ -30,6 +31,7 @@ public class Notifications {
         newProjectAddedListeners = new ArrayList<>();
         newDiagramAddedListeners = new ArrayList<>();
         newElementAddedListeners = new ArrayList<>();
+        diagramDeletedListeners = new ArrayList<>();
     }
 
     public void addCursorModeChangeListener(CursorModeChangeListener listener) {
@@ -126,5 +128,17 @@ public class Notifications {
 
     public void newElementAdded(ElementViewModel elementViewModel) {
         newElementAddedListeners.forEach(listener -> listener.onNewElementAdded(elementViewModel));
+    }
+
+    public void addDiagramDeletedListener(DiagramDeletedListener listener) {
+        diagramDeletedListeners.add(listener);
+    }
+
+    public void removeDiagramDeletedListener(DiagramDeletedListener listener) {
+        diagramDeletedListeners.remove(listener);
+    }
+
+    public void diagramDeleted(DiagramViewModel diagramViewModel) {
+        diagramDeletedListeners.forEach(listener -> listener.onDiagramDeleted(diagramViewModel));
     }
 }

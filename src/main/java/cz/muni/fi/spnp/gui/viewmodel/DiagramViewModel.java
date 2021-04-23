@@ -10,25 +10,20 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class DiagramViewModel {
+public class DiagramViewModel extends DisplayableViewModel {
 
     private final Notifications notifications;
     private final ProjectViewModel projectViewModel;
-    private final StringProperty name = new SimpleStringProperty();
     private final ObservableList<ElementViewModel> elements;
     private final ObservableList<Define> defines;
     private final ObservableList<Function> functions;
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
-        this.notifications = notifications;
-        this.projectViewModel = projectViewModel;
-
-        this.elements = FXCollections.observableArrayList();
-        this.defines = FXCollections.observableArrayList();
-        this.functions = FXCollections.observableArrayList();
+        this(notifications, projectViewModel, FXCollections.observableArrayList(), FXCollections.observableArrayList(), FXCollections.observableArrayList());
     }
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements, List<Define> defines, List<Function> functions) {
+        super("unnamedDiagram");
         this.notifications = notifications;
         this.projectViewModel = projectViewModel;
         this.elements = FXCollections.observableArrayList(elements);
@@ -43,10 +38,6 @@ public class DiagramViewModel {
 
     public ProjectViewModel getProject() {
         return projectViewModel;
-    }
-
-    public StringProperty nameProperty() {
-        return name;
     }
 
     public ObservableList<Define> getDefines() {

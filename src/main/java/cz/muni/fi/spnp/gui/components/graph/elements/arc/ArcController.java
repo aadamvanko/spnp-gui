@@ -25,9 +25,9 @@ public abstract class ArcController extends GraphElement {
 
     private Group container;
     private Group groupLines;
-    private List<ArcDragMark> dragMarks;
-    private ConnectableGraphElement fromElement;
-    private ConnectableGraphElement toElement;
+    private final List<ArcDragMark> dragMarks;
+    private final ConnectableGraphElement fromElement;
+    private final ConnectableGraphElement toElement;
     protected Group groupSymbols;
     protected List<Line> lines;
     protected ArcEnding ending;
