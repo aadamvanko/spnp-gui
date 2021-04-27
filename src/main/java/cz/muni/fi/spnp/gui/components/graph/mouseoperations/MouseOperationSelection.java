@@ -52,7 +52,7 @@ public class MouseOperationSelection extends MouseOperation {
         }
 //        rectangleSelection.setWidth((int)(mouseEvent.getX() - rectangleSelection.getTranslateX()));
 //        rectangleSelection.setHeight((int)(mouseEvent.getY() - rectangleSelection.getTranslateY()));
-        System.out.println(rectangleSelection);
+//        System.out.println(rectangleSelection);
     }
 
     @Override

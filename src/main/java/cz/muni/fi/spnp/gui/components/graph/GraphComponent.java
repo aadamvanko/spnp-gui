@@ -13,10 +13,11 @@ import javafx.scene.control.TabPane;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GraphComponent extends ApplicationComponent implements
         CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener,
-        NewDiagramAddedListener, NewElementAddedListener, SelectedDiagramChangeListener {
+        NewDiagramAddedListener, NewElementAddedListener, SelectedDiagramChangeListener, ElementRemovedListener {
 
     private TabPane tabPane;
     private Map<Tab, GraphView> graphViews;
@@ -32,6 +33,7 @@ public class GraphComponent extends ApplicationComponent implements
         notifications.addNewDiagramAddedListener(this);
         notifications.addNewElementAddedListener(this);
         notifications.addSelectedDiagramChangeListener(this);
+        notifications.addElementRemovedListener(this);
     }
 
     private void createView() {
@@ -148,5 +150,17 @@ public class GraphComponent extends ApplicationComponent implements
 
         var graphElementFactory = new GraphElementFactory(getSelectedGraphView());
         graphElementFactory.createGraphElement(elementViewModel);
+    }
+
+    @Override
+    public void onElementRemoved(ElementViewModel removedElement) {
+        if (getSelectedGraphView() == null) {
+            return;
+        }
+
+        var toRemove = getSelectedGraphView().getElements().stream()
+                .filter(elementView -> elementView.getViewModel() == removedElement)
+                .collect(Collectors.toList());
+        toRemove.forEach(elementView -> elementView.removeFromParent(getSelectedGraphView()));
     }
 }

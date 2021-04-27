@@ -32,16 +32,13 @@ public abstract class ConnectableGraphElement extends GraphElement implements Co
     @Override
     public void removeFromParent(GraphView parent) {
         super.removeFromParent(parent);
-        while (!arcs.isEmpty()) {
-            arcs.get(0).removeFromParent(parent);
-        }
     }
 
     @Override
     public void onMouseDraggedHandler(MouseEvent mouseEvent) {
         super.onMouseDraggedHandler(mouseEvent);
         updateArcs();
-        System.out.println("Connectable graph element dragged");
+//        System.out.println("Connectable graph element dragged");
     }
 
     @Override

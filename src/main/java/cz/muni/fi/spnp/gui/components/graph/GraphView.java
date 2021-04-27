@@ -121,7 +121,7 @@ public class GraphView {
     }
 
     private void onMouseDragged(MouseEvent mouseEvent) {
-        System.out.println("canvas mouse dragged");
+//        System.out.println("canvas mouse dragged");
         if (mouseOperation == null) {
             return;
         }

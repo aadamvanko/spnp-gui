@@ -31,7 +31,9 @@ public class MouseOperationContextMenu extends MouseOperation {
     }
 
     private void onDeleteHandler(ActionEvent actionEvent) {
-        graphView.getSelected().forEach(element -> element.removeFromParent(graphView));
+        var diagramViewModel = graphView.getDiagramViewModel();
+        graphView.getSelected().forEach(element -> diagramViewModel.removeElement(element.getViewModel()));
+        diagramViewModel.removeDisconnectedArcs();
         graphView.resetSelection();
     }
 

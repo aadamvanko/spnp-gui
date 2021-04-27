@@ -1,14 +1,8 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
 import cz.muni.fi.spnp.gui.notifications.Notifications;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProjectViewModel extends DisplayableViewModel {
     private final ObservableList<DiagramViewModel> diagrams;
@@ -27,7 +21,7 @@ public class ProjectViewModel extends DisplayableViewModel {
 
     public void removeDiagram(DiagramViewModel diagramViewModel) {
         diagrams.remove(diagramViewModel);
-        notifications.diagramDeleted(diagramViewModel);
+        notifications.diagramRemoved(diagramViewModel);
     }
 
     public ObservableList<DiagramViewModel> getDiagrams() {
