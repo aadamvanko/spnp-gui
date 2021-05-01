@@ -16,24 +16,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-class FunctionViewModel {
-    private final StringProperty name = new SimpleStringProperty("");
-    private final ObjectProperty<FunctionType> functionType = new SimpleObjectProperty<>(FunctionType.Generic);
-    private final StringProperty body = new SimpleStringProperty("");
-
-    public StringProperty nameProperty() {
-        return name;
-    }
-
-    public ObjectProperty<FunctionType> functionTypeProperty() {
-        return functionType;
-    }
-
-    public StringProperty bodyProperty() {
-        return body;
-    }
-}
-
 public class FunctionView extends UIWindowComponent {
     private final FunctionViewModel viewModel = new FunctionViewModel();
     private DiagramViewModel diagramViewModel;
