@@ -10,9 +10,6 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.builder.RecursiveToStringStyle;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 class ProjectOldFormat {
     public String modelName;
     public String owner;
@@ -190,7 +187,6 @@ public class OldFileLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(new ReflectionToStringBuilder(submodel, new RecursiveToStringStyle()).toString(submodel));
         return submodel;
     }
 
