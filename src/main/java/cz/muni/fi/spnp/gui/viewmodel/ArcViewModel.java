@@ -1,7 +1,12 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
+import javafx.beans.Observable;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.List;
 
 public class ArcViewModel extends ElementViewModel {
 
@@ -10,8 +15,9 @@ public class ArcViewModel extends ElementViewModel {
     private final StringProperty multiplicityFunction = new SimpleStringProperty();
     private final ElementViewModel fromViewModel;
     private final ElementViewModel toViewModel;
+    private final ObservableList<ArcDragMarkViewModel> dragMarks;
 
-    public ArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel) {
+    public ArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel, List<ArcDragMarkViewModel> dragMarks) {
         super(name);
 
         if (fromViewModel == null) {
@@ -24,6 +30,7 @@ public class ArcViewModel extends ElementViewModel {
 
         this.fromViewModel = fromViewModel;
         this.toViewModel = toViewModel;
+        this.dragMarks = FXCollections.observableArrayList(dragMarks);
     }
 
     public ArcDirection getArcDirection() {
@@ -52,5 +59,9 @@ public class ArcViewModel extends ElementViewModel {
 
     public ObjectProperty<ArcMultiplicityType> multiplicityTypeProperty() {
         return arcMultiplicityType;
+    }
+
+    public ObservableList<ArcDragMarkViewModel> getDragMarks() {
+        return dragMarks;
     }
 }

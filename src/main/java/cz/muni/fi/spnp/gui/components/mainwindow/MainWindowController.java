@@ -27,6 +27,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class MainWindowController {
 
@@ -62,10 +63,10 @@ public class MainWindowController {
         var place2 = new PlaceViewModel("place2", 500, 100, 2);
         var place3 = new PlaceViewModel("place4", 100, 200, 3);
         var timedTransition1 = new TimedTransitionViewModel("timed1", 300, 100, 1, TransitionDistributionType.Constant);
-        var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1);
-        var standardArc2 = new StandardArcViewModel("standard2", timedTransition1, place2);
+        var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1, Collections.emptyList());
+        var standardArc2 = new StandardArcViewModel("standard2", timedTransition1, place2, Collections.emptyList());
         var immediateTransition1 = new ImmediateTransitionViewModel("immediate1", 300, 200, 1);
-        var inhibitorArc1 = new InhibitorArcViewModel("inhibitor1", place3, immediateTransition1);
+        var inhibitorArc1 = new InhibitorArcViewModel("inhibitor1", place3, immediateTransition1, Collections.emptyList());
         var place4 = new PlaceViewModel("place4", 100, 500, 4);
         var elements = Arrays.asList(place1, place2, place3, timedTransition1, standardArc1, standardArc2, immediateTransition1, inhibitorArc1, place4);
 

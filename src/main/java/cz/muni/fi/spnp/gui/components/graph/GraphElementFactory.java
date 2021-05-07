@@ -39,8 +39,8 @@ public class GraphElementFactory {
             graphElement = new InhibitorArcController((PlaceController) elementFrom, (TransitionController) elementTo);
         }
 
-        graphElement.bindViewModel(elementViewModel);
         graphElement.addToParent(graphView);
+        graphElement.bindViewModel(elementViewModel);
     }
 
     private ConnectableGraphElement findConnectableGraphElement(String name) {

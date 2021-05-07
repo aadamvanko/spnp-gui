@@ -16,6 +16,10 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class MouseOperationCreateArc extends MouseOperation {
 
     private final GraphElementType createElementType;
@@ -118,9 +122,9 @@ public class MouseOperationCreateArc extends MouseOperation {
             if (toElement != null) {
                 ArcViewModel arcViewModel = null;
                 if (createElementType == GraphElementType.STANDARD_ARC) {
-                    arcViewModel = new StandardArcViewModel("standardArc", fromElement.getViewModel(), toElement.getViewModel());
+                    arcViewModel = new StandardArcViewModel("standardArc", fromElement.getViewModel(), toElement.getViewModel(), Collections.emptyList());
                 } else {
-                    arcViewModel = new InhibitorArcViewModel("inhibitorArc", fromElement.getViewModel(), toElement.getViewModel());
+                    arcViewModel = new InhibitorArcViewModel("inhibitorArc", fromElement.getViewModel(), toElement.getViewModel(), Collections.emptyList());
                 }
                 graphView.getDiagramViewModel().addElement(arcViewModel);
 

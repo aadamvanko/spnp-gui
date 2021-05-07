@@ -3,11 +3,13 @@ package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.viewmodel.ArcDragMarkViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -141,6 +143,9 @@ public abstract class ArcController extends GraphElement {
 
         var arcViewModel = (ArcViewModel) viewModel;
         textMultiplicty.textProperty().bind(arcViewModel.multiplicityProperty().asString());
+
+        destroyDragMarks(getGraphView());
+        createDragMarks(arcViewModel.getDragMarks());
     }
 
     @Override
@@ -148,6 +153,12 @@ public abstract class ArcController extends GraphElement {
         textMultiplicty.textProperty().unbind();
 
         super.unbindViewModel();
+    }
+
+    private void createDragMarks(ObservableList<ArcDragMarkViewModel> dragMarksViewModels) {
+        for (var dragMarkViewModel : dragMarksViewModels) {
+            createDragMark(lines.get(lines.size() - 1), new Point2D(dragMarkViewModel.positionXProperty().get(), dragMarkViewModel.positionYProperty().get()));
+        }
     }
 
     private void createDragMark(Line sourceLine, Point2D position) {
@@ -271,7 +282,6 @@ public abstract class ArcController extends GraphElement {
         fromElement.removeArc(this);
         toElement.removeArc(this);
 
-        // TODO not good
         destroyDragMarks(parent);
 
         super.removeFromParent(parent);

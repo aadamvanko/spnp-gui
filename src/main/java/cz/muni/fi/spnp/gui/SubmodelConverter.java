@@ -67,14 +67,19 @@ public class SubmodelConverter {
 
         var source = findElementForOld(elements, oldSource);
         var destination = findElementForOld(elements, oldDestination);
+        var dragMarks = convertPointsToDragMarks(oldArc.points.subList(1, oldArc.points.size() - 1));
 
         if (oldArc.type.equals("Regular")) {
-            return new StandardArcViewModel(oldArc.name, source, destination);
+            return new StandardArcViewModel(oldArc.name, source, destination, dragMarks);
         } else if (oldArc.type.equals("Inhibitor")) {
-            return new InhibitorArcViewModel(oldArc.name, source, destination);
+            return new InhibitorArcViewModel(oldArc.name, source, destination, dragMarks);
         } else {
             throw new IllegalStateException("Unknown arc type " + oldArc.type);
         }
+    }
+
+    private List<ArcDragMarkViewModel> convertPointsToDragMarks(List<XY> points) {
+        return points.stream().map(xy -> new ArcDragMarkViewModel(xy.x, xy.y)).collect(Collectors.toList());
     }
 
     private ElementViewModel findElementForOld(List<ElementViewModel> elements, ConnectableOldFormat oldConnectable) {
