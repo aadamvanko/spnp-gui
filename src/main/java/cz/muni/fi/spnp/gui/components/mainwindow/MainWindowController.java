@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.core.models.functions.Function;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.core.transformators.spnp.code.Define;
+import cz.muni.fi.spnp.gui.OldFileLoader;
 import cz.muni.fi.spnp.gui.components.diagramoutline.DiagramOutlineComponent;
 import cz.muni.fi.spnp.gui.components.functions.FunctionsCategoriesComponent;
 import cz.muni.fi.spnp.gui.components.graph.GraphComponent;
@@ -83,6 +84,10 @@ public class MainWindowController {
         var diagram2 = new DiagramViewModel(notifications, project1);
         diagram2.nameProperty().set("diagram2");
         project1.addDiagram(diagram2);
+
+        OldFileLoader loader = new OldFileLoader(notifications);
+        var project1x = loader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
+        model.addProject(project1x);
 
         model.selectDiagram(diagram1);
 
