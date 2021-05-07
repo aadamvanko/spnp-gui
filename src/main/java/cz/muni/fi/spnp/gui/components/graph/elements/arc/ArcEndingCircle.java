@@ -8,11 +8,13 @@ import javafx.scene.shape.Shape;
 
 public class ArcEndingCircle extends ArcEnding {
 
+    public static double RADIUS = 5;
+
     private final Circle circle;
 
     public ArcEndingCircle(Line line) {
         circle = new Circle();
-        circle.setRadius(3);
+        circle.setRadius(RADIUS);
         circle.setStrokeWidth(1);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.WHITE);
