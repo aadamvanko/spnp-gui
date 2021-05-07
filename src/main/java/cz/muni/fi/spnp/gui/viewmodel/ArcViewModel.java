@@ -13,6 +13,15 @@ public class ArcViewModel extends ElementViewModel {
 
     public ArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel) {
         super(name);
+
+        if (fromViewModel == null) {
+            throw new IllegalArgumentException("fromViewModel cannot be null");
+        }
+
+        if (toViewModel == null) {
+            throw new IllegalArgumentException("toViewModel cannot be null");
+        }
+
         this.fromViewModel = fromViewModel;
         this.toViewModel = toViewModel;
     }
