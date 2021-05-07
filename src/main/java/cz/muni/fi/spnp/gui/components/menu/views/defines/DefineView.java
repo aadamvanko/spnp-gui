@@ -49,7 +49,7 @@ public class DefineView extends UIWindowComponent {
                 return;
             }
 
-            var define = new Define(viewModel.nameProperty().get(), viewModel.expressionProperty().get());
+            var define = new DefineViewModel(viewModel.nameProperty().get(), viewModel.expressionProperty().get());
             if (diagramViewModel.getDefines().contains(define)) {
                 DialogMessages.showError("Conflicting name!");
                 return;

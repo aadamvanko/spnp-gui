@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class FunctionsView extends UIWindowComponent {
-    private final ListView<Function> listViewNames;
+    private final ListView<FunctionViewModel> listViewNames;
     private final TextArea textAreaBody;
     private final FunctionView functionView;
     private DiagramViewModel diagramViewModel;
@@ -19,15 +19,15 @@ public class FunctionsView extends UIWindowComponent {
         listViewNames = new ListView<>();
         listViewNames.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listViewNames.setPlaceholder(new Label("No functions to show"));
-        listViewNames.setCellFactory(param -> new ListCell<Function>() {
+        listViewNames.setCellFactory(param -> new ListCell<FunctionViewModel>() {
             @Override
-            protected void updateItem(Function item, boolean empty) {
+            protected void updateItem(FunctionViewModel item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (empty || item == null || item.getName() == null) {
+                if (empty || item == null || item.nameProperty() == null) {
                     setText(null);
                 } else {
-                    setText(String.format("%s - %s", item.getName(), item.getFunctionType()));
+                    setText(String.format("%s - %s", item.nameProperty().get(), item.functionTypeProperty().get()));
                 }
             }
         });
@@ -39,7 +39,7 @@ public class FunctionsView extends UIWindowComponent {
             if (newValue == null) {
                 textAreaBody.setText("");
             } else {
-                textAreaBody.setText(newValue.getBody());
+                textAreaBody.setText(newValue.bodyProperty().get());
             }
         });
 

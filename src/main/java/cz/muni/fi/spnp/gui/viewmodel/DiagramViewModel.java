@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.viewmodel;
 
 import cz.muni.fi.spnp.core.models.functions.Function;
 import cz.muni.fi.spnp.core.transformators.spnp.code.Define;
+import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineView;
+import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -17,14 +20,14 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final Notifications notifications;
     private final ProjectViewModel projectViewModel;
     private final ObservableList<ElementViewModel> elements;
-    private final ObservableList<Define> defines;
-    private final ObservableList<Function> functions;
+    private final ObservableList<DefineViewModel> defines;
+    private final ObservableList<FunctionViewModel> functions;
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
         this(notifications, projectViewModel, FXCollections.observableArrayList(), FXCollections.observableArrayList(), FXCollections.observableArrayList());
     }
 
-    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements, List<Define> defines, List<Function> functions) {
+    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements, List<DefineViewModel> defines, List<FunctionViewModel> functions) {
         super("unnamedDiagram");
         this.notifications = notifications;
         this.projectViewModel = projectViewModel;
@@ -60,11 +63,11 @@ public class DiagramViewModel extends DisplayableViewModel {
         return projectViewModel;
     }
 
-    public ObservableList<Define> getDefines() {
+    public ObservableList<DefineViewModel> getDefines() {
         return defines;
     }
 
-    public ObservableList<Function> getFunctions() {
+    public ObservableList<FunctionViewModel> getFunctions() {
         return functions;
     }
 

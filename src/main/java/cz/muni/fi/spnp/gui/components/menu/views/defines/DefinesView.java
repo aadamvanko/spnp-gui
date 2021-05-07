@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class DefinesView extends UIWindowComponent {
-    private final TableView<Define> tableView;
+    private final TableView<DefineViewModel> tableView;
     private final DefineView defineView;
     private DiagramViewModel diagramViewModel;
 
@@ -21,10 +21,10 @@ public class DefinesView extends UIWindowComponent {
         tableView = new TableView<>();
         defineView = new DefineView();
 
-        TableColumn<Define, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<DefineViewModel, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Define, String> expressionColumn = new TableColumn<>("Expression");
+        TableColumn<DefineViewModel, String> expressionColumn = new TableColumn<>("Expression");
         expressionColumn.setCellValueFactory(new PropertyValueFactory<>("expression"));
 
         tableView.getColumns().add(nameColumn);

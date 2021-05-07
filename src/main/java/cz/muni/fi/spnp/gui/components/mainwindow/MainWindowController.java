@@ -8,6 +8,8 @@ import cz.muni.fi.spnp.gui.components.diagramoutline.DiagramOutlineComponent;
 import cz.muni.fi.spnp.gui.components.functions.FunctionsCategoriesComponent;
 import cz.muni.fi.spnp.gui.components.graph.GraphComponent;
 import cz.muni.fi.spnp.gui.components.menu.MenuComponent;
+import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.projects.ProjectsComponent;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesComponent;
 import cz.muni.fi.spnp.gui.components.quickactions.QuickActionsComponent;
@@ -66,13 +68,13 @@ public class MainWindowController {
         var place4 = new PlaceViewModel("place4", 100, 500, 4);
         var elements = Arrays.asList(place1, place2, place3, timedTransition1, standardArc1, standardArc2, immediateTransition1, inhibitorArc1, place4);
 
-        var defines = new ArrayList<Define>();
-        defines.add(new Define("MAX_SIZE", "10"));
-        defines.add(new Define("MIN_SIZE", "-4"));
+        var defines = new ArrayList<DefineViewModel>();
+        defines.add(new DefineViewModel("MAX_SIZE", "10"));
+        defines.add(new DefineViewModel("MIN_SIZE", "-4"));
 
-        var functions = new ArrayList<Function>();
-        functions.add(new Function("function1", FunctionType.Guard, "int x = 3;"));
-        functions.add(new Function("function2", FunctionType.Generic, "double d = 10;"));
+        var functions = new ArrayList<FunctionViewModel>();
+        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;"));
+        functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;"));
 
         var diagram1 = new DiagramViewModel(notifications, project1, elements, defines, functions);
         diagram1.nameProperty().set("diagram1");
