@@ -1,10 +1,8 @@
 package cz.muni.fi.spnp.gui.components.mainwindow;
 
-import cz.muni.fi.spnp.core.models.functions.Function;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
-import cz.muni.fi.spnp.core.transformators.spnp.code.Define;
-import cz.muni.fi.spnp.gui.OldFileLoader;
+import cz.muni.fi.spnp.gui.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.components.diagramoutline.DiagramOutlineComponent;
 import cz.muni.fi.spnp.gui.components.functions.FunctionsCategoriesComponent;
 import cz.muni.fi.spnp.gui.components.graph.GraphComponent;
@@ -20,7 +18,6 @@ import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import javafx.scene.Node;
-import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;

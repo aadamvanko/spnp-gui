@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui;
+package cz.muni.fi.spnp.gui.loaders;
 
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
@@ -285,6 +285,10 @@ public class OldFileLoader {
 
     private List<String> extractArcsNames(BufferedReader bufferedReader) {
         var value = extractValue(bufferedReader);
+        if (value.equals("null")) {
+            return Collections.emptyList();
+        }
+
         value = value.substring(1, value.length() - 1);
         var arcsNames = value.split(", ");
         return Arrays.asList(arcsNames);

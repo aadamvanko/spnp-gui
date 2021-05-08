@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui;
+package cz.muni.fi.spnp.gui.loaders;
 
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
@@ -8,7 +8,6 @@ import cz.muni.fi.spnp.gui.viewmodel.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SubmodelConverter {
 

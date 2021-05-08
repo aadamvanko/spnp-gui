@@ -11,4 +11,6 @@ module cz.muni.fi {
     opens cz.muni.fi.spnp.gui.components.menu.views.defines to javafx.fxml;
     exports cz.muni.fi.spnp.gui.components.menu.views;
     opens cz.muni.fi.spnp.gui.components.menu.views to javafx.fxml;
+    exports cz.muni.fi.spnp.gui.loaders;
+    opens cz.muni.fi.spnp.gui.loaders to javafx.fxml;
 }
