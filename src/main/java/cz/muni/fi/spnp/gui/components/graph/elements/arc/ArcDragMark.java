@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
+import cz.muni.fi.spnp.gui.viewmodel.ArcDragMarkViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -13,6 +14,7 @@ public class ArcDragMark extends GraphElement implements MouseSelectable {
 
     private final ArcController arc;
     private final Rectangle rectangle;
+    private final ArcDragMarkViewModel customViewModel;
 
     public ArcDragMark(ArcController arc, double x, double y) {
         this.arc = arc;
@@ -24,6 +26,20 @@ public class ArcDragMark extends GraphElement implements MouseSelectable {
         rectangle.setFill(Color.WHITE);
         setCenterPosition(x, y);
         rectangle.setSmooth(true);
+
+        customViewModel = new ArcDragMarkViewModel(x, y);
+
+        bindCustomViewModel();
+    }
+
+    private void bindCustomViewModel() {
+        rectangle.translateXProperty().bind(customViewModel.positionXProperty());
+        rectangle.translateYProperty().bind(customViewModel.positionYProperty());
+    }
+
+    private void unbindCustomViewModel() {
+        rectangle.translateXProperty().unbind();
+        rectangle.translateYProperty().unbind();
     }
 
     public Rectangle getShape() {
@@ -57,6 +73,8 @@ public class ArcDragMark extends GraphElement implements MouseSelectable {
         arc.removeDragMark(this);
         arc.getGroupSymbols().getChildren().remove(rectangle);
         unregisterMouseHandlers(rectangle);
+
+        unbindCustomViewModel();
     }
 
     @Override
@@ -72,8 +90,16 @@ public class ArcDragMark extends GraphElement implements MouseSelectable {
 
     @Override
     public void move(Point2D offset) {
-        moveViaTranslate(rectangle, offset);
+        moveViaTranslate(offset);
         arc.dragMarkMovedHandler(this, getCenterPosition());
+    }
+
+    protected void moveViaTranslate(Point2D offset) {
+        Point2D old = new Point2D(customViewModel.positionXProperty().get(), customViewModel.positionYProperty().get());
+        Point2D newPos = preventNegativeCoordinates(old.add(offset));
+
+        customViewModel.positionXProperty().set(newPos.getX());
+        customViewModel.positionYProperty().set(newPos.getY());
     }
 
     @Override

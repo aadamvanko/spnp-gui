@@ -83,14 +83,17 @@ public class PlaceController extends ConnectableGraphElement {
         nameLabel.textProperty().bind(placeViewModel.nameProperty());
         tokensCountText.textProperty().bind(placeViewModel.numberOfTokensProperty().asString());
 
-        container.setTranslateX(placeViewModel.positionXProperty().get());
-        container.setTranslateY(placeViewModel.positionYProperty().get());
+        container.translateXProperty().bind(placeViewModel.positionXProperty());
+        container.translateYProperty().bind(placeViewModel.positionYProperty());
     }
 
     @Override
     public void unbindViewModel() {
         nameLabel.textProperty().unbind();
         tokensCountText.textProperty().unbind();
+
+        container.translateXProperty().unbind();
+        container.translateYProperty().unbind();
 
         super.unbindViewModel();
     }
@@ -160,7 +163,7 @@ public class PlaceController extends ConnectableGraphElement {
 
     @Override
     public void move(Point2D moveOffset) {
-        moveViaTranslate(container, moveOffset);
+        moveViaTranslate(moveOffset);
         updateArcs();
     }
 

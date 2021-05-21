@@ -56,8 +56,18 @@ public abstract class TransitionController extends ConnectableGraphElement {
         nameLabel.textProperty().bind(transitionViewModel.nameProperty());
         // TODO priority, guard function
 
-        container.setTranslateX(transitionViewModel.positionXProperty().get());
-        container.setTranslateY(transitionViewModel.positionYProperty().get());
+        container.translateXProperty().bind(transitionViewModel.positionXProperty());
+        container.translateYProperty().bind(transitionViewModel.positionYProperty());
+    }
+
+    @Override
+    public void unbindViewModel() {
+        nameLabel.textProperty().unbind();
+
+        container.translateXProperty().unbind();
+        container.translateYProperty().unbind();
+
+        super.unbindViewModel();
     }
 
     public VBox getRoot() {
@@ -152,7 +162,7 @@ public abstract class TransitionController extends ConnectableGraphElement {
 
     @Override
     public void move(Point2D moveOffset) {
-        moveViaTranslate(container, moveOffset);
+        moveViaTranslate(moveOffset);
         updateArcs();
     }
 

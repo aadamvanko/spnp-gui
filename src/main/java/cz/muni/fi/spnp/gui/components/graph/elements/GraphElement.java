@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Highlightable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
+import cz.muni.fi.spnp.gui.viewmodel.ConnectableElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -87,14 +88,7 @@ public abstract class GraphElement implements Highlightable, Movable {
         return highlighted;
     }
 
-    protected void moveViaTranslate(Node node, Point2D offset) {
-        Point2D old = new Point2D(node.getTranslateX(), node.getTranslateY());
-        Point2D newPos = preventNegativeCoordinates(old.add(offset));
-        node.setTranslateX(newPos.getX());
-        node.setTranslateY(newPos.getY());
-    }
-
-    private Point2D preventNegativeCoordinates(Point2D point) {
+    protected Point2D preventNegativeCoordinates(Point2D point) {
         double x = Math.max(point.getX(), GridBackgroundPane.SPACING_X * MIN_PADDING_FACTOR);
         double y = Math.max(point.getY(), GridBackgroundPane.SPACING_Y * MIN_PADDING_FACTOR);
         return new Point2D(x, y);
