@@ -4,9 +4,8 @@ import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcController;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Connectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
-import cz.muni.fi.spnp.gui.viewmodel.ConnectableElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public abstract class ConnectableGraphElement extends GraphElement implements Co
     }
 
     protected void moveViaTranslate(Point2D offset) {
-        var connectableViewModel = (ConnectableElementViewModel) getViewModel();
+        var connectableViewModel = (ConnectableViewModel) getViewModel();
 
         Point2D old = new Point2D(connectableViewModel.positionXProperty().get(), connectableViewModel.positionYProperty().get());
         Point2D newPos = preventNegativeCoordinates(old.add(offset));

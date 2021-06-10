@@ -4,7 +4,6 @@ import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Highlightable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
-import cz.muni.fi.spnp.gui.viewmodel.ConnectableElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;

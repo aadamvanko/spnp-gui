@@ -8,7 +8,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TimedTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
@@ -33,7 +33,7 @@ public class MouseOperationCreate extends MouseOperation {
     public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
         var position = graphView.getGridPane().screenToLocal(mouseEvent.getScreenX(), mouseEvent.getScreenY());
 
-        ConnectableElementViewModel newViewModel = createViewModel(graphElement, position);
+        ConnectableViewModel newViewModel = createViewModel(graphElement, position);
 
         if (newViewModel != null) {
             var diagramViewModel = graphView.getDiagramViewModel();
@@ -46,7 +46,7 @@ public class MouseOperationCreate extends MouseOperation {
         }
     }
 
-    private ConnectableElementViewModel createViewModel(GraphElement graphElement, Point2D position) {
+    private ConnectableViewModel createViewModel(GraphElement graphElement, Point2D position) {
         switch (createElementType) {
             case PLACE:
                 var placeViewModel = new PlaceViewModel();

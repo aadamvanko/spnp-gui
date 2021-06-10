@@ -1,6 +1,5 @@
 package cz.muni.fi.spnp.gui.storing.loaders;
 
-import cz.muni.fi.spnp.core.models.functions.Function;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
@@ -12,10 +11,9 @@ import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TimedTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,7 +87,7 @@ public class SubmodelConverter {
             return convertImmediateTransition(oldImmediate, places, functions);
         } else if (oldTransition instanceof TimedTransitionOldFormat) {
             var oldTimed = (TimedTransitionOldFormat) oldTransition;
-            return convertTimedTransition(oldTimed, places);
+            return convertTimedTransition(oldTimed, places, functions);
         }
         throw new IllegalStateException(oldTransition.getClass().toString());
     }
@@ -104,7 +102,7 @@ public class SubmodelConverter {
         return immediate;
     }
 
-    private ElementViewModel convertTimedTransition(TimedTransitionOldFormat oldTimed, List<PlaceViewModel> places) {
+    private ElementViewModel convertTimedTransition(TimedTransitionOldFormat oldTimed, List<PlaceViewModel> places, List<FunctionViewModel> functions) {
         var timed = new TimedTransitionViewModel();
         timed.nameProperty().set(oldTimed.name);
         timed.positionXProperty().set(oldTimed.xy.x);
@@ -164,7 +162,7 @@ public class SubmodelConverter {
         return null;
     }
 
-    private ElementViewModel convertArc(ArcOldFormat oldArc, List<ConnectableOldFormat> oldConnectables, List<ConnectableElementViewModel> elements) {
+    private ElementViewModel convertArc(ArcOldFormat oldArc, List<ConnectableOldFormat> oldConnectables, List<ConnectableViewModel> elements) {
         var oldSource = oldConnectables.stream()
                 .filter(oldConnectable -> oldConnectable.name.equals(oldArc.src) && oldConnectable.arcReferences.stream().anyMatch(ar -> ar.arc.equals(oldArc.name)))
                 .collect(Collectors.toList())
@@ -191,7 +189,7 @@ public class SubmodelConverter {
         return points.stream().map(xy -> new ArcDragMarkViewModel(xy.x, xy.y)).collect(Collectors.toList());
     }
 
-    private ElementViewModel findElementForOld(List<ConnectableElementViewModel> elements, ConnectableOldFormat oldConnectable) {
+    private ElementViewModel findElementForOld(List<ConnectableViewModel> elements, ConnectableOldFormat oldConnectable) {
         for (var element : elements) {
             var placeTypeEquality = oldConnectable instanceof PlaceOldFormat && element instanceof PlaceViewModel;
             var transitionTypeEquality = oldConnectable instanceof TransitionOldFormat && element instanceof TransitionViewModel;

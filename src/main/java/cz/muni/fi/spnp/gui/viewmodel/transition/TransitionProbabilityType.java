@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui.viewmodel;
+package cz.muni.fi.spnp.gui.viewmodel.transition;
 
 public enum TransitionProbabilityType {
     CONSTANT,

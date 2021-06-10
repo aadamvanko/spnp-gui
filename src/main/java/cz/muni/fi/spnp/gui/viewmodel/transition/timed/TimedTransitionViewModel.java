@@ -1,6 +1,8 @@
-package cz.muni.fi.spnp.gui.viewmodel.transition;
+package cz.muni.fi.spnp.gui.viewmodel.transition.timed;
 
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 

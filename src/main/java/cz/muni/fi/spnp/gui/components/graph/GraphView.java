@@ -10,7 +10,7 @@ import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ConnectableElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -308,7 +308,7 @@ public class GraphView {
         this.diagramViewModel = diagramViewModel;
         var graphElementFactory = new GraphElementFactory(this);
         diagramViewModel.getElements().stream()
-                .filter(elementViewModel -> elementViewModel instanceof ConnectableElementViewModel)
+                .filter(elementViewModel -> elementViewModel instanceof ConnectableViewModel)
                 .forEach(elementViewModel -> graphElementFactory.createGraphElement(elementViewModel));
         diagramViewModel.getElements().stream()
                 .filter(elementViewModel -> elementViewModel instanceof ArcViewModel)

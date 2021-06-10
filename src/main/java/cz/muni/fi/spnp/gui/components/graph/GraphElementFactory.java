@@ -10,7 +10,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionC
 import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionController;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TimedTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 
 public class GraphElementFactory {
 
