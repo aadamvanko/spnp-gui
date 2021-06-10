@@ -9,7 +9,8 @@ import cz.muni.fi.spnp.gui.components.graph.elements.transition.ImmediateTransit
 import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionController;
 import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionController;
 import cz.muni.fi.spnp.gui.viewmodel.*;
-import javafx.scene.shape.Arc;
+import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedTransitionViewModel;
 
 public class GraphElementFactory {
 

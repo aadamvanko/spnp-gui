@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PositionableElementPropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.TransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.beans.property.Property;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

@@ -2,7 +2,9 @@ package cz.muni.fi.spnp.gui.components.mainwindow;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
-import cz.muni.fi.spnp.gui.loaders.OldFileLoader;
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
+import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
+import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.components.diagramoutline.DiagramOutlineComponent;
 import cz.muni.fi.spnp.gui.components.functions.FunctionsCategoriesComponent;
 import cz.muni.fi.spnp.gui.components.graph.GraphComponent;
@@ -16,7 +18,11 @@ import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
 import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.storing.savers.OldFileSaver;
 import cz.muni.fi.spnp.gui.viewmodel.*;
+import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedTransitionViewModel;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
@@ -53,29 +59,68 @@ public class MainWindowController {
         borderPane.setRight(createRightPanel());
         borderPane.setCenter(createCenterPanel());
 
-        var project1 = new ProjectViewModel(notifications, "Project1");
+        var project1 = new ProjectViewModel(notifications);
+        project1.nameProperty().set("project1");
         model.addProject(project1);
 
-        var place1 = new PlaceViewModel("place1", 100, 100, 1);
-        var place2 = new PlaceViewModel("place2", 500, 100, 2);
-        var place3 = new PlaceViewModel("place4", 100, 200, 3);
-        var timedTransition1 = new TimedTransitionViewModel("timed1", 300, 100, 1, TransitionDistributionType.Constant);
+        var place1 = new PlaceViewModel();
+        place1.nameProperty().set("place1");
+        place1.positionXProperty().set(100);
+        place1.positionYProperty().set(100);
+        place1.numberOfTokensProperty().set(1);
+
+        var place2 = new PlaceViewModel();
+        place2.nameProperty().set("place2");
+        place2.positionXProperty().set(500);
+        place2.positionYProperty().set(100);
+        place2.numberOfTokensProperty().set(2);
+
+        var place3 = new PlaceViewModel();
+        place3.nameProperty().set("place4");
+        place3.positionXProperty().set(100);
+        place3.positionYProperty().set(200);
+        place3.numberOfTokensProperty().set(3);
+
+        var timedTransition1 = new TimedTransitionViewModel();
+        timedTransition1.nameProperty().set("timed1");
+        timedTransition1.positionXProperty().set(300);
+        timedTransition1.positionYProperty().set(100);
+        timedTransition1.priorityProperty().set(1);
+        timedTransition1.transitionDistributionTypeProperty().set(TransitionDistributionType.Constant);
+        timedTransition1.distributionTypeProperty().set(DistributionType.Beta);
+
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1, Collections.emptyList());
         var standardArc2 = new StandardArcViewModel("standard2", timedTransition1, place2, Collections.emptyList());
-        var immediateTransition1 = new ImmediateTransitionViewModel("immediate1", 300, 200, 1);
+
+        var immediateTransition1 = new ImmediateTransitionViewModel();
+        immediateTransition1.nameProperty().set("immediate1");
+        immediateTransition1.positionXProperty().set(300);
+        immediateTransition1.positionYProperty().set(200);
+        immediateTransition1.priorityProperty().set(1);
+
         var inhibitorArc1 = new InhibitorArcViewModel("inhibitor1", place3, immediateTransition1, Collections.emptyList());
-        var place4 = new PlaceViewModel("place4", 100, 500, 4);
+
+        var place4 = new PlaceViewModel();
+        place4.nameProperty().set("place4");
+        place4.positionXProperty().set(100);
+        place4.positionYProperty().set(500);
+        place4.numberOfTokensProperty().set(4);
+
         var elements = Arrays.asList(place1, place2, place3, timedTransition1, standardArc1, standardArc2, immediateTransition1, inhibitorArc1, place4);
+
+        var includes = new ArrayList<IncludeViewModel>();
+        includes.add(new IncludeViewModel("<stdio.h>"));
+        includes.add(new IncludeViewModel("\"user.h\""));
 
         var defines = new ArrayList<DefineViewModel>();
         defines.add(new DefineViewModel("MAX_SIZE", "10"));
         defines.add(new DefineViewModel("MIN_SIZE", "-4"));
 
         var functions = new ArrayList<FunctionViewModel>();
-        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;"));
-        functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;"));
+        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID));
+        functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID));
 
-        var diagram1 = new DiagramViewModel(notifications, project1, elements, defines, functions);
+        var diagram1 = new DiagramViewModel(notifications, project1, elements, includes, defines, functions);
         diagram1.nameProperty().set("diagram1");
         project1.addDiagram(diagram1);
 
@@ -83,8 +128,12 @@ public class MainWindowController {
         diagram2.nameProperty().set("diagram2");
         project1.addDiagram(diagram2);
 
-        OldFileLoader loader = new OldFileLoader(notifications);
-        var project1x = loader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
+        var oldFileLoader = new OldFileLoader(notifications);
+        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
+//        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\functionsExampleProject.rgl");
+//        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\definesTestProject.rgl");
+        var oldFileSaver = new OldFileSaver();
+        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
         model.addProject(project1x);
 
         model.selectDiagram(diagram1);

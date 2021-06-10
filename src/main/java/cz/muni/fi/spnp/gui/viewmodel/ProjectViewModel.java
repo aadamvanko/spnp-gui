@@ -7,9 +7,12 @@ import javafx.collections.ObservableList;
 public class ProjectViewModel extends DisplayableViewModel {
     private final ObservableList<DiagramViewModel> diagrams;
     private final Notifications notifications;
+    private String owner;
+    private String dateCreated;
+    private String comment;
 
-    public ProjectViewModel(Notifications notifications, String name) {
-        super(name);
+    public ProjectViewModel(Notifications notifications) {
+        nameProperty().set("unnamedProject");
         this.diagrams = FXCollections.observableArrayList();
         this.notifications = notifications;
     }
@@ -31,5 +34,30 @@ public class ProjectViewModel extends DisplayableViewModel {
     public boolean diagramExists(String name) {
         return diagrams.stream().anyMatch(diagramViewModel -> diagramViewModel.nameProperty().get().equals(name));
     }
-//    private Map<String, FunctionViewModel> functions;
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    //    private Map<String, FunctionViewModel> functions;
 }

@@ -28,11 +28,18 @@ public class FunctionView extends UIWindowComponent {
         choiceBoxType.setItems(functionTypes);
         choiceBoxType.valueProperty().bindBidirectional(viewModel.functionTypeProperty());
 
+        var choiceBoxReturnType = new ChoiceBox<FunctionReturnType>();
+        var functionReturnTypes = FXCollections.observableArrayList(FunctionReturnType.values());
+        choiceBoxReturnType.setItems(functionReturnTypes);
+        choiceBoxReturnType.valueProperty().bindBidirectional(viewModel.returnTypeProperty());
+
         var gridPane = new GridPane();
         gridPane.add(new Label("Name"), 0, 0);
         gridPane.add(nameTextField, 1, 0);
         gridPane.add(new Label("Type"), 0, 1);
         gridPane.add(choiceBoxType, 1, 1);
+        gridPane.add(new Label("Return type"), 0, 2);
+        gridPane.add(choiceBoxReturnType, 1, 2);
 
         var textAreaDefinition = new TextArea();
         textAreaDefinition.setPromptText("Definition");
@@ -45,7 +52,8 @@ public class FunctionView extends UIWindowComponent {
                 return;
             }
 
-            var function = new FunctionViewModel(viewModel.nameProperty().get(), viewModel.functionTypeProperty().get(), viewModel.bodyProperty().get());
+            var function = new FunctionViewModel(viewModel.nameProperty().get(), viewModel.functionTypeProperty().get(),
+                    viewModel.bodyProperty().get(), viewModel.returnTypeProperty().get());
             if (diagramViewModel.getFunctions().contains(function)) {
                 DialogMessages.showError("Conflicting name!");
                 return;

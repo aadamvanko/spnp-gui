@@ -1,6 +1,5 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
-import cz.muni.fi.spnp.gui.viewmodel.ImmediateTransitionViewModel;
 import javafx.scene.paint.Color;
 
 public class ImmediateTransitionController extends TransitionController {

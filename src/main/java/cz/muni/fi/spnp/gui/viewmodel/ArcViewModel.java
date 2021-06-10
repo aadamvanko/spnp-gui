@@ -18,7 +18,7 @@ public class ArcViewModel extends ElementViewModel {
     private final ObservableList<ArcDragMarkViewModel> dragMarks;
 
     public ArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel, List<ArcDragMarkViewModel> dragMarks) {
-        super(name);
+        nameProperty().set(name);
 
         if (fromViewModel == null) {
             throw new IllegalArgumentException("fromViewModel cannot be null");

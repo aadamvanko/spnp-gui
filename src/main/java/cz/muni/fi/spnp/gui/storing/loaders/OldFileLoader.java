@@ -1,6 +1,7 @@
-package cz.muni.fi.spnp.gui.loaders;
+package cz.muni.fi.spnp.gui.storing.loaders;
 
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 
 import java.io.BufferedReader;
@@ -10,135 +11,15 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.Map.Entry;
 
-class ProjectOldFormat {
-    public String modelName;
-    public String owner;
-    public String dateCreated;
-    public String comment;
-    public List<String> submodelsNames;
-
-    public ProjectOldFormat() {
-        submodelsNames = new ArrayList<>();
-    }
-}
-
-class XY {
-    public int x;
-    public int y;
-}
-
-class TwoXY {
-    public XY p1;
-    public XY p2;
-
-    public TwoXY() {
-        p1 = new XY();
-        p2 = new XY();
-    }
-}
-
-class WidthHeight {
-    public int width;
-    public int height;
-}
-
-class ElementOldFormat {
-    public String name;
-}
-
-class ConnectableOldFormat extends ElementOldFormat {
-    public int numberOfConnectedObjects;
-    public List<ArcOldFormatReference> arcReferences;
-    public List<String> vInputArc;
-    public List<String> vOutputArc;
-    public XY xy;
-    public LabelOldFormat label;
-
-    public ConnectableOldFormat() {
-        arcReferences = new ArrayList<>();
-    }
-}
-
-class FunctionOldFormat {
-    public String name;
-    public String kind;
-    public String returnType;
-    public String body;
-}
-
-class SubmodelOldFormat {
-    public String name;
-    public String includes;
-    public String defines;
-    public List<ElementOldFormat> elements;
-    public List<FunctionOldFormat> functions;
-
-    public SubmodelOldFormat() {
-        elements = new ArrayList<>();
-        functions = new ArrayList<>();
-    }
-}
-
-class ArcOldFormatReference {
-    public String dest;
-    public String arc;
-}
-
-class LabelOldFormat {
-    public XY xy;
-    public WidthHeight widthHeight;
-    public String textwidth;
-}
-
-class PlaceOldFormat extends ConnectableOldFormat {
-    public int token;
-    public boolean fluid;
-}
-
-class TransitionOldFormat extends ConnectableOldFormat {
-}
-
-class ImmediateTransitionOldFormat extends TransitionOldFormat {
-    public int width;
-    public int height;
-    public String guard;
-    public String probability;
-    public String choiceInput;
-    public String typeTransition;
-    public String placeDependent;
-    public double valueTransition;
-}
-
-class TimedTransitionOldFormat extends ConnectableOldFormat {
-    // TODO
-}
-
-class Circles {
-    public int circle1;
-    public int circle2;
-}
-
-class ArcOldFormat extends ElementOldFormat {
-    public TwoXY twoXY;
-    public String type;
-    public int multiplicity;
-    public String src;
-    public String dest;
-    public List<XY> points;
-    public boolean isFluid;
-    public String choiceInput;
-
-    public Circles circles;
-    public String typeIO;
-}
-
 public class OldFileLoader {
     private final Notifications notificiations;
     private final SubmodelConverter submodelConverter;
+    private final OldProjectConverter oldProjectConverter;
 
     public OldFileLoader(Notifications notifications) {
         this.notificiations = notifications;
         this.submodelConverter = new SubmodelConverter(notifications);
+        this.oldProjectConverter = new OldProjectConverter(notifications);
     }
 
     public ProjectViewModel loadProject(String projectFilepath) {
@@ -148,7 +29,7 @@ public class OldFileLoader {
     }
 
     private ProjectViewModel loadProject(String projectFilepath, ProjectOldFormat oldProject) {
-        var project = new ProjectViewModel(notificiations, oldProject.modelName);
+        var project = oldProjectConverter.convert(oldProject);
         for (var submodelName : oldProject.submodelsNames) {
             var projectFolder = Path.of(projectFilepath).getParent();
             var submodelFilename = String.format("%s_%s.srn", oldProject.modelName, submodelName);
@@ -161,8 +42,8 @@ public class OldFileLoader {
         return project;
     }
 
-    private SubmodelOldFormat loadSubmodel(Path submodelFilepath) {
-        var submodel = new SubmodelOldFormat();
+    private Submodel loadSubmodel(Path submodelFilepath) {
+        var submodel = new Submodel();
         try (BufferedReader bufferedReader = Files.newBufferedReader(submodelFilepath)) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -178,6 +59,8 @@ public class OldFileLoader {
                     submodel.elements.add(readPlace(bufferedReader));
                 } else if (line.equals("Immediate:")) {
                     submodel.elements.add(readImmediate(bufferedReader));
+                } else if (line.equals("Timed:")) {
+                    submodel.elements.add(readTimed(bufferedReader));
                 } else if (line.equals("Arc:")) {
                     submodel.elements.add(readArc(bufferedReader));
                 } else if (line.startsWith("Function:")) {
@@ -257,9 +140,35 @@ public class OldFileLoader {
         immediate.vOutputArc = extractArcsNames(bufferedReader);
         immediate.typeTransition = extractValue(bufferedReader);
         immediate.placeDependent = extractValue(bufferedReader);
-        immediate.valueTransition = extractDouble(bufferedReader);
+        immediate.valueTransition = extractInt(bufferedReader);
         immediate.label = readLabel(bufferedReader);
         return immediate;
+    }
+
+    private TimedTransitionOldFormat readTimed(BufferedReader bufferedReader) {
+        var timed = new TimedTransitionOldFormat();
+        timed.name = extractValue(bufferedReader);
+        timed.width = extractInt(bufferedReader);
+        timed.height = extractInt(bufferedReader);
+        timed.xy = extractXY(bufferedReader);
+        timed.numberOfConnectedObjects = extractInt(bufferedReader);
+        timed.arcReferences = readArcReferences(bufferedReader, timed.numberOfConnectedObjects);
+        timed.vInputArc = extractArcsNames(bufferedReader);
+        timed.vOutputArc = extractArcsNames(bufferedReader);
+        timed.typeTransition = extractValue(bufferedReader);
+        timed.placeDependent = extractValue(bufferedReader);
+        timed.valueTransition = extractDouble(bufferedReader);
+        timed.value1Transition = extractDouble(bufferedReader);
+        timed.value2Transition = extractDouble(bufferedReader);
+        timed.value3Transition = extractDouble(bufferedReader);
+        timed.label = readLabel(bufferedReader);
+        timed.guard = extractValue(bufferedReader);
+        timed.policy = extractValue(bufferedReader);
+        timed.affected = extractValue(bufferedReader);
+        timed.priority = extractValue(bufferedReader);
+        timed.choiceInput = extractValue(bufferedReader);
+        timed.distribution = extractValue(bufferedReader);
+        return timed;
     }
 
     private ArcOldFormat readArc(BufferedReader bufferedReader) {
@@ -338,8 +247,13 @@ public class OldFileLoader {
         return arcReferences;
     }
 
-    private double extractDouble(BufferedReader bufferedReader) {
-        return Double.parseDouble(extractValue(bufferedReader));
+    private Double extractDouble(BufferedReader bufferedReader) {
+        var value = extractValue(bufferedReader);
+        if (value.equals("null")) {
+            return null;
+        } else {
+            return Double.parseDouble(value);
+        }
     }
 
     private XY extractXY(BufferedReader bufferedReader) {
@@ -371,7 +285,7 @@ public class OldFileLoader {
         discardLine(bufferedReader);
         label.xy = extractXY(bufferedReader);
         label.widthHeight = extractWidthHeight(bufferedReader);
-        label.textwidth = extractValue(bufferedReader);
+        label.textwidth = extractInt(bufferedReader);
         return label;
     }
 

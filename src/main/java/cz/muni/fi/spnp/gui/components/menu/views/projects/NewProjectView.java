@@ -42,7 +42,8 @@ public class NewProjectView extends UIWindowComponent {
                 return;
             }
 
-            var project = new ProjectViewModel(notifications, name);
+            var project = new ProjectViewModel(notifications);
+            project.nameProperty().set(name);
             model.addProject(project);
             stage.close();
         });

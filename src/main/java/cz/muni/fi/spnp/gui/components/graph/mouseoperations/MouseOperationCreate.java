@@ -5,10 +5,11 @@ import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
-import cz.muni.fi.spnp.gui.viewmodel.ConnectableElementViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ImmediateTransitionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.TimedTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.*;
+import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedTransitionViewModel;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
 public class MouseOperationCreate extends MouseOperation {
@@ -32,23 +33,7 @@ public class MouseOperationCreate extends MouseOperation {
     public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
         var position = graphView.getGridPane().screenToLocal(mouseEvent.getScreenX(), mouseEvent.getScreenY());
 
-        ConnectableElementViewModel newViewModel = null;
-        switch (createElementType) {
-            case PLACE:
-                newViewModel = new PlaceViewModel("place", position.getX(), position.getY(), 0);
-                break;
-
-            case TIMED_TRANSITION:
-                newViewModel = new TimedTransitionViewModel("timedTransition", position.getX(), position.getY(), 0, TransitionDistributionType.Constant);
-                break;
-
-            case IMMEDIATE_TRANSITION:
-                newViewModel = new ImmediateTransitionViewModel("immediateTransition", position.getX(), position.getY(), 1);
-                break;
-
-            default:
-                System.out.println("WHAAAAAAAAAAAAAAAAAAAAAAT");
-        }
+        ConnectableElementViewModel newViewModel = createViewModel(graphElement, position);
 
         if (newViewModel != null) {
             var diagramViewModel = graphView.getDiagramViewModel();
@@ -58,6 +43,39 @@ public class MouseOperationCreate extends MouseOperation {
             if (graphView.getCursorMode() == CursorMode.CREATE) {
                 graphView.setCursorMode(CursorMode.VIEW);
             }
+        }
+    }
+
+    private ConnectableElementViewModel createViewModel(GraphElement graphElement, Point2D position) {
+        switch (createElementType) {
+            case PLACE:
+                var placeViewModel = new PlaceViewModel();
+                placeViewModel.nameProperty().set("place");
+                placeViewModel.positionXProperty().set(position.getX());
+                placeViewModel.positionYProperty().set(position.getY());
+                placeViewModel.numberOfTokensProperty().set(0);
+                return placeViewModel;
+
+            case TIMED_TRANSITION:
+                var timedTransitionViewModel = new TimedTransitionViewModel();
+                timedTransitionViewModel.nameProperty().set("timedTransition");
+                timedTransitionViewModel.positionXProperty().set(position.getX());
+                timedTransitionViewModel.positionYProperty().set(position.getY());
+                timedTransitionViewModel.priorityProperty().set(0);
+                timedTransitionViewModel.transitionDistributionTypeProperty().set(TransitionDistributionType.Constant);
+                timedTransitionViewModel.distributionTypeProperty().set(DistributionType.Beta);
+                return timedTransitionViewModel;
+
+            case IMMEDIATE_TRANSITION:
+                var immediateTransitionViewModel = new ImmediateTransitionViewModel();
+                immediateTransitionViewModel.nameProperty().set("immediateTransition");
+                immediateTransitionViewModel.positionXProperty().set(position.getX());
+                immediateTransitionViewModel.positionYProperty().set(position.getY());
+                immediateTransitionViewModel.priorityProperty().set(0);
+                return immediateTransitionViewModel;
+
+            default:
+                throw new IllegalStateException("SHOULD NOT HAPPEN");
         }
     }
 }

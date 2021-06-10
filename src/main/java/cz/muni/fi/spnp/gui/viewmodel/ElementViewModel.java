@@ -7,10 +7,6 @@ public abstract class ElementViewModel extends DisplayableViewModel {
 
     private DiagramViewModel diagramViewModel;
 
-    public ElementViewModel(String name) {
-        super(name);
-    }
-
     public DiagramViewModel getDiagramViewModel() {
         return diagramViewModel;
     }

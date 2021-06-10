@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.core.transformators.spnp.code.Define;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineView;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,17 +21,19 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final Notifications notifications;
     private final ProjectViewModel projectViewModel;
     private final ObservableList<ElementViewModel> elements;
+    private final ObservableList<IncludeViewModel> includes;
     private final ObservableList<DefineViewModel> defines;
     private final ObservableList<FunctionViewModel> functions;
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
-        this(notifications, projectViewModel, FXCollections.observableArrayList(), FXCollections.observableArrayList(), FXCollections.observableArrayList());
+        this(notifications, projectViewModel, FXCollections.observableArrayList(), FXCollections.observableArrayList(), FXCollections.observableArrayList(), FXCollections.observableArrayList());
     }
 
-    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements, List<DefineViewModel> defines, List<FunctionViewModel> functions) {
-        super("unnamedDiagram");
+    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements, List<IncludeViewModel> includes, List<DefineViewModel> defines, List<FunctionViewModel> functions) {
+        nameProperty().set("unnamedDiagram");
         this.notifications = notifications;
         this.projectViewModel = projectViewModel;
+        this.includes = FXCollections.observableArrayList(includes);
         this.elements = FXCollections.observableArrayList(elements);
         this.defines = FXCollections.observableArrayList(defines);
         this.functions = FXCollections.observableArrayList(functions);

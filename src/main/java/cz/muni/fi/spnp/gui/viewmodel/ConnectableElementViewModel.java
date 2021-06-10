@@ -8,12 +8,6 @@ public class ConnectableElementViewModel extends ElementViewModel {
     private final DoubleProperty positionX = new SimpleDoubleProperty();
     private final DoubleProperty positionY = new SimpleDoubleProperty();
 
-    public ConnectableElementViewModel(String name, double x, double y) {
-        super(name);
-        positionX.set(x);
-        positionY.set(y);
-    }
-
     public DoubleProperty positionXProperty() {
         return positionX;
     }
