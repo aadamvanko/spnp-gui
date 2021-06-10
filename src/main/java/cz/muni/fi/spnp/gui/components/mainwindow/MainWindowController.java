@@ -18,7 +18,6 @@ import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
 import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
-import cz.muni.fi.spnp.gui.storing.savers.OldFileSaver;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
@@ -132,8 +131,8 @@ public class MainWindowController {
         var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\functionsExampleProject.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\definesTestProject.rgl");
-        var oldFileSaver = new OldFileSaver();
-        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
+//        var oldFileSaver = new OldFileSaver();
+//        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
         model.addProject(project1x);
 
         model.selectDiagram(diagram1);
