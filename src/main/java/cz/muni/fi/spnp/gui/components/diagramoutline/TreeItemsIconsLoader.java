@@ -1,6 +1,8 @@
 package cz.muni.fi.spnp.gui.components.diagramoutline;
 
 import cz.muni.fi.spnp.gui.viewmodel.*;
+import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedTransitionViewModel;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
