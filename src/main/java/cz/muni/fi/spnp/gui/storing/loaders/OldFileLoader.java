@@ -148,19 +148,27 @@ public class OldFileLoader {
     private TimedTransitionOldFormat readTimed(BufferedReader bufferedReader) {
         var timed = new TimedTransitionOldFormat();
         timed.name = extractValue(bufferedReader);
-        timed.width = extractInt(bufferedReader);
-        timed.height = extractInt(bufferedReader);
-        timed.xy = extractXY(bufferedReader);
+
+        var line = readLine(bufferedReader);
+        var pair = toPair(line);
+        if (pair.getKey().equals("Width")) {
+            timed.width = Integer.parseInt(pair.getValue());
+            timed.height = extractInt(bufferedReader);
+            timed.xy = extractXY(bufferedReader);
+        } else {
+            timed.xy = extractXY(pair.getValue());
+        }
+
         timed.numberOfConnectedObjects = extractInt(bufferedReader);
         timed.arcReferences = readArcReferences(bufferedReader, timed.numberOfConnectedObjects);
         timed.vInputArc = extractArcsNames(bufferedReader);
         timed.vOutputArc = extractArcsNames(bufferedReader);
         timed.typeTransition = extractValue(bufferedReader);
         timed.placeDependent = extractValue(bufferedReader);
-        timed.valueTransition = extractDouble(bufferedReader);
-        timed.value1Transition = extractDouble(bufferedReader);
-        timed.value2Transition = extractDouble(bufferedReader);
-        timed.value3Transition = extractDouble(bufferedReader);
+        timed.valueTransition = extractValue(bufferedReader);
+        timed.value1Transition = extractValue(bufferedReader);
+        timed.value2Transition = extractValue(bufferedReader);
+        timed.value3Transition = extractValue(bufferedReader);
         timed.label = readLabel(bufferedReader);
         timed.guard = extractValue(bufferedReader);
         timed.policy = extractValue(bufferedReader);
@@ -257,7 +265,10 @@ public class OldFileLoader {
     }
 
     private XY extractXY(BufferedReader bufferedReader) {
-        var value = extractValue(bufferedReader);
+        return extractXY(extractValue(bufferedReader));
+    }
+
+    private XY extractXY(String value) {
         var tokens = value.split(",");
         var xy = new XY();
         xy.x = Integer.parseInt(tokens[0]);
@@ -327,7 +338,11 @@ public class OldFileLoader {
     }
 
     private String extractValue(BufferedReader bufferedReader) {
-        return toPair(readLine(bufferedReader)).getValue();
+        return extractValue(readLine(bufferedReader));
+    }
+
+    private String extractValue(String line) {
+        return toPair(line).getValue();
     }
 
     private String readLine(BufferedReader bufferedReader) {
