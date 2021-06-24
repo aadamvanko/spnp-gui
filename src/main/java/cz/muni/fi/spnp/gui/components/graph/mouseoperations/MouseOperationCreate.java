@@ -1,14 +1,14 @@
 package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
-import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.viewmodel.*;
-import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.BetaTransitionDistributionViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
@@ -62,8 +62,8 @@ public class MouseOperationCreate extends MouseOperation {
                 timedTransitionViewModel.positionXProperty().set(position.getX());
                 timedTransitionViewModel.positionYProperty().set(position.getY());
                 timedTransitionViewModel.priorityProperty().set(0);
-                timedTransitionViewModel.transitionDistributionTypeProperty().set(TransitionDistributionType.Constant);
-                timedTransitionViewModel.distributionTypeProperty().set(DistributionType.Beta);
+                timedTransitionViewModel.timedDistributionTypeProperty().set(TimedDistributionType.Beta);
+                timedTransitionViewModel.setTransitionDistribution(new BetaTransitionDistributionViewModel(0.0, 0.0));
                 return timedTransitionViewModel;
 
             case IMMEDIATE_TRANSITION:

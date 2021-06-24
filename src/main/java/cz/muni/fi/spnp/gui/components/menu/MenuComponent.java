@@ -66,7 +66,7 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
 
         functionsView = new FunctionsView();
         menuItemViewFunctions = new MenuItem("Functions");
-        menuItemViewFunctions.setDisable(true);
+        menuItemViewFunctions.setDisable(false);
         menuItemViewFunctions.setOnAction(actionEvent -> {
             functionsView.getStage().showAndWait();
         });

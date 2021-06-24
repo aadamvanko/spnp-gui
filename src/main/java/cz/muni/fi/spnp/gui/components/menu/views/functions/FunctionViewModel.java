@@ -38,4 +38,11 @@ public class FunctionViewModel {
     public ObjectProperty<FunctionReturnType> returnTypeProperty() {
         return returnType;
     }
+
+    @Override
+    public String toString() {
+        return "FunctionViewModel{" +
+                "name=" + name.get() +
+                '}';
+    }
 }

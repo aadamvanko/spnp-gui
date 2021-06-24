@@ -1,7 +1,6 @@
 package cz.muni.fi.spnp.gui.components.mainwindow;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
-import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
@@ -19,7 +18,7 @@ import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.*;
-import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import javafx.scene.Node;
@@ -85,8 +84,7 @@ public class MainWindowController {
         timedTransition1.positionXProperty().set(300);
         timedTransition1.positionYProperty().set(100);
         timedTransition1.priorityProperty().set(1);
-        timedTransition1.transitionDistributionTypeProperty().set(TransitionDistributionType.Constant);
-        timedTransition1.distributionTypeProperty().set(DistributionType.Beta);
+        timedTransition1.timedDistributionTypeProperty().set(TimedDistributionType.Beta);
 
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1, Collections.emptyList());
         var standardArc2 = new StandardArcViewModel("standard2", timedTransition1, place2, Collections.emptyList());
@@ -128,6 +126,7 @@ public class MainWindowController {
         project1.addDiagram(diagram2);
 
         var oldFileLoader = new OldFileLoader(notifications);
+//        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P3.rgl");
         var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\functionsExampleProject.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\definesTestProject.rgl");

@@ -1,15 +1,15 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.timed;
 
-import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
-import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class TimedTransitionViewModel extends TransitionViewModel {
 
-    private final ObjectProperty<TransitionDistributionType> transitionDistributionType = new SimpleObjectProperty<>();
-    private final ObjectProperty<DistributionType> distributionType = new SimpleObjectProperty<>();
+    private final ObjectProperty<TimedDistributionType> timedDistributionType = new SimpleObjectProperty<>();
+    private TransitionDistributionViewModel transitionDistribution;
 
 
 //
@@ -19,12 +19,15 @@ public class TimedTransitionViewModel extends TransitionViewModel {
 //        this.distributionType.set(distributionType);
 //    }
 
-
-    public ObjectProperty<TransitionDistributionType> transitionDistributionTypeProperty() {
-        return transitionDistributionType;
+    public ObjectProperty<TimedDistributionType> timedDistributionTypeProperty() {
+        return timedDistributionType;
     }
 
-    public ObjectProperty<DistributionType> distributionTypeProperty() {
-        return distributionType;
+    public TransitionDistributionViewModel getTransitionDistribution() {
+        return transitionDistribution;
+    }
+
+    public void setTransitionDistribution(TransitionDistributionViewModel transitionDistribution) {
+        this.transitionDistribution = transitionDistribution;
     }
 }

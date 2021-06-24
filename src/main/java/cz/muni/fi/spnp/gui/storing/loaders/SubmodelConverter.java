@@ -9,10 +9,19 @@ import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.*;
-import cz.muni.fi.spnp.gui.viewmodel.transition.DistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.fourvalues.HypoExponentialDistributionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ConstantTransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ExponentialTransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.SingleValueTransitionDistributionBaseViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.BinomialTransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.HyperExponentialTransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.NegativeBinomialTransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -98,7 +107,7 @@ public class SubmodelConverter {
         immediate.positionXProperty().set(oldImmediate.xy.x);
         immediate.positionYProperty().set(oldImmediate.xy.y);
         immediate.priorityProperty().set(oldImmediate.valueTransition);
-        immediate.setTransitionProbability(convertProbability(oldImmediate, places, functions));
+        immediate.setTransitionProbability(convertImmediateProbability(oldImmediate, places, functions));
         return immediate;
     }
 
@@ -108,12 +117,235 @@ public class SubmodelConverter {
         timed.positionXProperty().set(oldTimed.xy.x);
         timed.positionYProperty().set(oldTimed.xy.y);
         timed.priorityProperty().set(convertPriority(oldTimed.priority));
-        timed.transitionDistributionTypeProperty().set(getTransitionDistributionType(oldTimed.distribution));
-        timed.distributionTypeProperty().set(DistributionType.Beta);
+        timed.timedDistributionTypeProperty().set(convertDistributionType(oldTimed.distribution));
+        timed.setTransitionDistribution(createTransitionDistribution(timed.timedDistributionTypeProperty().get(), oldTimed, places, functions));
         return timed;
     }
 
-    private TransitionProbabilityViewModel convertProbability(ImmediateTransitionOldFormat oldImmediate, List<PlaceViewModel> places, List<FunctionViewModel> functions) {
+    private TransitionDistributionViewModel createTransitionDistribution(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed, List<PlaceViewModel> places, List<FunctionViewModel> functions) {
+        var probability = convertTimedProbability(oldTimed.choiceInput);
+        switch (probability) {
+            case Constant:
+                return createConstantDistributionViewModel(timedDistributionType, oldTimed);
+            case Functional:
+                return createFunctionalDistributionViewModel(timedDistributionType, oldTimed, functions);
+            case PlaceDependent:
+                return createPlaceDependentDistributionViewModel(timedDistributionType, oldTimed, places);
+        }
+        throw new AssertionError("Unknown probability " + probability);
+    }
+
+    private TransitionDistributionViewModel createConstantDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
+        switch (timedDistributionType.getNumberOfValuesType()) {
+            case ONE:
+                return createConstantOneValueDistributionViewModel(timedDistributionType, oldTimed);
+            case TWO:
+                return createConstantTwoValuesDistributionViewModel(timedDistributionType, oldTimed);
+            case THREE:
+                return createConstantThreeValuesDistributionViewModel(timedDistributionType, oldTimed);
+            case FOUR:
+                return createConstantFourValuesDistributionViewModel(timedDistributionType, oldTimed);
+        }
+        throw new AssertionError("Unknown number of values " + timedDistributionType.getNumberOfValuesType());
+    }
+
+    private TransitionDistributionViewModel createConstantOneValueDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
+        var first = Double.parseDouble(oldTimed.valueTransition);
+        switch (timedDistributionType) {
+            case Constant:
+                return new ConstantTransitionDistributionViewModel(first);
+            case Exponential:
+                return new ExponentialTransitionDistributionViewModel(first);
+        }
+        throw new AssertionError("Unknown single value transition distribution type " + timedDistributionType);
+    }
+
+    private TransitionDistributionViewModel createConstantTwoValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
+        if (timedDistributionType == TimedDistributionType.Erlang) {
+            var first = Double.parseDouble(oldTimed.valueTransition);
+            var second = Integer.parseInt(oldTimed.value1Transition);
+            return new ErlangTransitionDistributionViewModel(first, second);
+        }
+
+        var first = Double.parseDouble(oldTimed.valueTransition);
+        var second = Double.parseDouble(oldTimed.value1Transition);
+        switch (timedDistributionType) {
+            case Beta:
+                return new BetaTransitionDistributionViewModel(first, second);
+            case Cauchy:
+                return new CauchyTransitionDistributionViewModel(first, second);
+            case Gamma:
+                return new GammaTransitionDistributionViewModel(first, second);
+            case Geometric:
+                return new GeometricTransitionDistributionViewModel(first, second);
+            case LogarithmicNormal:
+                return new LogarithmicNormalTransitionDistributionViewModel(first, second);
+            case Pareto:
+                return new ParetoTransitionDistributionViewModel(first, second);
+            case Poisson:
+                return new PoissonTransitionDistributionViewModel(first, second);
+            case TruncatedNormal:
+                return new TruncatedNormalTransitionDistributionViewModel(first, second);
+            case Uniform:
+                return new UniformTransitionDistributionViewModel(first, second);
+            case Weibull:
+                return new WeibullTransitionDistributionViewModel(first, second);
+        }
+        throw new AssertionError("Unknown two values transition distribution type " + timedDistributionType);
+    }
+
+    private TransitionDistributionViewModel createConstantThreeValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
+        var first = Double.parseDouble(oldTimed.valueTransition);
+        var second = Double.parseDouble(oldTimed.value1Transition);
+        var third = Double.parseDouble(oldTimed.value2Transition);
+        switch (timedDistributionType) {
+            case Binomial:
+                return new BinomialTransitionDistributionViewModel(first, second, third);
+            case HyperExponential:
+                return new HyperExponentialTransitionDistributionViewModel(first, second, third);
+            case NegativeBinomial:
+                return new NegativeBinomialTransitionDistributionViewModel(first, second, third);
+        }
+        throw new AssertionError("Unknown three values transition distribution type " + timedDistributionType);
+    }
+
+    private TransitionDistributionViewModel createConstantFourValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
+        var first = Integer.parseInt(oldTimed.valueTransition);
+        var second = Double.parseDouble(oldTimed.value1Transition);
+        var third = Double.parseDouble(oldTimed.value2Transition);
+        var fourth = Double.parseDouble(oldTimed.value3Transition);
+        switch (timedDistributionType) {
+            case HypoExponential:
+                return new HypoExponentialDistributionViewModel(first, second, third, fourth);
+        }
+        throw new AssertionError("Unknown four values transition distribution type " + timedDistributionType);
+    }
+
+    private TransitionDistributionViewModel createFunctionalDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed, List<FunctionViewModel> functions) {
+        switch (timedDistributionType.getNumberOfValuesType()) {
+            case ONE:
+                return createFunctionalOneValueDistributionViewModel(timedDistributionType, oldTimed, functions);
+            case TWO:
+                return createFunctionalTwoValuesDistributionViewModel(timedDistributionType, oldTimed, functions);
+            case THREE:
+                return createFunctionalThreeValuesDistributionViewModel(timedDistributionType, oldTimed, functions);
+            case FOUR:
+                return createFunctionalFourValuesDistributionViewModel(timedDistributionType, oldTimed, functions);
+        }
+        throw new AssertionError("Unknown number of values " + timedDistributionType.getNumberOfValuesType());
+    }
+
+    private TransitionDistributionViewModel createFunctionalOneValueDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed, List<FunctionViewModel> functions) {
+        var first = findFunctionViewModel(functions, oldTimed.valueTransition);
+        switch (timedDistributionType) {
+            case Constant:
+                return new ConstantTransitionDistributionViewModel(first);
+            case Exponential:
+                return new ExponentialTransitionDistributionViewModel(first);
+        }
+        throw new AssertionError("Unknown single value transition distribution type " + timedDistributionType);
+    }
+
+    private TransitionDistributionViewModel createFunctionalTwoValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed, List<FunctionViewModel> functions) {
+        var first = findFunctionViewModel(functions, oldTimed.valueTransition);
+        var second = findFunctionViewModel(functions, oldTimed.value1Transition);
+        switch (timedDistributionType) {
+            case Beta:
+                return new BetaTransitionDistributionViewModel(first, second);
+            case Cauchy:
+                return new CauchyTransitionDistributionViewModel(first, second);
+            case Erlang:
+                return new ErlangTransitionDistributionViewModel(first, second);
+            case Gamma:
+                return new GammaTransitionDistributionViewModel(first, second);
+            case Geometric:
+                return new GeometricTransitionDistributionViewModel(first, second);
+            case LogarithmicNormal:
+                return new LogarithmicNormalTransitionDistributionViewModel(first, second);
+            case Pareto:
+                return new ParetoTransitionDistributionViewModel(first, second);
+            case Poisson:
+                return new PoissonTransitionDistributionViewModel(first, second);
+            case TruncatedNormal:
+                return new TruncatedNormalTransitionDistributionViewModel(first, second);
+            case Uniform:
+                return new UniformTransitionDistributionViewModel(first, second);
+            case Weibull:
+                return new WeibullTransitionDistributionViewModel(first, second);
+        }
+        throw new AssertionError("Unknown two values transition distribution type " + timedDistributionType);
+    }
+
+    private TransitionDistributionViewModel createFunctionalThreeValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed, List<FunctionViewModel> functions) {
+        var first = findFunctionViewModel(functions, oldTimed.valueTransition);
+        var second = findFunctionViewModel(functions, oldTimed.value1Transition);
+        var third = findFunctionViewModel(functions, oldTimed.value2Transition);
+        switch (timedDistributionType) {
+            case Binomial:
+                return new BinomialTransitionDistributionViewModel(first, second, third);
+            case HyperExponential:
+                return new HyperExponentialTransitionDistributionViewModel(first, second, third);
+            case NegativeBinomial:
+                return new NegativeBinomialTransitionDistributionViewModel(first, second, third);
+        }
+        throw new AssertionError("Unknown three values transition distribution type " + timedDistributionType);
+    }
+
+    private TransitionDistributionViewModel createFunctionalFourValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed, List<FunctionViewModel> functions) {
+        var first = findFunctionViewModel(functions, oldTimed.valueTransition);
+        var second = findFunctionViewModel(functions, oldTimed.value1Transition);
+        var third = findFunctionViewModel(functions, oldTimed.value2Transition);
+        var fourth = findFunctionViewModel(functions, oldTimed.value3Transition);
+        switch (timedDistributionType) {
+            case HypoExponential:
+                return new HypoExponentialDistributionViewModel(first, second, third, fourth);
+        }
+        throw new AssertionError("Unknown four values transition distribution type " + timedDistributionType);
+    }
+
+    private TransitionDistributionViewModel createPlaceDependentDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed, List<PlaceViewModel> places) {
+        var distributionViewModel = createConstantDistributionViewModel(timedDistributionType, oldTimed);
+        distributionViewModel.distributionTypeProperty().set(TransitionDistributionType.PlaceDependent);
+        distributionViewModel.setDependentPlace(findPlaceViewModel(places, oldTimed.placeDependent));
+        return distributionViewModel;
+    }
+
+    private TransitionDistributionType convertTimedProbability(String choiceInput) {
+        var stringToTransitionDistributionType = new HashMap<String, TransitionDistributionType>();
+        stringToTransitionDistributionType.put("Constant", TransitionDistributionType.Constant);
+        stringToTransitionDistributionType.put("Function", TransitionDistributionType.Functional);
+        stringToTransitionDistributionType.put("Place dependent", TransitionDistributionType.PlaceDependent);
+        return stringToTransitionDistributionType.get(choiceInput);
+    }
+
+    private TimedDistributionType convertDistributionType(String distributionType) {
+        var stringToDistributionType = new HashMap<String, TimedDistributionType>();
+        stringToDistributionType.put("Beta", TimedDistributionType.Beta);
+        stringToDistributionType.put("Binomial", TimedDistributionType.Binomial);
+        stringToDistributionType.put("Cauchy", TimedDistributionType.Cauchy);
+        stringToDistributionType.put("Constant", TimedDistributionType.Constant);
+        stringToDistributionType.put("Erlang", TimedDistributionType.Erlang);
+        stringToDistributionType.put("Exponential", TimedDistributionType.Exponential);
+        stringToDistributionType.put("Gamma", TimedDistributionType.Gamma);
+        stringToDistributionType.put("Geometric", TimedDistributionType.Geometric);
+        stringToDistributionType.put("HyperExponential", TimedDistributionType.HyperExponential);
+        stringToDistributionType.put("HypoExponential", TimedDistributionType.HypoExponential);
+        stringToDistributionType.put("LogNormal", TimedDistributionType.LogarithmicNormal);
+        stringToDistributionType.put("Negative binomial", TimedDistributionType.NegativeBinomial);
+        stringToDistributionType.put("Pareto", TimedDistributionType.Pareto);
+        stringToDistributionType.put("Poisson", TimedDistributionType.Poisson);
+        stringToDistributionType.put("Truncated normal", TimedDistributionType.TruncatedNormal);
+        stringToDistributionType.put("Uniform", TimedDistributionType.Uniform);
+        stringToDistributionType.put("Weibull", TimedDistributionType.Weibull);
+
+        if (!stringToDistributionType.containsKey(distributionType)) {
+            throw new AssertionError("Unknown distribution " + distributionType);
+        }
+
+        return stringToDistributionType.get(distributionType);
+    }
+
+    private TransitionProbabilityViewModel convertImmediateProbability(ImmediateTransitionOldFormat oldImmediate, List<PlaceViewModel> places, List<FunctionViewModel> functions) {
         switch (oldImmediate.choiceInput) {
             case "Constant value":
                 var constantProbability = new ConstantTransitionProbabilityViewModel();
@@ -137,6 +369,8 @@ public class SubmodelConverter {
     }
 
     private FunctionViewModel findFunctionViewModel(List<FunctionViewModel> functions, String name) {
+        System.out.println(functions);
+        System.out.println(name);
         return functions.stream()
                 .filter(f -> f.nameProperty().get().equals(name))
                 .collect(Collectors.toList())
@@ -156,10 +390,6 @@ public class SubmodelConverter {
         } else {
             return Integer.parseInt(priority);
         }
-    }
-
-    private TransitionDistributionType getTransitionDistributionType(String oldDistributionType) {
-        return null;
     }
 
     private ElementViewModel convertArc(ArcOldFormat oldArc, List<ConnectableOldFormat> oldConnectables, List<ConnectableViewModel> elements) {
