@@ -65,19 +65,19 @@ public class MainWindowController {
         place1.nameProperty().set("place1");
         place1.positionXProperty().set(100);
         place1.positionYProperty().set(100);
-        place1.numberOfTokensProperty().set(1);
+        place1.numberOfTokensProperty().set("1");
 
         var place2 = new PlaceViewModel();
         place2.nameProperty().set("place2");
         place2.positionXProperty().set(500);
         place2.positionYProperty().set(100);
-        place2.numberOfTokensProperty().set(2);
+        place2.numberOfTokensProperty().set("2");
 
         var place3 = new PlaceViewModel();
         place3.nameProperty().set("place4");
         place3.positionXProperty().set(100);
         place3.positionYProperty().set(200);
-        place3.numberOfTokensProperty().set(3);
+        place3.numberOfTokensProperty().set("3");
 
         var timedTransition1 = new TimedTransitionViewModel();
         timedTransition1.nameProperty().set("timed1");
@@ -101,7 +101,7 @@ public class MainWindowController {
         place4.nameProperty().set("place4");
         place4.positionXProperty().set(100);
         place4.positionYProperty().set(500);
-        place4.numberOfTokensProperty().set(4);
+        place4.numberOfTokensProperty().set("4");
 
         var elements = Arrays.asList(place1, place2, place3, timedTransition1, standardArc1, standardArc2, immediateTransition1, inhibitorArc1, place4);
 

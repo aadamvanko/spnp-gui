@@ -81,7 +81,7 @@ public class PlaceController extends ConnectableGraphElement {
 
         PlaceViewModel placeViewModel = (PlaceViewModel) elementViewModel;
         nameLabel.textProperty().bind(placeViewModel.nameProperty());
-        tokensCountText.textProperty().bind(placeViewModel.numberOfTokensProperty().asString());
+        tokensCountText.textProperty().bind(placeViewModel.numberOfTokensProperty());
 
         container.translateXProperty().bind(placeViewModel.positionXProperty());
         container.translateYProperty().bind(placeViewModel.positionYProperty());

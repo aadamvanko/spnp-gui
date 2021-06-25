@@ -114,7 +114,7 @@ public class OldFileLoader {
     private PlaceOldFormat readPlace(BufferedReader bufferedReader) {
         var place = new PlaceOldFormat();
         place.name = extractValue(bufferedReader);
-        place.token = extractInt(bufferedReader);
+        place.token = extractValue(bufferedReader);
         place.fluid = extractBoolean(bufferedReader);
         place.xy = extractXY(bufferedReader);
         place.numberOfConnectedObjects = extractInt(bufferedReader);

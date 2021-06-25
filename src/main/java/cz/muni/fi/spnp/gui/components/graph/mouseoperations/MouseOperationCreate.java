@@ -53,7 +53,7 @@ public class MouseOperationCreate extends MouseOperation {
                 placeViewModel.nameProperty().set("place");
                 placeViewModel.positionXProperty().set(position.getX());
                 placeViewModel.positionYProperty().set(position.getY());
-                placeViewModel.numberOfTokensProperty().set(0);
+                placeViewModel.numberOfTokensProperty().set("0");
                 return placeViewModel;
 
             case TIMED_TRANSITION:

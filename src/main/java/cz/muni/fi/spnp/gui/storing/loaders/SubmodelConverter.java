@@ -377,8 +377,6 @@ public class SubmodelConverter {
     }
 
     private FunctionViewModel findFunctionViewModel(List<FunctionViewModel> functions, String name) {
-        System.out.println(functions);
-        System.out.println(name);
         return functions.stream()
                 .filter(f -> f.nameProperty().get().equals(name))
                 .collect(Collectors.toList())
