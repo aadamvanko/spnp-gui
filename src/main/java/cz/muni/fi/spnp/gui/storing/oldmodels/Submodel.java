@@ -13,5 +13,8 @@ public class Submodel {
     public Submodel() {
         elements = new ArrayList<>();
         functions = new ArrayList<>();
+
+        includes = "";
+        defines = "";
     }
 }
