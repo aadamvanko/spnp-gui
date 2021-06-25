@@ -394,7 +394,7 @@ public class SubmodelConverter {
 
     private ElementViewModel convertArc(ArcOldFormat oldArc, List<ConnectableOldFormat> oldConnectables, List<ConnectableViewModel> elements) {
         var oldSource = oldConnectables.stream()
-                .filter(oldConnectable -> oldConnectable.name.equals(oldArc.src) && oldConnectable.arcReferences.stream().anyMatch(ar -> ar.arc.equals(oldArc.name)))
+                .filter(oldConnectable -> oldConnectable.name.equals(oldArc.src) && containsOutputArc(oldConnectable, oldArc.name))
                 .collect(Collectors.toList())
                 .get(0);
         var oldDestination = oldConnectables.stream()
@@ -427,6 +427,11 @@ public class SubmodelConverter {
         }
 
         return arcViewModel;
+    }
+
+    private boolean containsOutputArc(ConnectableOldFormat oldConnectable, String arcName) {
+        return oldConnectable.arcReferences.stream().anyMatch(ar -> ar.arc.equals(arcName)) ||
+                oldConnectable.vOutputArc.contains(arcName);
     }
 
     private List<ArcDragMarkViewModel> convertPointsToDragMarks(List<XY> points) {
