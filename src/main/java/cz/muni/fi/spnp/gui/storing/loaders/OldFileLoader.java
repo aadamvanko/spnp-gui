@@ -128,9 +128,7 @@ public class OldFileLoader {
     private ImmediateTransitionOldFormat readImmediate(BufferedReader bufferedReader) {
         var immediate = new ImmediateTransitionOldFormat();
         immediate.name = extractValue(bufferedReader);
-        immediate.width = extractInt(bufferedReader);
-        immediate.height = extractInt(bufferedReader);
-        immediate.xy = extractXY(bufferedReader);
+        readTransitionDimensionsAndXY(bufferedReader, immediate);
         immediate.guard = extractValue(bufferedReader);
         immediate.probability = extractValue(bufferedReader);
         immediate.choiceInput = extractValue(bufferedReader);
@@ -148,17 +146,7 @@ public class OldFileLoader {
     private TimedTransitionOldFormat readTimed(BufferedReader bufferedReader) {
         var timed = new TimedTransitionOldFormat();
         timed.name = extractValue(bufferedReader);
-
-        var line = readLine(bufferedReader);
-        var pair = toPair(line);
-        if (pair.getKey().equals("Width")) {
-            timed.width = Integer.parseInt(pair.getValue());
-            timed.height = extractInt(bufferedReader);
-            timed.xy = extractXY(bufferedReader);
-        } else {
-            timed.xy = extractXY(pair.getValue());
-        }
-
+        readTransitionDimensionsAndXY(bufferedReader, timed);
         timed.numberOfConnectedObjects = extractInt(bufferedReader);
         timed.arcReferences = readArcReferences(bufferedReader, timed.numberOfConnectedObjects);
         timed.vInputArc = extractArcsNames(bufferedReader);
@@ -177,6 +165,18 @@ public class OldFileLoader {
         timed.choiceInput = extractValue(bufferedReader);
         timed.distribution = extractValue(bufferedReader);
         return timed;
+    }
+
+    private void readTransitionDimensionsAndXY(BufferedReader bufferedReader, TransitionOldFormat timed) {
+        var line = readLine(bufferedReader);
+        var pair = toPair(line);
+        if (pair.getKey().equals("Width")) {
+            timed.width = Integer.parseInt(pair.getValue());
+            timed.height = extractInt(bufferedReader);
+            timed.xy = extractXY(bufferedReader);
+        } else {
+            timed.xy = extractXY(pair.getValue());
+        }
     }
 
     private ArcOldFormat readArc(BufferedReader bufferedReader) {
