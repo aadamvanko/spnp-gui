@@ -349,12 +349,12 @@ public class SubmodelConverter {
         switch (oldImmediate.choiceInput) {
             case "Constant value":
                 var constantProbability = new ConstantTransitionProbabilityViewModel();
-                constantProbability.valueProperty().set(Double.parseDouble(oldImmediate.probability));
+                constantProbability.valueProperty().set(parseDoubleOrDefault(oldImmediate.probability, 1));
                 return constantProbability;
 
             case "Place dependent":
                 var placeDependentProbability = new PlaceDependentTransitionProbabilityViewModel();
-                placeDependentProbability.valueProperty().set(Double.parseDouble(oldImmediate.probability));
+                placeDependentProbability.valueProperty().set(parseDoubleOrDefault(oldImmediate.probability, 1));
                 placeDependentProbability.setDependentPlace(findPlaceViewModel(places, oldImmediate.placeDependent));
                 return placeDependentProbability;
 
@@ -365,6 +365,14 @@ public class SubmodelConverter {
 
             default:
                 throw new AssertionError(oldImmediate.choiceInput);
+        }
+    }
+
+    private double parseDoubleOrDefault(String value, double defaultValue) {
+        if (value.equals("null")) {
+            return defaultValue;
+        } else {
+            return Double.parseDouble(value);
         }
     }
 
