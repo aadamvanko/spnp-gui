@@ -5,7 +5,7 @@ import java.util.List;
 public class ArcOldFormat extends ElementOldFormat {
     public TwoXY twoXY;
     public String type;
-    public int multiplicity;
+    public String multiplicity;
     public String src;
     public String dest;
     public List<XY> points;

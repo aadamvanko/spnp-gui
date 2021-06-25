@@ -406,13 +406,27 @@ public class SubmodelConverter {
         var destination = findElementForOld(elements, oldDestination);
         var dragMarks = convertPointsToDragMarks(oldArc.points.subList(1, oldArc.points.size() - 1));
 
+        ArcViewModel arcViewModel;
         if (oldArc.type.equals("Regular")) {
-            return new StandardArcViewModel(oldArc.name, source, destination, dragMarks);
+            arcViewModel = new StandardArcViewModel(oldArc.name, source, destination, dragMarks);
         } else if (oldArc.type.equals("Inhibitor")) {
-            return new InhibitorArcViewModel(oldArc.name, source, destination, dragMarks);
+            arcViewModel = new InhibitorArcViewModel(oldArc.name, source, destination, dragMarks);
         } else {
-            throw new IllegalStateException("Unknown arc type " + oldArc.type);
+            throw new AssertionError("Unknown arc type " + oldArc.type);
         }
+
+
+        if (oldArc.choiceInput.equals("Constant")) {
+            arcViewModel.multiplicityTypeProperty().set(ArcMultiplicityType.CONSTANT);
+            arcViewModel.multiplicityProperty().set(oldArc.multiplicity);
+        } else if (oldArc.choiceInput.equals("Function")) {
+            arcViewModel.multiplicityTypeProperty().set(ArcMultiplicityType.FUNCTION);
+            arcViewModel.multiplicityFunctionProperty().set(oldArc.multiplicity);
+        } else {
+            throw new AssertionError("Unknown arc choice input " + oldArc.choiceInput);
+        }
+
+        return arcViewModel;
     }
 
     private List<ArcDragMarkViewModel> convertPointsToDragMarks(List<XY> points) {

@@ -142,7 +142,7 @@ public abstract class ArcController extends GraphElement {
         super.bindViewModel(viewModel);
 
         var arcViewModel = (ArcViewModel) viewModel;
-        textMultiplicty.textProperty().bind(arcViewModel.multiplicityProperty().asString());
+        textMultiplicty.textProperty().bind(arcViewModel.multiplicityProperty());
 
         destroyDragMarks(getGraphView());
         createDragMarks(arcViewModel.getDragMarks());

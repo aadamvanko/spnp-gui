@@ -10,13 +10,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class ArcPropertiesEditor extends PropertiesEditor {
 
     private final Label arcMultiplicityTypeLabel;
     private final ChoiceBox<ArcMultiplicityType> arcMultiplicityTypeChoiceBox;
     private final Label multiplicityLabel;
-    private final IntegerTextField multiplicityTextField;
+    private final TextField multiplicityTextField;
     private final Label multiplicityFunctionLabel;
     private final ChoiceBox<String> multiplicityFunctionChoiceBox;
 
@@ -25,7 +26,7 @@ public class ArcPropertiesEditor extends PropertiesEditor {
         var arcMultiplicityTypes = FXCollections.observableArrayList(ArcMultiplicityType.CONSTANT, ArcMultiplicityType.FUNCTION);
         arcMultiplicityTypeChoiceBox = new ChoiceBox<>(arcMultiplicityTypes);
         multiplicityLabel = new Label("Multiplicity:");
-        multiplicityTextField = new IntegerTextField();
+        multiplicityTextField = new TextField();
         multiplicityFunctionLabel = new Label("Multiplicity function:");
         multiplicityFunctionChoiceBox = new ChoiceBox<>();
 
@@ -34,7 +35,7 @@ public class ArcPropertiesEditor extends PropertiesEditor {
         gridPane.add(arcMultiplicityTypeLabel, 0, 1);
         gridPane.add(arcMultiplicityTypeChoiceBox, 1, 1);
         gridPane.add(multiplicityLabel, 0, 2);
-        gridPane.add(multiplicityTextField.getTextField(), 1, 2);
+        gridPane.add(multiplicityTextField, 1, 2);
         gridPane.add(multiplicityFunctionLabel, 0, 3);
         gridPane.add(multiplicityFunctionChoiceBox, 1, 3);
     }
@@ -45,10 +46,10 @@ public class ArcPropertiesEditor extends PropertiesEditor {
         }
 
         if (newValue == ArcMultiplicityType.CONSTANT) {
-            multiplicityTextField.getTextField().setDisable(false);
+            multiplicityTextField.setDisable(false);
             multiplicityFunctionChoiceBox.setDisable(true);
         } else {
-            multiplicityTextField.getTextField().setDisable(true);
+            multiplicityTextField.setDisable(true);
             multiplicityFunctionChoiceBox.setDisable(false);
         }
     }
@@ -58,7 +59,7 @@ public class ArcPropertiesEditor extends PropertiesEditor {
         super.bindViewModel(viewModel);
         ArcViewModel arcViewModel = (ArcViewModel) viewModel;
         arcMultiplicityTypeChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityTypeProperty());
-        multiplicityTextField.getTextFormatter().valueProperty().bindBidirectional((Property) arcViewModel.multiplicityProperty());
+        multiplicityTextField.textProperty().bindBidirectional(arcViewModel.multiplicityProperty());
         multiplicityFunctionChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityFunctionProperty());
     }
 
@@ -66,7 +67,7 @@ public class ArcPropertiesEditor extends PropertiesEditor {
     public void unbindViewModel() {
         ArcViewModel arcViewModel = (ArcViewModel) viewModel;
         arcMultiplicityTypeChoiceBox.valueProperty().unbindBidirectional(arcViewModel.multiplicityTypeProperty());
-        multiplicityTextField.getTextFormatter().valueProperty().unbindBidirectional((Property) arcViewModel.multiplicityProperty());
+        multiplicityTextField.textProperty().unbindBidirectional(arcViewModel.multiplicityProperty());
         multiplicityFunctionChoiceBox.valueProperty().unbindBidirectional(arcViewModel.multiplicityFunctionProperty());
         super.unbindViewModel();
     }

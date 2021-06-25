@@ -184,7 +184,7 @@ public class OldFileLoader {
         arc.name = extractValue(bufferedReader);
         arc.twoXY = extractTwoXY(bufferedReader);
         arc.type = extractValue(bufferedReader);
-        arc.multiplicity = extractInt(bufferedReader);
+        arc.multiplicity = extractValue(bufferedReader);
         arc.src = extractValue(bufferedReader);
         arc.dest = extractValue(bufferedReader);
         arc.points = extractArcPoints(bufferedReader);
