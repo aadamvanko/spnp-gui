@@ -23,19 +23,27 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final ObservableList<ElementViewModel> elements;
     private final ObservableList<IncludeViewModel> includes;
     private final ObservableList<DefineViewModel> defines;
+    private final ObservableList<VariableViewModel> variables;
     private final ObservableList<FunctionViewModel> functions;
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
-        this(notifications, projectViewModel, FXCollections.observableArrayList(), FXCollections.observableArrayList(), FXCollections.observableArrayList(), FXCollections.observableArrayList());
+        this(notifications,
+                projectViewModel,
+                FXCollections.observableArrayList(),
+                FXCollections.observableArrayList(),
+                FXCollections.observableArrayList(),
+                FXCollections.observableArrayList(),
+                FXCollections.observableArrayList());
     }
 
-    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements, List<IncludeViewModel> includes, List<DefineViewModel> defines, List<FunctionViewModel> functions) {
+    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements, List<IncludeViewModel> includes, List<DefineViewModel> defines, List<VariableViewModel> variables, List<FunctionViewModel> functions) {
         nameProperty().set("unnamedDiagram");
         this.notifications = notifications;
         this.projectViewModel = projectViewModel;
         this.includes = FXCollections.observableArrayList(includes);
         this.elements = FXCollections.observableArrayList(elements);
         this.defines = FXCollections.observableArrayList(defines);
+        this.variables = FXCollections.observableArrayList(variables);
         this.functions = FXCollections.observableArrayList(functions);
     }
 
@@ -76,5 +84,9 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     public ObservableList<ElementViewModel> getElements() {
         return elements;
+    }
+
+    public ObservableList<VariableViewModel> getVariables() {
+        return variables;
     }
 }

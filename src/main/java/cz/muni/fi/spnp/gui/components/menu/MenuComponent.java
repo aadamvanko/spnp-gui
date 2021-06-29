@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesView;
 import cz.muni.fi.spnp.gui.components.menu.views.diagrams.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
+import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.NewProjectAddedListener;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
@@ -21,6 +22,8 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
     private final MenuBar menuBar;
     private final DefinesView definesView;
     private final MenuItem menuItemViewDefines;
+    private final VariablesView variablesView;
+    private final MenuItem menuItemViewVariables;
     private final FunctionsView functionsView;
     private final MenuItem menuItemViewFunctions;
     private final NewProjectView newProjectView;
@@ -63,6 +66,14 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
             definesView.getStage().showAndWait();
         });
         menuView.getItems().add(menuItemViewDefines);
+
+        variablesView = new VariablesView();
+        menuItemViewVariables = new MenuItem("Variables");
+        menuItemViewVariables.setDisable(true);
+        menuItemViewVariables.setOnAction(actionEvent -> {
+            throw new UnsupportedOperationException("Not yet");
+        });
+        menuView.getItems().add(menuItemViewVariables);
 
         functionsView = new FunctionsView();
         menuItemViewFunctions = new MenuItem("Functions");

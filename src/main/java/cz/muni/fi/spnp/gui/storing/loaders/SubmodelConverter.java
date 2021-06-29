@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.storing.loaders;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
+import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
@@ -39,12 +40,43 @@ public class SubmodelConverter {
     public DiagramViewModel convert(Submodel submodel, ProjectViewModel projectViewModel) {
         var includes = convertIncludes(submodel.includes);
         var defines = convertDefines(submodel.defines);
+        var variables = convertVariables(submodel.variables);
         var functions = convertFunctions(submodel.functions);
         var elements = convertElements(submodel.elements, functions);
 
-        var diagram = new DiagramViewModel(notifications, projectViewModel, elements, includes, defines, functions);
+        var diagram = new DiagramViewModel(notifications, projectViewModel, elements, includes, defines, variables, functions);
         diagram.nameProperty().set(submodel.name);
         return diagram;
+    }
+
+    private List<VariableViewModel> convertVariables(List<VariableOldFormat> variables) {
+        return variables
+                .stream()
+                .map(this::convertVariable)
+                .collect(Collectors.toList());
+    }
+
+    private VariableViewModel convertVariable(VariableOldFormat oldVariable) {
+        var variable = new VariableViewModel();
+        variable.nameProperty().set(oldVariable.name);
+        variable.kindProperty().set(convertVariableKind(oldVariable.kind));
+        variable.typeProperty().set(convertVariableType(oldVariable.type));
+        variable.valueProperty().setValue(oldVariable.value);
+        return variable;
+    }
+
+    private VariableType convertVariableKind(String kind) {
+        var stringToVariableType = new HashMap<String, VariableType>();
+        stringToVariableType.put("Global", VariableType.Global);
+        stringToVariableType.put("Parameter", VariableType.Parameter);
+        return stringToVariableType.get(kind);
+    }
+
+    private VariableDataType convertVariableType(String type) {
+        var stringToVariableDataType = new HashMap<String, VariableDataType>();
+        stringToVariableDataType.put("int", VariableDataType.INT);
+        stringToVariableDataType.put("double", VariableDataType.DOUBLE);
+        return stringToVariableDataType.get(type);
     }
 
     private List<ElementViewModel> convertElements(List<ElementOldFormat> oldElements, List<FunctionViewModel> functions) {

@@ -9,12 +9,13 @@ public class Submodel {
     public String defines;
     public List<ElementOldFormat> elements;
     public List<FunctionOldFormat> functions;
+    public List<VariableOldFormat> variables;
 
     public Submodel() {
-        elements = new ArrayList<>();
-        functions = new ArrayList<>();
-
         includes = "";
         defines = "";
+        elements = new ArrayList<>();
+        functions = new ArrayList<>();
+        variables = new ArrayList<>();
     }
 }

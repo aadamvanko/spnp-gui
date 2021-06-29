@@ -65,12 +65,23 @@ public class OldFileLoader {
                     submodel.elements.add(readArc(bufferedReader));
                 } else if (line.startsWith("Function:")) {
                     submodel.functions.add(readFunction(bufferedReader, line));
+                } else if (line.startsWith("Variable:")) {
+                    submodel.variables.add(readVariable(bufferedReader, line));
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return submodel;
+    }
+
+    private VariableOldFormat readVariable(BufferedReader bufferedReader, String line) {
+        var variable = new VariableOldFormat();
+        variable.name = toPair(line).getValue();
+        variable.kind = extractValue(bufferedReader);
+        variable.type = extractValue(bufferedReader);
+        variable.value = extractValue(bufferedReader);
+        return variable;
     }
 
     private FunctionOldFormat readFunction(BufferedReader bufferedReader, String line) {

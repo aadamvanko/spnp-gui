@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.mainwindow;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
+import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
@@ -117,7 +118,13 @@ public class MainWindowController {
         functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID));
         functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID));
 
-        var diagram1 = new DiagramViewModel(notifications, project1, elements, includes, defines, functions);
+        var variables = new ArrayList<VariableViewModel>();
+        variables.add(new VariableViewModel("var_1_global_int", VariableType.Global, VariableDataType.INT, "10"));
+        variables.add(new VariableViewModel("var_1_global_double", VariableType.Global, VariableDataType.DOUBLE, "10.25"));
+        variables.add(new VariableViewModel("var_1_param_int", VariableType.Parameter, VariableDataType.INT, "11"));
+        variables.add(new VariableViewModel("var_1_param_double", VariableType.Parameter, VariableDataType.DOUBLE, "11.25"));
+
+        var diagram1 = new DiagramViewModel(notifications, project1, elements, includes, defines, variables, functions);
         diagram1.nameProperty().set("diagram1");
         project1.addDiagram(diagram1);
 
