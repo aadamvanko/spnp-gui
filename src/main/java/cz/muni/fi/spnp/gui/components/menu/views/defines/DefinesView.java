@@ -11,33 +11,6 @@ public class DefinesView extends GeneralItemsTableView<DefineViewModel> {
 
         addColumn("Name", "name");
         addColumn("Expression", "expression");
-
-        buttonAdd.setOnMouseClicked(mouseEvent -> {
-            var itemView = new DefineView(new DefineViewModel(), ItemViewMode.ADD);
-            itemView.setSourceCollection(sourceCollection);
-            itemView.getStage().setTitle("Add define");
-            itemView.getStage().showAndWait();
-        });
-
-        buttonEdit.setOnMouseClicked(mouseEvent -> {
-            var selectedItem = tableView.getSelectionModel().getSelectedItem();
-            if (selectedItem == null) {
-                return;
-            }
-
-            var itemView = new DefineView(selectedItem, ItemViewMode.EDIT);
-            itemView.setSourceCollection(sourceCollection);
-            itemView.getStage().setTitle("Edit define");
-            itemView.getStage().showAndWait();
-        });
-
-        buttonDelete.setOnMouseClicked(mouseEvent -> {
-            var selectedItem = tableView.getSelectionModel().getSelectedItem();
-            if (selectedItem == null) {
-                return;
-            }
-            sourceCollection.remove(selectedItem);
-        });
     }
 
     @Override
