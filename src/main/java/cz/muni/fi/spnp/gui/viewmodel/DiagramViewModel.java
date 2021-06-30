@@ -68,8 +68,16 @@ public class DiagramViewModel extends DisplayableViewModel {
         return projectViewModel;
     }
 
+    public ObservableList<IncludeViewModel> getIncludes() {
+        return includes;
+    }
+
     public ObservableList<DefineViewModel> getDefines() {
         return defines;
+    }
+
+    public ObservableList<VariableViewModel> getVariables() {
+        return variables;
     }
 
     public ObservableList<FunctionViewModel> getFunctions() {
@@ -78,9 +86,5 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     public ObservableList<ElementViewModel> getElements() {
         return elements;
-    }
-
-    public ObservableList<VariableViewModel> getVariables() {
-        return variables;
     }
 }

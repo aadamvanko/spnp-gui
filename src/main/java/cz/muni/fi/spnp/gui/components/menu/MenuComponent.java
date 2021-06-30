@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesView;
 import cz.muni.fi.spnp.gui.components.menu.views.diagrams.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
+import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludesView;
 import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
 import cz.muni.fi.spnp.gui.model.Model;
@@ -21,6 +22,8 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
 
     private final MenuBar menuBar;
     private final DefinesView definesView;
+    private final MenuItem menuItemViewIncludes;
+    private final IncludesView includesView;
     private final MenuItem menuItemViewDefines;
     private final VariablesView variablesView;
     private final MenuItem menuItemViewVariables;
@@ -58,6 +61,14 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
         menuBar.getMenus().add(menuEdit);
 
         Menu menuView = new Menu("View");
+
+        includesView = new IncludesView();
+        menuItemViewIncludes = new MenuItem("Includes");
+        menuItemViewIncludes.setDisable(false);
+        menuItemViewIncludes.setOnAction(actionEvent -> {
+            includesView.getStage().showAndWait();
+        });
+        menuView.getItems().add(menuItemViewIncludes);
 
         definesView = new DefinesView();
         menuItemViewDefines = new MenuItem("Defines");
@@ -106,6 +117,7 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
             menuItemViewDefines.setDisable(false);
         }
 
+        includesView.bindSourceCollection(diagramViewModel.getIncludes());
         definesView.bindSourceCollection(diagramViewModel.getDefines());
         variablesView.bindSourceCollection(diagramViewModel.getVariables());
     }

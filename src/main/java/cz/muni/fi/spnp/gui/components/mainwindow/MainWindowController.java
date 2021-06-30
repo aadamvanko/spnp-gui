@@ -125,11 +125,11 @@ public class MainWindowController {
         variables.add(new VariableViewModel("var_1_param_double", VariableType.Parameter, VariableDataType.DOUBLE, "11.25"));
 
         var diagram1 = new DiagramViewModel(notifications, project1, elements, includes, defines, variables, functions);
-        diagram1.nameProperty().set("diagram1");
+        diagram1.nameProperty().set("mock_diagram1");
         project1.addDiagram(diagram1);
 
         var diagram2 = new DiagramViewModel(notifications, project1);
-        diagram2.nameProperty().set("diagram2");
+        diagram2.nameProperty().set("mock_diagram2");
         project1.addDiagram(diagram2);
 
         var oldFileLoader = new OldFileLoader(notifications);

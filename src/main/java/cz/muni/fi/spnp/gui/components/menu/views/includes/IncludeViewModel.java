@@ -7,6 +7,10 @@ public class IncludeViewModel {
 
     private final StringProperty path;
 
+    public IncludeViewModel() {
+        this("Format <stdio.h>, \"user.h\", ...");
+    }
+
     public IncludeViewModel(String path) {
         this.path = new SimpleStringProperty(path);
     }
