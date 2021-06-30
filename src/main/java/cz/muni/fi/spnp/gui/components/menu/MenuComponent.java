@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
-import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesView2;
+import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesView;
 import cz.muni.fi.spnp.gui.components.menu.views.diagrams.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
@@ -20,7 +20,7 @@ import javafx.scene.control.MenuItem;
 public class MenuComponent extends ApplicationComponent implements SelectedDiagramChangeListener, NewProjectAddedListener {
 
     private final MenuBar menuBar;
-    private final DefinesView2 definesView;
+    private final DefinesView definesView;
     private final MenuItem menuItemViewDefines;
     private final VariablesView variablesView;
     private final MenuItem menuItemViewVariables;
@@ -59,7 +59,7 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
 
         Menu menuView = new Menu("View");
 
-        definesView = new DefinesView2();
+        definesView = new DefinesView();
         menuItemViewDefines = new MenuItem("Defines");
         menuItemViewDefines.setDisable(false);
         menuItemViewDefines.setOnAction(actionEvent -> {
@@ -106,8 +106,8 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
             menuItemViewDefines.setDisable(false);
         }
 
-        definesView.bindDiagramViewModel(diagramViewModel);
-        variablesView.bindDiagramViewModel(diagramViewModel);
+        definesView.bindSourceCollection(diagramViewModel.getDefines());
+        variablesView.bindSourceCollection(diagramViewModel.getVariables());
     }
 
     @Override

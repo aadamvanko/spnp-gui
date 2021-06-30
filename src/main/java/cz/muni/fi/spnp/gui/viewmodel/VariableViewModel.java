@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Objects;
+
 public class VariableViewModel {
 
     private final StringProperty name;
@@ -38,5 +40,18 @@ public class VariableViewModel {
 
     public StringProperty valueProperty() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VariableViewModel that = (VariableViewModel) o;
+        return name.get().equals(that.name.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name.get());
     }
 }

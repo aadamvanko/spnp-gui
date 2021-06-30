@@ -16,30 +16,5 @@ public class VariableView extends GeneralItemView<VariableViewModel> {
         addRowEnum("Kind:", variableViewModel.kindProperty(), VariableType.class);
         addRowEnum("Type:", variableViewModel.typeProperty(), VariableDataType.class);
         addRowText("Value:", variableViewModel.valueProperty());
-
-        buttonOk.setOnMouseClicked(mouseEvent -> {
-            if (anyBlankValues()) {
-                return;
-            }
-
-            if (itemViewMode == ItemViewMode.ADD) {
-                if (diagramViewModel.getVariables().contains(viewModel)) {
-                    DialogMessages.showError("Conflicting name!");
-                    return;
-                } else {
-                    diagramViewModel.getVariables().add(viewModel);
-                }
-            }
-            // TODO prevent editing name to same
-
-            bindings.forEach(b -> b.destroy());
-            stage.close();
-        });
-
-        buttonCancel.setOnMouseClicked(mouseEvent -> {
-            diagramViewModel = null;
-            bindings.forEach(b -> b.destroy());
-            stage.close();
-        });
     }
 }

@@ -11,7 +11,7 @@ public class BidirectionalBinding<T extends Property> {
         this.second = second;
     }
 
-    public void destroy() {
+    public void unbind() {
         first.unbindBidirectional(second);
     }
 }

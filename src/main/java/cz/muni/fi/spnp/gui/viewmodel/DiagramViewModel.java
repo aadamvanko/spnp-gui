@@ -1,17 +1,11 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
-import cz.muni.fi.spnp.core.models.functions.Function;
-import cz.muni.fi.spnp.core.transformators.spnp.code.Define;
-import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineView;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.shape.Arc;
 
 import java.util.List;
 import java.util.stream.Collectors;
