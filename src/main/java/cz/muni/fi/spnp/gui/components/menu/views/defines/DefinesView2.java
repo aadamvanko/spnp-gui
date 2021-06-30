@@ -1,25 +1,27 @@
-package cz.muni.fi.spnp.gui.components.menu.views.variables;
+package cz.muni.fi.spnp.gui.components.menu.views.defines;
 
-import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
+import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
+import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
+import cz.muni.fi.spnp.gui.components.menu.views.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.views.general.GeneralTableView;
 import cz.muni.fi.spnp.gui.components.menu.views.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.VariableDataType;
 import cz.muni.fi.spnp.gui.viewmodel.VariableViewModel;
+import javafx.beans.property.StringProperty;
 
-public class VariablesView extends GeneralTableView<VariableViewModel> {
+public class DefinesView2 extends GeneralTableView<DefineViewModel> {
 
-    public VariablesView() {
-        super("Variables");
+    public DefinesView2() {
+        super("Defines");
 
         addColumn("Name", "name");
-        addColumn("Kind", "kind");
-        addColumn("Type", "type");
-        addColumn("Value", "value");
+        addColumn("Expression", "expression");
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
-            var itemView = new VariableView(new VariableViewModel(), ItemViewMode.ADD);
+            var itemView = new DefineView2(new DefineViewModel(), ItemViewMode.ADD);
             itemView.bindDiagramViewModel(this.diagramViewModel);
-            itemView.getStage().setTitle("Add variable");
+            itemView.getStage().setTitle("Add define");
             itemView.getStage().showAndWait();
         });
 
@@ -29,9 +31,9 @@ public class VariablesView extends GeneralTableView<VariableViewModel> {
                 return;
             }
 
-            var itemView = new VariableView(selectedItem, ItemViewMode.EDIT);
+            var itemView = new DefineView2(selectedItem, ItemViewMode.EDIT);
             itemView.bindDiagramViewModel(this.diagramViewModel);
-            itemView.getStage().setTitle("Edit variable");
+            itemView.getStage().setTitle("Edit define");
             itemView.getStage().showAndWait();
         });
 
@@ -46,6 +48,7 @@ public class VariablesView extends GeneralTableView<VariableViewModel> {
 
     public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
         this.diagramViewModel = diagramViewModel;
-        this.tableView.setItems(diagramViewModel.getVariables());
+        this.tableView.setItems(diagramViewModel.getDefines());
     }
 }
+

@@ -150,7 +150,7 @@ public class SubmodelConverter {
         timed.positionYProperty().set(oldTimed.xy.y);
         timed.priorityProperty().set(convertPriority(oldTimed.priority));
         timed.timedDistributionTypeProperty().set(convertDistributionType(oldTimed.distribution));
-        timed.setTransitionDistribution(createTransitionDistribution(timed.timedDistributionTypeProperty().get(), oldTimed, places, functions));
+//        timed.setTransitionDistribution(createTransitionDistribution(timed.timedDistributionTypeProperty().get(), oldTimed, places, functions));
         return timed;
     }
 

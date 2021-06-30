@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class DefineView extends UIWindowComponent {
+
     private final Label nameLabel;
     private final TextField nameTextField;
     private final Label expressionLabel;

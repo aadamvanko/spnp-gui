@@ -1,16 +1,21 @@
 package cz.muni.fi.spnp.gui.components.menu.views.defines;
 
 import cz.muni.fi.spnp.core.transformators.spnp.code.Define;
+import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import javafx.beans.property.Property;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
+import java.util.List;
 
 public class DefinesView extends UIWindowComponent {
     private final TableView<DefineViewModel> tableView;
