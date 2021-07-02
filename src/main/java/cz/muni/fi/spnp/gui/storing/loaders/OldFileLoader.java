@@ -37,7 +37,7 @@ public class OldFileLoader {
             var submodel = loadSubmodel(submodelFilepath);
             submodel.name = submodelName;
             var diagram = submodelConverter.convert(submodel, project);
-            project.addDiagram(diagram);
+            project.getDiagrams().add(diagram);
         }
         return project;
     }

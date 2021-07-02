@@ -17,16 +17,6 @@ public class ProjectViewModel extends DisplayableViewModel {
         this.notifications = notifications;
     }
 
-    public void addDiagram(DiagramViewModel diagramViewModel) {
-        diagrams.add(diagramViewModel);
-        notifications.newDiagramAdded(diagramViewModel);
-    }
-
-    public void removeDiagram(DiagramViewModel diagramViewModel) {
-        diagrams.remove(diagramViewModel);
-        notifications.diagramRemoved(diagramViewModel);
-    }
-
     public ObservableList<DiagramViewModel> getDiagrams() {
         return diagrams;
     }

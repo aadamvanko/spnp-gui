@@ -6,7 +6,9 @@ import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.*;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -18,23 +20,60 @@ import java.util.stream.Collectors;
 
 public class GraphComponent extends ApplicationComponent implements
         CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener,
-        NewDiagramAddedListener, NewElementAddedListener, ElementRemovedListener {
+        NewElementAddedListener, ElementRemovedListener {
 
     private TabPane tabPane;
     private Map<Tab, GraphView> graphViews;
+    private final ListChangeListener<? super DiagramViewModel> onDiagramsChangedListener;
 
     public GraphComponent(Model model, Notifications notifications) {
         super(model, notifications);
 
         createView();
 
+        onDiagramsChangedListener = this::onDiagramsChangedListener;
+
         notifications.addCursorModeChangeListener(this);
         notifications.addCreateElementTypeChangeListener(this);
         notifications.addToggleGridSnappingListener(this);
-        notifications.addNewDiagramAddedListener(this);
         notifications.addNewElementAddedListener(this);
+        model.getProjects().addListener(this::onProjectsChangedListener);
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
         notifications.addElementRemovedListener(this);
+    }
+
+    private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
+        while (projectsChange.next()) {
+            if (projectsChange.wasAdded()) {
+                projectsChange.getAddedSubList().forEach(added -> added.getDiagrams().addListener(onDiagramsChangedListener));
+            } else if (projectsChange.wasRemoved()) {
+                projectsChange.getAddedSubList().forEach(removed -> removed.getDiagrams().removeListener(onDiagramsChangedListener));
+            }
+        }
+    }
+
+    private void onDiagramsChangedListener(ListChangeListener.Change<? extends DiagramViewModel> diagramsChange) {
+        while (diagramsChange.next()) {
+            if (diagramsChange.wasAdded()) {
+                for (var added : diagramsChange.getAddedSubList()) {
+                    var graphView = new GraphView(notifications);
+                    graphView.bindDiagramViewModel(added);
+                    var tabName = createTabName(added);
+                    addGraphView(tabName, graphView);
+                }
+            } else if (diagramsChange.wasRemoved()) {
+                for (var removed : diagramsChange.getRemoved()) {
+                    var tab = getTabForDiagram(removed);
+                    if (tab != null) {
+                        graphViews.remove(tab);
+                    }
+                }
+            }
+        }
+    }
+
+    private String createTabName(DiagramViewModel diagramViewModel) {
+        return String.format("%s/%s", diagramViewModel.getProject().nameProperty().get(), diagramViewModel.nameProperty().get());
     }
 
     private void createView() {
@@ -105,14 +144,6 @@ public class GraphComponent extends ApplicationComponent implements
         getSelectedGraphView().setSnappingToGrid(!getSelectedGraphView().isSnappingEnabled());
     }
 
-    @Override
-    public void onNewDiagramAdded(DiagramViewModel diagramViewModel) {
-        var graphView = new GraphView(notifications);
-        graphView.bindDiagramViewModel(diagramViewModel);
-        var tabName = String.format("%s/%s", diagramViewModel.getProject().nameProperty().get(), diagramViewModel.nameProperty().get());
-        addGraphView(tabName, graphView);
-    }
-
     private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
         if (newDiagram == null) {
             return;
@@ -122,7 +153,7 @@ public class GraphComponent extends ApplicationComponent implements
             var tab = getTabForDiagram(newDiagram);
             tabPane.getSelectionModel().select(tab);
         } else {
-            var tabName = String.format("%s/%s", newDiagram.getProject().nameProperty().get(), newDiagram.nameProperty().get());
+            var tabName = createTabName(newDiagram);
             var graphView = new GraphView(notifications);
             graphView.bindDiagramViewModel(newDiagram);
             addGraphView(tabName, graphView);

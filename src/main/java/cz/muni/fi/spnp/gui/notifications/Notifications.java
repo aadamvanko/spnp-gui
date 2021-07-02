@@ -16,9 +16,7 @@ public class Notifications {
     private final List<CreateElementTypeChangeListener> createElementTypeChangeListeners;
     private final List<ToggleGridSnappingListener> toggleGridSnappingListeners;
     private final List<SelectedElementsChangeListener> selectedElementsChangeListeners;
-    private final List<NewDiagramAddedListener> newDiagramAddedListeners;
     private final List<NewElementAddedListener> newElementAddedListeners;
-    private final List<DiagramRemovedListener> diagramRemovedListeners;
     private final List<ElementRemovedListener> elementRemovedListeners;
 
     public Notifications() {
@@ -26,9 +24,7 @@ public class Notifications {
         createElementTypeChangeListeners = new ArrayList<>();
         toggleGridSnappingListeners = new ArrayList<>();
         selectedElementsChangeListeners = new ArrayList<>();
-        newDiagramAddedListeners = new ArrayList<>();
         newElementAddedListeners = new ArrayList<>();
-        diagramRemovedListeners = new ArrayList<>();
         elementRemovedListeners = new ArrayList<>();
     }
 
@@ -80,18 +76,6 @@ public class Notifications {
         selectedElementsChangeListeners.forEach(listener -> listener.onSelectedElementsChanged(selectedElements));
     }
 
-    public void addNewDiagramAddedListener(NewDiagramAddedListener listener) {
-        newDiagramAddedListeners.add(listener);
-    }
-
-    public void removeNewDiagramAddedListener(NewDiagramAddedListener listener) {
-        newDiagramAddedListeners.remove(listener);
-    }
-
-    public void newDiagramAdded(DiagramViewModel diagramViewModel) {
-        newDiagramAddedListeners.forEach(listener -> listener.onNewDiagramAdded(diagramViewModel));
-    }
-
     public void addNewElementAddedListener(NewElementAddedListener listener) {
         newElementAddedListeners.add(listener);
     }
@@ -102,18 +86,6 @@ public class Notifications {
 
     public void newElementAdded(ElementViewModel elementViewModel) {
         newElementAddedListeners.forEach(listener -> listener.onNewElementAdded(elementViewModel));
-    }
-
-    public void addDiagramRemovedListener(DiagramRemovedListener listener) {
-        diagramRemovedListeners.add(listener);
-    }
-
-    public void removeDiagramRemovedListener(DiagramRemovedListener listener) {
-        diagramRemovedListeners.remove(listener);
-    }
-
-    public void diagramRemoved(DiagramViewModel diagramViewModel) {
-        diagramRemovedListeners.forEach(listener -> listener.onDiagramRemoved(diagramViewModel));
     }
 
     public void addElementRemovedListener(ElementRemovedListener listener) {

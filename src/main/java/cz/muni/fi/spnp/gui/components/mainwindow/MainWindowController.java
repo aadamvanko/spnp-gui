@@ -126,11 +126,11 @@ public class MainWindowController {
 
         var diagram1 = new DiagramViewModel(notifications, project1, elements, includes, defines, variables, functions);
         diagram1.nameProperty().set("mock_diagram1");
-        project1.addDiagram(diagram1);
+        project1.getDiagrams().add(diagram1);
 
         var diagram2 = new DiagramViewModel(notifications, project1);
         diagram2.nameProperty().set("mock_diagram2");
-        project1.addDiagram(diagram2);
+        project1.getDiagrams().add(diagram2);
 
         var oldFileLoader = new OldFileLoader(notifications);
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");
