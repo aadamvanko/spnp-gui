@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GraphComponent extends ApplicationComponent implements
-        CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener,
+        CreateElementTypeChangeListener, ToggleGridSnappingListener,
         NewElementAddedListener, ElementRemovedListener {
 
     private TabPane tabPane;
@@ -33,7 +33,7 @@ public class GraphComponent extends ApplicationComponent implements
 
         onDiagramsChangedListener = this::onDiagramsChangedListener;
 
-        notifications.addCursorModeChangeListener(this);
+        model.cursorModeProperty().addListener(this::onCursorModeChanged);
         notifications.addCreateElementTypeChangeListener(this);
         notifications.addToggleGridSnappingListener(this);
         notifications.addNewElementAddedListener(this);
@@ -118,13 +118,13 @@ public class GraphComponent extends ApplicationComponent implements
         return tabPane;
     }
 
-    @Override
-    public void onCursorModeChanged(CursorMode cursorMode) {
+    public void onCursorModeChanged(ObservableValue<? extends CursorMode> observableValue, CursorMode oldCursorMode, CursorMode newCursorMode) {
         if (getSelectedGraphView() == null) {
             return;
         }
-        System.out.println("Cursor mode changed to " + cursorMode);
-        getSelectedGraphView().setCursorMode(cursorMode);
+
+        System.out.println("Cursor mode changed to " + newCursorMode);
+        getSelectedGraphView().setCursorMode(newCursorMode);
     }
 
 

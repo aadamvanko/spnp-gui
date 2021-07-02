@@ -68,7 +68,7 @@ public class ToolbarComponent extends ApplicationComponent {
     }
 
     private void onViewButtonClicked(MouseEvent mouseEvent) {
-        notifications.setGraphCursorMode(CursorMode.VIEW);
+        model.cursorModeProperty().set(CursorMode.VIEW);
     }
 
     private void onCreatePlaceButtonClicked(MouseEvent mouseEvent) {
@@ -96,9 +96,9 @@ public class ToolbarComponent extends ApplicationComponent {
         ToggleButton source = (ToggleButton) mouseEvent.getSource();
         System.out.println("source isSelected " + source.isSelected());
         if (source.isSelected()) {
-            notifications.setGraphCursorMode(CursorMode.CREATE_MULTIPLE);
+            model.cursorModeProperty().set(CursorMode.CREATE_MULTIPLE);
         } else {
-            notifications.setGraphCursorMode(CursorMode.CREATE);
+            model.cursorModeProperty().set(CursorMode.CREATE);
         }
         notifications.setCreateElementType(graphElementType);
     }
