@@ -3,28 +3,21 @@ package cz.muni.fi.spnp.gui.components.projects;
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.diagramoutline.TreeItemsIconsLoader;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.NewDiagramAddedListener;
-import cz.muni.fi.spnp.gui.notifications.NewProjectAddedListener;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.css.PseudoClass;
 import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProjectsComponent extends ApplicationComponent implements NewProjectAddedListener {
+public class ProjectsComponent extends ApplicationComponent {
 
     private TreeView<DisplayableViewModel> treeView;
     private TreeItem<DisplayableViewModel> treeItemRoot;
@@ -37,7 +30,7 @@ public class ProjectsComponent extends ApplicationComponent implements NewProjec
 
         createView();
 
-        notifications.addNewProjectAddedListener(this);
+        model.getProjects().addListener(this::onProjectsChangedListener);
     }
 
     private void createView() {
@@ -103,8 +96,11 @@ public class ProjectsComponent extends ApplicationComponent implements NewProjec
         return treeView;
     }
 
-    @Override
-    public void onNewProjectAdded(ProjectViewModel projectViewModel) {
-        treeItemRoot.getChildren().add(createItem(projectViewModel));
+    public void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
+        while (projectsChange.next()) {
+            if (projectsChange.wasAdded()) {
+                projectsChange.getAddedSubList().forEach(addedProject -> treeItemRoot.getChildren().add(createItem(addedProject)));
+            }
+        }
     }
 }

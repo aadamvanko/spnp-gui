@@ -44,7 +44,7 @@ public class NewProjectView extends UIWindowComponent {
 
             var project = new ProjectViewModel(notifications);
             project.nameProperty().set(name);
-            model.addProject(project);
+            model.getProjects().add(project);
             stage.close();
         });
         buttonsPanel.getChildren().add(buttonCreate);

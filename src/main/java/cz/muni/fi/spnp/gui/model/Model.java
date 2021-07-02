@@ -15,17 +15,13 @@ import java.util.Observable;
 
 public class Model {
     private final Notifications notifications;
-    private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
+    private final ObservableList<ProjectViewModel> projects;
     private final ObjectProperty<DiagramViewModel> selectedDiagram;
 
     public Model(Notifications notifications) {
         this.notifications = notifications;
+        projects = FXCollections.observableArrayList();
         selectedDiagram = new SimpleObjectProperty<>();
-    }
-
-    public void addProject(ProjectViewModel projectViewModel) {
-        projects.add(projectViewModel);
-        notifications.newProjectAdded(projectViewModel);
     }
 
     public ObjectProperty<DiagramViewModel> selectedDiagramProperty() {

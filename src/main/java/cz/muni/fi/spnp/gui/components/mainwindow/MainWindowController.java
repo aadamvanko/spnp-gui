@@ -60,7 +60,7 @@ public class MainWindowController {
 
         var project1 = new ProjectViewModel(notifications);
         project1.nameProperty().set("mock_project1");
-        model.addProject(project1);
+        model.getProjects().add(project1);
 
         var place1 = new PlaceViewModel();
         place1.nameProperty().set("place1");
@@ -144,7 +144,7 @@ public class MainWindowController {
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\definesTestProject.rgl");
 //        var oldFileSaver = new OldFileSaver();
 //        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
-        model.addProject(project1x);
+        model.getProjects().add(project1x);
 
         model.selectedDiagramProperty().set(diagram1);
 

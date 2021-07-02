@@ -16,7 +16,6 @@ public class Notifications {
     private final List<CreateElementTypeChangeListener> createElementTypeChangeListeners;
     private final List<ToggleGridSnappingListener> toggleGridSnappingListeners;
     private final List<SelectedElementsChangeListener> selectedElementsChangeListeners;
-    private final List<NewProjectAddedListener> newProjectAddedListeners;
     private final List<NewDiagramAddedListener> newDiagramAddedListeners;
     private final List<NewElementAddedListener> newElementAddedListeners;
     private final List<DiagramRemovedListener> diagramRemovedListeners;
@@ -27,7 +26,6 @@ public class Notifications {
         createElementTypeChangeListeners = new ArrayList<>();
         toggleGridSnappingListeners = new ArrayList<>();
         selectedElementsChangeListeners = new ArrayList<>();
-        newProjectAddedListeners = new ArrayList<>();
         newDiagramAddedListeners = new ArrayList<>();
         newElementAddedListeners = new ArrayList<>();
         diagramRemovedListeners = new ArrayList<>();
@@ -80,18 +78,6 @@ public class Notifications {
 
     public void selectedElementsChanged(List<GraphElement> selectedElements) {
         selectedElementsChangeListeners.forEach(listener -> listener.onSelectedElementsChanged(selectedElements));
-    }
-
-    public void addNewProjectAddedListener(NewProjectAddedListener listener) {
-        newProjectAddedListeners.add(listener);
-    }
-
-    public void removeNewProjectAddedListener(NewProjectAddedListener listener) {
-        newProjectAddedListeners.remove(listener);
-    }
-
-    public void newProjectAdded(ProjectViewModel projectViewModel) {
-        newProjectAddedListeners.forEach(listener -> listener.onNewProjectAdded(projectViewModel));
     }
 
     public void addNewDiagramAddedListener(NewDiagramAddedListener listener) {

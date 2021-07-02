@@ -8,17 +8,18 @@ import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludesView;
 import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.NewProjectAddedListener;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
-public class MenuComponent extends ApplicationComponent implements NewProjectAddedListener {
+public class MenuComponent extends ApplicationComponent {
 
     private final MenuBar menuBar;
     private final DefinesView definesView;
@@ -103,7 +104,7 @@ public class MenuComponent extends ApplicationComponent implements NewProjectAdd
         menuBar.getMenus().add(menuHelp);
 
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
-        notifications.addNewProjectAddedListener(this);
+        menuItemNewDiagram.disableProperty().bind(Bindings.size(model.getProjects()).isEqualTo(0));
     }
 
     @Override
@@ -124,8 +125,4 @@ public class MenuComponent extends ApplicationComponent implements NewProjectAdd
         variablesView.bindSourceCollection(newDiagram.getVariables());
     }
 
-    @Override
-    public void onNewProjectAdded(ProjectViewModel projectViewModel) {
-        menuItemNewDiagram.setDisable(false);
-    }
 }
