@@ -100,7 +100,7 @@ public class ToolbarComponent extends ApplicationComponent {
         } else {
             model.cursorModeProperty().set(CursorMode.CREATE);
         }
-        notifications.setCreateElementType(graphElementType);
+        model.createElementTypeProperty().set(graphElementType);
     }
 
     private void onZoomOutButtonClicked(MouseEvent mouseEvent) {

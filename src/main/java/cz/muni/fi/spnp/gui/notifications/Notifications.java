@@ -12,30 +12,16 @@ import java.util.List;
 
 public class Notifications {
 
-    private final List<CreateElementTypeChangeListener> createElementTypeChangeListeners;
     private final List<ToggleGridSnappingListener> toggleGridSnappingListeners;
     private final List<SelectedElementsChangeListener> selectedElementsChangeListeners;
     private final List<NewElementAddedListener> newElementAddedListeners;
     private final List<ElementRemovedListener> elementRemovedListeners;
 
     public Notifications() {
-        createElementTypeChangeListeners = new ArrayList<>();
         toggleGridSnappingListeners = new ArrayList<>();
         selectedElementsChangeListeners = new ArrayList<>();
         newElementAddedListeners = new ArrayList<>();
         elementRemovedListeners = new ArrayList<>();
-    }
-    
-    public void addCreateElementTypeChangeListener(CreateElementTypeChangeListener listener) {
-        createElementTypeChangeListeners.add(listener);
-    }
-
-    public void removeCreateElementTypeListener(CreateElementTypeChangeListener listener) {
-        createElementTypeChangeListeners.remove(listener);
-    }
-
-    public void setCreateElementType(GraphElementType graphElementType) {
-        createElementTypeChangeListeners.forEach(listener -> listener.onCreateElementTypeChanged(graphElementType));
     }
 
     public void addToggleGridSnappingListener(ToggleGridSnappingListener listener) {

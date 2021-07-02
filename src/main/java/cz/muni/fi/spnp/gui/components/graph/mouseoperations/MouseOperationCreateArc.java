@@ -9,6 +9,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.*;
 import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceController;
 import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionController;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.InhibitorArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.StandardArcViewModel;
@@ -22,22 +23,22 @@ import java.util.stream.Collectors;
 
 public class MouseOperationCreateArc extends MouseOperation {
 
-    private final GraphElementType createElementType;
+    private final Model model;
     private ConnectableGraphElement fromElement;
     private ConnectableGraphElement toElement;
     private Line fakeLine;
     private ArcEnding fakeEnding;
 
-    public MouseOperationCreateArc(GraphView graphView) {
+    public MouseOperationCreateArc(GraphView graphView, Model model) {
         super(graphView);
-        createElementType = graphView.getCreateElementType();
+        this.model = model;
     }
 
     @Override
     public void mousePressedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
         if (graphElement instanceof ConnectableGraphElement) {
-            if (createElementType == GraphElementType.STANDARD_ARC ||
-                    (createElementType == GraphElementType.INHIBITOR_ARC && graphElement instanceof PlaceController)) {
+            if (model.getCreateElementType() == GraphElementType.STANDARD_ARC ||
+                    (model.getCreateElementType() == GraphElementType.INHIBITOR_ARC && graphElement instanceof PlaceController)) {
                 fromElement = (ConnectableGraphElement) graphElement;
 
                 fakeLine = new Line();
@@ -45,7 +46,7 @@ public class MouseOperationCreateArc extends MouseOperation {
                 update(mouseEvent);
                 graphView.addToLayerTop(fakeLine);
 
-                if (createElementType == GraphElementType.STANDARD_ARC) {
+                if (model.getCreateElementType() == GraphElementType.STANDARD_ARC) {
                     fakeEnding = new ArcEndingArrow(fakeLine);
                 } else {
                     fakeEnding = new ArcEndingCircle(fakeLine);
@@ -121,22 +122,22 @@ public class MouseOperationCreateArc extends MouseOperation {
 
             if (toElement != null) {
                 ArcViewModel arcViewModel = null;
-                if (createElementType == GraphElementType.STANDARD_ARC) {
+                if (model.getCreateElementType() == GraphElementType.STANDARD_ARC) {
                     arcViewModel = new StandardArcViewModel("standardArc", fromElement.getViewModel(), toElement.getViewModel(), Collections.emptyList());
                 } else {
                     arcViewModel = new InhibitorArcViewModel("inhibitorArc", fromElement.getViewModel(), toElement.getViewModel(), Collections.emptyList());
                 }
                 graphView.getDiagramViewModel().addElement(arcViewModel);
 
-                if (graphView.getCursorMode() == CursorMode.CREATE) {
-                    graphView.setCursorMode(CursorMode.VIEW);
+                if (model.getCursorMode() == CursorMode.CREATE) {
+                    model.cursorModeProperty().set(CursorMode.VIEW);
                 }
             }
         }
     }
 
     private boolean isViableTarget(GraphElement target) {
-        if (createElementType == GraphElementType.STANDARD_ARC) {
+        if (model.getCreateElementType() == GraphElementType.STANDARD_ARC) {
             return (fromElement instanceof PlaceController && target instanceof TransitionController) ||
                     (fromElement instanceof TransitionController && target instanceof PlaceController);
         } else {

@@ -7,6 +7,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcDragMark;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
@@ -23,6 +24,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class GraphView {
 
@@ -34,15 +36,15 @@ public class GraphView {
     private final List<GraphElement> elements;
     private final Rectangle rectangleSelection;
     private List<GraphElement> selected;
-    private CursorMode cursorMode;
-    private GraphElementType createElementType;
     private MouseOperation mouseOperation;
     private boolean snappingToGrid;
     private final Notifications notifications;
+    private final Model model;
     private DiagramViewModel diagramViewModel;
 
-    public GraphView(Notifications notifications) {
+    public GraphView(Notifications notifications, Model model) {
         this.notifications = notifications;
+        this.model = model;
 
         layerBottom = new Group();
         layerMiddle = new Group();
@@ -57,9 +59,6 @@ public class GraphView {
 
         elements = new ArrayList<>();
         selected = new ArrayList<>();
-
-        cursorMode = CursorMode.VIEW;
-        createElementType = GraphElementType.STANDARD_ARC;
 
         rectangleSelection = new Rectangle();
 //        rectangleSelection.setWidth(100);
@@ -86,10 +85,6 @@ public class GraphView {
         fireSelectedElementsChanged();
     }
 
-    public void setCursorMode(CursorMode cursorMode) {
-        this.cursorMode = cursorMode;
-    }
-
     public void setSnappingToGrid(boolean snappingToGrid) {
         gridBackgroundPane.setDotsVisibility(snappingToGrid);
         if (!this.snappingToGrid && snappingToGrid) {
@@ -102,10 +97,10 @@ public class GraphView {
         System.out.println("canvas mouse pressed");
         finishMouseOperation();
 
-        if (mouseEvent.getButton() == MouseButton.PRIMARY && cursorMode == CursorMode.VIEW) {
+        if (mouseEvent.getButton() == MouseButton.PRIMARY && model.getCursorMode() == CursorMode.VIEW) {
             mouseOperation = new MouseOperationSelection(this);
-        } else if (mouseEvent.getButton() == MouseButton.PRIMARY && isInCreateMode()) {
-            mouseOperation = new MouseOperationCreate(this);
+        } else if (mouseEvent.getButton() == MouseButton.PRIMARY && isCreateModeConnectable()) {
+            mouseOperation = new MouseOperationCreateConnectable(this, model);
         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
             mouseOperation = new MouseOperationPanning(this);
         }
@@ -116,8 +111,25 @@ public class GraphView {
         mouseOperation.mousePressedHandler(null, mouseEvent);
     }
 
+    private boolean isCreateModeConnectable() {
+        var connectableElementsTypes = Set.of(
+                GraphElementType.PLACE,
+                GraphElementType.IMMEDIATE_TRANSITION,
+                GraphElementType.TIMED_TRANSITION
+        );
+        return isInCreateMode() && connectableElementsTypes.contains(model.getCreateElementType());
+    }
+
+    private boolean isCreateModeArc() {
+        var arcElementTypes = Set.of(
+                GraphElementType.STANDARD_ARC,
+                GraphElementType.INHIBITOR_ARC
+        );
+        return isInCreateMode() && arcElementTypes.contains(model.getCreateElementType());
+    }
+
     private boolean isInCreateMode() {
-        return cursorMode == CursorMode.CREATE || cursorMode == CursorMode.CREATE_MULTIPLE;
+        return model.getCursorMode() == CursorMode.CREATE || model.getCursorMode() == CursorMode.CREATE_MULTIPLE;
     }
 
     private void onMouseDragged(MouseEvent mouseEvent) {
@@ -156,9 +168,9 @@ public class GraphView {
     public void graphElementPressed(GraphElement graphElement, MouseEvent mouseEvent) {
         finishMouseOperation();
 
-        if (mouseEvent.getButton() == MouseButton.PRIMARY && isInCreateMode()) {
-            mouseOperation = new MouseOperationCreateArc(this);
-        } else if (mouseEvent.getButton() == MouseButton.PRIMARY && cursorMode == CursorMode.VIEW) {
+        if (mouseEvent.getButton() == MouseButton.PRIMARY && isCreateModeArc()) {
+            mouseOperation = new MouseOperationCreateArc(this, model);
+        } else if (mouseEvent.getButton() == MouseButton.PRIMARY && model.getCursorMode() == CursorMode.VIEW) {
             mouseOperation = new MouseOperationMoving(this);
         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
             mouseOperation = new MouseOperationContextMenu(this);
@@ -285,20 +297,8 @@ public class GraphView {
         gridBackgroundPane.setPrefHeight(maxY + GridBackgroundPane.SPACING_Y);
     }
 
-    public GraphElementType getCreateElementType() {
-        return createElementType;
-    }
-
-    public void setCreateElementType(GraphElementType createElementType) {
-        this.createElementType = createElementType;
-    }
-
     public List<GraphElement> getElements() {
         return elements;
-    }
-
-    public CursorMode getCursorMode() {
-        return cursorMode;
     }
 
     public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {

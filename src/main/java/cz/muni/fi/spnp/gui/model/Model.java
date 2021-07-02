@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.model;
 
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
@@ -20,16 +21,30 @@ public class Model {
     private final ObjectProperty<DiagramViewModel> selectedDiagram;
 
     private final ObjectProperty<CursorMode> cursorMode;
+    private final ObjectProperty<GraphElementType> createElementType;
 
     public Model(Notifications notifications) {
         this.notifications = notifications;
         projects = FXCollections.observableArrayList();
         selectedDiagram = new SimpleObjectProperty<>();
         cursorMode = new SimpleObjectProperty<>(CursorMode.VIEW);
+        createElementType = new SimpleObjectProperty<>(GraphElementType.PLACE);
+    }
+
+    public CursorMode getCursorMode() {
+        return cursorMode.get();
     }
 
     public ObjectProperty<CursorMode> cursorModeProperty() {
         return cursorMode;
+    }
+
+    public GraphElementType getCreateElementType() {
+        return createElementType.get();
+    }
+
+    public ObjectProperty<GraphElementType> createElementTypeProperty() {
+        return createElementType;
     }
 
     public ObjectProperty<DiagramViewModel> selectedDiagramProperty() {

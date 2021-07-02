@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
@@ -12,13 +13,13 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.Be
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
-public class MouseOperationCreate extends MouseOperation {
+public class MouseOperationCreateConnectable extends MouseOperation {
 
-    private final GraphElementType createElementType;
+    private final Model model;
 
-    public MouseOperationCreate(GraphView graphView) {
+    public MouseOperationCreateConnectable(GraphView graphView, Model model) {
         super(graphView);
-        createElementType = graphView.getCreateElementType();
+        this.model = model;
     }
 
     @Override
@@ -40,14 +41,14 @@ public class MouseOperationCreate extends MouseOperation {
             newViewModel.setDiagramViewModel(diagramViewModel);
             diagramViewModel.addElement(newViewModel);
 
-            if (graphView.getCursorMode() == CursorMode.CREATE) {
-                graphView.setCursorMode(CursorMode.VIEW);
+            if (model.getCursorMode() == CursorMode.CREATE) {
+                model.cursorModeProperty().set(CursorMode.VIEW);
             }
         }
     }
 
     private ConnectableViewModel createViewModel(GraphElement graphElement, Point2D position) {
-        switch (createElementType) {
+        switch (model.getCreateElementType()) {
             case PLACE:
                 var placeViewModel = new PlaceViewModel();
                 placeViewModel.nameProperty().set("place");
@@ -75,7 +76,7 @@ public class MouseOperationCreate extends MouseOperation {
                 return immediateTransitionViewModel;
 
             default:
-                throw new IllegalStateException("SHOULD NOT HAPPEN");
+                throw new IllegalStateException("SHOULD NOT HAPPEN " + model.getCreateElementType());
         }
     }
 }

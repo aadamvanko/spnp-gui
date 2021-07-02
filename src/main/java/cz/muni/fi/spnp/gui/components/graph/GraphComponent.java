@@ -18,8 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GraphComponent extends ApplicationComponent implements
-        CreateElementTypeChangeListener, ToggleGridSnappingListener,
+public class GraphComponent extends ApplicationComponent implements ToggleGridSnappingListener,
         NewElementAddedListener, ElementRemovedListener {
 
     private TabPane tabPane;
@@ -33,8 +32,6 @@ public class GraphComponent extends ApplicationComponent implements
 
         onDiagramsChangedListener = this::onDiagramsChangedListener;
 
-        model.cursorModeProperty().addListener(this::onCursorModeChanged);
-        notifications.addCreateElementTypeChangeListener(this);
         notifications.addToggleGridSnappingListener(this);
         notifications.addNewElementAddedListener(this);
         model.getProjects().addListener(this::onProjectsChangedListener);
@@ -56,7 +53,7 @@ public class GraphComponent extends ApplicationComponent implements
         while (diagramsChange.next()) {
             if (diagramsChange.wasAdded()) {
                 for (var added : diagramsChange.getAddedSubList()) {
-                    var graphView = new GraphView(notifications);
+                    var graphView = new GraphView(notifications, model);
                     graphView.bindDiagramViewModel(added);
                     var tabName = createTabName(added);
                     addGraphView(tabName, graphView);
@@ -118,24 +115,6 @@ public class GraphComponent extends ApplicationComponent implements
         return tabPane;
     }
 
-    public void onCursorModeChanged(ObservableValue<? extends CursorMode> observableValue, CursorMode oldCursorMode, CursorMode newCursorMode) {
-        if (getSelectedGraphView() == null) {
-            return;
-        }
-
-        System.out.println("Cursor mode changed to " + newCursorMode);
-        getSelectedGraphView().setCursorMode(newCursorMode);
-    }
-
-
-    @Override
-    public void onCreateElementTypeChanged(GraphElementType graphElementType) {
-        if (getSelectedGraphView() == null) {
-            return;
-        }
-        getSelectedGraphView().setCreateElementType(graphElementType);
-    }
-
     @Override
     public void gridSnappingToggled() {
         if (getSelectedGraphView() == null) {
@@ -154,7 +133,7 @@ public class GraphComponent extends ApplicationComponent implements
             tabPane.getSelectionModel().select(tab);
         } else {
             var tabName = createTabName(newDiagram);
-            var graphView = new GraphView(notifications);
+            var graphView = new GraphView(notifications, model);
             graphView.bindDiagramViewModel(newDiagram);
             addGraphView(tabName, graphView);
         }
