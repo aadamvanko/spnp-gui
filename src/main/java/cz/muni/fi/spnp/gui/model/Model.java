@@ -3,24 +3,24 @@ package cz.muni.fi.spnp.gui.model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 public class Model {
     private final Notifications notifications;
     private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
-    private final ProjectViewModel selectedProject;
-    private DiagramViewModel selectedDiagram;
+    private final ObjectProperty<DiagramViewModel> selectedDiagram;
 
     public Model(Notifications notifications) {
         this.notifications = notifications;
-        selectedProject = null;
-//        ProjectViewModel project = new ProjectViewModel("Project 1");
-//        projects.add(project);
-//        selectedProject = project;
+        selectedDiagram = new SimpleObjectProperty<>();
     }
 
     public void addProject(ProjectViewModel projectViewModel) {
@@ -28,17 +28,8 @@ public class Model {
         notifications.newProjectAdded(projectViewModel);
     }
 
-    public void selectProject(String projectName) {
-
-    }
-
-    public void selectDiagram(DiagramViewModel diagramViewModel) {
-        selectedDiagram = diagramViewModel;
-        notifications.selectedDiagramChanged(selectedDiagram);
-    }
-
-    public ProjectViewModel getSelectedProject() {
-        return selectedProject;
+    public ObjectProperty<DiagramViewModel> selectedDiagramProperty() {
+        return selectedDiagram;
     }
 
     public boolean projectExists(String name) {

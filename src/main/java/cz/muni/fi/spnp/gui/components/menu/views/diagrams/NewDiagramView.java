@@ -55,7 +55,7 @@ public class NewDiagramView extends UIWindowComponent {
             var diagram = new DiagramViewModel(notifications, project);
             diagram.nameProperty().set(name);
             project.addDiagram(diagram);
-            model.selectDiagram(diagram);
+            model.selectedDiagramProperty().set(diagram);
             stage.close();
         });
         buttonsPanel.getChildren().add(buttonCreate);
@@ -71,10 +71,13 @@ public class NewDiagramView extends UIWindowComponent {
     }
 
     public void prepare() {
-        if (model.getSelectedProject() != null) {
-            choiceBoxProject.getSelectionModel().select(model.getSelectedProject());
-        } else if (!model.getProjects().isEmpty()) {
-            choiceBoxProject.getSelectionModel().select(0);
+        var selectedDiagram = model.selectedDiagramProperty().get();
+        if (selectedDiagram == null) {
+            if (!model.getProjects().isEmpty()) {
+                choiceBoxProject.getSelectionModel().select(0);
+            }
+        } else {
+            choiceBoxProject.getSelectionModel().select(selectedDiagram.getProject());
         }
     }
 }

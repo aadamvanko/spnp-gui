@@ -146,7 +146,7 @@ public class MainWindowController {
 //        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
         model.addProject(project1x);
 
-        model.selectDiagram(diagram1);
+        model.selectedDiagramProperty().set(diagram1);
 
         //
 //        PlaceController pc1 = new PlaceController(100, 100);

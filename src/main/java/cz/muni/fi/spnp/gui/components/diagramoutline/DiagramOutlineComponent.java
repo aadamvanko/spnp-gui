@@ -3,9 +3,9 @@ package cz.muni.fi.spnp.gui.components.diagramoutline;
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
-import cz.muni.fi.spnp.gui.notifications.SelectedDiagramChangeListener;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
@@ -15,7 +15,7 @@ import javafx.scene.control.TreeView;
 
 import java.util.stream.Collectors;
 
-public class DiagramOutlineComponent extends ApplicationComponent implements SelectedDiagramChangeListener {
+public class DiagramOutlineComponent extends ApplicationComponent {
 
     private TreeView<DisplayableViewModel> treeView;
     private TreeItem<DisplayableViewModel> treeItemRoot;
@@ -29,7 +29,7 @@ public class DiagramOutlineComponent extends ApplicationComponent implements Sel
 
         createView();
 
-        notifications.addSelectedDiagramChangeListener(this);
+        model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
     }
 
     private void createView() {
@@ -89,16 +89,15 @@ public class DiagramOutlineComponent extends ApplicationComponent implements Sel
         return treeView;
     }
 
-    @Override
-    public void onSelectedDiagramChanged(DiagramViewModel diagramViewModel) {
+    private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
         if (!treeItemRoot.getChildren().isEmpty()) {
             DiagramViewModel diagramObject = (DiagramViewModel) treeItemRoot.getChildren().get(0).getValue();
             diagramObject.getElements().removeListener(listChangeListener);
             treeItemRoot.getChildren().clear();
         }
 
-        if (diagramViewModel != null) {
-            treeItemRoot.getChildren().add(createItem(diagramViewModel));
+        if (newDiagram != null) {
+            treeItemRoot.getChildren().add(createItem(newDiagram));
         }
     }
 }

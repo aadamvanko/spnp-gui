@@ -10,15 +10,15 @@ import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.NewProjectAddedListener;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
-import cz.muni.fi.spnp.gui.notifications.SelectedDiagramChangeListener;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
-public class MenuComponent extends ApplicationComponent implements SelectedDiagramChangeListener, NewProjectAddedListener {
+public class MenuComponent extends ApplicationComponent implements NewProjectAddedListener {
 
     private final MenuBar menuBar;
     private final DefinesView definesView;
@@ -102,7 +102,7 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
         Menu menuHelp = new Menu("Help");
         menuBar.getMenus().add(menuHelp);
 
-        notifications.addSelectedDiagramChangeListener(this);
+        model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
         notifications.addNewProjectAddedListener(this);
     }
 
@@ -111,15 +111,17 @@ public class MenuComponent extends ApplicationComponent implements SelectedDiagr
         return menuBar;
     }
 
-    @Override
-    public void onSelectedDiagramChanged(DiagramViewModel diagramViewModel) {
-        if (diagramViewModel != null) {
+    private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
+        if (newDiagram == null) {
+            menuItemViewDefines.setDisable(true);
+            return;
+        } else {
             menuItemViewDefines.setDisable(false);
         }
 
-        includesView.bindSourceCollection(diagramViewModel.getIncludes());
-        definesView.bindSourceCollection(diagramViewModel.getDefines());
-        variablesView.bindSourceCollection(diagramViewModel.getVariables());
+        includesView.bindSourceCollection(newDiagram.getIncludes());
+        definesView.bindSourceCollection(newDiagram.getDefines());
+        variablesView.bindSourceCollection(newDiagram.getVariables());
     }
 
     @Override

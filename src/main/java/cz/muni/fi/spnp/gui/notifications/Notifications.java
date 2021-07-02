@@ -16,7 +16,6 @@ public class Notifications {
     private final List<CreateElementTypeChangeListener> createElementTypeChangeListeners;
     private final List<ToggleGridSnappingListener> toggleGridSnappingListeners;
     private final List<SelectedElementsChangeListener> selectedElementsChangeListeners;
-    private final List<SelectedDiagramChangeListener> selectedDiagramChangeListeners;
     private final List<NewProjectAddedListener> newProjectAddedListeners;
     private final List<NewDiagramAddedListener> newDiagramAddedListeners;
     private final List<NewElementAddedListener> newElementAddedListeners;
@@ -28,7 +27,6 @@ public class Notifications {
         createElementTypeChangeListeners = new ArrayList<>();
         toggleGridSnappingListeners = new ArrayList<>();
         selectedElementsChangeListeners = new ArrayList<>();
-        selectedDiagramChangeListeners = new ArrayList<>();
         newProjectAddedListeners = new ArrayList<>();
         newDiagramAddedListeners = new ArrayList<>();
         newElementAddedListeners = new ArrayList<>();
@@ -82,18 +80,6 @@ public class Notifications {
 
     public void selectedElementsChanged(List<GraphElement> selectedElements) {
         selectedElementsChangeListeners.forEach(listener -> listener.onSelectedElementsChanged(selectedElements));
-    }
-
-    public void addSelectedDiagramChangeListener(SelectedDiagramChangeListener listener) {
-        selectedDiagramChangeListeners.add(listener);
-    }
-
-    public void removeSelectedDiagramChangeListener(SelectedDiagramChangeListener listener) {
-        selectedDiagramChangeListeners.remove(listener);
-    }
-
-    public void selectedDiagramChanged(DiagramViewModel diagramViewModel) {
-        selectedDiagramChangeListeners.forEach(listener -> listener.onSelectedDiagramChanged(diagramViewModel));
     }
 
     public void addNewProjectAddedListener(NewProjectAddedListener listener) {

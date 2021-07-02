@@ -69,7 +69,7 @@ public class ProjectsComponent extends ApplicationComponent implements NewProjec
             cell.setOnMouseClicked(mouseEvent -> {
                 var sourceItem = cell.getItem();
                 if (sourceItem instanceof DiagramViewModel && mouseEvent.getClickCount() == 2) {
-                    model.selectDiagram((DiagramViewModel) sourceItem);
+                    model.selectedDiagramProperty().set((DiagramViewModel) sourceItem);
                 }
             });
 

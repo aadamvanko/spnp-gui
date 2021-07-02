@@ -6,6 +6,7 @@ import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.*;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class GraphComponent extends ApplicationComponent implements
         CursorModeChangeListener, CreateElementTypeChangeListener, ToggleGridSnappingListener,
-        NewDiagramAddedListener, NewElementAddedListener, SelectedDiagramChangeListener, ElementRemovedListener {
+        NewDiagramAddedListener, NewElementAddedListener, ElementRemovedListener {
 
     private TabPane tabPane;
     private Map<Tab, GraphView> graphViews;
@@ -32,7 +33,7 @@ public class GraphComponent extends ApplicationComponent implements
         notifications.addToggleGridSnappingListener(this);
         notifications.addNewDiagramAddedListener(this);
         notifications.addNewElementAddedListener(this);
-        notifications.addSelectedDiagramChangeListener(this);
+        model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
         notifications.addElementRemovedListener(this);
     }
 
@@ -44,12 +45,12 @@ public class GraphComponent extends ApplicationComponent implements
         tabPane.getSelectionModel().selectedItemProperty().addListener(changeEvent -> {
             var selectedTab = tabPane.getSelectionModel().getSelectedItem();
             if (selectedTab == null) {
-                model.selectDiagram(null);
+                model.selectedDiagramProperty().set(null);
                 return;
             }
 
             var diagram = graphViews.get(selectedTab).getDiagramViewModel();
-            model.selectDiagram(diagram);
+            model.selectedDiagramProperty().set(diagram);
         });
     }
 
@@ -112,19 +113,18 @@ public class GraphComponent extends ApplicationComponent implements
         addGraphView(tabName, graphView);
     }
 
-    @Override
-    public void onSelectedDiagramChanged(DiagramViewModel diagramViewModel) {
-        if (diagramViewModel == null) {
+    private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
+        if (newDiagram == null) {
             return;
         }
 
-        if (isOpened(diagramViewModel)) {
-            var tab = getTabForDiagram(diagramViewModel);
+        if (isOpened(newDiagram)) {
+            var tab = getTabForDiagram(newDiagram);
             tabPane.getSelectionModel().select(tab);
         } else {
-            var tabName = String.format("%s/%s", diagramViewModel.getProject().nameProperty().get(), diagramViewModel.nameProperty().get());
+            var tabName = String.format("%s/%s", newDiagram.getProject().nameProperty().get(), newDiagram.nameProperty().get());
             var graphView = new GraphView(notifications);
-            graphView.bindDiagramViewModel(diagramViewModel);
+            graphView.bindDiagramViewModel(newDiagram);
             addGraphView(tabName, graphView);
         }
     }
