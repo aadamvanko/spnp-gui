@@ -124,7 +124,11 @@ public class MainWindowController {
         variables.add(new VariableViewModel("var_1_param_int", VariableType.Parameter, VariableDataType.INT, "11"));
         variables.add(new VariableViewModel("var_1_param_double", VariableType.Parameter, VariableDataType.DOUBLE, "11.25"));
 
-        var diagram1 = new DiagramViewModel(notifications, project1, elements, includes, defines, variables, functions);
+        var inputParameters = new ArrayList<InputParameterViewModel>();
+        inputParameters.add(new InputParameterViewModel("input_param_1_int", VariableDataType.INT, "Enter int value for input param"));
+        inputParameters.add(new InputParameterViewModel("input_param_1_double", VariableDataType.DOUBLE, "Enter double value for input param"));
+
+        var diagram1 = new DiagramViewModel(notifications, project1, elements, includes, defines, variables, inputParameters, functions);
         diagram1.nameProperty().set("mock_diagram1");
         project1.getDiagrams().add(diagram1);
 
@@ -135,11 +139,11 @@ public class MainWindowController {
         var oldFileLoader = new OldFileLoader(notifications);
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P2.rgl");
-//        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P3.rgl"); // expressions in timed transition values
+        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P3.rgl"); // expressions in timed transition values
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P5.rgl"); // expressions in timed transition values
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P8.rgl"); // expressions in timed transition values
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P20.rgl"); // expressions in timed transition values
-        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
+//        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\functionsExampleProject.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\definesTestProject.rgl");
 //        var oldFileSaver = new OldFileSaver();

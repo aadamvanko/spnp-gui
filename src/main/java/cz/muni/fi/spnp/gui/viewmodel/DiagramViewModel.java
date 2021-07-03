@@ -18,6 +18,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final ObservableList<IncludeViewModel> includes;
     private final ObservableList<DefineViewModel> defines;
     private final ObservableList<VariableViewModel> variables;
+    private final ObservableList<InputParameterViewModel> inputParameters;
     private final ObservableList<FunctionViewModel> functions;
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
@@ -27,10 +28,13 @@ public class DiagramViewModel extends DisplayableViewModel {
                 FXCollections.observableArrayList(),
                 FXCollections.observableArrayList(),
                 FXCollections.observableArrayList(),
+                FXCollections.observableArrayList(),
                 FXCollections.observableArrayList());
     }
 
-    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements, List<IncludeViewModel> includes, List<DefineViewModel> defines, List<VariableViewModel> variables, List<FunctionViewModel> functions) {
+    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements,
+                            List<IncludeViewModel> includes, List<DefineViewModel> defines, List<VariableViewModel> variables,
+                            List<InputParameterViewModel> inputParameters, List<FunctionViewModel> functions) {
         nameProperty().set("unnamedDiagram");
         this.notifications = notifications;
         this.projectViewModel = projectViewModel;
@@ -38,6 +42,7 @@ public class DiagramViewModel extends DisplayableViewModel {
         this.elements = FXCollections.observableArrayList(elements);
         this.defines = FXCollections.observableArrayList(defines);
         this.variables = FXCollections.observableArrayList(variables);
+        this.inputParameters = FXCollections.observableArrayList(inputParameters);
         this.functions = FXCollections.observableArrayList(functions);
     }
 
@@ -87,4 +92,9 @@ public class DiagramViewModel extends DisplayableViewModel {
     public ObservableList<ElementViewModel> getElements() {
         return elements;
     }
+
+    public ObservableList<InputParameterViewModel> getInputParameters() {
+        return inputParameters;
+    }
+
 }

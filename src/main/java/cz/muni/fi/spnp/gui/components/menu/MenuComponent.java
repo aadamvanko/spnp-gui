@@ -6,6 +6,8 @@ import cz.muni.fi.spnp.gui.components.menu.views.diagrams.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludesView;
 import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
+import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParameterView;
+import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParametersView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
@@ -28,6 +30,8 @@ public class MenuComponent extends ApplicationComponent {
     private final MenuItem menuItemViewDefines;
     private final VariablesView variablesView;
     private final MenuItem menuItemViewVariables;
+    private final InputParametersView inputParametersView;
+    private final MenuItem menuItemViewInputParameters;
     private final FunctionsView functionsView;
     private final MenuItem menuItemViewFunctions;
     private final NewProjectView newProjectView;
@@ -87,6 +91,14 @@ public class MenuComponent extends ApplicationComponent {
         });
         menuView.getItems().add(menuItemViewVariables);
 
+        inputParametersView = new InputParametersView();
+        menuItemViewInputParameters = new MenuItem("Input Parameters");
+        menuItemViewInputParameters.setDisable(false);
+        menuItemViewInputParameters.setOnAction(actionEvent -> {
+            inputParametersView.getStage().showAndWait();
+        });
+        menuView.getItems().add(menuItemViewInputParameters);
+
         functionsView = new FunctionsView();
         menuItemViewFunctions = new MenuItem("Functions");
         menuItemViewFunctions.setDisable(false);
@@ -123,6 +135,7 @@ public class MenuComponent extends ApplicationComponent {
         includesView.bindSourceCollection(newDiagram.getIncludes());
         definesView.bindSourceCollection(newDiagram.getDefines());
         variablesView.bindSourceCollection(newDiagram.getVariables());
+        inputParametersView.bindSourceCollection(newDiagram.getInputParameters());
     }
 
 }

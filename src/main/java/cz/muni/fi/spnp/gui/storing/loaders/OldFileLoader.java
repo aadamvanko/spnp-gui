@@ -67,12 +67,19 @@ public class OldFileLoader {
                     submodel.functions.add(readFunction(bufferedReader, line));
                 } else if (line.startsWith("Variable:")) {
                     submodel.variables.add(readVariable(bufferedReader, line));
+                } else if (line.startsWith("UserPromptText:")) {
+                    addUserPromptText(submodel.variables, extractValue(line));
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return submodel;
+    }
+
+    private void addUserPromptText(List<VariableOldFormat> variables, String userPromptText) {
+        var lastVariable = variables.get(variables.size() - 1);
+        lastVariable.userPromptText = userPromptText;
     }
 
     private VariableOldFormat readVariable(BufferedReader bufferedReader, String line) {

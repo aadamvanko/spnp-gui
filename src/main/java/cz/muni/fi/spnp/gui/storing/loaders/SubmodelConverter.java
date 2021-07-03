@@ -18,7 +18,6 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDi
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.fourvalues.HypoExponentialDistributionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ConstantTransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ExponentialTransitionDistributionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.SingleValueTransitionDistributionBaseViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.BinomialTransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.HyperExponentialTransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.NegativeBinomialTransitionDistributionViewModel;
@@ -26,6 +25,7 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,17 +41,19 @@ public class SubmodelConverter {
         var includes = convertIncludes(submodel.includes);
         var defines = convertDefines(submodel.defines);
         var variables = convertVariables(submodel.variables);
+        var inputParameters = convertInputParamters(submodel.variables);
         var functions = convertFunctions(submodel.functions);
         var elements = convertElements(submodel.elements, functions);
 
-        var diagram = new DiagramViewModel(notifications, projectViewModel, elements, includes, defines, variables, functions);
+        var diagram = new DiagramViewModel(notifications, projectViewModel, elements, includes, defines, variables, inputParameters, functions);
         diagram.nameProperty().set(submodel.name);
         return diagram;
     }
 
-    private List<VariableViewModel> convertVariables(List<VariableOldFormat> variables) {
-        return variables
+    private List<VariableViewModel> convertVariables(List<VariableOldFormat> oldVariables) {
+        return oldVariables
                 .stream()
+                .filter(Predicate.not(this::isInputParameter))
                 .map(this::convertVariable)
                 .collect(Collectors.toList());
     }
@@ -63,6 +65,26 @@ public class SubmodelConverter {
         variable.typeProperty().set(convertVariableType(oldVariable.type));
         variable.valueProperty().setValue(oldVariable.value);
         return variable;
+    }
+
+    private List<InputParameterViewModel> convertInputParamters(List<VariableOldFormat> oldVariables) {
+        return oldVariables
+                .stream()
+                .filter(this::isInputParameter)
+                .map(this::convertInputParameter)
+                .collect(Collectors.toList());
+    }
+
+    private boolean isInputParameter(VariableOldFormat oldVariable) {
+        return oldVariable.userPromptText != null;
+    }
+
+    private InputParameterViewModel convertInputParameter(VariableOldFormat oldVariable) {
+        assert oldVariable.kind.equals("Parameter") : "Input parameter must have kind Parameter";
+        var inputParameter = new InputParameterViewModel();
+        inputParameter.nameProperty().set(oldVariable.name);
+        inputParameter.userPromptTextProperty().set(oldVariable.userPromptText);
+        return inputParameter;
     }
 
     private VariableType convertVariableKind(String kind) {
