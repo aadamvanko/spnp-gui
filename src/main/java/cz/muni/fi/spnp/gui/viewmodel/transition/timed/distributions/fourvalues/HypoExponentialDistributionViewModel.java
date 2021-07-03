@@ -8,15 +8,15 @@ import cz.muni.fi.spnp.core.transformators.spnp.distributions.FourValuesTransiti
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.HypoExponentialTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.StringProperty;
 
-public class HypoExponentialDistributionViewModel extends FourValuesTransitionDistributionBaseViewModel<Integer, Double, Double, Double> {
+public class HypoExponentialDistributionViewModel extends FourValuesTransitionDistributionBaseViewModel {
 
-    public HypoExponentialDistributionViewModel(int numberOfStages,
-                                                double firstRateValue,
-                                                double secondRateValue,
-                                                double thirdRateValue) {
+    public HypoExponentialDistributionViewModel(String numberOfStages,
+                                                String firstRateValue,
+                                                String secondRateValue,
+                                                String thirdRateValue) {
         super(numberOfStages, firstRateValue, secondRateValue, thirdRateValue);
         numberOfStagesProperty().set(numberOfStages);
     }
@@ -28,29 +28,29 @@ public class HypoExponentialDistributionViewModel extends FourValuesTransitionDi
         super(numberOfStagesFunction, firstRateValueFunction, secondRateValueFunction, thirdRateValueFunction);
     }
 
-    public HypoExponentialDistributionViewModel(int numberOfStages,
-                                                double firstRateValue,
-                                                double secondRateValue,
-                                                double thirdRateValue,
+    public HypoExponentialDistributionViewModel(String numberOfStages,
+                                                String firstRateValue,
+                                                String secondRateValue,
+                                                String thirdRateValue,
                                                 PlaceViewModel dependentPlace) {
         super(numberOfStages, firstRateValue, secondRateValue, thirdRateValue, dependentPlace);
         numberOfStagesProperty().set(numberOfStages);
     }
 
-    public IntegerProperty numberOfStagesProperty() {
-        return IntegerProperty.integerProperty(firstValueProperty());
+    public StringProperty numberOfStagesProperty() {
+        return firstValueProperty();
     }
 
-    public DoubleProperty firstRateValueProperty() {
-        return DoubleProperty.doubleProperty(secondValueProperty());
+    public StringProperty firstRateValueProperty() {
+        return secondValueProperty();
     }
 
-    public DoubleProperty secondRateValueProperty() {
-        return DoubleProperty.doubleProperty(thirdValueProperty());
+    public StringProperty secondRateValueProperty() {
+        return thirdValueProperty();
     }
 
-    public DoubleProperty thirdRateValueProperty() {
-        return DoubleProperty.doubleProperty(fourthValueProperty());
+    public StringProperty thirdRateValueProperty() {
+        return fourthValueProperty();
     }
 
     public FunctionViewModel getNumberOfStagesFunction() {

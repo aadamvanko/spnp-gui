@@ -172,7 +172,7 @@ public class SubmodelConverter {
         timed.positionYProperty().set(oldTimed.xy.y);
         timed.priorityProperty().set(convertPriority(oldTimed.priority));
         timed.timedDistributionTypeProperty().set(convertDistributionType(oldTimed.distribution));
-//        timed.setTransitionDistribution(createTransitionDistribution(timed.timedDistributionTypeProperty().get(), oldTimed, places, functions));
+        timed.setTransitionDistribution(createTransitionDistribution(timed.timedDistributionTypeProperty().get(), oldTimed, places, functions));
         return timed;
     }
 
@@ -204,7 +204,8 @@ public class SubmodelConverter {
     }
 
     private TransitionDistributionViewModel createConstantOneValueDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
-        var first = Double.parseDouble(oldTimed.valueTransition);
+        var first = oldTimed.valueTransition;
+
         switch (timedDistributionType) {
             case Constant:
                 return new ConstantTransitionDistributionViewModel(first);
@@ -215,19 +216,16 @@ public class SubmodelConverter {
     }
 
     private TransitionDistributionViewModel createConstantTwoValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
-        if (timedDistributionType == TimedDistributionType.Erlang) {
-            var first = Double.parseDouble(oldTimed.valueTransition);
-            var second = Integer.parseInt(oldTimed.value1Transition);
-            return new ErlangTransitionDistributionViewModel(first, second);
-        }
+        var first = oldTimed.valueTransition;
+        var second = oldTimed.value1Transition;
 
-        var first = Double.parseDouble(oldTimed.valueTransition);
-        var second = Double.parseDouble(oldTimed.value1Transition);
         switch (timedDistributionType) {
             case Beta:
                 return new BetaTransitionDistributionViewModel(first, second);
             case Cauchy:
                 return new CauchyTransitionDistributionViewModel(first, second);
+            case Erlang:
+                return new ErlangTransitionDistributionViewModel(first, second);
             case Gamma:
                 return new GammaTransitionDistributionViewModel(first, second);
             case Geometric:
@@ -249,9 +247,10 @@ public class SubmodelConverter {
     }
 
     private TransitionDistributionViewModel createConstantThreeValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
-        var first = Double.parseDouble(oldTimed.valueTransition);
-        var second = Double.parseDouble(oldTimed.value1Transition);
-        var third = Double.parseDouble(oldTimed.value2Transition);
+        var first = oldTimed.valueTransition;
+        var second = oldTimed.value1Transition;
+        var third = oldTimed.value2Transition;
+
         switch (timedDistributionType) {
             case Binomial:
                 return new BinomialTransitionDistributionViewModel(first, second, third);
@@ -264,10 +263,11 @@ public class SubmodelConverter {
     }
 
     private TransitionDistributionViewModel createConstantFourValuesDistributionViewModel(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed) {
-        var first = Integer.parseInt(oldTimed.valueTransition);
-        var second = Double.parseDouble(oldTimed.value1Transition);
-        var third = Double.parseDouble(oldTimed.value2Transition);
-        var fourth = Double.parseDouble(oldTimed.value3Transition);
+        var first = oldTimed.valueTransition;
+        var second = oldTimed.value1Transition;
+        var third = oldTimed.value2Transition;
+        var fourth = oldTimed.value3Transition;
+
         switch (timedDistributionType) {
             case HypoExponential:
                 return new HypoExponentialDistributionViewModel(first, second, third, fourth);

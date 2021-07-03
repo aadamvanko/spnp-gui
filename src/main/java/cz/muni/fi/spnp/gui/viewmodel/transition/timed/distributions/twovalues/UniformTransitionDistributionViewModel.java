@@ -5,9 +5,9 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.UniformTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class UniformTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel<Double, Double> {
+public class UniformTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link UniformTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -15,7 +15,7 @@ public class UniformTransitionDistributionViewModel extends TwoValuesTransitionD
      * @param lowerBound lower bound value of uniform distribution
      * @param upperBound upper bound value of uniform distribution
      */
-    public UniformTransitionDistributionViewModel(double lowerBound, double upperBound) {
+    public UniformTransitionDistributionViewModel(String lowerBound, String upperBound) {
         super(lowerBound, upperBound);
     }
 
@@ -36,16 +36,16 @@ public class UniformTransitionDistributionViewModel extends TwoValuesTransitionD
      * @param upperBound     upper bound value of uniform distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public UniformTransitionDistributionViewModel(double lowerBound, double upperBound, PlaceViewModel dependentPlace) {
+    public UniformTransitionDistributionViewModel(String lowerBound, String upperBound, PlaceViewModel dependentPlace) {
         super(lowerBound, upperBound, dependentPlace);
     }
 
-    public DoubleProperty lowerBoundProperty() {
-        return DoubleProperty.doubleProperty(firstValueProperty());
+    public StringProperty lowerBoundProperty() {
+        return firstValueProperty();
     }
 
-    public DoubleProperty upperBoundProperty() {
-        return DoubleProperty.doubleProperty(secondValueProperty());
+    public StringProperty upperBoundProperty() {
+        return secondValueProperty();
     }
 
     public FunctionViewModel getLowerBoundFunction() {

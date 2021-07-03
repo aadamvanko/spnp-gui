@@ -8,9 +8,9 @@ import cz.muni.fi.spnp.core.transformators.spnp.distributions.HyperExponentialTr
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.ThreeValuesTransitionDistributionBase;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class HyperExponentialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel<Double, Double, Double> {
+public class HyperExponentialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link HyperExponentialTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -19,9 +19,9 @@ public class HyperExponentialTransitionDistributionViewModel extends ThreeValues
      * @param secondLambdaRate second lambda rate value of hyper-exponential distribution
      * @param probabilityValue probability value of hyper-exponential distribution
      */
-    public HyperExponentialTransitionDistributionViewModel(Double firstLambdaRate,
-                                                           Double secondLambdaRate,
-                                                           Double probabilityValue) {
+    public HyperExponentialTransitionDistributionViewModel(String firstLambdaRate,
+                                                           String secondLambdaRate,
+                                                           String probabilityValue) {
         super(firstLambdaRate, secondLambdaRate, probabilityValue);
     }
 
@@ -46,24 +46,24 @@ public class HyperExponentialTransitionDistributionViewModel extends ThreeValues
      * @param probabilityValue probability value of hyper-exponential distribution
      * @param dependentPlace   reference to a {@link StandardPlace} object which is used for distribution
      */
-    public HyperExponentialTransitionDistributionViewModel(Double firstLambdaRate,
-                                                           Double secondLambdaRate,
-                                                           Double probabilityValue,
+    public HyperExponentialTransitionDistributionViewModel(String firstLambdaRate,
+                                                           String secondLambdaRate,
+                                                           String probabilityValue,
                                                            PlaceViewModel dependentPlace) {
         super(firstLambdaRate, secondLambdaRate, probabilityValue, dependentPlace);
     }
 
-    // TODO this creates new DoubleProperty everytime, need to have always the same for detaching purposes!!!
-    public DoubleProperty firstLambdaRateProperty() {
-        return DoubleProperty.doubleProperty(firstValueProperty());
+    // TODO this creates new StringProperty everytime, need to have always the same for detaching purposes!!!
+    public StringProperty firstLambdaRateProperty() {
+        return firstValueProperty();
     }
 
-    public DoubleProperty secondLambdaRateProperty() {
-        return DoubleProperty.doubleProperty(secondValueProperty());
+    public StringProperty secondLambdaRateProperty() {
+        return secondValueProperty();
     }
 
-    public DoubleProperty probabilityValueProperty() {
-        return DoubleProperty.doubleProperty(thirdValueProperty());
+    public StringProperty probabilityValueProperty() {
+        return thirdValueProperty();
     }
 
     public FunctionViewModel getFirstLambdaRateFunction() {

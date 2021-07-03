@@ -6,9 +6,9 @@ import cz.muni.fi.spnp.core.models.visitors.TransitionDistributionVisitor;
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.CauchyTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class CauchyTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel<Double, Double> {
+public class CauchyTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link CauchyTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -16,7 +16,7 @@ public class CauchyTransitionDistributionViewModel extends TwoValuesTransitionDi
      * @param alphaValue alpha value of Cauchy distribution
      * @param betaValue  beta value of Cauchy distribution
      */
-    public CauchyTransitionDistributionViewModel(Double alphaValue, Double betaValue) {
+    public CauchyTransitionDistributionViewModel(String alphaValue, String betaValue) {
         super(alphaValue, betaValue);
     }
 
@@ -37,19 +37,19 @@ public class CauchyTransitionDistributionViewModel extends TwoValuesTransitionDi
      * @param betaValue      beta value of Cauchy distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public CauchyTransitionDistributionViewModel(Double alphaValue, Double betaValue, PlaceViewModel dependentPlace) {
+    public CauchyTransitionDistributionViewModel(String alphaValue, String betaValue, PlaceViewModel dependentPlace) {
         super(alphaValue, betaValue, dependentPlace);
     }
 
-    public DoubleProperty alphaValueProperty() {
-        return DoubleProperty.doubleProperty(this.firstValueProperty());
+    public StringProperty alphaValueProperty() {
+        return this.firstValueProperty();
     }
 
-    public DoubleProperty betaValueProperty() {
-        return DoubleProperty.doubleProperty(this.secondValueProperty());
+    public StringProperty betaValueProperty() {
+        return this.secondValueProperty();
     }
 
-    public void setBetaValue(double betaValue) {
+    public void setBetaValue(String betaValue) {
         this.secondValueProperty().set(betaValue);
     }
 

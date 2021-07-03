@@ -11,29 +11,31 @@ import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionBaseViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class FourValuesTransitionDistributionBaseViewModel<TFirstValue, TSecondValue, TThirdValue, TFourthValue>
+public abstract class FourValuesTransitionDistributionBaseViewModel
         extends TransitionDistributionBaseViewModel {
 
-    protected ObjectProperty<TFirstValue> firstValue;
-    protected ObjectProperty<TSecondValue> secondValue;
-    protected ObjectProperty<TThirdValue> thirdValue;
-    protected ObjectProperty<TFourthValue> fourthValue;
+    protected StringProperty firstValue;
+    protected StringProperty secondValue;
+    protected StringProperty thirdValue;
+    protected StringProperty fourthValue;
 
-    public FourValuesTransitionDistributionBaseViewModel(TFirstValue firstValue,
-                                                         TSecondValue secondValue,
-                                                         TThirdValue thirdValue,
-                                                         TFourthValue fourthValue) {
+    public FourValuesTransitionDistributionBaseViewModel(String firstValue,
+                                                         String secondValue,
+                                                         String thirdValue,
+                                                         String fourthValue) {
         super(TransitionDistributionType.Constant, null);
 
-        this.firstValue = new SimpleObjectProperty<>(firstValue);
-        this.secondValue = new SimpleObjectProperty<>(secondValue);
-        this.thirdValue = new SimpleObjectProperty<>(thirdValue);
-        this.fourthValue = new SimpleObjectProperty<>(fourthValue);
+        this.firstValue = new SimpleStringProperty(firstValue);
+        this.secondValue = new SimpleStringProperty(secondValue);
+        this.thirdValue = new SimpleStringProperty(thirdValue);
+        this.fourthValue = new SimpleStringProperty(fourthValue);
     }
 
     public FourValuesTransitionDistributionBaseViewModel(FunctionViewModel firstFunction,
@@ -48,17 +50,17 @@ public abstract class FourValuesTransitionDistributionBaseViewModel<TFirstValue,
         this.functions.set(3, fourthFunction);
     }
 
-    public FourValuesTransitionDistributionBaseViewModel(TFirstValue firstValue,
-                                                         TSecondValue secondValue,
-                                                         TThirdValue thirdValue,
-                                                         TFourthValue fourthValue,
+    public FourValuesTransitionDistributionBaseViewModel(String firstValue,
+                                                         String secondValue,
+                                                         String thirdValue,
+                                                         String fourthValue,
                                                          PlaceViewModel dependentPlace) {
         super(TransitionDistributionType.PlaceDependent, dependentPlace);
 
-        this.firstValue = new SimpleObjectProperty<>(firstValue);
-        this.secondValue = new SimpleObjectProperty<>(secondValue);
-        this.thirdValue = new SimpleObjectProperty<>(thirdValue);
-        this.fourthValue = new SimpleObjectProperty<>(fourthValue);
+        this.firstValue = new SimpleStringProperty(firstValue);
+        this.secondValue = new SimpleStringProperty(secondValue);
+        this.thirdValue = new SimpleStringProperty(thirdValue);
+        this.fourthValue = new SimpleStringProperty(fourthValue);
     }
 
     @Override
@@ -66,19 +68,19 @@ public abstract class FourValuesTransitionDistributionBaseViewModel<TFirstValue,
         return new ArrayList<>(Collections.nCopies(4, null));
     }
 
-    public ObjectProperty<TFirstValue> firstValueProperty() {
+    public StringProperty firstValueProperty() {
         return firstValue;
     }
 
-    public ObjectProperty<TSecondValue> secondValueProperty() {
+    public StringProperty secondValueProperty() {
         return secondValue;
     }
 
-    public ObjectProperty<TThirdValue> thirdValueProperty() {
+    public StringProperty thirdValueProperty() {
         return thirdValue;
     }
 
-    public ObjectProperty<TFourthValue> fourthValueProperty() {
+    public StringProperty fourthValueProperty() {
         return fourthValue;
     }
 

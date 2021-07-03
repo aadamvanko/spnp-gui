@@ -5,9 +5,9 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.TruncatedNormalTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class TruncatedNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel<Double, Double> {
+public class TruncatedNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link TruncatedNormalTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -15,7 +15,7 @@ public class TruncatedNormalTransitionDistributionViewModel extends TwoValuesTra
      * @param expectation expectation value of truncated normal distribution
      * @param variance    variance value of truncated normal distribution
      */
-    public TruncatedNormalTransitionDistributionViewModel(Double expectation, Double variance) {
+    public TruncatedNormalTransitionDistributionViewModel(String expectation, String variance) {
         super(expectation, variance);
     }
 
@@ -36,16 +36,16 @@ public class TruncatedNormalTransitionDistributionViewModel extends TwoValuesTra
      * @param variance       variance value of truncated normal distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public TruncatedNormalTransitionDistributionViewModel(Double expectation, Double variance, PlaceViewModel dependentPlace) {
+    public TruncatedNormalTransitionDistributionViewModel(String expectation, String variance, PlaceViewModel dependentPlace) {
         super(expectation, variance, dependentPlace);
     }
 
-    public DoubleProperty expectationProperty() {
-        return DoubleProperty.doubleProperty(firstValueProperty());
+    public StringProperty expectationProperty() {
+        return firstValueProperty();
     }
 
-    public DoubleProperty varianceProperty() {
-        return DoubleProperty.doubleProperty(secondValueProperty());
+    public StringProperty varianceProperty() {
+        return secondValueProperty();
     }
 
     public FunctionViewModel getExpectationFunction() {

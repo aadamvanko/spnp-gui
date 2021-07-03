@@ -3,9 +3,9 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class BinomialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel<Double, Double, Double> {
+public class BinomialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link BinomialTransitionDistributionViewModel} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -14,9 +14,9 @@ public class BinomialTransitionDistributionViewModel extends ThreeValuesTransiti
      * @param probabilityValue probability value of binomial distribution
      * @param tValue           T value of binomial distribution
      */
-    public BinomialTransitionDistributionViewModel(Double numberValue,
-                                                   Double probabilityValue,
-                                                   Double tValue) {
+    public BinomialTransitionDistributionViewModel(String numberValue,
+                                                   String probabilityValue,
+                                                   String tValue) {
         super(numberValue, probabilityValue, tValue);
     }
 
@@ -41,23 +41,23 @@ public class BinomialTransitionDistributionViewModel extends ThreeValuesTransiti
      * @param tValue           T value of binomial distribution
      * @param dependentPlace   reference to a {@link PlaceViewModel} object which is used for distribution
      */
-    public BinomialTransitionDistributionViewModel(Double numberValue,
-                                                   Double probabilityValue,
-                                                   Double tValue,
+    public BinomialTransitionDistributionViewModel(String numberValue,
+                                                   String probabilityValue,
+                                                   String tValue,
                                                    PlaceViewModel dependentPlace) {
         super(numberValue, probabilityValue, tValue, dependentPlace);
     }
 
-    public DoubleProperty numberValueProperty() {
-        return DoubleProperty.doubleProperty(this.firstValueProperty());
+    public StringProperty numberValueProperty() {
+        return this.firstValueProperty();
     }
 
-    public DoubleProperty probabilityValueProperty() {
-        return DoubleProperty.doubleProperty(this.secondValueProperty());
+    public StringProperty probabilityValueProperty() {
+        return this.secondValueProperty();
     }
 
-    public DoubleProperty TValueProperty() {
-        return DoubleProperty.doubleProperty(this.thirdValueProperty());
+    public StringProperty TValueProperty() {
+        return this.thirdValueProperty();
     }
 
     public FunctionViewModel getNumberValueFunction() {

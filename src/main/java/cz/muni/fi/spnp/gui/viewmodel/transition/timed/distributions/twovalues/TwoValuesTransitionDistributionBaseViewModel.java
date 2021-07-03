@@ -6,21 +6,23 @@ import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionBaseViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class TwoValuesTransitionDistributionBaseViewModel<TFirstValue, TSecondValue> extends TransitionDistributionBaseViewModel {
+public abstract class TwoValuesTransitionDistributionBaseViewModel extends TransitionDistributionBaseViewModel {
 
-    protected ObjectProperty<TFirstValue> firstValue;
-    protected ObjectProperty<TSecondValue> secondValue;
+    protected SimpleStringProperty firstValue;
+    protected StringProperty secondValue;
 
-    public TwoValuesTransitionDistributionBaseViewModel(TFirstValue firstValue, TSecondValue secondValue) {
+    public TwoValuesTransitionDistributionBaseViewModel(String firstValue, String secondValue) {
         super(TransitionDistributionType.Constant, null);
 
-        this.firstValue = new SimpleObjectProperty<>(firstValue);
-        this.secondValue = new SimpleObjectProperty<>(secondValue);
+        this.firstValue = new SimpleStringProperty(firstValue);
+        this.secondValue = new SimpleStringProperty(secondValue);
     }
 
     public TwoValuesTransitionDistributionBaseViewModel(FunctionViewModel firstFunction, FunctionViewModel secondFunction) {
@@ -30,11 +32,11 @@ public abstract class TwoValuesTransitionDistributionBaseViewModel<TFirstValue, 
         this.functions.set(1, secondFunction);
     }
 
-    public TwoValuesTransitionDistributionBaseViewModel(TFirstValue firstValue, TSecondValue secondValue, PlaceViewModel dependentPlace) {
+    public TwoValuesTransitionDistributionBaseViewModel(String firstValue, String secondValue, PlaceViewModel dependentPlace) {
         super(TransitionDistributionType.PlaceDependent, dependentPlace);
 
-        this.firstValue = new SimpleObjectProperty<>(firstValue);
-        this.secondValue = new SimpleObjectProperty<>(secondValue);
+        this.firstValue = new SimpleStringProperty(firstValue);
+        this.secondValue = new SimpleStringProperty(secondValue);
     }
 
     @Override
@@ -42,11 +44,11 @@ public abstract class TwoValuesTransitionDistributionBaseViewModel<TFirstValue, 
         return new ArrayList<>(Collections.nCopies(2, null));
     }
 
-    public ObjectProperty<TFirstValue> firstValueProperty() {
+    public StringProperty firstValueProperty() {
         return firstValue;
     }
 
-    public ObjectProperty<TSecondValue> secondValueProperty() {
+    public StringProperty secondValueProperty() {
         return secondValue;
     }
 

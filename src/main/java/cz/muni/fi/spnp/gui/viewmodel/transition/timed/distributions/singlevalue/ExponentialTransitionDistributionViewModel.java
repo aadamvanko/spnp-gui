@@ -5,15 +5,16 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class ExponentialTransitionDistributionViewModel extends SingleValueTransitionDistributionBaseViewModel<Double> {
+public class ExponentialTransitionDistributionViewModel extends SingleValueTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link ExponentialTransitionDistributionViewModel} object with {@link TransitionDistributionType#Constant} distribution type.
      *
      * @param rate constant rate to be used in distribution
      */
-    public ExponentialTransitionDistributionViewModel(double rate) {
+    public ExponentialTransitionDistributionViewModel(String rate) {
         super(rate);
     }
 
@@ -32,12 +33,12 @@ public class ExponentialTransitionDistributionViewModel extends SingleValueTrans
      * @param rate           constant to be used in exponential distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public ExponentialTransitionDistributionViewModel(double rate, PlaceViewModel dependentPlace) {
+    public ExponentialTransitionDistributionViewModel(String rate, PlaceViewModel dependentPlace) {
         super(rate, dependentPlace);
     }
 
-    public DoubleProperty rateProperty() {
-        return DoubleProperty.doubleProperty(this.valueProperty());
+    public StringProperty rateProperty() {
+        return this.valueProperty();
     }
 
     public FunctionViewModel getRateFunction() {

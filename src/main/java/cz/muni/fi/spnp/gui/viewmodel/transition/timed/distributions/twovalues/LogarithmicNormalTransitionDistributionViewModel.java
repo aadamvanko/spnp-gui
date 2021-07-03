@@ -5,7 +5,7 @@ import cz.muni.fi.spnp.core.transformators.spnp.distributions.LogarithmicNormalT
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 
-public class LogarithmicNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel<Double, Double> {
+public class LogarithmicNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link LogarithmicNormalTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -13,7 +13,7 @@ public class LogarithmicNormalTransitionDistributionViewModel extends TwoValuesT
      * @param firstValue  first value of logarithmic normal distribution
      * @param secondValue second value of logarithmic normal distribution
      */
-    public LogarithmicNormalTransitionDistributionViewModel(Double firstValue, Double secondValue) {
+    public LogarithmicNormalTransitionDistributionViewModel(String firstValue, String secondValue) {
         super(firstValue, secondValue);
     }
 
@@ -34,7 +34,7 @@ public class LogarithmicNormalTransitionDistributionViewModel extends TwoValuesT
      * @param secondValue    second value of logarithmic normal distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public LogarithmicNormalTransitionDistributionViewModel(Double firstValue, Double secondValue, PlaceViewModel dependentPlace) {
+    public LogarithmicNormalTransitionDistributionViewModel(String firstValue, String secondValue, PlaceViewModel dependentPlace) {
         super(firstValue, secondValue, dependentPlace);
     }
 }

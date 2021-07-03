@@ -9,9 +9,9 @@ import cz.muni.fi.spnp.core.transformators.spnp.distributions.NegativeBinomialTr
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.ThreeValuesTransitionDistributionBase;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class NegativeBinomialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel<Double, Double, Double> {
+public class NegativeBinomialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link NegativeBinomialTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -20,9 +20,9 @@ public class NegativeBinomialTransitionDistributionViewModel extends ThreeValues
      * @param probabilityValue probability value of negative binomial distribution
      * @param tValue           T value of negative binomial distribution
      */
-    public NegativeBinomialTransitionDistributionViewModel(Double numberValue,
-                                                           Double probabilityValue,
-                                                           Double tValue) {
+    public NegativeBinomialTransitionDistributionViewModel(String numberValue,
+                                                           String probabilityValue,
+                                                           String tValue) {
         super(numberValue, probabilityValue, tValue);
     }
 
@@ -47,23 +47,23 @@ public class NegativeBinomialTransitionDistributionViewModel extends ThreeValues
      * @param tValue           T value of negative binomial distribution
      * @param dependentPlace   reference to a {@link StandardPlace} object which is used for distribution
      */
-    public NegativeBinomialTransitionDistributionViewModel(Double numberValue,
-                                                           Double probabilityValue,
-                                                           Double tValue,
+    public NegativeBinomialTransitionDistributionViewModel(String numberValue,
+                                                           String probabilityValue,
+                                                           String tValue,
                                                            PlaceViewModel dependentPlace) {
         super(numberValue, probabilityValue, tValue, dependentPlace);
     }
 
-    public DoubleProperty numberValueProperty() {
-        return DoubleProperty.doubleProperty(firstValueProperty());
+    public StringProperty numberValueProperty() {
+        return firstValueProperty();
     }
 
-    public DoubleProperty probabilityValueProperty() {
-        return DoubleProperty.doubleProperty(secondValueProperty());
+    public StringProperty probabilityValueProperty() {
+        return secondValueProperty();
     }
 
-    public DoubleProperty TValueProperty() {
-        return DoubleProperty.doubleProperty(thirdValueProperty());
+    public StringProperty TValueProperty() {
+        return thirdValueProperty();
     }
 
     public FunctionViewModel getNumberValueFunction() {

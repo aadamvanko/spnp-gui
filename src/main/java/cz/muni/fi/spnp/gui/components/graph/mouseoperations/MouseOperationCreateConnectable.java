@@ -64,7 +64,7 @@ public class MouseOperationCreateConnectable extends MouseOperation {
                 timedTransitionViewModel.positionYProperty().set(position.getY());
                 timedTransitionViewModel.priorityProperty().set(0);
                 timedTransitionViewModel.timedDistributionTypeProperty().set(TimedDistributionType.Beta);
-                timedTransitionViewModel.setTransitionDistribution(new BetaTransitionDistributionViewModel(0.0, 0.0));
+                timedTransitionViewModel.setTransitionDistribution(new BetaTransitionDistributionViewModel("0.0", "0.0"));
                 return timedTransitionViewModel;
 
             case IMMEDIATE_TRANSITION:

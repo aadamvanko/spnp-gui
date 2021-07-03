@@ -5,7 +5,7 @@ import cz.muni.fi.spnp.core.transformators.spnp.distributions.GammaTransitionDis
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 
-public class GammaTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel<Double, Double> {
+public class GammaTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link GammaTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -13,7 +13,7 @@ public class GammaTransitionDistributionViewModel extends TwoValuesTransitionDis
      * @param firstValue  first value of gamma distribution
      * @param secondValue second value of gamma distribution
      */
-    public GammaTransitionDistributionViewModel(Double firstValue, Double secondValue) {
+    public GammaTransitionDistributionViewModel(String firstValue, String secondValue) {
         super(firstValue, secondValue);
     }
 
@@ -34,7 +34,7 @@ public class GammaTransitionDistributionViewModel extends TwoValuesTransitionDis
      * @param secondValue    second value of gamma distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public GammaTransitionDistributionViewModel(Double firstValue, Double secondValue, PlaceViewModel dependentPlace) {
+    public GammaTransitionDistributionViewModel(String firstValue, String secondValue, PlaceViewModel dependentPlace) {
         super(firstValue, secondValue, dependentPlace);
     }
 }

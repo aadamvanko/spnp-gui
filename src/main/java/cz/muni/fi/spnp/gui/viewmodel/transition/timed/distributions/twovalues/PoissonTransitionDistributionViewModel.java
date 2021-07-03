@@ -5,9 +5,9 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.PoissonTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class PoissonTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel<Double, Double> {
+public class PoissonTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link PoissonTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -15,7 +15,7 @@ public class PoissonTransitionDistributionViewModel extends TwoValuesTransitionD
      * @param lambdaValue lambda value of Poisson distribution
      * @param tValue      T value of Poisson distribution
      */
-    public PoissonTransitionDistributionViewModel(Double lambdaValue, Double tValue) {
+    public PoissonTransitionDistributionViewModel(String lambdaValue, String tValue) {
         super(lambdaValue, tValue);
     }
 
@@ -36,16 +36,16 @@ public class PoissonTransitionDistributionViewModel extends TwoValuesTransitionD
      * @param tValue         T value of Poisson distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public PoissonTransitionDistributionViewModel(Double lambdaValue, Double tValue, PlaceViewModel dependentPlace) {
+    public PoissonTransitionDistributionViewModel(String lambdaValue, String tValue, PlaceViewModel dependentPlace) {
         super(lambdaValue, tValue, dependentPlace);
     }
 
-    public DoubleProperty lambdaValueProperty() {
-        return DoubleProperty.doubleProperty(firstValueProperty());
+    public StringProperty lambdaValueProperty() {
+        return firstValueProperty();
     }
 
-    public DoubleProperty TValueProperty() {
-        return DoubleProperty.doubleProperty(secondValueProperty());
+    public StringProperty TValueProperty() {
+        return secondValueProperty();
     }
 
     public FunctionViewModel getLambdaValueFunction() {

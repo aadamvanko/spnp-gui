@@ -11,26 +11,28 @@ import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionBaseViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ThreeValuesTransitionDistributionBaseViewModel<TFirstValue, TSecondValue, TThirdValue>
+public abstract class ThreeValuesTransitionDistributionBaseViewModel
         extends TransitionDistributionBaseViewModel {
 
-    protected ObjectProperty<TFirstValue> firstValue;
-    protected ObjectProperty<TSecondValue> secondValue;
-    protected ObjectProperty<TThirdValue> thirdValue;
+    protected StringProperty firstValue;
+    protected StringProperty secondValue;
+    protected StringProperty thirdValue;
 
-    public ThreeValuesTransitionDistributionBaseViewModel(TFirstValue firstValue,
-                                                          TSecondValue secondValue,
-                                                          TThirdValue thirdValue) {
+    public ThreeValuesTransitionDistributionBaseViewModel(String firstValue,
+                                                          String secondValue,
+                                                          String thirdValue) {
         super(TransitionDistributionType.Constant, null);
 
-        this.firstValue = new SimpleObjectProperty<>(firstValue);
-        this.secondValue = new SimpleObjectProperty<>(secondValue);
-        this.thirdValue = new SimpleObjectProperty<>(thirdValue);
+        this.firstValue = new SimpleStringProperty(firstValue);
+        this.secondValue = new SimpleStringProperty(secondValue);
+        this.thirdValue = new SimpleStringProperty(thirdValue);
     }
 
     public ThreeValuesTransitionDistributionBaseViewModel(FunctionViewModel firstFunction,
@@ -43,15 +45,15 @@ public abstract class ThreeValuesTransitionDistributionBaseViewModel<TFirstValue
         this.functions.set(2, thirdFunction);
     }
 
-    public ThreeValuesTransitionDistributionBaseViewModel(TFirstValue firstValue,
-                                                          TSecondValue secondValue,
-                                                          TThirdValue thirdValue,
+    public ThreeValuesTransitionDistributionBaseViewModel(String firstValue,
+                                                          String secondValue,
+                                                          String thirdValue,
                                                           PlaceViewModel dependentPlace) {
         super(TransitionDistributionType.PlaceDependent, dependentPlace);
 
-        this.firstValue = new SimpleObjectProperty<>(firstValue);
-        this.secondValue = new SimpleObjectProperty<>(secondValue);
-        this.thirdValue = new SimpleObjectProperty<>(thirdValue);
+        this.firstValue = new SimpleStringProperty(firstValue);
+        this.secondValue = new SimpleStringProperty(secondValue);
+        this.thirdValue = new SimpleStringProperty(thirdValue);
     }
 
     @Override
@@ -59,15 +61,15 @@ public abstract class ThreeValuesTransitionDistributionBaseViewModel<TFirstValue
         return new ArrayList<>(Collections.nCopies(3, null));
     }
 
-    public ObjectProperty<TFirstValue> firstValueProperty() {
+    public StringProperty firstValueProperty() {
         return firstValue;
     }
 
-    public ObjectProperty<TSecondValue> secondValueProperty() {
+    public StringProperty secondValueProperty() {
         return secondValue;
     }
 
-    public ObjectProperty<TThirdValue> thirdValueProperty() {
+    public StringProperty thirdValueProperty() {
         return thirdValue;
     }
 

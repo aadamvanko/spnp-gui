@@ -5,9 +5,9 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.WeibullTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class WeibullTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel<Double, Double> {
+public class WeibullTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link WeibullTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -15,7 +15,7 @@ public class WeibullTransitionDistributionViewModel extends TwoValuesTransitionD
      * @param alphaValue  alpha value of Weibull distribution
      * @param lambdaValue lambda value of Weibull distribution
      */
-    public WeibullTransitionDistributionViewModel(Double alphaValue, Double lambdaValue) {
+    public WeibullTransitionDistributionViewModel(String alphaValue, String lambdaValue) {
         super(alphaValue, lambdaValue);
     }
 
@@ -36,16 +36,16 @@ public class WeibullTransitionDistributionViewModel extends TwoValuesTransitionD
      * @param lambdaValue    lambda value of Weibull distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public WeibullTransitionDistributionViewModel(Double alphaValue, Double lambdaValue, PlaceViewModel dependentPlace) {
+    public WeibullTransitionDistributionViewModel(String alphaValue, String lambdaValue, PlaceViewModel dependentPlace) {
         super(alphaValue, lambdaValue, dependentPlace);
     }
 
-    public DoubleProperty alphaValueProperty() {
-        return DoubleProperty.doubleProperty(firstValueProperty());
+    public StringProperty alphaValueProperty() {
+        return firstValueProperty();
     }
 
-    public DoubleProperty lambdaValueProperty() {
-        return DoubleProperty.doubleProperty(secondValueProperty());
+    public StringProperty lambdaValueProperty() {
+        return secondValueProperty();
     }
 
     public FunctionViewModel getAlphaValueFunction() {

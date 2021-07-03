@@ -5,9 +5,9 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.ParetoTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
-public class ParetoTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel<Double, Double> {
+public class ParetoTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     /**
      * Creates new {@link ParetoTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
@@ -15,7 +15,7 @@ public class ParetoTransitionDistributionViewModel extends TwoValuesTransitionDi
      * @param scale scale value of Pareto distribution
      * @param alpha alpha value of Pareto distribution
      */
-    public ParetoTransitionDistributionViewModel(Double scale, Double alpha) {
+    public ParetoTransitionDistributionViewModel(String scale, String alpha) {
         super(scale, alpha);
     }
 
@@ -36,16 +36,16 @@ public class ParetoTransitionDistributionViewModel extends TwoValuesTransitionDi
      * @param alpha          alpha value of Pareto distribution
      * @param dependentPlace reference to a {@link StandardPlace} object which is used for distribution
      */
-    public ParetoTransitionDistributionViewModel(Double scale, Double alpha, PlaceViewModel dependentPlace) {
+    public ParetoTransitionDistributionViewModel(String scale, String alpha, PlaceViewModel dependentPlace) {
         super(scale, alpha, dependentPlace);
     }
 
-    public DoubleProperty scaleProperty() {
-        return DoubleProperty.doubleProperty(firstValueProperty());
+    public StringProperty scaleProperty() {
+        return firstValueProperty();
     }
 
-    public DoubleProperty alphaProperty() {
-        return DoubleProperty.doubleProperty(secondValueProperty());
+    public StringProperty alphaProperty() {
+        return secondValueProperty();
     }
 
     public FunctionViewModel getScaleFunction() {
