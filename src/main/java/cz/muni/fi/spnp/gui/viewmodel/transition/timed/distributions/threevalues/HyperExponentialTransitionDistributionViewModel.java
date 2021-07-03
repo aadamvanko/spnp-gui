@@ -53,7 +53,6 @@ public class HyperExponentialTransitionDistributionViewModel extends ThreeValues
         super(firstLambdaRate, secondLambdaRate, probabilityValue, dependentPlace);
     }
 
-    // TODO this creates new StringProperty everytime, need to have always the same for detaching purposes!!!
     public StringProperty firstLambdaRateProperty() {
         return firstValueProperty();
     }
