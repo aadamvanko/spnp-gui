@@ -5,7 +5,9 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
@@ -22,6 +24,7 @@ public class Model {
 
     private final ObjectProperty<CursorMode> cursorMode;
     private final ObjectProperty<GraphElementType> createElementType;
+    private final BooleanProperty gridSnapping;
 
     public Model(Notifications notifications) {
         this.notifications = notifications;
@@ -29,6 +32,7 @@ public class Model {
         selectedDiagram = new SimpleObjectProperty<>();
         cursorMode = new SimpleObjectProperty<>(CursorMode.VIEW);
         createElementType = new SimpleObjectProperty<>(GraphElementType.PLACE);
+        gridSnapping = new SimpleBooleanProperty(true);
     }
 
     public CursorMode getCursorMode() {
@@ -45,6 +49,14 @@ public class Model {
 
     public ObjectProperty<GraphElementType> createElementTypeProperty() {
         return createElementType;
+    }
+
+    public boolean isGridSnapping() {
+        return gridSnapping.get();
+    }
+
+    public BooleanProperty gridSnappingProperty() {
+        return gridSnapping;
     }
 
     public ObjectProperty<DiagramViewModel> selectedDiagramProperty() {

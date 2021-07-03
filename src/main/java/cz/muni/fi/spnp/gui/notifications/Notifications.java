@@ -12,28 +12,14 @@ import java.util.List;
 
 public class Notifications {
 
-    private final List<ToggleGridSnappingListener> toggleGridSnappingListeners;
     private final List<SelectedElementsChangeListener> selectedElementsChangeListeners;
     private final List<NewElementAddedListener> newElementAddedListeners;
     private final List<ElementRemovedListener> elementRemovedListeners;
 
     public Notifications() {
-        toggleGridSnappingListeners = new ArrayList<>();
         selectedElementsChangeListeners = new ArrayList<>();
         newElementAddedListeners = new ArrayList<>();
         elementRemovedListeners = new ArrayList<>();
-    }
-
-    public void addToggleGridSnappingListener(ToggleGridSnappingListener listener) {
-        toggleGridSnappingListeners.add(listener);
-    }
-
-    public void removeToggleGridSnappingListener(ToggleGridSnappingListener listener) {
-        toggleGridSnappingListeners.remove(listener);
-    }
-
-    public void toggleGridSnapping() {
-        toggleGridSnappingListeners.forEach(listener -> listener.gridSnappingToggled());
     }
 
     public void addSelectedElementsChangeListener(SelectedElementsChangeListener listener) {

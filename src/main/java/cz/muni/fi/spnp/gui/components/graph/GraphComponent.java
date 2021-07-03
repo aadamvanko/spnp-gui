@@ -7,6 +7,8 @@ import cz.muni.fi.spnp.gui.notifications.*;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Side;
@@ -18,8 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GraphComponent extends ApplicationComponent implements ToggleGridSnappingListener,
-        NewElementAddedListener, ElementRemovedListener {
+public class GraphComponent extends ApplicationComponent implements NewElementAddedListener, ElementRemovedListener {
 
     private TabPane tabPane;
     private Map<Tab, GraphView> graphViews;
@@ -32,11 +33,19 @@ public class GraphComponent extends ApplicationComponent implements ToggleGridSn
 
         onDiagramsChangedListener = this::onDiagramsChangedListener;
 
-        notifications.addToggleGridSnappingListener(this);
+        model.gridSnappingProperty().addListener(this::onGridSnappingChangedListener);
         notifications.addNewElementAddedListener(this);
         model.getProjects().addListener(this::onProjectsChangedListener);
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
         notifications.addElementRemovedListener(this);
+    }
+
+    private void onGridSnappingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldGridSnapping, Boolean newGridSnapping) {
+        var selectedGraphView = getSelectedGraphView();
+        if (selectedGraphView == null) {
+            return;
+        }
+        selectedGraphView.setSnappingToGrid(newGridSnapping);
     }
 
     private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
@@ -115,7 +124,6 @@ public class GraphComponent extends ApplicationComponent implements ToggleGridSn
         return tabPane;
     }
 
-    @Override
     public void gridSnappingToggled() {
         if (getSelectedGraphView() == null) {
             return;

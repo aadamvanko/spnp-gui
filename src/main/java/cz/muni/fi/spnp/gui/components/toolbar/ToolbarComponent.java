@@ -111,7 +111,7 @@ public class ToolbarComponent extends ApplicationComponent {
     }
 
     private void onToggleGridButtonClicked(MouseEvent mouseEvent) {
-        notifications.toggleGridSnapping();
+        model.gridSnappingProperty().set(!model.isGridSnapping());
     }
 
     @Override
