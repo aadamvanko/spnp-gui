@@ -128,7 +128,7 @@ public class SubmodelConverter {
 
         var connectables = Stream.concat(places.stream(), transitions.stream()).collect(Collectors.toList());
         var arcs = oldArcs.stream()
-                .map(oa -> (ArcViewModel) convertArc((ArcOldFormat) oa, oldConnectables, connectables))
+                .map(oa -> (ArcViewModel) convertArc((ArcOldFormat) oa, oldConnectables, connectables, functions))
                 .collect(Collectors.toList());
 
         return Stream.concat(connectables.stream(), arcs.stream())
@@ -452,7 +452,7 @@ public class SubmodelConverter {
         }
     }
 
-    private ElementViewModel convertArc(ArcOldFormat oldArc, List<ConnectableOldFormat> oldConnectables, List<ConnectableViewModel> elements) {
+    private ElementViewModel convertArc(ArcOldFormat oldArc, List<ConnectableOldFormat> oldConnectables, List<ConnectableViewModel> elements, List<FunctionViewModel> functions) {
         var oldSource = oldConnectables.stream()
                 .filter(oldConnectable -> oldConnectable.name.equals(oldArc.src) && containsOutputArc(oldConnectable, oldArc.name))
                 .collect(Collectors.toList())
@@ -481,7 +481,7 @@ public class SubmodelConverter {
             arcViewModel.multiplicityProperty().set(oldArc.multiplicity);
         } else if (oldArc.choiceInput.equals("Function")) {
             arcViewModel.multiplicityTypeProperty().set(ArcMultiplicityType.FUNCTION);
-            arcViewModel.multiplicityFunctionProperty().set(oldArc.multiplicity);
+            arcViewModel.multiplicityFunctionProperty().set(findFunctionViewModel(functions, oldArc.multiplicity));
         } else {
             throw new AssertionError("Unknown arc choice input " + oldArc.choiceInput);
         }

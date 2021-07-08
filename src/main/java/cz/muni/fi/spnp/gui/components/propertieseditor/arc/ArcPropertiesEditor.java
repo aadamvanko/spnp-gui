@@ -60,7 +60,7 @@ public class ArcPropertiesEditor extends PropertiesEditor {
         ArcViewModel arcViewModel = (ArcViewModel) viewModel;
         arcMultiplicityTypeChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityTypeProperty());
         multiplicityTextField.textProperty().bindBidirectional(arcViewModel.multiplicityProperty());
-        multiplicityFunctionChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityFunctionProperty());
+//        multiplicityFunctionChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityFunctionProperty());
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ArcPropertiesEditor extends PropertiesEditor {
         ArcViewModel arcViewModel = (ArcViewModel) viewModel;
         arcMultiplicityTypeChoiceBox.valueProperty().unbindBidirectional(arcViewModel.multiplicityTypeProperty());
         multiplicityTextField.textProperty().unbindBidirectional(arcViewModel.multiplicityProperty());
-        multiplicityFunctionChoiceBox.valueProperty().unbindBidirectional(arcViewModel.multiplicityFunctionProperty());
+//        multiplicityFunctionChoiceBox.valueProperty().unbindBidirectional(arcViewModel.multiplicityFunctionProperty());
         super.unbindViewModel();
     }
 

@@ -18,8 +18,16 @@ public class DefineViewModel {
         this.expression = new SimpleStringProperty(expression);
     }
 
+    public String getName() {
+        return name.get();
+    }
+
     public StringProperty nameProperty() {
         return name;
+    }
+
+    public String getExpression() {
+        return expression.get();
     }
 
     public StringProperty expressionProperty() {

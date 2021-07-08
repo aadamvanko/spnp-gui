@@ -61,12 +61,24 @@ public abstract class ThreeValuesTransitionDistributionBaseViewModel
         return new ArrayList<>(Collections.nCopies(3, null));
     }
 
+    public String getFirstValue() {
+        return firstValue.get();
+    }
+
     public StringProperty firstValueProperty() {
         return firstValue;
     }
 
+    public String getSecondValue() {
+        return secondValue.get();
+    }
+
     public StringProperty secondValueProperty() {
         return secondValue;
+    }
+
+    public String getThirdValue() {
+        return thirdValue.get();
     }
 
     public StringProperty thirdValueProperty() {

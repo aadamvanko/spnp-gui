@@ -11,6 +11,10 @@ public class PlaceDependentTransitionProbabilityViewModel implements TransitionP
     private final DoubleProperty value = new SimpleDoubleProperty(0.0);
     private PlaceViewModel dependentPlace;
 
+    public double getValue() {
+        return value.get();
+    }
+
     public DoubleProperty valueProperty() {
         return value;
     }

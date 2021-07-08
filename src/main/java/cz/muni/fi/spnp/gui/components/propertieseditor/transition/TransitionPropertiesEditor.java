@@ -32,14 +32,14 @@ public abstract class TransitionPropertiesEditor extends PositionableElementProp
         super.bindViewModel(viewModel);
         TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
         priorityTextField.getTextFormatter().valueProperty().bindBidirectional((Property) transitionViewModel.priorityProperty());
-        guardFunctionTextField.textProperty().bind(transitionViewModel.guardFunctionProperty());
+//        guardFunctionTextField.textProperty().bind(transitionViewModel.guardFunctionProperty());
     }
 
     @Override
     public void unbindViewModel() {
         TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
         priorityTextField.getTextFormatter().valueProperty().unbindBidirectional((Property) transitionViewModel.priorityProperty());
-        guardFunctionTextField.textProperty().unbind();
+//        guardFunctionTextField.textProperty().unbind();
         super.unbindViewModel();
     }
 

@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
-import javafx.beans.Observable;
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,9 +10,9 @@ import java.util.List;
 
 public class ArcViewModel extends ElementViewModel {
 
-    private final ObjectProperty<ArcMultiplicityType> arcMultiplicityType = new SimpleObjectProperty<>(ArcMultiplicityType.CONSTANT);
+    private final ObjectProperty<ArcMultiplicityType> multiplicityType = new SimpleObjectProperty<>(ArcMultiplicityType.CONSTANT);
     private final StringProperty multiplicity = new SimpleStringProperty("1");
-    private final StringProperty multiplicityFunction = new SimpleStringProperty();
+    private final ObjectProperty<FunctionViewModel> multiplicityFunction = new SimpleObjectProperty<>();
     private final ElementViewModel fromViewModel;
     private final ElementViewModel toViewModel;
     private final ObservableList<ArcDragMarkViewModel> dragMarks;
@@ -41,24 +41,36 @@ public class ArcViewModel extends ElementViewModel {
         }
     }
 
-    public ElementViewModel getFromViewModel() {
-        return fromViewModel;
+    public ArcMultiplicityType getMultiplicityType() {
+        return multiplicityType.get();
     }
 
-    public ElementViewModel getToViewModel() {
-        return toViewModel;
+    public ObjectProperty<ArcMultiplicityType> multiplicityTypeProperty() {
+        return multiplicityType;
+    }
+
+    public String getMultiplicity() {
+        return multiplicity.get();
     }
 
     public StringProperty multiplicityProperty() {
         return multiplicity;
     }
 
-    public StringProperty multiplicityFunctionProperty() {
+    public FunctionViewModel getMultiplicityFunction() {
+        return multiplicityFunction.get();
+    }
+
+    public ObjectProperty<FunctionViewModel> multiplicityFunctionProperty() {
         return multiplicityFunction;
     }
 
-    public ObjectProperty<ArcMultiplicityType> multiplicityTypeProperty() {
-        return arcMultiplicityType;
+    public ElementViewModel getFromViewModel() {
+        return fromViewModel;
+    }
+
+    public ElementViewModel getToViewModel() {
+        return toViewModel;
     }
 
     public ObservableList<ArcDragMarkViewModel> getDragMarks() {

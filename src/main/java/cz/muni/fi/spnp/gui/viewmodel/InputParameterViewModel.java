@@ -21,12 +21,24 @@ public class InputParameterViewModel {
         this.userPromptText = new SimpleStringProperty(userPromptText);
     }
 
+    public String getName() {
+        return name.get();
+    }
+
     public StringProperty nameProperty() {
         return name;
     }
 
+    public VariableDataType getType() {
+        return type.get();
+    }
+
     public ObjectProperty<VariableDataType> typeProperty() {
         return type;
+    }
+
+    public String getUserPromptText() {
+        return userPromptText.get();
     }
 
     public StringProperty userPromptTextProperty() {

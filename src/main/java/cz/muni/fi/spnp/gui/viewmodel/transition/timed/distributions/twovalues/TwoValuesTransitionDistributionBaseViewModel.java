@@ -44,8 +44,16 @@ public abstract class TwoValuesTransitionDistributionBaseViewModel extends Trans
         return new ArrayList<>(Collections.nCopies(2, null));
     }
 
-    public StringProperty firstValueProperty() {
+    public String getFirstValue() {
+        return firstValue.get();
+    }
+
+    public SimpleStringProperty firstValueProperty() {
         return firstValue;
+    }
+
+    public String getSecondValue() {
+        return secondValue.get();
     }
 
     public StringProperty secondValueProperty() {

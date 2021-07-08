@@ -15,6 +15,10 @@ public class IncludeViewModel {
         this.path = new SimpleStringProperty(path);
     }
 
+    public String getPath() {
+        return path.get();
+    }
+
     public StringProperty pathProperty() {
         return path;
     }

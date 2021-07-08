@@ -23,16 +23,32 @@ public class FunctionViewModel {
         this.returnType = new SimpleObjectProperty<>(returnType);
     }
 
+    public String getName() {
+        return name.get();
+    }
+
     public StringProperty nameProperty() {
         return name;
+    }
+
+    public FunctionType getFunctionType() {
+        return functionType.get();
     }
 
     public ObjectProperty<FunctionType> functionTypeProperty() {
         return functionType;
     }
 
+    public String getBody() {
+        return body.get();
+    }
+
     public StringProperty bodyProperty() {
         return body;
+    }
+
+    public FunctionReturnType getReturnType() {
+        return returnType.get();
     }
 
     public ObjectProperty<FunctionReturnType> returnTypeProperty() {

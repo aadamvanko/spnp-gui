@@ -9,6 +9,10 @@ public class PlaceViewModel extends ConnectableViewModel {
 
     private final StringProperty numberOfTokens = new SimpleStringProperty("0");
 
+    public String getNumberOfTokens() {
+        return numberOfTokens.get();
+    }
+
     public StringProperty numberOfTokensProperty() {
         return numberOfTokens;
     }

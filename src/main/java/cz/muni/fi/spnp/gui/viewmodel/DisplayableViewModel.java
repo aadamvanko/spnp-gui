@@ -14,7 +14,12 @@ public class DisplayableViewModel {
         this.name.set(name);
     }
 
+    public String getName() {
+        return name.get();
+    }
+
     public StringProperty nameProperty() {
         return name;
     }
+
 }

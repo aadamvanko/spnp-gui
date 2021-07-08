@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
+import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.components.diagramoutline.DiagramOutlineComponent;
 import cz.muni.fi.spnp.gui.components.functions.FunctionsCategoriesComponent;
@@ -20,8 +21,10 @@ import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ConstantTransitionDistributionViewModel;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
@@ -85,7 +88,8 @@ public class MainWindowController {
         timedTransition1.positionXProperty().set(300);
         timedTransition1.positionYProperty().set(100);
         timedTransition1.priorityProperty().set(1);
-        timedTransition1.timedDistributionTypeProperty().set(TimedDistributionType.Beta);
+        timedTransition1.timedDistributionTypeProperty().set(TimedDistributionType.Constant);
+        timedTransition1.setTransitionDistribution(new ConstantTransitionDistributionViewModel("0.4"));
 
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1, Collections.emptyList());
         var standardArc2 = new StandardArcViewModel("standard2", timedTransition1, place2, Collections.emptyList());
@@ -95,6 +99,7 @@ public class MainWindowController {
         immediateTransition1.positionXProperty().set(300);
         immediateTransition1.positionYProperty().set(200);
         immediateTransition1.priorityProperty().set(1);
+        immediateTransition1.setTransitionProbability(new ConstantTransitionProbabilityViewModel());
 
         var inhibitorArc1 = new InhibitorArcViewModel("inhibitor1", place3, immediateTransition1, Collections.emptyList());
 
@@ -135,6 +140,9 @@ public class MainWindowController {
         var diagram2 = new DiagramViewModel(notifications, project1);
         diagram2.nameProperty().set("mock_diagram2");
         project1.getDiagrams().add(diagram2);
+
+        var diagramMapper = new DiagramMapper();
+        var petriNet = diagramMapper.createPetriNet(diagram1);
 
         var oldFileLoader = new OldFileLoader(notifications);
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");

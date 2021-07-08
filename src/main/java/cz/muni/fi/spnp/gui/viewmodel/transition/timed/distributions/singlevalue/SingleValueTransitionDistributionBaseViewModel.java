@@ -40,6 +40,10 @@ public abstract class SingleValueTransitionDistributionBaseViewModel extends Tra
         return new ArrayList<>(Collections.nCopies(1, null));
     }
 
+    public String getValue() {
+        return value.get();
+    }
+
     public StringProperty valueProperty() {
         return value;
     }

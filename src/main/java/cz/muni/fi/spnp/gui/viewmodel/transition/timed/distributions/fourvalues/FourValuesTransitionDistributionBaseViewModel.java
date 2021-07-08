@@ -68,16 +68,32 @@ public abstract class FourValuesTransitionDistributionBaseViewModel
         return new ArrayList<>(Collections.nCopies(4, null));
     }
 
+    public String getFirstValue() {
+        return firstValue.get();
+    }
+
     public StringProperty firstValueProperty() {
         return firstValue;
+    }
+
+    public String getSecondValue() {
+        return secondValue.get();
     }
 
     public StringProperty secondValueProperty() {
         return secondValue;
     }
 
+    public String getThirdValue() {
+        return thirdValue.get();
+    }
+
     public StringProperty thirdValueProperty() {
         return thirdValue;
+    }
+
+    public String getFourthValue() {
+        return fourthValue.get();
     }
 
     public StringProperty fourthValueProperty() {

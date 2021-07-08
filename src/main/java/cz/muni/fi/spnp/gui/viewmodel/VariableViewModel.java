@@ -26,16 +26,32 @@ public class VariableViewModel {
         this.value = new SimpleStringProperty(value);
     }
 
+    public String getName() {
+        return name.get();
+    }
+
     public StringProperty nameProperty() {
         return name;
+    }
+
+    public VariableType getKind() {
+        return kind.get();
     }
 
     public ObjectProperty<VariableType> kindProperty() {
         return kind;
     }
 
+    public VariableDataType getType() {
+        return type.get();
+    }
+
     public ObjectProperty<VariableDataType> typeProperty() {
         return type;
+    }
+
+    public String getValue() {
+        return value.get();
     }
 
     public StringProperty valueProperty() {
