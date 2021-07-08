@@ -141,8 +141,8 @@ public class MainWindowController {
         diagram2.nameProperty().set("mock_diagram2");
         project1.getDiagrams().add(diagram2);
 
-        var diagramMapper = new DiagramMapper();
-        var petriNet = diagramMapper.createPetriNet(diagram1);
+        var diagramMapper = new DiagramMapper(diagram1);
+        var petriNet = diagramMapper.createPetriNet();
 
         var oldFileLoader = new OldFileLoader(notifications);
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");

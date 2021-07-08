@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 public class DiagramMapper {
 
+    private final DiagramViewModel diagramViewModel;
     private final IncludeMapper includeMapper;
     private final DefineMapper defineMapper;
     private final VariableMapper variableMapper;
@@ -22,7 +23,9 @@ public class DiagramMapper {
     private final FunctionMapper functionMapper;
     private final ElementMapper elementMapper;
 
-    public DiagramMapper() {
+    public DiagramMapper(DiagramViewModel diagramViewModel) {
+        this.diagramViewModel = diagramViewModel;
+
         includeMapper = new IncludeMapper();
         defineMapper = new DefineMapper();
         variableMapper = new VariableMapper();
@@ -31,7 +34,7 @@ public class DiagramMapper {
         elementMapper = new ElementMapper(functionMapper.getFunctionsMapping());
     }
 
-    public PetriNet createPetriNet(DiagramViewModel diagramViewModel) {
+    public PetriNet createPetriNet() {
         PetriNet petriNet = new PetriNet();
         diagramViewModel.getFunctions().forEach(function -> petriNet.addFunction(functionMapper.map(function)));
         onlyElements(PlaceViewModel.class, diagramViewModel.getElements()).forEach(place -> petriNet.addPlace(elementMapper.mapPlace(place)));
@@ -46,13 +49,13 @@ public class DiagramMapper {
                 .map(viewModelClass::cast);
     }
 
-    public SPNPCode createSPNPCode(DiagramViewModel diagramViewModel) {
+    public SPNPCode createSPNPCode() {
         SPNPCode spnpCode = new SPNPCode();
 
         return spnpCode;
     }
 
-    public SPNPOptions createSPNPOptions(DiagramViewModel diagramViewModel) {
+    public SPNPOptions createSPNPOptions() {
         var spnpOptions = new SPNPOptions(Set.of(), Set.of());
 
         return spnpOptions;
