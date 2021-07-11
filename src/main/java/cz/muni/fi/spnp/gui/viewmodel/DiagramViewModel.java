@@ -53,13 +53,20 @@ public class DiagramViewModel extends DisplayableViewModel {
         }
     }
 
-    private void addFunction(FunctionViewModel function) {
+    public void addFunction(FunctionViewModel function) {
         int index = functions.indexOf(function);
         if (index != -1) {
             functions.get(index).bodyProperty().set(function.getBody());
         } else {
             functions.add(function);
         }
+    }
+
+    public FunctionViewModel getFunctionByName(String functionName) {
+        return functions.stream()
+                .filter(function -> function.getName().equals(functionName))
+                .findAny()
+                .get();
     }
 
     private List<FunctionViewModel> predefinedFunctions() {

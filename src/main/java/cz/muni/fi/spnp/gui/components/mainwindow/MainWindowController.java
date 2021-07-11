@@ -143,6 +143,8 @@ public class MainWindowController {
 
         var diagramMapper = new DiagramMapper(diagram1);
         var petriNet = diagramMapper.createPetriNet();
+        var spnpCode = diagramMapper.createSPNPCode();
+        var spnpOptions = diagramMapper.createSPNPOptions();
 
         var oldFileLoader = new OldFileLoader(notifications);
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");
