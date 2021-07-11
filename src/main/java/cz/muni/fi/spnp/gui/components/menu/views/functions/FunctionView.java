@@ -53,7 +53,7 @@ public class FunctionView extends UIWindowComponent {
             }
 
             var function = new FunctionViewModel(viewModel.nameProperty().get(), viewModel.functionTypeProperty().get(),
-                    viewModel.bodyProperty().get(), viewModel.returnTypeProperty().get());
+                    viewModel.bodyProperty().get(), viewModel.returnTypeProperty().get(), false);
             if (diagramViewModel.getFunctions().contains(function)) {
                 DialogMessages.showError("Conflicting name!");
                 return;

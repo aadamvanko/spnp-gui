@@ -25,6 +25,8 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -539,8 +541,15 @@ public class SubmodelConverter {
 
     private List<FunctionViewModel> convertFunctions(List<FunctionOldFormat> oldFunctions) {
         return oldFunctions.stream()
-                .map(old -> new FunctionViewModel(old.name, convertFunctionKind(old.kind), old.body, convertFunctionReturnType(old.returnType)))
+                .map(old -> new FunctionViewModel(old.name.toLowerCase(), convertFunctionKind(old.kind), old.body,
+                        convertFunctionReturnType(old.returnType), isRequiredFunction(old.name.toLowerCase())))
                 .collect(Collectors.toList());
+    }
+
+    private Boolean isRequiredFunction(String functionName) {
+        // options and net are not included in the file but created from model
+        var requiredFunctions = Set.of("assert", "ac_init", "ac_reach", "ac_final");
+        return requiredFunctions.contains(functionName);
     }
 
     private FunctionReturnType convertFunctionReturnType(String returnType) {

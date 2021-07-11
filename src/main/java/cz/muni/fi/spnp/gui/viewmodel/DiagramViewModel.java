@@ -1,12 +1,15 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
+import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +46,30 @@ public class DiagramViewModel extends DisplayableViewModel {
         this.defines = FXCollections.observableArrayList(defines);
         this.variables = FXCollections.observableArrayList(variables);
         this.inputParameters = FXCollections.observableArrayList(inputParameters);
-        this.functions = FXCollections.observableArrayList(functions);
+        this.functions = FXCollections.observableArrayList(predefinedFunctions());
+
+        for (var function : functions) {
+            addFunction(function);
+        }
+    }
+
+    private void addFunction(FunctionViewModel function) {
+        int index = functions.indexOf(function);
+        if (index != -1) {
+            functions.get(index).bodyProperty().set(function.getBody());
+        } else {
+            functions.add(function);
+        }
+    }
+
+    private List<FunctionViewModel> predefinedFunctions() {
+        var predefinedFunctions = List.of(
+                new FunctionViewModel("assert", FunctionType.Other, "", FunctionReturnType.INT, true),
+                new FunctionViewModel("ac_init", FunctionType.Other, "/* Information on the net structure */" + System.lineSeparator() + "pr_net_info();", FunctionReturnType.VOID, true),
+                new FunctionViewModel("ac_reach", FunctionType.Other, "/* Information on the reachability graph */" + System.lineSeparator() + "pr_rg_info();", FunctionReturnType.VOID, true),
+                new FunctionViewModel("ac_final", FunctionType.Other, "", FunctionReturnType.VOID, true)
+        );
+        return predefinedFunctions;
     }
 
     public void addElement(ElementViewModel elementViewModel) {

@@ -136,6 +136,7 @@ public class MenuComponent extends ApplicationComponent {
         definesView.bindSourceCollection(newDiagram.getDefines());
         variablesView.bindSourceCollection(newDiagram.getVariables());
         inputParametersView.bindSourceCollection(newDiagram.getInputParameters());
+        functionsView.bindDiagramViewModel(newDiagram);
     }
 
 }

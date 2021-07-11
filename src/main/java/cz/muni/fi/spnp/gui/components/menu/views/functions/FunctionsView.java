@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.views.functions;
 
 import cz.muni.fi.spnp.core.models.functions.Function;
+import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.scene.Scene;
@@ -59,6 +60,10 @@ public class FunctionsView extends UIWindowComponent {
         buttonDelete.setOnMouseClicked(mouseEvent -> {
             var selectedItem = listViewNames.getSelectionModel().getSelectedItem();
             if (selectedItem == null) {
+                return;
+            }
+            if (selectedItem.getRequired()) {
+                DialogMessages.showError("Cannot delete predefined function, only edit it!");
                 return;
             }
             diagramViewModel.getFunctions().remove(selectedItem);

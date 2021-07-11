@@ -120,8 +120,8 @@ public class MainWindowController {
         defines.add(new DefineViewModel("MIN_SIZE", "-4"));
 
         var functions = new ArrayList<FunctionViewModel>();
-        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID));
-        functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID));
+        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID, false));
+        functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID, false));
 
         var variables = new ArrayList<VariableViewModel>();
         variables.add(new VariableViewModel("var_1_global_int", VariableType.Global, VariableDataType.INT, "10"));
