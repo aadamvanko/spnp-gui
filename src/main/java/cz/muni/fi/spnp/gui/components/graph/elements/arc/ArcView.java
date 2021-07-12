@@ -80,6 +80,10 @@ public abstract class ArcView extends GraphElementView {
         textMultiplicity.setY(textMultiplicity.getY() + textMultiplicity.getLayoutBounds().getHeight() / 4);
     }
 
+    public List<DragPointView> getDragPointViews() {
+        return dragPointViews;
+    }
+
     public Node getRoot() {
         return container;
     }

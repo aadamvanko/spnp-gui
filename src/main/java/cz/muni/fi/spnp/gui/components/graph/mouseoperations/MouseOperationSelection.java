@@ -50,9 +50,6 @@ public class MouseOperationSelection extends MouseOperation {
         } else {
             rectangleSelection.setHeight(gridBackgroundPane.getHeight() - rectangleSelection.getTranslateY() - 1);
         }
-//        rectangleSelection.setWidth((int)(mouseEvent.getX() - rectangleSelection.getTranslateX()));
-//        rectangleSelection.setHeight((int)(mouseEvent.getY() - rectangleSelection.getTranslateY()));
-//        System.out.println(rectangleSelection);
     }
 
     @Override
@@ -62,15 +59,22 @@ public class MouseOperationSelection extends MouseOperation {
         graphView.resetSelection();
         List<GraphElementView> selected = new ArrayList<>();
         for (var element : graphView.getGraphElementViews()) {
-            if (!(element instanceof MouseSelectable)) {
-                continue;
-            }
-            MouseSelectable mouseSelectable = (MouseSelectable) element;
+            if (element instanceof MouseSelectable) {
+                MouseSelectable mouseSelectable = (MouseSelectable) element;
 //            System.out.println(mouseSelectable);
 //            System.out.println(mouseSelectable.getShapeCenter());
-            if (rectangleSelection.getBoundsInParent().contains(mouseSelectable.getShapeCenter())) {
-                element.enableHighlight();
-                selected.add(element);
+                if (rectangleSelection.getBoundsInParent().contains(mouseSelectable.getShapeCenter())) {
+                    element.enableHighlight();
+                    selected.add(element);
+                }
+            } else if (element instanceof ArcView) {
+                var arcView = (ArcView) element;
+                for (var dragPointView : arcView.getDragPointViews()) {
+                    if (rectangleSelection.getBoundsInParent().contains(dragPointView.getShapeCenter())) {
+                        dragPointView.enableHighlight();
+                        selected.add(dragPointView);
+                    }
+                }
             }
         }
 
