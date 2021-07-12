@@ -7,11 +7,12 @@ import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public abstract class GraphElement implements Highlightable, Movable {
+public abstract class GraphElementView implements VisualElement, Highlightable, Movable {
 
     private static final double MIN_PADDING_FACTOR = 0.3;
     protected static DropShadow highlightEffect;
@@ -26,20 +27,12 @@ public abstract class GraphElement implements Highlightable, Movable {
     private boolean highlighted;
     private ElementViewModel viewModel;
 
+    public void setGraphView(GraphView graphView) {
+        this.graphView = graphView;
+    }
+
     public GraphView getGraphView() {
         return graphView;
-    }
-
-    public void addToParent(GraphView parent) {
-        System.out.println("addToParent called");
-        parent.addElement(this);
-        graphView = parent;
-    }
-
-    public void removeFromParent(GraphView parent) {
-        System.out.println("removeFromParent called");
-        parent.removeElement(this);
-        graphView = null;
     }
 
     protected void registerMouseHandlers(Node node) {

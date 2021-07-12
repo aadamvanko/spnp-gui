@@ -2,8 +2,8 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcController;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
@@ -23,7 +23,7 @@ public class MouseOperationSelection extends MouseOperation {
     }
 
     @Override
-    public void mousePressedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         graphView.resetSelection();
 
         rectangleSelection.setWidth(0);
@@ -35,7 +35,7 @@ public class MouseOperationSelection extends MouseOperation {
     }
 
     @Override
-    public void mouseDraggedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseDraggedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         GridBackgroundPane gridBackgroundPane = graphView.getGridPane();
         var localPoint = gridBackgroundPane.screenToLocal(mouseEvent.getScreenX(), mouseEvent.getScreenY());
 
@@ -56,12 +56,12 @@ public class MouseOperationSelection extends MouseOperation {
     }
 
     @Override
-    public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         rectangleSelection.setVisible(false);
 
         graphView.resetSelection();
-        List<GraphElement> selected = new ArrayList<>();
-        for (var element : graphView.getElements()) {
+        List<GraphElementView> selected = new ArrayList<>();
+        for (var element : graphView.getGraphElementViews()) {
             if (!(element instanceof MouseSelectable)) {
                 continue;
             }
@@ -74,8 +74,8 @@ public class MouseOperationSelection extends MouseOperation {
             }
         }
 
-        for (var element : graphView.getElements()) {
-            if (element instanceof ArcController && ((ArcController) element).hasHighlightedEnds()) {
+        for (var element : graphView.getGraphElementViews()) {
+            if (element instanceof ArcView && ((ArcView) element).hasHighlightedEnds()) {
                 element.enableHighlight();
                 selected.add(element);
             }

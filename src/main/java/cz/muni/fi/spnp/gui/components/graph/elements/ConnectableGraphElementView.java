@@ -1,7 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.elements;
 
-import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcController;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Connectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
@@ -11,29 +10,24 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ConnectableGraphElement extends GraphElement implements Connectable, MouseSelectable {
+public abstract class ConnectableGraphElementView extends GraphElementView implements Connectable, MouseSelectable {
 
-    private final List<ArcController> arcs;
+    private final List<ArcView> arcs;
 
-    public ConnectableGraphElement() {
+    public ConnectableGraphElementView() {
         arcs = new ArrayList<>();
     }
 
-    public void addArc(ArcController arcController) {
-        arcs.add(arcController);
+    public void addArc(ArcView arcView) {
+        arcs.add(arcView);
     }
 
-    public void removeArc(ArcController arcController) {
-        arcs.remove(arcController);
+    public void removeArc(ArcView arcView) {
+        arcs.remove(arcView);
     }
 
     protected void updateArcs() {
         arcs.forEach(arc -> arc.updateEnds(this));
-    }
-
-    @Override
-    public void removeFromParent(GraphView parent) {
-        super.removeFromParent(parent);
     }
 
     @Override

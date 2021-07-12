@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
@@ -12,7 +12,7 @@ public class MouseOperationContextMenu extends MouseOperation {
 
     private final ContextMenu contextMenu;
     private Point2D initialMousePosition;
-    private GraphElement graphElement;
+    private GraphElementView graphElementView;
 
     public MouseOperationContextMenu(GraphView graphView) {
         super(graphView);
@@ -32,7 +32,7 @@ public class MouseOperationContextMenu extends MouseOperation {
 
     private void onDeleteHandler(ActionEvent actionEvent) {
         var diagramViewModel = graphView.getDiagramViewModel();
-        graphView.getSelected().forEach(element -> diagramViewModel.removeElement(element.getViewModel()));
+        graphView.getSelected().forEach(element -> diagramViewModel.getElements().remove(element.getViewModel()));
         diagramViewModel.removeDisconnectedArcs();
         graphView.resetSelection();
     }
@@ -42,22 +42,22 @@ public class MouseOperationContextMenu extends MouseOperation {
     }
 
     @Override
-    public void mousePressedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
-        this.graphElement = graphElement;
+    public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
+        this.graphElementView = graphElementView;
         initialMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
 
         if (graphView.getSelected().size() <= 1) {
-            graphView.select(graphElement);
+            graphView.select(graphElementView);
         }
     }
 
     @Override
-    public void mouseDraggedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseDraggedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
     }
 
     @Override
-    public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
-        contextMenu.show(graphElement.getContextMenuNode(), initialMousePosition.getX(), initialMousePosition.getY());
+    public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
+        contextMenu.show(graphElementView.getContextMenuNode(), initialMousePosition.getX(), initialMousePosition.getY());
     }
 
     @Override

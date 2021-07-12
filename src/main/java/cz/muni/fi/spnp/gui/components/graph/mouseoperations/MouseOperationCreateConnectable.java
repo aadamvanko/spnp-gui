@@ -2,8 +2,7 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
@@ -23,23 +22,23 @@ public class MouseOperationCreateConnectable extends MouseOperation {
     }
 
     @Override
-    public void mousePressedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
     }
 
     @Override
-    public void mouseDraggedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseDraggedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
     }
 
     @Override
-    public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         var position = graphView.getGridPane().screenToLocal(mouseEvent.getScreenX(), mouseEvent.getScreenY());
 
-        ConnectableViewModel newViewModel = createViewModel(graphElement, position);
+        ConnectableViewModel newViewModel = createViewModel(graphElementView, position);
 
         if (newViewModel != null) {
             var diagramViewModel = graphView.getDiagramViewModel();
             newViewModel.setDiagramViewModel(diagramViewModel);
-            diagramViewModel.addElement(newViewModel);
+            diagramViewModel.getElements().add(newViewModel);
 
             if (model.getCursorMode() == CursorMode.CREATE) {
                 model.cursorModeProperty().set(CursorMode.VIEW);
@@ -47,7 +46,7 @@ public class MouseOperationCreateConnectable extends MouseOperation {
         }
     }
 
-    private ConnectableViewModel createViewModel(GraphElement graphElement, Point2D position) {
+    private ConnectableViewModel createViewModel(GraphElementView graphElementView, Point2D position) {
         switch (model.getCreateElementType()) {
             case PLACE:
                 var placeViewModel = new PlaceViewModel();

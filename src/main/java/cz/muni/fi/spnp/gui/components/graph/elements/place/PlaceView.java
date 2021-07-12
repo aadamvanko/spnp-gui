@@ -1,9 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.place;
 
-import cz.muni.fi.spnp.core.models.places.Place;
-import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcController;
+import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.geometry.Point2D;
@@ -18,7 +16,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 
-public class PlaceController extends ConnectableGraphElement {
+public class PlaceView extends ConnectableGraphElementView {
 
     private Circle circle;
 
@@ -27,7 +25,7 @@ public class PlaceController extends ConnectableGraphElement {
     private Label nameLabel;
     private VBox container;
 
-    public PlaceController() {
+    public PlaceView() {
         createView();
     }
 
@@ -114,7 +112,7 @@ public class PlaceController extends ConnectableGraphElement {
     public Point2D getBorderConnectionPoint(Point2D from) {
         Point2D center = getShapeCenter();
         Point2D direction = center.subtract(from);
-        double moveBackDistance = circle.getRadius() + circle.getStrokeWidth() + ArcController.LINE_WIDTH / 2.0;
+        double moveBackDistance = circle.getRadius() + circle.getStrokeWidth() + ArcView.LINE_WIDTH / 2.0;
         Point2D intersection = center.subtract(direction.normalize().multiply(moveBackDistance));
         return intersection;
     }
@@ -140,15 +138,26 @@ public class PlaceController extends ConnectableGraphElement {
     }
 
     @Override
-    public void addToParent(GraphView parent) {
-        super.addToParent(parent);
-        parent.addToLayerMiddle(container);
+    public Node getBottomLayerContainer() {
+        return null;
     }
 
     @Override
-    public void removeFromParent(GraphView parent) {
-        super.removeFromParent(parent);
-        parent.removeFromLayerMiddle(container);
+    public Node getMiddleLayerContainer() {
+        return container;
+    }
+
+    @Override
+    public Node getTopLayerContainer() {
+        return null;
+    }
+
+    @Override
+    public void addedToParent() {
+    }
+
+    @Override
+    public void removedFromParent() {
     }
 
     @Override

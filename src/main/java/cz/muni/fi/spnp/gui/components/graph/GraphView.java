@@ -2,9 +2,9 @@ package cz.muni.fi.spnp.gui.components.graph;
 
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcDragMark;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
 import cz.muni.fi.spnp.gui.model.Model;
@@ -12,6 +12,8 @@ import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -33,18 +35,20 @@ public class GraphView {
     private final Group layerTop;
     private final GridBackgroundPane gridBackgroundPane;
     private final ZoomableScrollPane zoomableScrollPane;
-    private final List<GraphElement> elements;
+    private final List<GraphElementView> graphElementViews;
     private final Rectangle rectangleSelection;
-    private List<GraphElement> selected;
+    private final GraphElementFactory graphElementFactory;
     private MouseOperation mouseOperation;
     private boolean snappingToGrid;
     private final Notifications notifications;
     private final Model model;
     private DiagramViewModel diagramViewModel;
+    private List<GraphElementView> selected;
 
-    public GraphView(Notifications notifications, Model model) {
+    public GraphView(Notifications notifications, Model model, DiagramViewModel diagramViewModel) {
         this.notifications = notifications;
         this.model = model;
+        this.graphElementFactory = new GraphElementFactory(this);
 
         layerBottom = new Group();
         layerMiddle = new Group();
@@ -57,7 +61,7 @@ public class GraphView {
         gridBackgroundPane.getChildren().addAll(layerBottom, layerMiddle, layerTop);
         zoomableScrollPane = new ZoomableScrollPane(gridBackgroundPane);
 
-        elements = new ArrayList<>();
+        graphElementViews = new ArrayList<>();
         selected = new ArrayList<>();
 
         rectangleSelection = new Rectangle();
@@ -69,7 +73,7 @@ public class GraphView {
         rectangleSelection.setFill(Color.TRANSPARENT);
 //        rectangleSelection.setFill(Color.color(0.8, 0.0, 1.0, 0.05));
         rectangleSelection.setVisible(true);
-        addToLayerTop(rectangleSelection);
+        layerTop.getChildren().add(rectangleSelection);
 
         gridBackgroundPane.setOnMousePressed(this::onMousePressed);
         gridBackgroundPane.setOnMouseDragged(this::onMouseDragged);
@@ -77,9 +81,56 @@ public class GraphView {
 
         setSnappingToGrid(true);
         adjustCanvasSize();
+
+        diagramViewModel.getElements().addListener(this::onElementsChangesListener);
     }
 
-    public void select(List<GraphElement> selectedElements) {
+    private void onElementsChangesListener(ListChangeListener.Change<? extends ElementViewModel> elementsChange) {
+        while (elementsChange.next()) {
+            if (elementsChange.wasAdded()) {
+                for (var addedElementViewModel : elementsChange.getAddedSubList()) {
+                    addGraphElement(addedElementViewModel);
+                }
+            } else if (elementsChange.wasRemoved()) {
+                for (var removedElementViewModel : elementsChange.getRemoved()) {
+                    var elementView = findElementViewByModel(removedElementViewModel);
+                    removeGraphElement(elementView);
+                }
+            }
+        }
+    }
+
+    private void addGraphElement(ElementViewModel addedElementViewModel) {
+        var elementView = graphElementFactory.createGraphElement(addedElementViewModel);
+        addToLayerBottom(elementView.getBottomLayerContainer());
+        addToLayerMiddle(elementView.getMiddleLayerContainer());
+        addToLayerTop(elementView.getTopLayerContainer());
+        graphElementViews.add(elementView);
+        elementView.setGraphView(this);
+        elementView.addedToParent();
+
+        adjustCanvasSize();
+    }
+
+    private void removeGraphElement(GraphElementView elementView) {
+        removeFromLayerBottom(elementView.getBottomLayerContainer());
+        removeFromLayerMiddle(elementView.getMiddleLayerContainer());
+        removeFromLayerTop(elementView.getTopLayerContainer());
+        graphElementViews.remove(elementView);
+        elementView.setGraphView(null);
+        elementView.removedFromParent();
+
+        adjustCanvasSize();
+    }
+
+    public GraphElementView findElementViewByModel(ElementViewModel elementViewModel) {
+        return graphElementViews.stream()
+                .filter(elementView -> elementView.getViewModel().equals(elementViewModel))
+                .findAny()
+                .get();
+    }
+
+    public void select(List<GraphElementView> selectedElements) {
         resetSelection();
         this.selected = selectedElements;
         fireSelectedElementsChanged();
@@ -88,7 +139,7 @@ public class GraphView {
     public void setSnappingToGrid(boolean snappingToGrid) {
         gridBackgroundPane.setDotsVisibility(snappingToGrid);
         if (!this.snappingToGrid && snappingToGrid) {
-            elements.forEach(element -> element.snapToGrid());
+            graphElementViews.forEach(element -> element.snapToGrid());
         }
         this.snappingToGrid = snappingToGrid;
     }
@@ -161,11 +212,11 @@ public class GraphView {
         }
     }
 
-    public List<GraphElement> getSelected() {
+    public List<GraphElementView> getSelected() {
         return selected;
     }
 
-    public void graphElementPressed(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void graphElementPressed(GraphElementView graphElementView, MouseEvent mouseEvent) {
         finishMouseOperation();
 
         if (mouseEvent.getButton() == MouseButton.PRIMARY && isCreateModeArc()) {
@@ -180,23 +231,23 @@ public class GraphView {
             return;
         }
 
-        mouseOperation.mousePressedHandler(graphElement, mouseEvent);
+        mouseOperation.mousePressedHandler(graphElementView, mouseEvent);
     }
 
-    public void graphElementDragged(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void graphElementDragged(GraphElementView graphElementView, MouseEvent mouseEvent) {
         if (mouseOperation == null) {
             return;
         }
 
-        mouseOperation.mouseDraggedHandler(graphElement, mouseEvent);
+        mouseOperation.mouseDraggedHandler(graphElementView, mouseEvent);
     }
 
-    public void graphElementReleased(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void graphElementReleased(GraphElementView graphElementView, MouseEvent mouseEvent) {
         if (mouseOperation == null) {
             return;
         }
 
-        mouseOperation.mouseReleasedHandler(graphElement, mouseEvent);
+        mouseOperation.mouseReleasedHandler(graphElementView, mouseEvent);
     }
 
     private void finishMouseOperation() {
@@ -207,15 +258,15 @@ public class GraphView {
         mouseOperation = null;
     }
 
-    public void select(GraphElement graphElement) {
+    public void select(GraphElementView graphElementView) {
         resetSelection();
-        graphElement.enableHighlight();
-        selected.add(graphElement);
+        graphElementView.enableHighlight();
+        selected.add(graphElementView);
         fireSelectedElementsChanged();
     }
 
     private void fireSelectedElementsChanged() {
-        if (selected.size() == 1 && selected.get(0) instanceof ArcDragMark) {
+        if (selected.size() == 1 && selected.get(0) instanceof DragPointView) {
             return;
         }
         notifications.selectedElementsChanged(selected);
@@ -230,16 +281,6 @@ public class GraphView {
         selected.clear();
     }
 
-    public void addElement(GraphElement graphElement) {
-        elements.add(graphElement);
-        adjustCanvasSize();
-    }
-
-    public void removeElement(GraphElement graphElement) {
-        elements.remove(graphElement);
-        adjustCanvasSize();
-    }
-
     public GridBackgroundPane getGridPane() {
         return gridBackgroundPane;
     }
@@ -249,26 +290,50 @@ public class GraphView {
     }
 
     public void addToLayerBottom(Node node) {
+        if (node == null) {
+            return;
+        }
+
         layerBottom.getChildren().add(node);
     }
 
     public void removeFromLayerBottom(Node node) {
+        if (node == null) {
+            return;
+        }
+
         layerBottom.getChildren().remove(node);
     }
 
     public void addToLayerMiddle(Node node) {
+        if (node == null) {
+            return;
+        }
+
         layerMiddle.getChildren().add(node);
     }
 
     public void removeFromLayerMiddle(Node node) {
+        if (node == null) {
+            return;
+        }
+
         layerMiddle.getChildren().remove(node);
     }
 
     public void addToLayerTop(Node node) {
+        if (node == null) {
+            return;
+        }
+
         layerTop.getChildren().add(node);
     }
 
     public void removeFromLayerTop(Node node) {
+        if (node == null) {
+            return;
+        }
+
         layerTop.getChildren().remove(node);
     }
 
@@ -283,7 +348,7 @@ public class GraphView {
     public void adjustCanvasSize() {
         double maxX = gridBackgroundPane.getMinWidth();
         double maxY = gridBackgroundPane.getMinHeight();
-        for (var element : elements) {
+        for (var element : graphElementViews) {
             if (!(element instanceof MouseSelectable)) {
                 continue;
             }
@@ -297,21 +362,20 @@ public class GraphView {
         gridBackgroundPane.setPrefHeight(maxY + GridBackgroundPane.SPACING_Y);
     }
 
-    public List<GraphElement> getElements() {
-        return elements;
+    public List<GraphElementView> getGraphElementViews() {
+        return graphElementViews;
     }
 
     public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
         resetSelection();
-        this.elements.clear();
+        this.graphElementViews.clear();
 
         this.diagramViewModel = diagramViewModel;
-        var graphElementFactory = new GraphElementFactory(this);
         diagramViewModel.getElements().stream()
                 .filter(elementViewModel -> elementViewModel instanceof ConnectableViewModel)
-                .forEach(elementViewModel -> graphElementFactory.createGraphElement(elementViewModel));
+                .forEach(elementViewModel -> addGraphElement(elementViewModel));
         diagramViewModel.getElements().stream()
                 .filter(elementViewModel -> elementViewModel instanceof ArcViewModel)
-                .forEach(elementViewModel -> graphElementFactory.createGraphElement(elementViewModel));
+                .forEach(elementViewModel -> addGraphElement(elementViewModel));
     }
 }

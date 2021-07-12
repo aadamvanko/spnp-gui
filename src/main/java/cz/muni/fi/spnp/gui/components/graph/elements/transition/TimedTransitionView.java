@@ -2,9 +2,9 @@ package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
 import javafx.scene.paint.Color;
 
-public class TimedTransitionController extends TransitionController {
+public class TimedTransitionView extends TransitionView {
 
-    public TimedTransitionController() {
+    public TimedTransitionView() {
         super();
         createView();
     }

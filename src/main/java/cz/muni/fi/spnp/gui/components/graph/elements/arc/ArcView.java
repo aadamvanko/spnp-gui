@@ -1,14 +1,10 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 
-import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.viewmodel.ArcDragMarkViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -21,31 +17,31 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ArcController extends GraphElement {
+public abstract class ArcView extends GraphElementView {
 
     public static int LINE_WIDTH = 4;
 
     private Group container;
     private Group groupLines;
-    private final List<ArcDragMark> dragMarks;
-    private final ConnectableGraphElement fromElement;
-    private final ConnectableGraphElement toElement;
+    private final List<DragPointView> dragPointViews;
+    private final ConnectableGraphElementView fromElement;
+    private final ConnectableGraphElementView toElement;
     protected Group groupSymbols;
     protected List<Line> lines;
     protected ArcEnding ending;
-    private ArcDragMark lastAddedDragMark;
+    private DragPointView lastAddedDragPoint;
     private Text textMultiplicty;
 
-    public ArcController(ConnectableGraphElement from, ConnectableGraphElement to) {
+    public ArcView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
         lines = new ArrayList<>();
-        dragMarks = new ArrayList<>();
+        dragPointViews = new ArrayList<>();
         this.fromElement = from;
         this.toElement = to;
 
         createView(from, to);
     }
 
-    private void createView(ConnectableGraphElement from, ConnectableGraphElement to) {
+    private void createView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
         textMultiplicty = new Text();
         textMultiplicty.textProperty().addListener((observableValue, oldValue, newValue) -> {
             textMultiplicty.setVisible(!newValue.equals("1"));
@@ -113,8 +109,8 @@ public abstract class ArcController extends GraphElement {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             Point2D mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
             Line sourceLine = (Line) mouseEvent.getSource();
-            createDragMark(sourceLine, mousePosition);
-            lastAddedDragMark.onMousePressedHandler(mouseEvent);
+            createDragPoint(sourceLine, mousePosition);
+            lastAddedDragPoint.onMousePressedHandler(mouseEvent);
         }
     }
 
@@ -122,8 +118,8 @@ public abstract class ArcController extends GraphElement {
     public void onMouseDraggedHandler(MouseEvent mouseEvent) {
         super.onMouseDraggedHandler(mouseEvent);
 
-        if (lastAddedDragMark != null) {
-            lastAddedDragMark.onMouseDraggedHandler(mouseEvent);
+        if (lastAddedDragPoint != null) {
+            lastAddedDragPoint.onMouseDraggedHandler(mouseEvent);
         }
     }
 
@@ -131,9 +127,9 @@ public abstract class ArcController extends GraphElement {
     public void onMouseReleasedHandler(MouseEvent mouseEvent) {
         super.onMouseReleasedHandler(mouseEvent);
 
-        if (lastAddedDragMark != null) {
-            lastAddedDragMark.onMouseReleasedHandler(mouseEvent);
-            lastAddedDragMark = null;
+        if (lastAddedDragPoint != null) {
+            lastAddedDragPoint.onMouseReleasedHandler(mouseEvent);
+            lastAddedDragPoint = null;
         }
     }
 
@@ -144,7 +140,7 @@ public abstract class ArcController extends GraphElement {
         var arcViewModel = (ArcViewModel) viewModel;
         textMultiplicty.textProperty().bind(arcViewModel.multiplicityProperty());
 
-        destroyDragMarks(getGraphView());
+        destroyDragMarks(); // TODO ???
         createDragMarks(arcViewModel.getDragMarks());
     }
 
@@ -157,11 +153,11 @@ public abstract class ArcController extends GraphElement {
 
     private void createDragMarks(ObservableList<ArcDragMarkViewModel> dragMarksViewModels) {
         for (var dragMarkViewModel : dragMarksViewModels) {
-            createDragMark(lines.get(lines.size() - 1), new Point2D(dragMarkViewModel.positionXProperty().get(), dragMarkViewModel.positionYProperty().get()));
+            createDragPoint(lines.get(lines.size() - 1), new Point2D(dragMarkViewModel.positionXProperty().get(), dragMarkViewModel.positionYProperty().get()));
         }
     }
 
-    private void createDragMark(Line sourceLine, Point2D position) {
+    private void createDragPoint(Line sourceLine, Point2D position) {
         int index = lines.indexOf(sourceLine);
 
         Line line = createLine(position.getX(), position.getY(), sourceLine.getEndX(), sourceLine.getEndY());
@@ -173,18 +169,19 @@ public abstract class ArcController extends GraphElement {
         sourceLine.setEndY(position.getY());
 //        System.out.println(lines);
 
-        lastAddedDragMark = new ArcDragMark(this, position.getX(), position.getY());
+        lastAddedDragPoint = new DragPointView(this, position.getX(), position.getY());
         if (isHighlighted()) {
-            lastAddedDragMark.enableHighlight();
+            lastAddedDragPoint.enableHighlight();
         }
 
         System.out.println("adding dragMark");
-        lastAddedDragMark.addToParent(getGraphView());
-        dragMarks.add(index, lastAddedDragMark);
+        groupSymbols.getChildren().add(lastAddedDragPoint.getMiddleLayerContainer());
+        lastAddedDragPoint.addedToParent();
+        dragPointViews.add(index, lastAddedDragPoint);
     }
 
-    public void dragMarkMovedHandler(ArcDragMark arcDragMark, Point2D center) {
-        int index = dragMarks.indexOf(arcDragMark);
+    public void dragMarkMovedHandler(DragPointView dragPointView, Point2D center) {
+        int index = dragPointViews.indexOf(dragPointView);
 //        System.out.println("dragMark index " + index);
         Line lineTo = lines.get(index);
 //        System.out.println("lineTo " + lineTo);
@@ -199,7 +196,7 @@ public abstract class ArcController extends GraphElement {
             setStart(fromElement.getBorderConnectionPoint(getLineEnd(lines.get(0))));
         }
 
-        if (index == dragMarks.size() - 1) {
+        if (index == dragPointViews.size() - 1) {
             setEnd(toElement.getBorderConnectionPoint(getLineStart(lines.get(index + 1))));
         }
 
@@ -246,7 +243,7 @@ public abstract class ArcController extends GraphElement {
         setEnd(point.getX(), point.getY());
     }
 
-    public void updateEnds(ConnectableGraphElement source) {
+    public void updateEnds(ConnectableGraphElementView source) {
         setStart(fromElement.getBorderConnectionPoint(getLineEnd(lines.get(0))));
         setEnd(toElement.getBorderConnectionPoint(getLineStart(lines.get(lines.size() - 1))));
         updateMultiplicityPosition();
@@ -256,7 +253,7 @@ public abstract class ArcController extends GraphElement {
     public void enableHighlight() {
         super.enableHighlight();
         lines.forEach(line -> line.setEffect(highlightEffect));
-        dragMarks.forEach(dragMark -> dragMark.enableHighlight());
+        dragPointViews.forEach(dragMark -> dragMark.enableHighlight());
         ending.getShape().setEffect(highlightEffect);
     }
 
@@ -264,38 +261,45 @@ public abstract class ArcController extends GraphElement {
     public void disableHighlight() {
         super.disableHighlight();
         lines.forEach(line -> line.setEffect(null));
-        dragMarks.forEach(dragMark -> dragMark.disableHighlight());
+        dragPointViews.forEach(dragMark -> dragMark.disableHighlight());
         ending.getShape().setEffect(null);
     }
 
     @Override
-    public void addToParent(GraphView parent) {
-        super.addToParent(parent);
-        parent.addToLayerMiddle(groupSymbols);
-        parent.addToLayerBottom(groupLines);
+    public Node getBottomLayerContainer() {
+        return groupLines;
     }
 
     @Override
-    public void removeFromParent(GraphView parent) {
-        parent.removeFromLayerMiddle(groupSymbols);
-        parent.removeFromLayerBottom(groupLines);
-        fromElement.removeArc(this);
-        toElement.removeArc(this);
-
-        destroyDragMarks(parent);
-
-        super.removeFromParent(parent);
+    public Node getMiddleLayerContainer() {
+        return groupSymbols;
     }
 
-    private void destroyDragMarks(GraphView parent) {
-        while (dragMarks.size() > 0) {
-            dragMarks.get(0).removeFromParent(parent);
+    @Override
+    public Node getTopLayerContainer() {
+        return null;
+    }
+
+    @Override
+    public void addedToParent() {
+    }
+
+    @Override
+    public void removedFromParent() {
+        fromElement.removeArc(this);
+        toElement.removeArc(this);
+        destroyDragMarks();
+    }
+
+    private void destroyDragMarks() {
+        while (dragPointViews.size() > 0) {
+            removeDragPointView(dragPointViews.get(0));
         }
     }
 
     @Override
     public void snapToGrid() {
-        dragMarks.forEach(dragMark -> dragMark.snapToGrid());
+        dragPointViews.forEach(dragMark -> dragMark.snapToGrid());
     }
 
     @Override
@@ -312,11 +316,11 @@ public abstract class ArcController extends GraphElement {
     }
 
     public void removeStraightConnections() {
-        for (int i = 0; i < dragMarks.size(); ) {
+        for (int i = 0; i < dragPointViews.size(); ) {
             Line lineTo = lines.get(i);
             Line lineFrom = lines.get(i + 1);
             if (areInLine(getLineStart(lineTo), getLineEnd(lineTo), getLineEnd(lineFrom))) {
-                dragMarks.get(i).removeFromParent(getGraphView());
+                removeDragPointView(dragPointViews.get(i));
             } else {
                 i++;
             }
@@ -342,9 +346,12 @@ public abstract class ArcController extends GraphElement {
         return abX * cdY - cdX * abY;
     }
 
-    public void removeDragMark(ArcDragMark dragMark) {
-        int index = dragMarks.indexOf(dragMark);
-        dragMarks.remove(index);
+    public void removeDragPointView(DragPointView dragPointView) {
+        groupSymbols.getChildren().remove(dragPointView);
+        dragPointView.removedFromParent();
+
+        int index = dragPointViews.indexOf(dragPointView);
+        dragPointViews.remove(index);
 
         Line lineTo = lines.get(index);
         Line lineFrom = lines.get(index + 1);

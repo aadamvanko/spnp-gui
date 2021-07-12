@@ -79,16 +79,6 @@ public class DiagramViewModel extends DisplayableViewModel {
         return predefinedFunctions;
     }
 
-    public void addElement(ElementViewModel elementViewModel) {
-        elements.add(elementViewModel);
-        notifications.newElementAdded(elementViewModel);
-    }
-
-    public void removeElement(ElementViewModel elementViewModel) {
-        elements.remove(elementViewModel);
-        notifications.elementRemoved(elementViewModel);
-    }
-
     public void removeDisconnectedArcs() {
         var arcsToRemove = elements.stream().filter(element -> {
             if (element instanceof ArcViewModel) {
@@ -98,7 +88,7 @@ public class DiagramViewModel extends DisplayableViewModel {
             return false;
         }).collect(Collectors.toList());
         for (var arc : arcsToRemove) {
-            removeElement(arc);
+            elements.remove(arc);
         }
     }
 

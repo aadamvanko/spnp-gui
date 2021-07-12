@@ -3,12 +3,12 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
-import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.*;
-import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionController;
+import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceView;
+import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.InhibitorArcViewModel;
@@ -18,14 +18,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MouseOperationCreateArc extends MouseOperation {
 
     private final Model model;
-    private ConnectableGraphElement fromElement;
-    private ConnectableGraphElement toElement;
+    private ConnectableGraphElementView fromElement;
+    private ConnectableGraphElementView toElement;
     private Line fakeLine;
     private ArcEnding fakeEnding;
 
@@ -35,14 +33,14 @@ public class MouseOperationCreateArc extends MouseOperation {
     }
 
     @Override
-    public void mousePressedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
-        if (graphElement instanceof ConnectableGraphElement) {
+    public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
+        if (graphElementView instanceof ConnectableGraphElementView) {
             if (model.getCreateElementType() == GraphElementType.STANDARD_ARC ||
-                    (model.getCreateElementType() == GraphElementType.INHIBITOR_ARC && graphElement instanceof PlaceController)) {
-                fromElement = (ConnectableGraphElement) graphElement;
+                    (model.getCreateElementType() == GraphElementType.INHIBITOR_ARC && graphElementView instanceof PlaceView)) {
+                fromElement = (ConnectableGraphElementView) graphElementView;
 
                 fakeLine = new Line();
-                fakeLine.setStrokeWidth(ArcController.LINE_WIDTH);
+                fakeLine.setStrokeWidth(ArcView.LINE_WIDTH);
                 update(mouseEvent);
                 graphView.addToLayerTop(fakeLine);
 
@@ -58,7 +56,7 @@ public class MouseOperationCreateArc extends MouseOperation {
     }
 
     @Override
-    public void mouseDraggedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseDraggedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         if (fakeLine != null) {
             update(mouseEvent);
             updateFakeEnding();
@@ -101,7 +99,7 @@ public class MouseOperationCreateArc extends MouseOperation {
     }
 
     @Override
-    public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         if (fakeLine != null) {
             graphView.removeFromLayerTop(fakeLine);
             graphView.removeFromLayerTop(fakeEnding.getShape());
@@ -109,10 +107,10 @@ public class MouseOperationCreateArc extends MouseOperation {
 
             // get toLement
             var screenPoint = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
-            var elements = graphView.getElements();
+            var elements = graphView.getGraphElementViews();
             for (var element : elements) {
-                if (element instanceof ConnectableGraphElement && isViableTarget(element)) {
-                    var connectable = (ConnectableGraphElement) element;
+                if (element instanceof ConnectableGraphElementView && isViableTarget(element)) {
+                    var connectable = (ConnectableGraphElementView) element;
                     if (connectable.containsPoint(screenPoint)) {
                         toElement = connectable;
                         break;
@@ -127,7 +125,7 @@ public class MouseOperationCreateArc extends MouseOperation {
                 } else {
                     arcViewModel = new InhibitorArcViewModel("inhibitorArc", fromElement.getViewModel(), toElement.getViewModel(), Collections.emptyList());
                 }
-                graphView.getDiagramViewModel().addElement(arcViewModel);
+                graphView.getDiagramViewModel().getElements().add(arcViewModel);
 
                 if (model.getCursorMode() == CursorMode.CREATE) {
                     model.cursorModeProperty().set(CursorMode.VIEW);
@@ -136,12 +134,12 @@ public class MouseOperationCreateArc extends MouseOperation {
         }
     }
 
-    private boolean isViableTarget(GraphElement target) {
+    private boolean isViableTarget(GraphElementView target) {
         if (model.getCreateElementType() == GraphElementType.STANDARD_ARC) {
-            return (fromElement instanceof PlaceController && target instanceof TransitionController) ||
-                    (fromElement instanceof TransitionController && target instanceof PlaceController);
+            return (fromElement instanceof PlaceView && target instanceof TransitionView) ||
+                    (fromElement instanceof TransitionView && target instanceof PlaceView);
         } else {
-            return target instanceof TransitionController;
+            return target instanceof TransitionView;
         }
     }
 

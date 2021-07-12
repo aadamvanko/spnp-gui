@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +28,7 @@ public class MouseOperationPanning extends MouseOperation {
     }
 
     @Override
-    public void mousePressedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         oldCursor = zoomableScrollPane.getScene().getCursor();
         zoomableScrollPane.getScene().setCursor(Cursor.MOVE);
         System.out.println(zoomableScrollPane.getHmin() + " " + zoomableScrollPane.getHmax() + " " + zoomableScrollPane.getHvalue());
@@ -36,7 +36,7 @@ public class MouseOperationPanning extends MouseOperation {
     }
 
     @Override
-    public void mouseDraggedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseDraggedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         Point2D mousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
         double scale = graphView.getZoomableScrollPane().getScaleValue();
         var groupBounds = zoomableScrollPane.getZoomGroup().getBoundsInLocal();
@@ -49,7 +49,7 @@ public class MouseOperationPanning extends MouseOperation {
     }
 
     @Override
-    public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         zoomableScrollPane.getScene().setCursor(oldCursor);
     }
 

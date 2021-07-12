@@ -1,12 +1,12 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.InhibitorArcController;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.StandardArcController;
-import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.ImmediateTransitionController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionController;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.InhibitorArcView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.StandardArcView;
+import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceView;
+import cz.muni.fi.spnp.gui.components.graph.elements.transition.ImmediateTransitionView;
+import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionView;
 import cz.muni.fi.spnp.gui.components.propertieseditor.arc.InhibitorArcPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.arc.StandardArcPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.place.PlacePropertiesEditor;
@@ -36,11 +36,11 @@ public class PropertiesComponent extends ApplicationComponent implements Selecte
 
         editors = new HashMap<>();
         editors.put(null, new PropertiesEditorPlaceholder());
-        editors.put(PlaceController.class, new PlacePropertiesEditor());
-        editors.put(StandardArcController.class, new StandardArcPropertiesEditor());
-        editors.put(InhibitorArcController.class, new InhibitorArcPropertiesEditor());
-        editors.put(ImmediateTransitionController.class, new ImmediateTransitionPropertiesEditor());
-        editors.put(TimedTransitionController.class, new TimedTransitionPropertiesEditor());
+        editors.put(PlaceView.class, new PlacePropertiesEditor());
+        editors.put(StandardArcView.class, new StandardArcPropertiesEditor());
+        editors.put(InhibitorArcView.class, new InhibitorArcPropertiesEditor());
+        editors.put(ImmediateTransitionView.class, new ImmediateTransitionPropertiesEditor());
+        editors.put(TimedTransitionView.class, new TimedTransitionPropertiesEditor());
 
         vbox = new VBox();
         vbox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -55,7 +55,7 @@ public class PropertiesComponent extends ApplicationComponent implements Selecte
     }
 
     @Override
-    public void onSelectedElementsChanged(List<GraphElement> selectedElements) {
+    public void onSelectedElementsChanged(List<GraphElementView> selectedElements) {
         if (selectedElements.size() == 1) {
             var element = selectedElements.get(0);
             if (element.getClass().equals(currentType)) {

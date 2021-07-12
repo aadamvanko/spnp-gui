@@ -1,13 +1,13 @@
 package cz.muni.fi.spnp.gui.components.graph;
 
-import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.InhibitorArcController;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.StandardArcController;
-import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.ImmediateTransitionController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionController;
-import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionController;
+import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.InhibitorArcView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.StandardArcView;
+import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceView;
+import cz.muni.fi.spnp.gui.components.graph.elements.transition.ImmediateTransitionView;
+import cz.muni.fi.spnp.gui.components.graph.elements.transition.TimedTransitionView;
+import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionView;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
@@ -20,36 +20,28 @@ public class GraphElementFactory {
         this.graphView = graphView;
     }
 
-    public void createGraphElement(ElementViewModel elementViewModel) {
-        GraphElement graphElement = null;
+    public GraphElementView createGraphElement(ElementViewModel elementViewModel) {
+        GraphElementView graphElementView = null;
         if (elementViewModel instanceof PlaceViewModel) {
-            graphElement = new PlaceController();
+            graphElementView = new PlaceView();
         } else if (elementViewModel instanceof ImmediateTransitionViewModel) {
-            graphElement = new ImmediateTransitionController();
+            graphElementView = new ImmediateTransitionView();
         } else if (elementViewModel instanceof TimedTransitionViewModel) {
-            graphElement = new TimedTransitionController();
+            graphElementView = new TimedTransitionView();
         } else if (elementViewModel instanceof StandardArcViewModel) {
             var arcViewModel = (ArcViewModel) elementViewModel;
-            var elementFrom = findConnectableGraphElement(arcViewModel.getFromViewModel().nameProperty().get());
-            var elementTo = findConnectableGraphElement(arcViewModel.getToViewModel().nameProperty().get());
-            graphElement = new StandardArcController(elementFrom, elementTo);
+            System.out.println(arcViewModel.getName());
+            var elementFrom = (ConnectableGraphElementView) graphView.findElementViewByModel(arcViewModel.getFromViewModel());
+            var elementTo = (ConnectableGraphElementView) graphView.findElementViewByModel(arcViewModel.getToViewModel());
+            graphElementView = new StandardArcView(elementFrom, elementTo);
         } else if (elementViewModel instanceof InhibitorArcViewModel) {
             var arcViewModel = (ArcViewModel) elementViewModel;
-            var elementFrom = findConnectableGraphElement(arcViewModel.getFromViewModel().nameProperty().get());
-            var elementTo = findConnectableGraphElement(arcViewModel.getToViewModel().nameProperty().get());
-            graphElement = new InhibitorArcController((PlaceController) elementFrom, (TransitionController) elementTo);
+            var elementFrom = (ConnectableGraphElementView) graphView.findElementViewByModel(arcViewModel.getFromViewModel());
+            var elementTo = (ConnectableGraphElementView) graphView.findElementViewByModel(arcViewModel.getToViewModel());
+            graphElementView = new InhibitorArcView((PlaceView) elementFrom, (TransitionView) elementTo);
         }
 
-        graphElement.addToParent(graphView);
-        graphElement.bindViewModel(elementViewModel);
-    }
-
-    private ConnectableGraphElement findConnectableGraphElement(String name) {
-        for (var element : graphView.getElements()) {
-            if (element instanceof ConnectableGraphElement && element.getViewModel().nameProperty().get().equals(name)) {
-                return (ConnectableGraphElement) element;
-            }
-        }
-        return null;
+        graphElementView.bindViewModel(elementViewModel);
+        return graphElementView;
     }
 }

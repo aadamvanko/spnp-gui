@@ -2,9 +2,9 @@ package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
 import javafx.scene.paint.Color;
 
-public class ImmediateTransitionController extends TransitionController {
+public class ImmediateTransitionView extends TransitionView {
 
-    public ImmediateTransitionController() {
+    public ImmediateTransitionView() {
         super();
         createView();
     }

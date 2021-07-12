@@ -1,14 +1,11 @@
 package cz.muni.fi.spnp.gui.components.graph;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.*;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
-import javafx.beans.Observable;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Side;
@@ -20,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GraphComponent extends ApplicationComponent implements NewElementAddedListener, ElementRemovedListener {
+public class GraphComponent extends ApplicationComponent {
 
     private TabPane tabPane;
     private Map<Tab, GraphView> graphViews;
@@ -34,10 +31,8 @@ public class GraphComponent extends ApplicationComponent implements NewElementAd
         onDiagramsChangedListener = this::onDiagramsChangedListener;
 
         model.gridSnappingProperty().addListener(this::onGridSnappingChangedListener);
-        notifications.addNewElementAddedListener(this);
         model.getProjects().addListener(this::onProjectsChangedListener);
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
-        notifications.addElementRemovedListener(this);
     }
 
     private void onGridSnappingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldGridSnapping, Boolean newGridSnapping) {
@@ -62,7 +57,7 @@ public class GraphComponent extends ApplicationComponent implements NewElementAd
         while (diagramsChange.next()) {
             if (diagramsChange.wasAdded()) {
                 for (var added : diagramsChange.getAddedSubList()) {
-                    var graphView = new GraphView(notifications, model);
+                    var graphView = new GraphView(notifications, model, added);
                     graphView.bindDiagramViewModel(added);
                     var tabName = createTabName(added);
                     addGraphView(tabName, graphView);
@@ -141,7 +136,7 @@ public class GraphComponent extends ApplicationComponent implements NewElementAd
             tabPane.getSelectionModel().select(tab);
         } else {
             var tabName = createTabName(newDiagram);
-            var graphView = new GraphView(notifications, model);
+            var graphView = new GraphView(notifications, model, newDiagram);
             graphView.bindDiagramViewModel(newDiagram);
             addGraphView(tabName, graphView);
         }
@@ -160,25 +155,4 @@ public class GraphComponent extends ApplicationComponent implements NewElementAd
         return getTabForDiagram(diagramViewModel) != null;
     }
 
-    @Override
-    public void onNewElementAdded(ElementViewModel elementViewModel) {
-        if (getSelectedGraphView() == null) {
-            return;
-        }
-
-        var graphElementFactory = new GraphElementFactory(getSelectedGraphView());
-        graphElementFactory.createGraphElement(elementViewModel);
-    }
-
-    @Override
-    public void onElementRemoved(ElementViewModel removedElement) {
-        if (getSelectedGraphView() == null) {
-            return;
-        }
-
-        var toRemove = getSelectedGraphView().getElements().stream()
-                .filter(elementView -> elementView.getViewModel() == removedElement)
-                .collect(Collectors.toList());
-        toRemove.forEach(elementView -> elementView.removeFromParent(getSelectedGraphView()));
-    }
 }

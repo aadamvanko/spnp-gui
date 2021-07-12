@@ -1,11 +1,7 @@
 package cz.muni.fi.spnp.gui.notifications;
 
-import cz.muni.fi.spnp.gui.components.graph.CursorMode;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +9,9 @@ import java.util.List;
 public class Notifications {
 
     private final List<SelectedElementsChangeListener> selectedElementsChangeListeners;
-    private final List<NewElementAddedListener> newElementAddedListeners;
-    private final List<ElementRemovedListener> elementRemovedListeners;
 
     public Notifications() {
         selectedElementsChangeListeners = new ArrayList<>();
-        newElementAddedListeners = new ArrayList<>();
-        elementRemovedListeners = new ArrayList<>();
     }
 
     public void addSelectedElementsChangeListener(SelectedElementsChangeListener listener) {
@@ -30,31 +22,8 @@ public class Notifications {
         selectedElementsChangeListeners.remove(listener);
     }
 
-    public void selectedElementsChanged(List<GraphElement> selectedElements) {
+    public void selectedElementsChanged(List<GraphElementView> selectedElements) {
         selectedElementsChangeListeners.forEach(listener -> listener.onSelectedElementsChanged(selectedElements));
     }
 
-    public void addNewElementAddedListener(NewElementAddedListener listener) {
-        newElementAddedListeners.add(listener);
-    }
-
-    public void removeNewElementAddedListener(NewElementAddedListener listener) {
-        newElementAddedListeners.remove(listener);
-    }
-
-    public void newElementAdded(ElementViewModel elementViewModel) {
-        newElementAddedListeners.forEach(listener -> listener.onNewElementAdded(elementViewModel));
-    }
-
-    public void addElementRemovedListener(ElementRemovedListener listener) {
-        elementRemovedListeners.add(listener);
-    }
-
-    public void removeElementRemovedListener(ElementRemovedListener listener) {
-        elementRemovedListeners.remove(listener);
-    }
-
-    public void elementRemoved(ElementViewModel elementViewModel) {
-        elementRemovedListeners.forEach(listener -> listener.onElementRemoved(elementViewModel));
-    }
 }

@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElement;
+import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.Intersections;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
@@ -18,13 +18,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 
-public abstract class TransitionController extends ConnectableGraphElement {
+public abstract class TransitionView extends ConnectableGraphElementView {
 
     private final Label nameLabel;
     private final VBox container;
     protected Rectangle rectangle;
 
-    public TransitionController() {
+    public TransitionView() {
         rectangle = new Rectangle();
         registerMouseHandlers(rectangle);
 
@@ -139,15 +139,27 @@ public abstract class TransitionController extends ConnectableGraphElement {
     }
 
     @Override
-    public void addToParent(GraphView parent) {
-        super.addToParent(parent);
-        parent.addToLayerMiddle(container);
+    public Node getBottomLayerContainer() {
+        return null;
     }
 
     @Override
-    public void removeFromParent(GraphView parent) {
-        super.removeFromParent(parent);
-        parent.removeFromLayerMiddle(container);
+    public Node getMiddleLayerContainer() {
+        return container;
+    }
+
+    @Override
+    public Node getTopLayerContainer() {
+        return null;
+    }
+
+    @Override
+    public void addedToParent() {
+
+    }
+
+    @Override
+    public void removedFromParent() {
     }
 
     @Override

@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
@@ -15,16 +15,16 @@ public class MouseOperationMoving extends MouseOperation {
     }
 
     @Override
-    public void mousePressedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
-        if (graphView.getSelected().size() <= 1 || !graphView.getSelected().contains(graphElement)) {
-            graphView.select(graphElement);
+    public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
+        if (graphView.getSelected().size() <= 1 || !graphView.getSelected().contains(graphElementView)) {
+            graphView.select(graphElementView);
         }
 
         oldMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
     }
 
     @Override
-    public void mouseDraggedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseDraggedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         Point2D mousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
         double scale = graphView.getZoomableScrollPane().getScaleValue();
         Point2D offset = mousePosition.subtract(oldMousePosition).multiply(1 / scale);
@@ -33,7 +33,7 @@ public class MouseOperationMoving extends MouseOperation {
     }
 
     @Override
-    public void mouseReleasedHandler(GraphElement graphElement, MouseEvent mouseEvent) {
+    public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         graphView.moveSelectedEnded();
         graphView.adjustCanvasSize();
     }

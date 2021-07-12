@@ -1,7 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 
-import cz.muni.fi.spnp.gui.components.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElement;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.viewmodel.ArcDragMarkViewModel;
 import javafx.geometry.Point2D;
@@ -10,13 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class ArcDragMark extends GraphElement implements MouseSelectable {
+public class DragPointView extends GraphElementView implements MouseSelectable {
 
-    private final ArcController arc;
+    private final ArcView arc;
     private final Rectangle rectangle;
     private final ArcDragMarkViewModel customViewModel;
 
-    public ArcDragMark(ArcController arc, double x, double y) {
+    public DragPointView(ArcView arc, double x, double y) {
         this.arc = arc;
 
         rectangle = new Rectangle();
@@ -60,20 +59,28 @@ public class ArcDragMark extends GraphElement implements MouseSelectable {
     }
 
     @Override
-    public void addToParent(GraphView parent) {
-        super.addToParent(parent);
-        arc.getGroupSymbols().getChildren().add(rectangle);
+    public Node getBottomLayerContainer() {
+        return null;
+    }
+
+    @Override
+    public Node getMiddleLayerContainer() {
+        return rectangle;
+    }
+
+    @Override
+    public Node getTopLayerContainer() {
+        return null;
+    }
+
+    @Override
+    public void addedToParent() {
         registerMouseHandlers(rectangle);
     }
 
     @Override
-    public void removeFromParent(GraphView parent) {
-        super.removeFromParent(parent);
-
-        arc.removeDragMark(this);
-        arc.getGroupSymbols().getChildren().remove(rectangle);
+    public void removedFromParent() {
         unregisterMouseHandlers(rectangle);
-
         unbindCustomViewModel();
     }
 
