@@ -25,7 +25,6 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -496,8 +495,8 @@ public class SubmodelConverter {
                 oldConnectable.vOutputArc.contains(arcName);
     }
 
-    private List<ArcDragMarkViewModel> convertPointsToDragMarks(List<XY> points) {
-        return points.stream().map(xy -> new ArcDragMarkViewModel(xy.x, xy.y)).collect(Collectors.toList());
+    private List<DragPointViewModel> convertPointsToDragMarks(List<XY> points) {
+        return points.stream().map(xy -> new DragPointViewModel(xy.x, xy.y)).collect(Collectors.toList());
     }
 
     private ElementViewModel findElementForOld(List<ConnectableViewModel> elements, ConnectableOldFormat oldConnectable) {

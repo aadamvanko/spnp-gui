@@ -4,11 +4,11 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 
-public class ArcDragMarkViewModel {
+public class DragPointViewModel {
     private final DoubleProperty positionX = new SimpleDoubleProperty();
     private final DoubleProperty positionY = new SimpleDoubleProperty();
 
-    public ArcDragMarkViewModel(double x, double y) {
+    public DragPointViewModel(double x, double y) {
         positionX.set(x);
         positionY.set(y);
     }

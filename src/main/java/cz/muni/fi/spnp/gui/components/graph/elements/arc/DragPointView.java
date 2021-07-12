@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
-import cz.muni.fi.spnp.gui.viewmodel.ArcDragMarkViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -13,7 +13,7 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
 
     private final ArcView arc;
     private final Rectangle rectangle;
-    private final ArcDragMarkViewModel customViewModel;
+    private final DragPointViewModel customViewModel;
 
     public DragPointView(ArcView arc, double x, double y) {
         this.arc = arc;
@@ -26,7 +26,7 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
         setCenterPosition(x, y);
         rectangle.setSmooth(true);
 
-        customViewModel = new ArcDragMarkViewModel(x, y);
+        customViewModel = new DragPointViewModel(x, y);
 
         bindCustomViewModel();
     }
@@ -98,7 +98,7 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
     @Override
     public void move(Point2D offset) {
         moveViaTranslate(offset);
-        arc.dragMarkMovedHandler(this, getCenterPosition());
+        arc.dragPointMovedHandler(this, getCenterPosition());
     }
 
     protected void moveViaTranslate(Point2D offset) {

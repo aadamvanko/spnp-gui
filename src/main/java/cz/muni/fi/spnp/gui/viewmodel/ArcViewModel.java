@@ -15,9 +15,9 @@ public class ArcViewModel extends ElementViewModel {
     private final ObjectProperty<FunctionViewModel> multiplicityFunction = new SimpleObjectProperty<>();
     private final ElementViewModel fromViewModel;
     private final ElementViewModel toViewModel;
-    private final ObservableList<ArcDragMarkViewModel> dragMarks;
+    private final ObservableList<DragPointViewModel> dragPoints;
 
-    public ArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel, List<ArcDragMarkViewModel> dragMarks) {
+    public ArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel, List<DragPointViewModel> dragPoints) {
         nameProperty().set(name);
 
         if (fromViewModel == null) {
@@ -30,7 +30,7 @@ public class ArcViewModel extends ElementViewModel {
 
         this.fromViewModel = fromViewModel;
         this.toViewModel = toViewModel;
-        this.dragMarks = FXCollections.observableArrayList(dragMarks);
+        this.dragPoints = FXCollections.observableArrayList(dragPoints);
     }
 
     public ArcDirection getArcDirection() {
@@ -73,7 +73,7 @@ public class ArcViewModel extends ElementViewModel {
         return toViewModel;
     }
 
-    public ObservableList<ArcDragMarkViewModel> getDragMarks() {
-        return dragMarks;
+    public ObservableList<DragPointViewModel> getDragPoints() {
+        return dragPoints;
     }
 }

@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
-import cz.muni.fi.spnp.gui.viewmodel.ArcDragMarkViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.collections.ObservableList;
@@ -140,8 +140,8 @@ public abstract class ArcView extends GraphElementView {
         var arcViewModel = (ArcViewModel) viewModel;
         textMultiplicity.textProperty().bind(arcViewModel.multiplicityProperty());
 
-        destroyDragMarks(); // TODO ???
-        createDragMarks(arcViewModel.getDragMarks());
+        destroyDragPoints(); // TODO ???
+        createDragPoints(arcViewModel.getDragPoints());
     }
 
     @Override
@@ -151,9 +151,9 @@ public abstract class ArcView extends GraphElementView {
         super.unbindViewModel();
     }
 
-    private void createDragMarks(ObservableList<ArcDragMarkViewModel> dragMarksViewModels) {
-        for (var dragMarkViewModel : dragMarksViewModels) {
-            createDragPoint(lines.get(lines.size() - 1), new Point2D(dragMarkViewModel.positionXProperty().get(), dragMarkViewModel.positionYProperty().get()));
+    private void createDragPoints(ObservableList<DragPointViewModel> dragPointViewModels) {
+        for (var dragPointViewModel : dragPointViewModels) {
+            createDragPoint(lines.get(lines.size() - 1), new Point2D(dragPointViewModel.positionXProperty().get(), dragPointViewModel.positionYProperty().get()));
         }
     }
 
@@ -174,15 +174,15 @@ public abstract class ArcView extends GraphElementView {
             lastAddedDragPoint.enableHighlight();
         }
 
-        System.out.println("adding dragMark");
+        System.out.println("adding drag point");
         groupSymbols.getChildren().add(lastAddedDragPoint.getMiddleLayerContainer());
         lastAddedDragPoint.addedToParent();
         dragPointViews.add(index, lastAddedDragPoint);
     }
 
-    public void dragMarkMovedHandler(DragPointView dragPointView, Point2D center) {
+    public void dragPointMovedHandler(DragPointView dragPointView, Point2D center) {
         int index = dragPointViews.indexOf(dragPointView);
-//        System.out.println("dragMark index " + index);
+//        System.out.println("drag point index " + index);
         Line lineTo = lines.get(index);
 //        System.out.println("lineTo " + lineTo);
         lineTo.setEndX(center.getX());
@@ -253,7 +253,7 @@ public abstract class ArcView extends GraphElementView {
     public void enableHighlight() {
         super.enableHighlight();
         lines.forEach(line -> line.setEffect(highlightEffect));
-        dragPointViews.forEach(dragMark -> dragMark.enableHighlight());
+        dragPointViews.forEach(dragPointView -> dragPointView.enableHighlight());
         ending.getShape().setEffect(highlightEffect);
     }
 
@@ -261,7 +261,7 @@ public abstract class ArcView extends GraphElementView {
     public void disableHighlight() {
         super.disableHighlight();
         lines.forEach(line -> line.setEffect(null));
-        dragPointViews.forEach(dragMark -> dragMark.disableHighlight());
+        dragPointViews.forEach(dragPointView -> dragPointView.disableHighlight());
         ending.getShape().setEffect(null);
     }
 
@@ -288,10 +288,10 @@ public abstract class ArcView extends GraphElementView {
     public void removedFromParent() {
         fromElement.removeArc(this);
         toElement.removeArc(this);
-        destroyDragMarks();
+        destroyDragPoints();
     }
 
-    private void destroyDragMarks() {
+    private void destroyDragPoints() {
         while (dragPointViews.size() > 0) {
             removeDragPointView(dragPointViews.get(0));
         }
@@ -299,7 +299,7 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     public void snapToGrid() {
-        dragPointViews.forEach(dragMark -> dragMark.snapToGrid());
+        dragPointViews.forEach(dragPointView -> dragPointView.snapToGrid());
     }
 
     @Override
