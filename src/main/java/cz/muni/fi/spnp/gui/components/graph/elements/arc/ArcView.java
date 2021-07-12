@@ -30,7 +30,7 @@ public abstract class ArcView extends GraphElementView {
     protected List<Line> lines;
     protected ArcEnding ending;
     private DragPointView lastAddedDragPoint;
-    private Text textMultiplicty;
+    private Text textMultiplicity;
 
     public ArcView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
         lines = new ArrayList<>();
@@ -42,13 +42,13 @@ public abstract class ArcView extends GraphElementView {
     }
 
     private void createView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
-        textMultiplicty = new Text();
-        textMultiplicty.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            textMultiplicty.setVisible(!newValue.equals("1"));
+        textMultiplicity = new Text();
+        textMultiplicity.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            textMultiplicity.setVisible(!newValue.equals("1"));
         });
 
         groupLines = new Group();
-        groupSymbols = new Group(textMultiplicty);
+        groupSymbols = new Group(textMultiplicity);
         container = new Group(groupLines, groupSymbols);
 
         createFirstLine();
@@ -74,10 +74,10 @@ public abstract class ArcView extends GraphElementView {
         var perpendicular = new Point2D(vector.getY(), -vector.getX());
         double OFFSET = 10;
         var pos = midpoint.add(perpendicular.multiply(OFFSET));
-        textMultiplicty.setX(pos.getX());
-        textMultiplicty.setY(pos.getY());
-        textMultiplicty.setX(textMultiplicty.getX() - textMultiplicty.getLayoutBounds().getWidth() / 2);
-        textMultiplicty.setY(textMultiplicty.getY() + textMultiplicty.getLayoutBounds().getHeight() / 4);
+        textMultiplicity.setX(pos.getX());
+        textMultiplicity.setY(pos.getY());
+        textMultiplicity.setX(textMultiplicity.getX() - textMultiplicity.getLayoutBounds().getWidth() / 2);
+        textMultiplicity.setY(textMultiplicity.getY() + textMultiplicity.getLayoutBounds().getHeight() / 4);
     }
 
     public Node getRoot() {
@@ -138,7 +138,7 @@ public abstract class ArcView extends GraphElementView {
         super.bindViewModel(viewModel);
 
         var arcViewModel = (ArcViewModel) viewModel;
-        textMultiplicty.textProperty().bind(arcViewModel.multiplicityProperty());
+        textMultiplicity.textProperty().bind(arcViewModel.multiplicityProperty());
 
         destroyDragMarks(); // TODO ???
         createDragMarks(arcViewModel.getDragMarks());
@@ -146,7 +146,7 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     public void unbindViewModel() {
-        textMultiplicty.textProperty().unbind();
+        textMultiplicity.textProperty().unbind();
 
         super.unbindViewModel();
     }
