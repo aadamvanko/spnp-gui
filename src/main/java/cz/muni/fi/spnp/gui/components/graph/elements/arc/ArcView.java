@@ -177,6 +177,7 @@ public abstract class ArcView extends GraphElementView {
         System.out.println("adding drag point");
         groupSymbols.getChildren().add(lastAddedDragPoint.getMiddleLayerContainer());
         lastAddedDragPoint.addedToParent();
+        lastAddedDragPoint.setGraphView(getGraphView());
         dragPointViews.add(index, lastAddedDragPoint);
     }
 
@@ -349,6 +350,7 @@ public abstract class ArcView extends GraphElementView {
     public void removeDragPointView(DragPointView dragPointView) {
         groupSymbols.getChildren().remove(dragPointView);
         dragPointView.removedFromParent();
+        dragPointView.setGraphView(null);
 
         int index = dragPointViews.indexOf(dragPointView);
         dragPointViews.remove(index);
