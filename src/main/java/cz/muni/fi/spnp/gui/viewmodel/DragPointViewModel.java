@@ -4,17 +4,16 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public class DragPointViewModel {
+
     private final DoubleProperty positionX = new SimpleDoubleProperty();
     private final DoubleProperty positionY = new SimpleDoubleProperty();
+
+    public DragPointViewModel() {
+    }
 
     public DragPointViewModel(double x, double y) {
         positionX.set(x);
         positionY.set(y);
-    }
-
-    public DragPointViewModel createCopy() {
-        var copy = new DragPointViewModel(getPositionX(), getPositionY());
-        return copy;
     }
 
     public double getPositionX() {

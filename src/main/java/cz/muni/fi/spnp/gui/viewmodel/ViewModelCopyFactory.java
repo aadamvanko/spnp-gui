@@ -142,9 +142,20 @@ public class ViewModelCopyFactory {
         }
     }
 
+    private void copyTo(DragPointViewModel copy, DragPointViewModel dragPointViewModel) {
+        copy.positionXProperty().set(dragPointViewModel.getPositionX());
+        copy.positionYProperty().set(dragPointViewModel.getPositionY());
+    }
+
+    public DragPointViewModel createCopy(DragPointViewModel dragPointViewModel) {
+        var copy = new DragPointViewModel();
+        copyTo(copy, dragPointViewModel);
+        return copy;
+    }
+
     private List<DragPointViewModel> createCopyDragPoints(ArcViewModel arcViewModel) {
         return arcViewModel.getDragPoints().stream()
-                .map(DragPointViewModel::createCopy)
+                .map(this::createCopy)
                 .collect(Collectors.toList());
     }
 
