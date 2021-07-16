@@ -2,8 +2,8 @@ package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
-import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -352,7 +352,7 @@ public abstract class ArcView extends GraphElementView {
     }
 
     public void removeDragPointView(DragPointView dragPointView) {
-        groupSymbols.getChildren().remove(dragPointView);
+        groupSymbols.getChildren().remove(dragPointView.getMiddleLayerContainer());
         dragPointView.removedFromParent();
         dragPointView.setGraphView(null);
 
