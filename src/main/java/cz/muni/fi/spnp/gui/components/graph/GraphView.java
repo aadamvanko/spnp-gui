@@ -11,6 +11,7 @@ import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationCopyElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationCutElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
+import cz.muni.fi.spnp.gui.components.graph.operations.OperationSelectAll;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
@@ -102,6 +103,8 @@ public class GraphView {
                 new OperationCutElements(this).execute();
             } else if (keyEvent.getCode() == KeyCode.V && !model.getClipboardElements().isEmpty()) {
                 new OperationPasteElements(this).execute();
+            } else if (keyEvent.getCode() == KeyCode.A) {
+                new OperationSelectAll(this).execute();
             }
         }
     }

@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationCopyElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationCutElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
+import cz.muni.fi.spnp.gui.components.graph.operations.OperationSelectAll;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
@@ -22,6 +23,8 @@ public class MouseOperationContextMenu extends MouseOperation {
 
         System.out.println("context menu operation created");
 
+        var selectAllItem = new MenuItem("Select all");
+        selectAllItem.setOnAction(this::onSelectAllHandler);
         var pasteItem = new MenuItem("Paste");
         pasteItem.setOnAction(this::onPasteHandler);
         pasteItem.setDisable(graphView.getModel().getClipboardElements().isEmpty());
@@ -36,7 +39,11 @@ public class MouseOperationContextMenu extends MouseOperation {
 //        propertiesItem.setOnAction(this::onPropertiesHandler);
 
         contextMenu = new ContextMenu();
-        contextMenu.getItems().addAll(pasteItem, copyItem, cutItem, deleteItem/*, separator, propertiesItem*/);
+        contextMenu.getItems().addAll(selectAllItem, pasteItem, copyItem, cutItem, deleteItem/*, separator, propertiesItem*/);
+    }
+
+    private void onSelectAllHandler(ActionEvent actionEvent) {
+        new OperationSelectAll(graphView).execute();
     }
 
     private void onPasteHandler(ActionEvent actionEvent) {
