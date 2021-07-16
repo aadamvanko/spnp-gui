@@ -2,9 +2,8 @@ package cz.muni.fi.spnp.gui.components.graph;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.*;
+import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -15,7 +14,6 @@ import javafx.scene.control.TabPane;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GraphComponent extends ApplicationComponent {
 
@@ -96,9 +94,7 @@ public class GraphComponent extends ApplicationComponent {
 
     private void addGraphView(String tabName, GraphView graphView) {
         var tab = new Tab(tabName, graphView.getZoomableScrollPane());
-        tab.setOnClosed(event -> {
-            graphViews.remove(tab);
-        });
+        tab.setOnClosed(event -> graphViews.remove(tab));
 
         graphViews.put(tab, graphView);
         tabPane.getTabs().add(tab);

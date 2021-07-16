@@ -2,23 +2,23 @@ package cz.muni.fi.spnp.gui.components.mainwindow;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
-import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
-import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
-import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.components.diagramoutline.DiagramOutlineComponent;
 import cz.muni.fi.spnp.gui.components.functions.FunctionsCategoriesComponent;
 import cz.muni.fi.spnp.gui.components.graph.GraphComponent;
 import cz.muni.fi.spnp.gui.components.menu.MenuComponent;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.components.projects.ProjectsComponent;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesComponent;
 import cz.muni.fi.spnp.gui.components.quickactions.QuickActionsComponent;
 import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
 import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
+import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
@@ -161,20 +161,6 @@ public class MainWindowController {
         model.getProjects().add(project1x);
 
         model.selectedDiagramProperty().set(diagram1);
-
-        //
-//        PlaceController pc1 = new PlaceController(100, 100);
-//        PlaceController pc2 = new PlaceController(500, 100);
-//        PlaceController pc4 = new PlaceController(100, 200);
-//        TimedTransitionController ttc1 = new TimedTransitionController(300, 100);
-//        ArcController ac1 = new StandardArcController(pc1, ttc1);
-//        ArcController ac2 = new StandardArcController(ttc1, pc2);
-//        ImmediateTransitionController itc1 = new ImmediateTransitionController(300, 200);
-//        ArcController ac3 = new InhibitorArcController(pc4, itc1);
-//        PlaceController pc3 = new PlaceController(100, 500);
-//        var diagram1 = new DiagramViewModel(project1);
-//        diagram1.nameProperty().set("Diagram1");
-//        project1.addDiagram(diagram1);
     }
 
     private Node createCenterPanel() {

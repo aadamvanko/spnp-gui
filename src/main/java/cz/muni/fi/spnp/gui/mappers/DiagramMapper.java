@@ -6,15 +6,11 @@ import cz.muni.fi.spnp.core.transformators.spnp.code.SPNPCode;
 import cz.muni.fi.spnp.core.transformators.spnp.options.SPNPOptions;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ViewModelUtils;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 
 public class DiagramMapper {
 
@@ -48,16 +44,10 @@ public class DiagramMapper {
 
         petriNet = new PetriNet();
         diagramViewModel.getFunctions().forEach(function -> petriNet.addFunction(functionMapper.map(function)));
-        onlyElements(PlaceViewModel.class, diagramViewModel.getElements()).forEach(place -> petriNet.addPlace(elementMapper.mapPlace(place)));
-        onlyElements(TransitionViewModel.class, diagramViewModel.getElements()).forEach(transition -> petriNet.addTransition(elementMapper.mapTransition(transition)));
-        onlyElements(ArcViewModel.class, diagramViewModel.getElements()).forEach(arc -> petriNet.addArc(elementMapper.mapArc(arc)));
+        ViewModelUtils.onlyElements(PlaceViewModel.class, diagramViewModel.getElements()).forEach(place -> petriNet.addPlace(elementMapper.mapPlace(place)));
+        ViewModelUtils.onlyElements(TransitionViewModel.class, diagramViewModel.getElements()).forEach(transition -> petriNet.addTransition(elementMapper.mapTransition(transition)));
+        ViewModelUtils.onlyElements(ArcViewModel.class, diagramViewModel.getElements()).forEach(arc -> petriNet.addArc(elementMapper.mapArc(arc)));
         return petriNet;
-    }
-
-    private <T> Stream<T> onlyElements(Class<T> viewModelClass, List<ElementViewModel> elements) {
-        return elements.stream()
-                .filter(element -> viewModelClass.isInstance(element))
-                .map(viewModelClass::cast);
     }
 
     public SPNPCode createSPNPCode() {

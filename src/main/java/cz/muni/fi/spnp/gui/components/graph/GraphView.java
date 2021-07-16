@@ -2,22 +2,28 @@ package cz.muni.fi.spnp.gui.components.graph;
 
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
+import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
+import cz.muni.fi.spnp.gui.components.graph.operations.OperationCopyElements;
+import cz.muni.fi.spnp.gui.components.graph.operations.OperationCutElements;
+import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -27,6 +33,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class GraphView {
 
@@ -79,16 +86,35 @@ public class GraphView {
         gridBackgroundPane.setOnMouseDragged(this::onMouseDragged);
         gridBackgroundPane.setOnMouseReleased(this::onMouseReleased);
 
+        zoomableScrollPane.setOnKeyReleased(this::onKeyReleased);
+
         setSnappingToGrid(true);
         adjustCanvasSize();
 
         diagramViewModel.getElements().addListener(this::onElementsChangesListener);
     }
 
+    private void onKeyReleased(KeyEvent keyEvent) {
+        if (keyEvent.isControlDown()) {
+            if (keyEvent.getCode() == KeyCode.C && !selected.isEmpty()) {
+                new OperationCopyElements(this).execute();
+            } else if (keyEvent.getCode() == KeyCode.X && !selected.isEmpty()) {
+                new OperationCutElements(this).execute();
+            } else if (keyEvent.getCode() == KeyCode.V && !model.getClipboardElements().isEmpty()) {
+                new OperationPasteElements(this).execute();
+            }
+        }
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
     private void onElementsChangesListener(ListChangeListener.Change<? extends ElementViewModel> elementsChange) {
         while (elementsChange.next()) {
             if (elementsChange.wasAdded()) {
                 for (var addedElementViewModel : elementsChange.getAddedSubList()) {
+                    System.out.println(elementsChange.getAddedSubList());
                     addGraphElement(addedElementViewModel);
                 }
             } else if (elementsChange.wasRemoved()) {
@@ -130,16 +156,10 @@ public class GraphView {
                 .get();
     }
 
-    public void select(List<GraphElementView> selectedElements) {
-        resetSelection();
-        this.selected = selectedElements;
-        fireSelectedElementsChanged();
-    }
-
     public void setSnappingToGrid(boolean snappingToGrid) {
         gridBackgroundPane.setDotsVisibility(snappingToGrid);
         if (!this.snappingToGrid && snappingToGrid) {
-            graphElementViews.forEach(element -> element.snapToGrid());
+            graphElementViews.forEach(Movable::snapToGrid);
         }
         this.snappingToGrid = snappingToGrid;
     }
@@ -208,7 +228,7 @@ public class GraphView {
 
     public void moveSelectedEnded() {
         if (snappingToGrid) {
-            selected.forEach(element -> element.snapToGrid());
+            selected.forEach(Movable::snapToGrid);
         }
     }
 
@@ -258,10 +278,22 @@ public class GraphView {
         mouseOperation = null;
     }
 
+    public void selectViewModels(List<ElementViewModel> selectedViewModels) {
+        var selectedViews = selectedViewModels.stream().map(this::findElementViewByModel).collect(Collectors.toList());
+        selectedViews.forEach(GraphElementView::enableHighlight);
+        select(selectedViews);
+    }
+
     public void select(GraphElementView graphElementView) {
         resetSelection();
         graphElementView.enableHighlight();
         selected.add(graphElementView);
+        fireSelectedElementsChanged();
+    }
+
+    public void select(List<GraphElementView> selectedElements) {
+        resetSelection();
+        this.selected = selectedElements;
         fireSelectedElementsChanged();
     }
 
@@ -277,7 +309,7 @@ public class GraphView {
     }
 
     public void resetSelection() {
-        selected.forEach(element -> element.disableHighlight());
+        selected.forEach(GraphElementView::disableHighlight);
         selected.clear();
     }
 
@@ -373,9 +405,9 @@ public class GraphView {
         this.diagramViewModel = diagramViewModel;
         diagramViewModel.getElements().stream()
                 .filter(elementViewModel -> elementViewModel instanceof ConnectableViewModel)
-                .forEach(elementViewModel -> addGraphElement(elementViewModel));
+                .forEach(this::addGraphElement);
         diagramViewModel.getElements().stream()
                 .filter(elementViewModel -> elementViewModel instanceof ArcViewModel)
-                .forEach(elementViewModel -> addGraphElement(elementViewModel));
+                .forEach(this::addGraphElement);
     }
 }

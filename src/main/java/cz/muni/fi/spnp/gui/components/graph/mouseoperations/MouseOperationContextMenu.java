@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.operations.OperationCopyElements;
+import cz.muni.fi.spnp.gui.components.graph.operations.OperationCutElements;
+import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
@@ -19,7 +22,13 @@ public class MouseOperationContextMenu extends MouseOperation {
 
         System.out.println("context menu operation created");
 
-
+        var pasteItem = new MenuItem("Paste");
+        pasteItem.setOnAction(this::onPasteHandler);
+        pasteItem.setDisable(graphView.getModel().getClipboardElements().isEmpty());
+        var copyItem = new MenuItem("Copy");
+        copyItem.setOnAction(this::onCopyHandler);
+        var cutItem = new MenuItem("Cut");
+        cutItem.setOnAction(this::onCutHandler);
         MenuItem deleteItem = new MenuItem("Delete");
         deleteItem.setOnAction(this::onDeleteHandler);
 //        SeparatorMenuItem separator = new SeparatorMenuItem();
@@ -27,7 +36,19 @@ public class MouseOperationContextMenu extends MouseOperation {
 //        propertiesItem.setOnAction(this::onPropertiesHandler);
 
         contextMenu = new ContextMenu();
-        contextMenu.getItems().addAll(deleteItem/*, separator, propertiesItem*/);
+        contextMenu.getItems().addAll(pasteItem, copyItem, cutItem, deleteItem/*, separator, propertiesItem*/);
+    }
+
+    private void onPasteHandler(ActionEvent actionEvent) {
+        new OperationPasteElements(graphView).execute();
+    }
+
+    private void onCopyHandler(ActionEvent actionEvent) {
+        new OperationCopyElements(graphView).execute();
+    }
+
+    private void onCutHandler(ActionEvent actionEvent) {
+        new OperationCutElements(graphView).execute();
     }
 
     private void onDeleteHandler(ActionEvent actionEvent) {

@@ -4,7 +4,8 @@ import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.*;
+import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
@@ -37,7 +38,6 @@ public class MouseOperationCreateConnectable extends MouseOperation {
 
         if (newViewModel != null) {
             var diagramViewModel = graphView.getDiagramViewModel();
-            newViewModel.setDiagramViewModel(diagramViewModel);
             diagramViewModel.getElements().add(newViewModel);
 
             if (model.getCursorMode() == CursorMode.CREATE) {

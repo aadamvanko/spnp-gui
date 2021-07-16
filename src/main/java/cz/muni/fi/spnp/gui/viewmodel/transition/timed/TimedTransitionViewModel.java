@@ -11,13 +11,9 @@ public class TimedTransitionViewModel extends TransitionViewModel {
     private final ObjectProperty<TimedDistributionType> timedDistributionType = new SimpleObjectProperty<>();
     private TransitionDistributionViewModel transitionDistribution;
 
-
-//
-//    public TimedTransitionViewModel(String name, double x, double y, int priority, TransitionDistributionType transitionDistributionType, DistributionType distributionType) {
-//        super(name, x, y, priority);
-//        this.transitionDistributionType.set(transitionDistributionType);
-//        this.distributionType.set(distributionType);
-//    }
+    public TimedDistributionType getTimedDistributionType() {
+        return timedDistributionType.get();
+    }
 
     public ObjectProperty<TimedDistributionType> timedDistributionTypeProperty() {
         return timedDistributionType;

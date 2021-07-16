@@ -4,24 +4,25 @@ import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 public class Model {
     private final Notifications notifications;
     private final ObservableList<ProjectViewModel> projects;
     private final ObjectProperty<DiagramViewModel> selectedDiagram;
 
+    private final List<ElementViewModel> clipboardElements;
+    private ClipboardOperationType clipboardOperationType;
     private final ObjectProperty<CursorMode> cursorMode;
     private final ObjectProperty<GraphElementType> createElementType;
     private final BooleanProperty gridSnapping;
@@ -33,6 +34,19 @@ public class Model {
         cursorMode = new SimpleObjectProperty<>(CursorMode.VIEW);
         createElementType = new SimpleObjectProperty<>(GraphElementType.PLACE);
         gridSnapping = new SimpleBooleanProperty(true);
+        clipboardElements = new ArrayList<>();
+    }
+
+    public ClipboardOperationType getClipboardOperationType() {
+        return clipboardOperationType;
+    }
+
+    public void setClipboardOperationType(ClipboardOperationType clipboardOperationType) {
+        this.clipboardOperationType = clipboardOperationType;
+    }
+
+    public List<ElementViewModel> getClipboardElements() {
+        return clipboardElements;
     }
 
     public CursorMode getCursorMode() {

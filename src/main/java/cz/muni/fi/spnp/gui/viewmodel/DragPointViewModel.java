@@ -2,7 +2,6 @@ package cz.muni.fi.spnp.gui.viewmodel;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Point2D;
 
 public class DragPointViewModel {
     private final DoubleProperty positionX = new SimpleDoubleProperty();
@@ -13,8 +12,21 @@ public class DragPointViewModel {
         positionY.set(y);
     }
 
+    public DragPointViewModel createCopy() {
+        var copy = new DragPointViewModel(getPositionX(), getPositionY());
+        return copy;
+    }
+
+    public double getPositionX() {
+        return positionX.get();
+    }
+
     public DoubleProperty positionXProperty() {
         return positionX;
+    }
+
+    public double getPositionY() {
+        return positionY.get();
     }
 
     public DoubleProperty positionYProperty() {
