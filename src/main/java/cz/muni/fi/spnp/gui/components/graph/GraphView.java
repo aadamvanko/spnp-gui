@@ -114,7 +114,6 @@ public class GraphView {
         while (elementsChange.next()) {
             if (elementsChange.wasAdded()) {
                 for (var addedElementViewModel : elementsChange.getAddedSubList()) {
-                    System.out.println(elementsChange.getAddedSubList());
                     addGraphElement(addedElementViewModel);
                 }
             } else if (elementsChange.wasRemoved()) {

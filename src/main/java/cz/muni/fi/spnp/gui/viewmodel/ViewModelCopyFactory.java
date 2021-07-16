@@ -26,7 +26,7 @@ public class ViewModelCopyFactory {
 
     private final Map<ElementViewModel, ElementViewModel> originalToCopy;
 
-    public ViewModelCopyFactory(List<ElementViewModel> selectedWithoutDragPoints) {
+    public ViewModelCopyFactory() {
         originalToCopy = new HashMap<>();
     }
 
@@ -122,24 +122,11 @@ public class ViewModelCopyFactory {
 
     private void copyTo(ArcViewModel copy, ArcViewModel arcViewModel) {
         copyTo(copy, (ElementViewModel) arcViewModel);
-        copy.setFromViewModel(findOrCreate(arcViewModel.getFromViewModel()));
-        copy.setToViewModel(findOrCreate(arcViewModel.getToViewModel()));
+        copy.setFromViewModel(findOrReturn(arcViewModel.getFromViewModel()));
+        copy.setToViewModel(findOrReturn(arcViewModel.getToViewModel()));
         copy.multiplicityTypeProperty().set(arcViewModel.getMultiplicityType());
         copy.multiplicityProperty().set(arcViewModel.getMultiplicity());
         copy.getDragPoints().addAll(createCopyDragPoints(arcViewModel));
-    }
-
-    private ElementViewModel findOrCreate(ElementViewModel elementViewModel) {
-        if (elementViewModel == null) {
-            var s = " bad situation";
-            return null;
-        }
-
-        if (originalToCopy.containsKey(elementViewModel)) {
-            return originalToCopy.get(elementViewModel);
-        } else {
-            return createCopy(elementViewModel);
-        }
     }
 
     private void copyTo(DragPointViewModel copy, DragPointViewModel dragPointViewModel) {
@@ -212,8 +199,16 @@ public class ViewModelCopyFactory {
     public PlaceDependentTransitionProbabilityViewModel createCopy(PlaceDependentTransitionProbabilityViewModel placeDependentTransitionProbabilityViewModel) {
         var copy = new PlaceDependentTransitionProbabilityViewModel();
         copy.valueProperty().set(placeDependentTransitionProbabilityViewModel.getValue());
-        copy.setDependentPlace(placeDependentTransitionProbabilityViewModel.getDependentPlace());
+        copy.setDependentPlace((PlaceViewModel) findOrReturn(placeDependentTransitionProbabilityViewModel.getDependentPlace()));
         return copy;
+    }
+
+    private ElementViewModel findOrReturn(ElementViewModel elementViewModel) {
+        if (originalToCopy.containsKey(elementViewModel)) {
+            return originalToCopy.get(elementViewModel);
+        } else {
+            return elementViewModel;
+        }
     }
 
     public TransitionDistributionViewModel createCopy(TransitionDistributionViewModel transitionDistributionViewModel) {
@@ -264,7 +259,7 @@ public class ViewModelCopyFactory {
         copy.getFunctions().clear();
         copy.getFunctions().addAll(new ArrayList<>(transitionDistributionBaseViewModel.getFunctions()));
         copy.distributionTypeProperty().set(transitionDistributionBaseViewModel.getDistributionType());
-        copy.setDependentPlace((PlaceViewModel) findOrCreate(transitionDistributionBaseViewModel.getDependentPlace()));
+        copy.setDependentPlace((PlaceViewModel) findOrReturn(transitionDistributionBaseViewModel.getDependentPlace()));
     }
 
     private void copyTo(SingleValueTransitionDistributionBaseViewModel copy, SingleValueTransitionDistributionBaseViewModel singleValueViewModel) {

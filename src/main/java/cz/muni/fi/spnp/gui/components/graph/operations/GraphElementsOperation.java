@@ -21,7 +21,7 @@ public interface GraphElementsOperation {
     }
 
     default List<ElementViewModel> createViewModelsCopies(List<ElementViewModel> selectedWithoutDragPoints) {
-        var viewModelCopyFactory = new ViewModelCopyFactory(selectedWithoutDragPoints);
+        var viewModelCopyFactory = new ViewModelCopyFactory();
         var copiesPlaces = ViewModelUtils.onlyElements(PlaceViewModel.class, selectedWithoutDragPoints).map(viewModelCopyFactory::createCopy);
         var copiesTransitions = ViewModelUtils.onlyElements(TransitionViewModel.class, selectedWithoutDragPoints).map(viewModelCopyFactory::createCopy);
         var copiesArcs = ViewModelUtils.onlyElements(ArcViewModel.class, selectedWithoutDragPoints).map(viewModelCopyFactory::createCopy);
