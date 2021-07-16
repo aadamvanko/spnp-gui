@@ -11,9 +11,9 @@ import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.fourvalues.HypoExponentialDistributionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ConstantTransitionDistributionViewModel;
@@ -540,9 +540,28 @@ public class SubmodelConverter {
 
     private List<FunctionViewModel> convertFunctions(List<FunctionOldFormat> oldFunctions) {
         return oldFunctions.stream()
-                .map(old -> new FunctionViewModel(old.name.toLowerCase(), convertFunctionKind(old.kind), old.body,
-                        convertFunctionReturnType(old.returnType), isRequiredFunction(old.name.toLowerCase())))
+                .map(this::convertFunction)
                 .collect(Collectors.toList());
+    }
+
+    private FunctionViewModel convertFunction(FunctionOldFormat oldFunction) {
+        var lowercaseName = oldFunction.name.toLowerCase();
+        if (isRequiredFunction(lowercaseName)) {
+            return new FunctionViewModel(lowercaseName,
+                    convertFunctionKind(oldFunction.kind),
+                    oldFunction.body,
+                    convertFunctionReturnType(oldFunction.returnType),
+                    true);
+        } else {
+            return new FunctionViewModel(
+                    oldFunction.name,
+                    convertFunctionKind(oldFunction.kind),
+                    oldFunction.body,
+                    convertFunctionReturnType(oldFunction.returnType),
+                    false
+            );
+        }
+
     }
 
     private Boolean isRequiredFunction(String functionName) {

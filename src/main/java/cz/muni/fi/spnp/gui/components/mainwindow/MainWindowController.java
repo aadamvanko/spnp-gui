@@ -160,6 +160,9 @@ public class MainWindowController {
 //        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
         model.getProjects().add(project1x);
 
+        var project1AllTransitions = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
+        model.getProjects().add(project1AllTransitions);
+
         model.selectedDiagramProperty().set(diagram1);
     }
 
