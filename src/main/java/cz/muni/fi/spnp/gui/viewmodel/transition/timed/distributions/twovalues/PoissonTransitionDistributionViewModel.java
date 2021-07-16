@@ -9,6 +9,9 @@ import javafx.beans.property.StringProperty;
 
 public class PoissonTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
+    public PoissonTransitionDistributionViewModel() {
+    }
+
     /**
      * Creates new {@link PoissonTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
      *

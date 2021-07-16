@@ -4,6 +4,10 @@ import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 
 public class BetaTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
+
+    public BetaTransitionDistributionViewModel() {
+    }
+
     public BetaTransitionDistributionViewModel(String firstValue, String secondValue) {
         super(firstValue, secondValue);
     }

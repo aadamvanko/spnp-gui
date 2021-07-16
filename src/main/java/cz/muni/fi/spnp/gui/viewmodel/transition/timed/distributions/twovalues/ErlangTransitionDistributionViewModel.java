@@ -3,9 +3,11 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.IntegerProperty;
 
 public class ErlangTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
+
+    public ErlangTransitionDistributionViewModel() {
+    }
 
     public ErlangTransitionDistributionViewModel(String rate, String numberOfPhases) {
         super(rate, numberOfPhases);

@@ -9,6 +9,9 @@ import javafx.beans.property.StringProperty;
 
 public class TruncatedNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
+    public TruncatedNormalTransitionDistributionViewModel() {
+    }
+
     /**
      * Creates new {@link TruncatedNormalTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
      *

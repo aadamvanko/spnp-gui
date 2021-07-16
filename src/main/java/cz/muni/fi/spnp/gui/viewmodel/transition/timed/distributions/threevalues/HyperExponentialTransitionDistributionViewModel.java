@@ -2,15 +2,15 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues
 
 import cz.muni.fi.spnp.core.models.places.StandardPlace;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
-import cz.muni.fi.spnp.core.models.visitors.TransitionDistributionVisitor;
-import cz.muni.fi.spnp.core.transformators.spnp.code.FunctionSPNP;
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.HyperExponentialTransitionDistribution;
-import cz.muni.fi.spnp.core.transformators.spnp.distributions.ThreeValuesTransitionDistributionBase;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.property.StringProperty;
 
 public class HyperExponentialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
+
+    public HyperExponentialTransitionDistributionViewModel() {
+    }
 
     /**
      * Creates new {@link HyperExponentialTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.

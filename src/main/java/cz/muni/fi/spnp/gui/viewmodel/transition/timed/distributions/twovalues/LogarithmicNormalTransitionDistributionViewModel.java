@@ -1,11 +1,15 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues;
 
 import cz.muni.fi.spnp.core.models.places.StandardPlace;
+import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.LogarithmicNormalTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 
 public class LogarithmicNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
+
+    public LogarithmicNormalTransitionDistributionViewModel() {
+    }
 
     /**
      * Creates new {@link LogarithmicNormalTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.

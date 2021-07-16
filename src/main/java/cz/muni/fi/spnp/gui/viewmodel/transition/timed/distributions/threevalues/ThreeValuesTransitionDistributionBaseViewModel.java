@@ -1,16 +1,9 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues;
 
-import cz.muni.fi.spnp.core.models.functions.Function;
-import cz.muni.fi.spnp.core.models.functions.FunctionType;
-import cz.muni.fi.spnp.core.models.places.StandardPlace;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
-import cz.muni.fi.spnp.core.models.visitors.TransitionDistributionFunctionsVisitor;
-import cz.muni.fi.spnp.core.transformators.spnp.code.FunctionSPNP;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionBaseViewModel;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -21,9 +14,12 @@ import java.util.List;
 public abstract class ThreeValuesTransitionDistributionBaseViewModel
         extends TransitionDistributionBaseViewModel {
 
-    protected StringProperty firstValue;
-    protected StringProperty secondValue;
-    protected StringProperty thirdValue;
+    protected StringProperty firstValue = new SimpleStringProperty("value1");
+    protected StringProperty secondValue = new SimpleStringProperty("value2");
+    protected StringProperty thirdValue = new SimpleStringProperty("value3");
+
+    protected ThreeValuesTransitionDistributionBaseViewModel() {
+    }
 
     public ThreeValuesTransitionDistributionBaseViewModel(String firstValue,
                                                           String secondValue,

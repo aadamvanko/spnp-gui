@@ -7,6 +7,9 @@ import javafx.beans.property.StringProperty;
 
 public class BinomialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
 
+    public BinomialTransitionDistributionViewModel() {
+    }
+
     /**
      * Creates new {@link BinomialTransitionDistributionViewModel} object with {@link TransitionDistributionType#Constant} distribution type.
      *

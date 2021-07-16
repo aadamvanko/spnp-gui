@@ -1,17 +1,13 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.fourvalues;
 
-import cz.muni.fi.spnp.core.models.places.StandardPlace;
-import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
-import cz.muni.fi.spnp.core.models.visitors.TransitionDistributionVisitor;
-import cz.muni.fi.spnp.core.transformators.spnp.code.FunctionSPNP;
-import cz.muni.fi.spnp.core.transformators.spnp.distributions.FourValuesTransitionDistributionBase;
-import cz.muni.fi.spnp.core.transformators.spnp.distributions.HypoExponentialTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.StringProperty;
 
 public class HypoExponentialDistributionViewModel extends FourValuesTransitionDistributionBaseViewModel {
+
+    public HypoExponentialDistributionViewModel() {
+    }
 
     public HypoExponentialDistributionViewModel(String numberOfStages,
                                                 String firstRateValue,

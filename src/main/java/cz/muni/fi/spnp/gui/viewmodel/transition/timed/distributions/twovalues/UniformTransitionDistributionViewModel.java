@@ -9,6 +9,9 @@ import javafx.beans.property.StringProperty;
 
 public class UniformTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
+    public UniformTransitionDistributionViewModel() {
+    }
+
     /**
      * Creates new {@link UniformTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
      *

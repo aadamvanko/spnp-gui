@@ -4,10 +4,12 @@ import cz.muni.fi.spnp.core.models.places.StandardPlace;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
 
 public class ExponentialTransitionDistributionViewModel extends SingleValueTransitionDistributionBaseViewModel {
+
+    public ExponentialTransitionDistributionViewModel() {
+    }
 
     /**
      * Creates new {@link ExponentialTransitionDistributionViewModel} object with {@link TransitionDistributionType#Constant} distribution type.

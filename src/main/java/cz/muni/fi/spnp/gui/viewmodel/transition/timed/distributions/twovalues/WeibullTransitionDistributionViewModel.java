@@ -9,6 +9,9 @@ import javafx.beans.property.StringProperty;
 
 public class WeibullTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
+    public WeibullTransitionDistributionViewModel() {
+    }
+
     /**
      * Creates new {@link WeibullTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
      *

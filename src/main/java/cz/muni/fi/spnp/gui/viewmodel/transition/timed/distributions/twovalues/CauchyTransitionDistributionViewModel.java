@@ -2,13 +2,15 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues;
 
 import cz.muni.fi.spnp.core.models.places.StandardPlace;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
-import cz.muni.fi.spnp.core.models.visitors.TransitionDistributionVisitor;
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.CauchyTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.property.StringProperty;
 
 public class CauchyTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
+
+    public CauchyTransitionDistributionViewModel() {
+    }
 
     /**
      * Creates new {@link CauchyTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.

@@ -4,8 +4,6 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionBaseViewModel;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -15,8 +13,11 @@ import java.util.List;
 
 public abstract class TwoValuesTransitionDistributionBaseViewModel extends TransitionDistributionBaseViewModel {
 
-    protected SimpleStringProperty firstValue;
-    protected StringProperty secondValue;
+    protected SimpleStringProperty firstValue = new SimpleStringProperty("value1");
+    protected StringProperty secondValue = new SimpleStringProperty("value2");
+
+    protected TwoValuesTransitionDistributionBaseViewModel() {
+    }
 
     public TwoValuesTransitionDistributionBaseViewModel(String firstValue, String secondValue) {
         super(TransitionDistributionType.Constant, null);

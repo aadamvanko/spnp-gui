@@ -9,6 +9,9 @@ import javafx.beans.property.StringProperty;
 
 public class ParetoTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
+    public ParetoTransitionDistributionViewModel() {
+    }
+
     /**
      * Creates new {@link ParetoTransitionDistribution} object with {@link TransitionDistributionType#Constant} distribution type.
      *

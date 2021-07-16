@@ -2,10 +2,12 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 
 public class ConstantTransitionDistributionViewModel extends SingleValueTransitionDistributionBaseViewModel {
+
+    public ConstantTransitionDistributionViewModel() {
+    }
 
     public ConstantTransitionDistributionViewModel(String value) {
         super(value);

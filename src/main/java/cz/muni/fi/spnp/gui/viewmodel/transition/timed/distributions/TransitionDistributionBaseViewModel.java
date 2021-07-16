@@ -1,6 +1,5 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions;
 
-import cz.muni.fi.spnp.core.models.places.Place;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
@@ -11,9 +10,15 @@ import java.util.List;
 
 public abstract class TransitionDistributionBaseViewModel implements TransitionDistributionViewModel {
 
-    protected final List<FunctionViewModel> functions;
+    protected List<FunctionViewModel> functions;
     private final ObjectProperty<TransitionDistributionType> distributionType;
     private PlaceViewModel dependentPlace;
+
+    protected TransitionDistributionBaseViewModel() {
+        distributionType = new SimpleObjectProperty<>(TransitionDistributionType.Constant);
+        this.dependentPlace = null;
+        this.functions = createFunctionsArray();
+    }
 
     public TransitionDistributionBaseViewModel(TransitionDistributionType distributionType, PlaceViewModel dependentPlace) {
         this.distributionType = new SimpleObjectProperty<>(distributionType);
@@ -25,6 +30,10 @@ public abstract class TransitionDistributionBaseViewModel implements TransitionD
 
     public List<FunctionViewModel> getFunctions() {
         return functions;
+    }
+
+    public TransitionDistributionType getDistributionType() {
+        return distributionType.get();
     }
 
     @Override
