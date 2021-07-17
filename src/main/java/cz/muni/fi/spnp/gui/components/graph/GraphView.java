@@ -53,6 +53,8 @@ public class GraphView {
     private DiagramViewModel diagramViewModel;
     private List<GraphElementView> selected;
 
+    private Point2D initialMousePosition;
+
     public GraphView(Notifications notifications, Model model, DiagramViewModel diagramViewModel) {
         this.notifications = notifications;
         this.model = model;
@@ -170,6 +172,7 @@ public class GraphView {
         System.out.println("canvas mouse pressed");
         finishMouseOperation();
 
+        initialMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
         if (mouseEvent.getButton() == MouseButton.PRIMARY && model.getCursorMode() == CursorMode.VIEW) {
             mouseOperation = new MouseOperationSelection(this);
         } else if (mouseEvent.getButton() == MouseButton.PRIMARY && isCreateModeConnectable()) {
@@ -220,6 +223,21 @@ public class GraphView {
             return;
         }
         mouseOperation.mouseReleasedHandler(null, mouseEvent);
+
+        var finalMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
+        if (mouseOperation instanceof MouseOperationPanning && equalMousePositions(initialMousePosition, finalMousePosition)) {
+            mouseOperation.finish();
+            mouseOperation = new MouseOperationContextMenu(this, zoomableScrollPane, finalMousePosition);
+            mouseOperation.mouseReleasedHandler(null, mouseEvent);
+        }
+    }
+
+    private boolean equalMousePositions(Point2D first, Point2D second) {
+        int firstX = (int) first.getX();
+        int firstY = (int) first.getY();
+        int secondX = (int) second.getX();
+        int secondY = (int) second.getY();
+        return firstX == secondX && firstY == secondY;
     }
 
     public void moveSelected(Point2D moveOffset) {
@@ -246,7 +264,8 @@ public class GraphView {
         } else if (mouseEvent.getButton() == MouseButton.PRIMARY && model.getCursorMode() == CursorMode.VIEW) {
             mouseOperation = new MouseOperationMoving(this);
         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            mouseOperation = new MouseOperationContextMenu(this);
+            var mousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
+            mouseOperation = new MouseOperationContextMenu(this, graphElementView.getContextMenuNode(), mousePosition);
         }
 
         if (mouseOperation == null) {

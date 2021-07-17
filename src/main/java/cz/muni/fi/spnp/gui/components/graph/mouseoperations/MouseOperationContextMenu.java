@@ -8,6 +8,7 @@ import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationSelectAll;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
@@ -15,13 +16,13 @@ import javafx.scene.input.MouseEvent;
 public class MouseOperationContextMenu extends MouseOperation {
 
     private final ContextMenu contextMenu;
-    private Point2D initialMousePosition;
-    private GraphElementView graphElementView;
+    private final Point2D position;
+    private final Node contextNode;
 
-    public MouseOperationContextMenu(GraphView graphView) {
+    public MouseOperationContextMenu(GraphView graphView, Node contextNode, Point2D position) {
         super(graphView);
-
-        System.out.println("context menu operation created");
+        this.contextNode = contextNode;
+        this.position = position;
 
         var selectAllItem = new MenuItem("Select all");
         selectAllItem.setOnAction(this::onSelectAllHandler);
@@ -71,9 +72,6 @@ public class MouseOperationContextMenu extends MouseOperation {
 
     @Override
     public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
-        this.graphElementView = graphElementView;
-        initialMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
-
         if (graphView.getSelected().size() <= 1) {
             graphView.select(graphElementView);
         }
@@ -85,7 +83,7 @@ public class MouseOperationContextMenu extends MouseOperation {
 
     @Override
     public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
-        contextMenu.show(graphElementView.getContextMenuNode(), initialMousePosition.getX(), initialMousePosition.getY());
+        contextMenu.show(contextNode, position.getX(), position.getY());
     }
 
     @Override
