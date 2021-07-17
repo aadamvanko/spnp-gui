@@ -6,10 +6,10 @@ import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -120,4 +120,15 @@ public class DiagramViewModel extends DisplayableViewModel {
         return inputParameters;
     }
 
+    public boolean containsElementNameType(ElementViewModel newElement) {
+        return elements.stream()
+                .filter(element -> element.getName().equals(newElement.getName()))
+                .anyMatch(element -> this.sameTypes(element, newElement));
+    }
+
+    private boolean sameTypes(ElementViewModel element, ElementViewModel newElement) {
+        var classes = List.of(PlaceViewModel.class, ArcViewModel.class, TransitionViewModel.class);
+        return classes.stream()
+                .anyMatch(classType -> classType.isInstance(element) && classType.isInstance(newElement));
+    }
 }
