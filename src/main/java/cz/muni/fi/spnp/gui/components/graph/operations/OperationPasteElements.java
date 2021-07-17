@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
+import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 
@@ -21,17 +22,32 @@ public class OperationPasteElements implements GraphElementsOperation {
             case COPY:
                 var newCopies = createViewModelsCopies(model.getClipboardElements());
                 renameIfNeeded(graphView.getDiagramViewModel(), newCopies);
+                offsetElements(newCopies);
                 graphView.getDiagramViewModel().getElements().addAll(newCopies);
                 graphView.selectViewModels(newCopies);
                 break;
 
             case CUT:
                 renameIfNeeded(graphView.getDiagramViewModel(), model.getClipboardElements());
+                offsetElements(model.getClipboardElements());
                 graphView.getDiagramViewModel().getElements().addAll(model.getClipboardElements());
                 graphView.selectViewModels(model.getClipboardElements());
                 model.getClipboardElements().clear();
                 break;
         }
+    }
+
+    private void offsetElements(List<ElementViewModel> elements) {
+        final double offsetX = 20;
+        final double offsetY = 20;
+
+        elements.stream()
+                .filter(elementViewModel -> elementViewModel instanceof ConnectableViewModel)
+                .map(elementViewModel -> (ConnectableViewModel) elementViewModel)
+                .forEach(elementViewModel -> {
+                    elementViewModel.positionXProperty().set(elementViewModel.getPositionX() + offsetX);
+                    elementViewModel.positionYProperty().set(elementViewModel.getPositionY() + offsetY);
+                });
     }
 
     private void renameIfNeeded(DiagramViewModel diagramViewModel, List<ElementViewModel> newCopies) {
