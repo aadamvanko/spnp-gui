@@ -12,15 +12,15 @@ import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 
-public class GraphElementFactory {
+public class GraphElementViewFactory {
 
     private final GraphView graphView;
 
-    public GraphElementFactory(GraphView graphView) {
+    public GraphElementViewFactory(GraphView graphView) {
         this.graphView = graphView;
     }
 
-    public GraphElementView createGraphElement(ElementViewModel elementViewModel) {
+    public GraphElementView createGraphElementView(ElementViewModel elementViewModel) {
         GraphElementView graphElementView = null;
         if (elementViewModel instanceof PlaceViewModel) {
             graphElementView = new PlaceView();
@@ -30,7 +30,6 @@ public class GraphElementFactory {
             graphElementView = new TimedTransitionView();
         } else if (elementViewModel instanceof StandardArcViewModel) {
             var arcViewModel = (ArcViewModel) elementViewModel;
-            System.out.println(arcViewModel.getName());
             var elementFrom = (ConnectableGraphElementView) graphView.findElementViewByModel(arcViewModel.getFromViewModel());
             var elementTo = (ConnectableGraphElementView) graphView.findElementViewByModel(arcViewModel.getToViewModel());
             graphElementView = new StandardArcView(elementFrom, elementTo);
@@ -41,6 +40,7 @@ public class GraphElementFactory {
             graphElementView = new InhibitorArcView((PlaceView) elementFrom, (TransitionView) elementTo);
         }
 
+        graphElementView.setGraphView(graphView);
         graphElementView.bindViewModel(elementViewModel);
         return graphElementView;
     }

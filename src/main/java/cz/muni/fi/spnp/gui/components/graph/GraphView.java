@@ -45,7 +45,7 @@ public class GraphView {
     private final ZoomableScrollPane zoomableScrollPane;
     private final List<GraphElementView> graphElementViews;
     private final Rectangle rectangleSelection;
-    private final GraphElementFactory graphElementFactory;
+    private final GraphElementViewFactory graphElementViewFactory;
     private MouseOperation mouseOperation;
     private boolean snappingToGrid;
     private final Notifications notifications;
@@ -58,7 +58,7 @@ public class GraphView {
     public GraphView(Notifications notifications, Model model, DiagramViewModel diagramViewModel) {
         this.notifications = notifications;
         this.model = model;
-        this.graphElementFactory = new GraphElementFactory(this);
+        this.graphElementViewFactory = new GraphElementViewFactory(this);
 
         layerBottom = new Group();
         layerMiddle = new Group();
@@ -131,12 +131,11 @@ public class GraphView {
     }
 
     private void addGraphElement(ElementViewModel addedElementViewModel) {
-        var elementView = graphElementFactory.createGraphElement(addedElementViewModel);
+        var elementView = graphElementViewFactory.createGraphElementView(addedElementViewModel);
         addToLayerBottom(elementView.getBottomLayerContainer());
         addToLayerMiddle(elementView.getMiddleLayerContainer());
         addToLayerTop(elementView.getTopLayerContainer());
         graphElementViews.add(elementView);
-        elementView.setGraphView(this);
         elementView.addedToParent();
 
         adjustCanvasSize();
