@@ -299,6 +299,7 @@ public class GraphView {
     }
 
     public void selectViewModels(List<ElementViewModel> selectedViewModels) {
+        resetSelection();
         var selectedViews = selectedViewModels.stream().map(this::findElementViewByModel).collect(Collectors.toList());
         selectedViews.forEach(GraphElementView::enableHighlight);
         select(selectedViews);
