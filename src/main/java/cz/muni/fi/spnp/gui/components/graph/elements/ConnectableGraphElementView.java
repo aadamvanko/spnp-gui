@@ -10,11 +10,13 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ConnectableGraphElementView extends GraphElementView implements Connectable, MouseSelectable {
+public abstract class ConnectableGraphElementView<TViewModel extends ConnectableViewModel> extends GraphElementView<TViewModel> implements Connectable, MouseSelectable {
 
     private final List<ArcView> arcs;
 
-    public ConnectableGraphElementView() {
+    public ConnectableGraphElementView(TViewModel connectableViewModel) {
+        super(connectableViewModel);
+
         arcs = new ArrayList<>();
     }
 
@@ -56,5 +58,15 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
 
         connectableViewModel.positionXProperty().set(newPos.getX());
         connectableViewModel.positionYProperty().set(newPos.getY());
+    }
+
+    @Override
+    public void bindViewModel(TViewModel viewModel) {
+        super.bindViewModel(viewModel);
+    }
+
+    @Override
+    public void unbindViewModel() {
+        super.unbindViewModel();
     }
 }

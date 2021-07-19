@@ -1,11 +1,13 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
+import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import javafx.scene.paint.Color;
 
 public class TimedTransitionView extends TransitionView {
 
-    public TimedTransitionView() {
-        super();
+    public TimedTransitionView(TimedTransitionViewModel timedTransitionViewModel) {
+        super(timedTransitionViewModel);
+
         createView();
     }
 

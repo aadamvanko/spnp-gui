@@ -4,7 +4,6 @@ import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -18,7 +17,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ArcView extends GraphElementView {
+public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElementView<TViewModel> {
 
     public static int LINE_WIDTH = 4;
 
@@ -34,7 +33,9 @@ public abstract class ArcView extends GraphElementView {
     private Text textMultiplicity;
     private DragPointView lastAddedDragPointView;
 
-    public ArcView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
+    public ArcView(TViewModel arcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
+        super(arcViewModel);
+
         lines = new ArrayList<>();
         dragPointViews = new ArrayList<>();
         this.fromElement = from;
@@ -42,6 +43,7 @@ public abstract class ArcView extends GraphElementView {
         this.onDragPointsChangedListener = this::onDragPointsChangedListener;
 
         createView(from, to);
+        bindViewModel(arcViewModel);
     }
 
     private void onDragPointsChangedListener(ListChangeListener.Change<? extends DragPointViewModel> dragPointsChange) {
@@ -117,10 +119,6 @@ public abstract class ArcView extends GraphElementView {
         registerMouseHandlers(line);
         line.setSmooth(true);
 
-        if (isHighlighted()) {
-            line.setEffect(highlightEffect);
-        }
-
         return line;
     }
 
@@ -159,10 +157,9 @@ public abstract class ArcView extends GraphElementView {
     }
 
     @Override
-    public void bindViewModel(ElementViewModel viewModel) {
-        super.bindViewModel(viewModel);
+    public void bindViewModel(TViewModel arcViewModel) {
+        super.bindViewModel(arcViewModel);
 
-        var arcViewModel = (ArcViewModel) viewModel;
         textMultiplicity.textProperty().bind(arcViewModel.multiplicityProperty());
 
         // TODO remove all lines
@@ -287,7 +284,6 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     public void enableHighlight() {
-        super.enableHighlight();
         lines.forEach(line -> line.setEffect(highlightEffect));
         dragPointViews.forEach(dragPointView -> dragPointView.enableHighlight());
         ending.getShape().setEffect(highlightEffect);
@@ -295,7 +291,6 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     public void disableHighlight() {
-        super.disableHighlight();
         lines.forEach(line -> line.setEffect(null));
         dragPointViews.forEach(dragPointView -> dragPointView.disableHighlight());
         ending.getShape().setEffect(null);

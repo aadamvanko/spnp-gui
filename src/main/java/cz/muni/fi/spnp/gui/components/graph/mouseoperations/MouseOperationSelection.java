@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
+import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
@@ -68,7 +69,7 @@ public class MouseOperationSelection extends MouseOperation {
                     selected.add(element);
                 }
             } else if (element instanceof ArcView) {
-                var arcView = (ArcView) element;
+                var arcView = (ArcView<ArcViewModel>) element;
                 for (var dragPointView : arcView.getDragPointViews()) {
                     if (rectangleSelection.getBoundsInParent().contains(dragPointView.getShapeCenter())) {
                         dragPointView.enableHighlight();

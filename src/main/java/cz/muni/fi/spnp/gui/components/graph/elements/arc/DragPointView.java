@@ -9,13 +9,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class DragPointView extends GraphElementView implements MouseSelectable {
+public class DragPointView extends GraphElementView<DragPointViewModel> implements MouseSelectable {
 
     private final ArcView arc;
     private final Rectangle rectangle;
     private final DragPointViewModel customViewModel;
 
     public DragPointView(ArcView arc, DragPointViewModel dragPointViewModel) {
+        super(dragPointViewModel);
+
         this.arc = arc;
 
         rectangle = new Rectangle();
@@ -129,13 +131,11 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
 
     @Override
     public void enableHighlight() {
-        super.enableHighlight();
         rectangle.setEffect(highlightEffect);
     }
 
     @Override
     public void disableHighlight() {
-        super.disableHighlight();
         rectangle.setEffect(null);
     }
 

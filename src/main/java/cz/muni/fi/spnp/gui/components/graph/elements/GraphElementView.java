@@ -5,14 +5,15 @@ import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Highlightable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public abstract class GraphElementView implements VisualElement, Highlightable, Movable {
+public abstract class GraphElementView<TViewModel extends ElementViewModel> implements VisualElement, Highlightable, Movable {
 
     private static final double MIN_PADDING_FACTOR = 0.3;
     protected static DropShadow highlightEffect;
@@ -24,8 +25,22 @@ public abstract class GraphElementView implements VisualElement, Highlightable, 
     }
 
     private GraphView graphView;
-    private boolean highlighted;
-    private ElementViewModel viewModel;
+    private final ChangeListener<Boolean> onHighlightedChangedListener;
+    private TViewModel viewModel;
+
+    public GraphElementView(TViewModel viewModel) {
+        this.onHighlightedChangedListener = this::onHighlightedChangedListener;
+
+        bindViewModel(viewModel);
+    }
+
+    private void onHighlightedChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        if (newValue) {
+            enableHighlight();
+        } else {
+            disableHighlight();
+        }
+    }
 
     public void setGraphView(GraphView graphView) {
         this.graphView = graphView;
@@ -63,21 +78,6 @@ public abstract class GraphElementView implements VisualElement, Highlightable, 
         mouseEvent.consume();
 
         graphView.graphElementReleased(this, mouseEvent);
-    }
-
-    @Override
-    public void enableHighlight() {
-        highlighted = true;
-    }
-
-    @Override
-    public void disableHighlight() {
-        highlighted = false;
-    }
-
-    @Override
-    public boolean isHighlighted() {
-        return highlighted;
     }
 
     protected Point2D preventNegativeCoordinates(Point2D point) {
@@ -146,15 +146,24 @@ public abstract class GraphElementView implements VisualElement, Highlightable, 
 
     public abstract Node getContextMenuNode();
 
-    public void bindViewModel(ElementViewModel viewModel) {
+    public void bindViewModel(TViewModel viewModel) {
         this.viewModel = viewModel;
+
+        viewModel.highlightedProperty().addListener(this.onHighlightedChangedListener);
     }
 
     public void unbindViewModel() {
         this.viewModel = null;
+
+        viewModel.highlightedProperty().removeListener(this.onHighlightedChangedListener);
     }
 
-    public ElementViewModel getViewModel() {
+    @Override
+    public boolean isHighlighted() {
+        return viewModel.isHighlighted();
+    }
+
+    public TViewModel getViewModel() {
         return viewModel;
     }
 }

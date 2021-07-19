@@ -2,7 +2,6 @@ package cz.muni.fi.spnp.gui.components.graph.elements.place;
 
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -16,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 
-public class PlaceView extends ConnectableGraphElementView {
+public class PlaceView<TViewModel extends PlaceViewModel> extends ConnectableGraphElementView<TViewModel> {
 
     private Circle circle;
 
@@ -25,8 +24,12 @@ public class PlaceView extends ConnectableGraphElementView {
     private Label nameLabel;
     private VBox container;
 
-    public PlaceView() {
+    public PlaceView(TViewModel placeViewModel) {
+        super(placeViewModel);
+
         createView();
+
+        bindViewModel(placeViewModel);
     }
 
     private void createView() {
@@ -73,11 +76,9 @@ public class PlaceView extends ConnectableGraphElementView {
         }
     }
 
-    @Override
-    public void bindViewModel(ElementViewModel elementViewModel) {
-        super.bindViewModel(elementViewModel);
+    public void bindViewModel(TViewModel placeViewModel) {
+        super.bindViewModel(placeViewModel);
 
-        PlaceViewModel placeViewModel = (PlaceViewModel) elementViewModel;
         nameLabel.textProperty().bind(placeViewModel.nameProperty());
         tokensCountText.textProperty().bind(placeViewModel.numberOfTokensProperty());
 
@@ -127,13 +128,11 @@ public class PlaceView extends ConnectableGraphElementView {
 
     @Override
     public void enableHighlight() {
-        super.enableHighlight();
         circle.setEffect(highlightEffect);
     }
 
     @Override
     public void disableHighlight() {
-        super.disableHighlight();
         circle.setEffect(null);
     }
 

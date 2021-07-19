@@ -1,9 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
-import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.Intersections;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -18,13 +16,19 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 
-public abstract class TransitionView extends ConnectableGraphElementView {
+public abstract class TransitionView<TViewModel extends TransitionViewModel> extends ConnectableGraphElementView<TViewModel> {
 
-    private final Label nameLabel;
-    private final VBox container;
+    private Label nameLabel;
+    private VBox container;
     protected Rectangle rectangle;
 
-    public TransitionView() {
+    public TransitionView(TViewModel transitionViewModel) {
+        super(transitionViewModel);
+        createView();
+        bindViewModel(transitionViewModel);
+    }
+
+    private void createView() {
         rectangle = new Rectangle();
         registerMouseHandlers(rectangle);
 
@@ -49,10 +53,9 @@ public abstract class TransitionView extends ConnectableGraphElementView {
     }
 
     @Override
-    public void bindViewModel(ElementViewModel viewModel) {
-        super.bindViewModel(viewModel);
+    public void bindViewModel(TViewModel transitionViewModel) {
+        super.bindViewModel(transitionViewModel);
 
-        TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
         nameLabel.textProperty().bind(transitionViewModel.nameProperty());
         // TODO priority, guard function
 
@@ -128,13 +131,11 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
     @Override
     public void enableHighlight() {
-        super.enableHighlight();
         rectangle.setEffect(highlightEffect);
     }
 
     @Override
     public void disableHighlight() {
-        super.disableHighlight();
         rectangle.setEffect(null);
     }
 
