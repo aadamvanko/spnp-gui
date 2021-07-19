@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.place;
 
+import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
@@ -18,18 +19,17 @@ import javafx.scene.text.TextBoundsType;
 public class PlaceView<TViewModel extends PlaceViewModel> extends ConnectableGraphElementView<TViewModel> {
 
     private Circle circle;
-
     private Text tokensCountText;
     private StackPane circleStack;
     private Label nameLabel;
     private VBox container;
 
-    public PlaceView(TViewModel placeViewModel) {
-        super(placeViewModel);
+    public PlaceView(GraphView graphView, TViewModel placeViewModel) {
+        super(graphView, placeViewModel);
 
         createView();
 
-        bindViewModel(placeViewModel);
+        bindViewModel();
     }
 
     private void createView() {
@@ -76,14 +76,12 @@ public class PlaceView<TViewModel extends PlaceViewModel> extends ConnectableGra
         }
     }
 
-    public void bindViewModel(TViewModel placeViewModel) {
-        super.bindViewModel(placeViewModel);
+    private void bindViewModel() {
+        nameLabel.textProperty().bind(viewModel.nameProperty());
+        tokensCountText.textProperty().bind(viewModel.numberOfTokensProperty());
 
-        nameLabel.textProperty().bind(placeViewModel.nameProperty());
-        tokensCountText.textProperty().bind(placeViewModel.numberOfTokensProperty());
-
-        container.translateXProperty().bind(placeViewModel.positionXProperty());
-        container.translateYProperty().bind(placeViewModel.positionYProperty());
+        container.translateXProperty().bind(viewModel.positionXProperty());
+        container.translateYProperty().bind(viewModel.positionYProperty());
     }
 
     @Override

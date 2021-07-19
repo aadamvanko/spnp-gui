@@ -1,12 +1,13 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
+import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import javafx.scene.paint.Color;
 
 public class ImmediateTransitionView extends TransitionView {
 
-    public ImmediateTransitionView(ImmediateTransitionViewModel immediateTransitionViewModel) {
-        super(immediateTransitionViewModel);
+    public ImmediateTransitionView(GraphView graphView, ImmediateTransitionViewModel immediateTransitionViewModel) {
+        super(graphView, immediateTransitionViewModel);
         createView();
     }
 

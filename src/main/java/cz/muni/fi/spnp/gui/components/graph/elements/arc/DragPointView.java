@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 
+import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
@@ -15,10 +16,10 @@ public class DragPointView extends GraphElementView<DragPointViewModel> implemen
     private final Rectangle rectangle;
     private final DragPointViewModel customViewModel;
 
-    public DragPointView(ArcView arc, DragPointViewModel dragPointViewModel) {
-        super(dragPointViewModel);
+    public DragPointView(GraphView graphView, ArcView arcView, DragPointViewModel dragPointViewModel) {
+        super(graphView, dragPointViewModel);
 
-        this.arc = arc;
+        this.arc = arcView;
 
         rectangle = new Rectangle();
         rectangle.setWidth(7);

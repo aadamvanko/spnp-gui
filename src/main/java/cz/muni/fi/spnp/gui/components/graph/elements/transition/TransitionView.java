@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 
+import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.Intersections;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
@@ -22,10 +23,11 @@ public abstract class TransitionView<TViewModel extends TransitionViewModel> ext
     private VBox container;
     protected Rectangle rectangle;
 
-    public TransitionView(TViewModel transitionViewModel) {
-        super(transitionViewModel);
+    public TransitionView(GraphView graphView, TViewModel transitionViewModel) {
+        super(graphView, transitionViewModel);
+
         createView();
-        bindViewModel(transitionViewModel);
+        bindViewModel();
     }
 
     private void createView() {
@@ -52,15 +54,12 @@ public abstract class TransitionView<TViewModel extends TransitionViewModel> ext
         }
     }
 
-    @Override
-    public void bindViewModel(TViewModel transitionViewModel) {
-        super.bindViewModel(transitionViewModel);
-
-        nameLabel.textProperty().bind(transitionViewModel.nameProperty());
+    private void bindViewModel() {
+        nameLabel.textProperty().bind(viewModel.nameProperty());
         // TODO priority, guard function
 
-        container.translateXProperty().bind(transitionViewModel.positionXProperty());
-        container.translateYProperty().bind(transitionViewModel.positionYProperty());
+        container.translateXProperty().bind(viewModel.positionXProperty());
+        container.translateYProperty().bind(viewModel.positionYProperty());
     }
 
     @Override

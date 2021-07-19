@@ -24,14 +24,16 @@ public abstract class GraphElementView<TViewModel extends ElementViewModel> impl
         highlightEffect.setRadius(5);
     }
 
-    private GraphView graphView;
+    protected GraphView graphView;
     private final ChangeListener<Boolean> onHighlightedChangedListener;
-    private TViewModel viewModel;
+    protected TViewModel viewModel;
 
-    public GraphElementView(TViewModel viewModel) {
+    public GraphElementView(GraphView graphView, TViewModel viewModel) {
+        this.graphView = graphView;
+        this.viewModel = viewModel;
         this.onHighlightedChangedListener = this::onHighlightedChangedListener;
 
-        bindViewModel(viewModel);
+        bindViewModel();
     }
 
     private void onHighlightedChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -146,16 +148,15 @@ public abstract class GraphElementView<TViewModel extends ElementViewModel> impl
 
     public abstract Node getContextMenuNode();
 
-    public void bindViewModel(TViewModel viewModel) {
-        this.viewModel = viewModel;
-
+    private void bindViewModel() {
         viewModel.highlightedProperty().addListener(this.onHighlightedChangedListener);
     }
 
     public void unbindViewModel() {
-        this.viewModel = null;
-
         viewModel.highlightedProperty().removeListener(this.onHighlightedChangedListener);
+
+        this.viewModel = null;
+        this.graphView = null;
     }
 
     @Override

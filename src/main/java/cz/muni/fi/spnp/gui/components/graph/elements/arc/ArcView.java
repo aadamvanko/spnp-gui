@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 
+import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
@@ -33,8 +34,8 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
     private Text textMultiplicity;
     private DragPointView lastAddedDragPointView;
 
-    public ArcView(TViewModel arcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
-        super(arcViewModel);
+    public ArcView(GraphView graphView, TViewModel arcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
+        super(graphView, arcViewModel);
 
         lines = new ArrayList<>();
         dragPointViews = new ArrayList<>();
@@ -43,7 +44,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
         this.onDragPointsChangedListener = this::onDragPointsChangedListener;
 
         createView(from, to);
-        bindViewModel(arcViewModel);
+        bindViewModel();
     }
 
     private void onDragPointsChangedListener(ListChangeListener.Change<? extends DragPointViewModel> dragPointsChange) {
@@ -156,17 +157,14 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
         }
     }
 
-    @Override
-    public void bindViewModel(TViewModel arcViewModel) {
-        super.bindViewModel(arcViewModel);
-
-        textMultiplicity.textProperty().bind(arcViewModel.multiplicityProperty());
+    private void bindViewModel() {
+        textMultiplicity.textProperty().bind(viewModel.multiplicityProperty());
 
         // TODO remove all lines
         destroyDragPoints(); // TODO ???
-        createDragPoints(arcViewModel.getDragPoints());
+        createDragPoints(viewModel.getDragPoints());
 
-        arcViewModel.getDragPoints().addListener(this.onDragPointsChangedListener);
+        viewModel.getDragPoints().addListener(this.onDragPointsChangedListener);
     }
 
     @Override
@@ -200,7 +198,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
         sourceLine.setEndY(dragPointViewModel.getPositionY());
 //        System.out.println(lines);
 
-        lastAddedDragPointView = new DragPointView(this, dragPointViewModel);
+        lastAddedDragPointView = new DragPointView(graphView, this, dragPointViewModel);
         if (isHighlighted()) {
             lastAddedDragPointView.enableHighlight();
         }
@@ -208,8 +206,8 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
         System.out.println("adding drag point");
         groupSymbols.getChildren().add(lastAddedDragPointView.getMiddleLayerContainer());
         lastAddedDragPointView.addedToParent();
-        lastAddedDragPointView.setGraphView(getGraphView());
-        System.out.println("arc drag point graph view " + getGraphView());
+        lastAddedDragPointView.setGraphView(graphView);
+        System.out.println("arc drag point graph view " + graphView);
         dragPointViews.add(index, lastAddedDragPointView);
     }
 
@@ -381,6 +379,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
         groupSymbols.getChildren().remove(dragPointView.getMiddleLayerContainer());
         dragPointView.removedFromParent();
         dragPointView.setGraphView(null);
+        dragPointView.unbindViewModel();
 
         int index = dragPointViews.indexOf(dragPointView);
         dragPointViews.remove(index);

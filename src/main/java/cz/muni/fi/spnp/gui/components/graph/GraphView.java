@@ -146,6 +146,7 @@ public class GraphView {
         removeFromLayerMiddle(elementView.getMiddleLayerContainer());
         removeFromLayerTop(elementView.getTopLayerContainer());
         graphElementViews.remove(elementView);
+        elementView.unbindViewModel();
         elementView.setGraphView(null);
         elementView.removedFromParent();
 

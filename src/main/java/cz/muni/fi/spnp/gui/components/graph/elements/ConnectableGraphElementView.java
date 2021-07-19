@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.elements;
 
+import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Connectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
@@ -14,8 +15,8 @@ public abstract class ConnectableGraphElementView<TViewModel extends Connectable
 
     private final List<ArcView> arcs;
 
-    public ConnectableGraphElementView(TViewModel connectableViewModel) {
-        super(connectableViewModel);
+    public ConnectableGraphElementView(GraphView graphView, TViewModel connectableViewModel) {
+        super(graphView, connectableViewModel);
 
         arcs = new ArrayList<>();
     }
@@ -58,15 +59,5 @@ public abstract class ConnectableGraphElementView<TViewModel extends Connectable
 
         connectableViewModel.positionXProperty().set(newPos.getX());
         connectableViewModel.positionYProperty().set(newPos.getY());
-    }
-
-    @Override
-    public void bindViewModel(TViewModel viewModel) {
-        super.bindViewModel(viewModel);
-    }
-
-    @Override
-    public void unbindViewModel() {
-        super.unbindViewModel();
     }
 }

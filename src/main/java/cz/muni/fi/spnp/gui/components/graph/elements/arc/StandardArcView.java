@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 
+import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.viewmodel.StandardArcViewModel;
 
@@ -7,8 +8,8 @@ import java.util.Objects;
 
 public class StandardArcView extends ArcView<StandardArcViewModel> {
 
-    public StandardArcView(StandardArcViewModel standardArcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
-        super(standardArcViewModel, Objects.requireNonNull(from), Objects.requireNonNull(to));
+    public StandardArcView(GraphView graphView, StandardArcViewModel standardArcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
+        super(graphView, standardArcViewModel, Objects.requireNonNull(from), Objects.requireNonNull(to));
 
         createView();
     }
