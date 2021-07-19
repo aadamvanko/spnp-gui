@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
+import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
@@ -41,13 +42,19 @@ public class OperationPasteElements implements GraphElementsOperation {
         final double offsetX = 20;
         final double offsetY = 20;
 
-        elements.stream()
-                .filter(elementViewModel -> elementViewModel instanceof ConnectableViewModel)
-                .map(elementViewModel -> (ConnectableViewModel) elementViewModel)
-                .forEach(elementViewModel -> {
-                    elementViewModel.positionXProperty().set(elementViewModel.getPositionX() + offsetX);
-                    elementViewModel.positionYProperty().set(elementViewModel.getPositionY() + offsetY);
+        for (var element : elements) {
+            if (element instanceof ConnectableViewModel) {
+                var connectableViewModel = (ConnectableViewModel) element;
+                connectableViewModel.positionXProperty().set(connectableViewModel.getPositionX() + offsetX);
+                connectableViewModel.positionYProperty().set(connectableViewModel.getPositionY() + offsetY);
+            } else if (element instanceof ArcViewModel) {
+                var arcViewModel = (ArcViewModel) element;
+                arcViewModel.getDragPoints().forEach(dragPointViewModel -> {
+                    dragPointViewModel.positionXProperty().set(dragPointViewModel.getPositionX() + offsetX);
+                    dragPointViewModel.positionYProperty().set(dragPointViewModel.getPositionY() + offsetY);
                 });
+            }
+        }
     }
 
     private void renameIfNeeded(DiagramViewModel diagramViewModel, List<ElementViewModel> newCopies) {
