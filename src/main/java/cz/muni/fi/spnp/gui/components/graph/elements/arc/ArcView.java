@@ -50,8 +50,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
     private void onDragPointsChangedListener(ListChangeListener.Change<? extends DragPointViewModel> dragPointsChange) {
         while (dragPointsChange.next()) {
             for (var removedViewModel : dragPointsChange.getRemoved()) {
-                var arcViewModel = (ArcViewModel) getViewModel();
-                var removedViewModelIndex = arcViewModel.getDragPoints().indexOf(removedViewModel);
+                var removedViewModelIndex = viewModel.getDragPoints().indexOf(removedViewModel);
                 var dragPointView = dragPointViews.get(removedViewModelIndex);
                 destroyDragPointView(dragPointView);
             }
@@ -130,8 +129,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             Point2D mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
             Line sourceLine = (Line) mouseEvent.getSource();
-            var arcViewModel = (ArcViewModel) getViewModel();
-            arcViewModel.getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
+            viewModel.getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
             System.out.println("last added drag point view " + lastAddedDragPointView);
             lastAddedDragPointView.onMousePressedHandler(mouseEvent);
 //            savedMouseEvent = mouseEvent;
@@ -160,8 +158,6 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
     private void bindViewModel() {
         textMultiplicity.textProperty().bind(viewModel.multiplicityProperty());
 
-        // TODO remove all lines
-        destroyDragPoints(); // TODO ???
         createDragPoints(viewModel.getDragPoints());
 
         viewModel.getDragPoints().addListener(this.onDragPointsChangedListener);
@@ -171,8 +167,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
     public void unbindViewModel() {
         textMultiplicity.textProperty().unbind();
 
-        var arcViewModel = (ArcViewModel) getViewModel();
-        arcViewModel.getDragPoints().removeListener(this.onDragPointsChangedListener);
+        viewModel.getDragPoints().removeListener(this.onDragPointsChangedListener);
 
         super.unbindViewModel();
     }
@@ -184,8 +179,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
     }
 
     private void createDragPointView(DragPointViewModel dragPointViewModel) {
-        var arcViewModel = (ArcViewModel) getViewModel();
-        int dragPointViewModelIndex = arcViewModel.getDragPoints().indexOf(dragPointViewModel);
+        int dragPointViewModelIndex = viewModel.getDragPoints().indexOf(dragPointViewModel);
         var sourceLine = lines.get(dragPointViewModelIndex);
         int index = lines.indexOf(sourceLine);
 
