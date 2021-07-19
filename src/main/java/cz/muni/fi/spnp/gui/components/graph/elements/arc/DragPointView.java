@@ -14,7 +14,6 @@ public class DragPointView extends GraphElementView<DragPointViewModel> implemen
 
     private final ArcView arc;
     private final Rectangle rectangle;
-    private final DragPointViewModel customViewModel;
 
     public DragPointView(GraphView graphView, ArcView arcView, DragPointViewModel dragPointViewModel) {
         super(graphView, dragPointViewModel);
@@ -29,19 +28,18 @@ public class DragPointView extends GraphElementView<DragPointViewModel> implemen
         setCenterPosition(dragPointViewModel.getPositionX(), dragPointViewModel.getPositionY());
         rectangle.setSmooth(true);
 
-        customViewModel = dragPointViewModel;
-
-        bindCustomViewModel();
+        bindViewModel();
     }
 
-    private void bindCustomViewModel() {
-        rectangle.translateXProperty().bindBidirectional(customViewModel.positionXProperty());
-        rectangle.translateYProperty().bindBidirectional(customViewModel.positionYProperty());
+    private void bindViewModel() {
+        rectangle.translateXProperty().bindBidirectional(viewModel.positionXProperty());
+        rectangle.translateYProperty().bindBidirectional(viewModel.positionYProperty());
     }
 
-    private void unbindCustomViewModel() {
-        rectangle.translateXProperty().unbindBidirectional(customViewModel.positionXProperty());
-        rectangle.translateYProperty().unbindBidirectional(customViewModel.positionYProperty());
+    @Override
+    public void unbindViewModel() {
+        rectangle.translateXProperty().unbindBidirectional(viewModel.positionXProperty());
+        rectangle.translateYProperty().unbindBidirectional(viewModel.positionYProperty());
     }
 
     public Rectangle getShape() {
@@ -84,7 +82,6 @@ public class DragPointView extends GraphElementView<DragPointViewModel> implemen
     @Override
     public void removedFromParent() {
         unregisterMouseHandlers(rectangle);
-        unbindCustomViewModel();
     }
 
     @Override
@@ -105,11 +102,11 @@ public class DragPointView extends GraphElementView<DragPointViewModel> implemen
     }
 
     protected void moveViaTranslate(Point2D offset) {
-        Point2D old = new Point2D(customViewModel.positionXProperty().get(), customViewModel.positionYProperty().get());
+        Point2D old = new Point2D(viewModel.positionXProperty().get(), viewModel.positionYProperty().get());
         Point2D newPos = preventNegativeCoordinates(old.add(offset));
 
-        customViewModel.positionXProperty().set(newPos.getX());
-        customViewModel.positionYProperty().set(newPos.getY());
+        viewModel.positionXProperty().set(newPos.getX());
+        viewModel.positionYProperty().set(newPos.getY());
     }
 
     @Override
