@@ -33,6 +33,7 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class MainWindowController {
 
@@ -91,7 +92,8 @@ public class MainWindowController {
         timedTransition1.timedDistributionTypeProperty().set(TimedDistributionType.Constant);
         timedTransition1.setTransitionDistribution(new ConstantTransitionDistributionViewModel("0.4"));
 
-        var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1, Collections.emptyList());
+        var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1,
+                List.of(new DragPointViewModel(200, 50), new DragPointViewModel(250, 75)));
         var standardArc2 = new StandardArcViewModel("standard2", timedTransition1, place2, Collections.emptyList());
 
         var immediateTransition1 = new ImmediateTransitionViewModel();

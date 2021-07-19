@@ -15,7 +15,7 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
     private final Rectangle rectangle;
     private final DragPointViewModel customViewModel;
 
-    public DragPointView(ArcView arc, double x, double y) {
+    public DragPointView(ArcView arc, DragPointViewModel dragPointViewModel) {
         this.arc = arc;
 
         rectangle = new Rectangle();
@@ -23,22 +23,22 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
         rectangle.setHeight(7);
         rectangle.setStroke(Color.BLACK);
         rectangle.setFill(Color.WHITE);
-        setCenterPosition(x, y);
+        setCenterPosition(dragPointViewModel.getPositionX(), dragPointViewModel.getPositionY());
         rectangle.setSmooth(true);
 
-        customViewModel = new DragPointViewModel(x, y);
+        customViewModel = dragPointViewModel;
 
         bindCustomViewModel();
     }
 
     private void bindCustomViewModel() {
-        rectangle.translateXProperty().bind(customViewModel.positionXProperty());
-        rectangle.translateYProperty().bind(customViewModel.positionYProperty());
+        rectangle.translateXProperty().bindBidirectional(customViewModel.positionXProperty());
+        rectangle.translateYProperty().bindBidirectional(customViewModel.positionYProperty());
     }
 
     private void unbindCustomViewModel() {
-        rectangle.translateXProperty().unbind();
-        rectangle.translateYProperty().unbind();
+        rectangle.translateXProperty().unbindBidirectional(customViewModel.positionXProperty());
+        rectangle.translateYProperty().unbindBidirectional(customViewModel.positionYProperty());
     }
 
     public Rectangle getShape() {

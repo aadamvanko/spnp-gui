@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -29,16 +30,33 @@ public abstract class ArcView extends GraphElementView {
     protected Group groupSymbols;
     protected List<Line> lines;
     protected ArcEnding ending;
-    private DragPointView lastAddedDragPoint;
+    private final ListChangeListener<? super DragPointViewModel> onDragPointsChangedListener;
     private Text textMultiplicity;
+    private DragPointView lastAddedDragPointView;
 
     public ArcView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
         lines = new ArrayList<>();
         dragPointViews = new ArrayList<>();
         this.fromElement = from;
         this.toElement = to;
+        this.onDragPointsChangedListener = this::onDragPointsChangedListener;
 
         createView(from, to);
+    }
+
+    private void onDragPointsChangedListener(ListChangeListener.Change<? extends DragPointViewModel> dragPointsChange) {
+        while (dragPointsChange.next()) {
+            for (var removedViewModel : dragPointsChange.getRemoved()) {
+                var arcViewModel = (ArcViewModel) getViewModel();
+                var removedViewModelIndex = arcViewModel.getDragPoints().indexOf(removedViewModel);
+                var dragPointView = dragPointViews.get(removedViewModelIndex);
+                destroyDragPointView(dragPointView);
+            }
+
+            for (var addedViewModel : dragPointsChange.getAddedSubList()) {
+                createDragPointView(addedViewModel);
+            }
+        }
     }
 
     private void createView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
@@ -113,8 +131,11 @@ public abstract class ArcView extends GraphElementView {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             Point2D mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
             Line sourceLine = (Line) mouseEvent.getSource();
-            createDragPoint(sourceLine, mousePosition);
-            lastAddedDragPoint.onMousePressedHandler(mouseEvent);
+            var arcViewModel = (ArcViewModel) getViewModel();
+            arcViewModel.getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
+            System.out.println("last added drag point view " + lastAddedDragPointView);
+            lastAddedDragPointView.onMousePressedHandler(mouseEvent);
+//            savedMouseEvent = mouseEvent;
         }
     }
 
@@ -122,8 +143,8 @@ public abstract class ArcView extends GraphElementView {
     public void onMouseDraggedHandler(MouseEvent mouseEvent) {
         super.onMouseDraggedHandler(mouseEvent);
 
-        if (lastAddedDragPoint != null) {
-            lastAddedDragPoint.onMouseDraggedHandler(mouseEvent);
+        if (lastAddedDragPointView != null) {
+            lastAddedDragPointView.onMouseDraggedHandler(mouseEvent);
         }
     }
 
@@ -131,9 +152,9 @@ public abstract class ArcView extends GraphElementView {
     public void onMouseReleasedHandler(MouseEvent mouseEvent) {
         super.onMouseReleasedHandler(mouseEvent);
 
-        if (lastAddedDragPoint != null) {
-            lastAddedDragPoint.onMouseReleasedHandler(mouseEvent);
-            lastAddedDragPoint = null;
+        if (lastAddedDragPointView != null) {
+            lastAddedDragPointView.onMouseReleasedHandler(mouseEvent);
+            lastAddedDragPointView = null;
         }
     }
 
@@ -144,45 +165,55 @@ public abstract class ArcView extends GraphElementView {
         var arcViewModel = (ArcViewModel) viewModel;
         textMultiplicity.textProperty().bind(arcViewModel.multiplicityProperty());
 
+        // TODO remove all lines
         destroyDragPoints(); // TODO ???
         createDragPoints(arcViewModel.getDragPoints());
+
+        arcViewModel.getDragPoints().addListener(this.onDragPointsChangedListener);
     }
 
     @Override
     public void unbindViewModel() {
         textMultiplicity.textProperty().unbind();
 
+        var arcViewModel = (ArcViewModel) getViewModel();
+        arcViewModel.getDragPoints().removeListener(this.onDragPointsChangedListener);
+
         super.unbindViewModel();
     }
 
     private void createDragPoints(ObservableList<DragPointViewModel> dragPointViewModels) {
         for (var dragPointViewModel : dragPointViewModels) {
-            createDragPoint(lines.get(lines.size() - 1), new Point2D(dragPointViewModel.positionXProperty().get(), dragPointViewModel.positionYProperty().get()));
+            createDragPointView(dragPointViewModel);
         }
     }
 
-    private void createDragPoint(Line sourceLine, Point2D position) {
+    private void createDragPointView(DragPointViewModel dragPointViewModel) {
+        var arcViewModel = (ArcViewModel) getViewModel();
+        int dragPointViewModelIndex = arcViewModel.getDragPoints().indexOf(dragPointViewModel);
+        var sourceLine = lines.get(dragPointViewModelIndex);
         int index = lines.indexOf(sourceLine);
 
-        Line line = createLine(position.getX(), position.getY(), sourceLine.getEndX(), sourceLine.getEndY());
+        Line line = createLine(dragPointViewModel.getPositionX(), dragPointViewModel.getPositionY(), sourceLine.getEndX(), sourceLine.getEndY());
         lines.add(index + 1, line);
 //        System.out.println(lines);
         groupLines.getChildren().add(line);
 
-        sourceLine.setEndX(position.getX());
-        sourceLine.setEndY(position.getY());
+        sourceLine.setEndX(dragPointViewModel.getPositionX());
+        sourceLine.setEndY(dragPointViewModel.getPositionY());
 //        System.out.println(lines);
 
-        lastAddedDragPoint = new DragPointView(this, position.getX(), position.getY());
+        lastAddedDragPointView = new DragPointView(this, dragPointViewModel);
         if (isHighlighted()) {
-            lastAddedDragPoint.enableHighlight();
+            lastAddedDragPointView.enableHighlight();
         }
 
         System.out.println("adding drag point");
-        groupSymbols.getChildren().add(lastAddedDragPoint.getMiddleLayerContainer());
-        lastAddedDragPoint.addedToParent();
-        lastAddedDragPoint.setGraphView(getGraphView());
-        dragPointViews.add(index, lastAddedDragPoint);
+        groupSymbols.getChildren().add(lastAddedDragPointView.getMiddleLayerContainer());
+        lastAddedDragPointView.addedToParent();
+        lastAddedDragPointView.setGraphView(getGraphView());
+        System.out.println("arc drag point graph view " + getGraphView());
+        dragPointViews.add(index, lastAddedDragPointView);
     }
 
     public void dragPointMovedHandler(DragPointView dragPointView, Point2D center) {
@@ -298,7 +329,7 @@ public abstract class ArcView extends GraphElementView {
 
     private void destroyDragPoints() {
         while (dragPointViews.size() > 0) {
-            removeDragPointView(dragPointViews.get(0));
+            destroyDragPointView(dragPointViews.get(0));
         }
     }
 
@@ -325,7 +356,7 @@ public abstract class ArcView extends GraphElementView {
             Line lineTo = lines.get(i);
             Line lineFrom = lines.get(i + 1);
             if (areInLine(getLineStart(lineTo), getLineEnd(lineTo), getLineEnd(lineFrom))) {
-                removeDragPointView(dragPointViews.get(i));
+                destroyDragPointView(dragPointViews.get(i));
             } else {
                 i++;
             }
@@ -351,7 +382,7 @@ public abstract class ArcView extends GraphElementView {
         return abX * cdY - cdX * abY;
     }
 
-    public void removeDragPointView(DragPointView dragPointView) {
+    public void destroyDragPointView(DragPointView dragPointView) {
         groupSymbols.getChildren().remove(dragPointView.getMiddleLayerContainer());
         dragPointView.removedFromParent();
         dragPointView.setGraphView(null);
