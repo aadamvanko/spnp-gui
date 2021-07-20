@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 
-public class PlaceView<TViewModel extends PlaceViewModel> extends ConnectableGraphElementView<TViewModel> {
+public class PlaceView extends ConnectableGraphElementView {
 
     private Circle circle;
     private Text tokensCountText;
@@ -24,12 +24,17 @@ public class PlaceView<TViewModel extends PlaceViewModel> extends ConnectableGra
     private Label nameLabel;
     private VBox container;
 
-    public PlaceView(GraphView graphView, TViewModel placeViewModel) {
+    public PlaceView(GraphView graphView, PlaceViewModel placeViewModel) {
         super(graphView, placeViewModel);
 
         createView();
 
         bindViewModel();
+    }
+
+    @Override
+    public PlaceViewModel getViewModel() {
+        return (PlaceViewModel) viewModel;
     }
 
     private void createView() {
@@ -77,11 +82,11 @@ public class PlaceView<TViewModel extends PlaceViewModel> extends ConnectableGra
     }
 
     private void bindViewModel() {
-        nameLabel.textProperty().bind(viewModel.nameProperty());
-        tokensCountText.textProperty().bind(viewModel.numberOfTokensProperty());
+        nameLabel.textProperty().bind(getViewModel().nameProperty());
+        tokensCountText.textProperty().bind(getViewModel().numberOfTokensProperty());
 
-        container.translateXProperty().bind(viewModel.positionXProperty());
-        container.translateYProperty().bind(viewModel.positionYProperty());
+        container.translateXProperty().bind(getViewModel().positionXProperty());
+        container.translateYProperty().bind(getViewModel().positionYProperty());
     }
 
     @Override

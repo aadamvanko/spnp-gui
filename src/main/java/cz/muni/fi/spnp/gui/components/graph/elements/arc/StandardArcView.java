@@ -6,7 +6,7 @@ import cz.muni.fi.spnp.gui.viewmodel.StandardArcViewModel;
 
 import java.util.Objects;
 
-public class StandardArcView extends ArcView<StandardArcViewModel> {
+public class StandardArcView extends ArcView {
 
     public StandardArcView(GraphView graphView, StandardArcViewModel standardArcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
         super(graphView, standardArcViewModel, Objects.requireNonNull(from), Objects.requireNonNull(to));

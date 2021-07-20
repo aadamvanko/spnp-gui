@@ -13,7 +13,9 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public abstract class GraphElementView<TViewModel extends ElementViewModel> implements VisualElement, Highlightable, Movable {
+import java.util.List;
+
+public abstract class GraphElementView implements VisualElement, Highlightable, Movable {
 
     private static final double MIN_PADDING_FACTOR = 0.3;
     protected static DropShadow highlightEffect;
@@ -26,11 +28,11 @@ public abstract class GraphElementView<TViewModel extends ElementViewModel> impl
 
     protected GraphView graphView;
     private final ChangeListener<Boolean> onHighlightedChangedListener;
-    protected TViewModel viewModel;
+    protected ElementViewModel viewModel;
 
-    public GraphElementView(GraphView graphView, TViewModel viewModel) {
+    public GraphElementView(GraphView graphView, ElementViewModel elementViewModel) {
         this.graphView = graphView;
-        this.viewModel = viewModel;
+        this.viewModel = elementViewModel;
         this.onHighlightedChangedListener = this::onHighlightedChangedListener;
 
         bindViewModel();
@@ -50,6 +52,10 @@ public abstract class GraphElementView<TViewModel extends ElementViewModel> impl
 
     public GraphView getGraphView() {
         return graphView;
+    }
+
+    public List<GraphElementView> getChildrenViews() {
+        return List.of();
     }
 
     protected void registerMouseHandlers(Node node) {
@@ -164,7 +170,7 @@ public abstract class GraphElementView<TViewModel extends ElementViewModel> impl
         return viewModel.isHighlighted();
     }
 
-    public TViewModel getViewModel() {
+    public ElementViewModel getViewModel() {
         return viewModel;
     }
 }

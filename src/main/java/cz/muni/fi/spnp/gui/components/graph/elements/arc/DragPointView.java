@@ -10,7 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class DragPointView extends GraphElementView<DragPointViewModel> implements MouseSelectable {
+public class DragPointView extends GraphElementView implements MouseSelectable {
 
     private final ArcView arc;
     private final Rectangle rectangle;
@@ -31,15 +31,20 @@ public class DragPointView extends GraphElementView<DragPointViewModel> implemen
         bindViewModel();
     }
 
+    @Override
+    public DragPointViewModel getViewModel() {
+        return (DragPointViewModel) viewModel;
+    }
+
     private void bindViewModel() {
-        rectangle.translateXProperty().bindBidirectional(viewModel.positionXProperty());
-        rectangle.translateYProperty().bindBidirectional(viewModel.positionYProperty());
+        rectangle.translateXProperty().bindBidirectional(getViewModel().positionXProperty());
+        rectangle.translateYProperty().bindBidirectional(getViewModel().positionYProperty());
     }
 
     @Override
     public void unbindViewModel() {
-        rectangle.translateXProperty().unbindBidirectional(viewModel.positionXProperty());
-        rectangle.translateYProperty().unbindBidirectional(viewModel.positionYProperty());
+        rectangle.translateXProperty().unbindBidirectional(getViewModel().positionXProperty());
+        rectangle.translateYProperty().unbindBidirectional(getViewModel().positionYProperty());
     }
 
     public Rectangle getShape() {
@@ -102,11 +107,11 @@ public class DragPointView extends GraphElementView<DragPointViewModel> implemen
     }
 
     protected void moveViaTranslate(Point2D offset) {
-        Point2D old = new Point2D(viewModel.positionXProperty().get(), viewModel.positionYProperty().get());
+        Point2D old = new Point2D(getViewModel().positionXProperty().get(), getViewModel().positionYProperty().get());
         Point2D newPos = preventNegativeCoordinates(old.add(offset));
 
-        viewModel.positionXProperty().set(newPos.getX());
-        viewModel.positionYProperty().set(newPos.getY());
+        getViewModel().positionXProperty().set(newPos.getX());
+        getViewModel().positionYProperty().set(newPos.getY());
     }
 
     @Override

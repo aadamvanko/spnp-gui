@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElementView<TViewModel> {
+public abstract class ArcView extends GraphElementView {
 
     public static int LINE_WIDTH = 4;
 
@@ -34,7 +34,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
     private Text textMultiplicity;
     private DragPointView lastAddedDragPointView;
 
-    public ArcView(GraphView graphView, TViewModel arcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
+    public ArcView(GraphView graphView, ArcViewModel arcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
         super(graphView, arcViewModel);
 
         lines = new ArrayList<>();
@@ -47,10 +47,14 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
         bindViewModel();
     }
 
+    public ArcViewModel getViewModel() {
+        return (ArcViewModel) viewModel;
+    }
+
     private void onDragPointsChangedListener(ListChangeListener.Change<? extends DragPointViewModel> dragPointsChange) {
         while (dragPointsChange.next()) {
             for (var removedViewModel : dragPointsChange.getRemoved()) {
-                var removedViewModelIndex = viewModel.getDragPoints().indexOf(removedViewModel);
+                var removedViewModelIndex = getViewModel().getDragPoints().indexOf(removedViewModel);
                 var dragPointView = dragPointViews.get(removedViewModelIndex);
                 destroyDragPointView(dragPointView);
             }
@@ -129,7 +133,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             Point2D mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
             Line sourceLine = (Line) mouseEvent.getSource();
-            viewModel.getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
+            getViewModel().getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
             System.out.println("last added drag point view " + lastAddedDragPointView);
             lastAddedDragPointView.onMousePressedHandler(mouseEvent);
 //            savedMouseEvent = mouseEvent;
@@ -156,18 +160,18 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
     }
 
     private void bindViewModel() {
-        textMultiplicity.textProperty().bind(viewModel.multiplicityProperty());
+        textMultiplicity.textProperty().bind(getViewModel().multiplicityProperty());
 
-        createDragPoints(viewModel.getDragPoints());
+        createDragPoints(getViewModel().getDragPoints());
 
-        viewModel.getDragPoints().addListener(this.onDragPointsChangedListener);
+        getViewModel().getDragPoints().addListener(this.onDragPointsChangedListener);
     }
 
     @Override
     public void unbindViewModel() {
         textMultiplicity.textProperty().unbind();
 
-        viewModel.getDragPoints().removeListener(this.onDragPointsChangedListener);
+        getViewModel().getDragPoints().removeListener(this.onDragPointsChangedListener);
 
         super.unbindViewModel();
     }
@@ -179,7 +183,7 @@ public abstract class ArcView<TViewModel extends ArcViewModel> extends GraphElem
     }
 
     private void createDragPointView(DragPointViewModel dragPointViewModel) {
-        int dragPointViewModelIndex = viewModel.getDragPoints().indexOf(dragPointViewModel);
+        int dragPointViewModelIndex = getViewModel().getDragPoints().indexOf(dragPointViewModel);
         var sourceLine = lines.get(dragPointViewModelIndex);
         int index = lines.indexOf(sourceLine);
 

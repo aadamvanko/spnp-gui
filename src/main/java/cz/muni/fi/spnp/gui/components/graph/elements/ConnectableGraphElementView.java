@@ -11,14 +11,19 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ConnectableGraphElementView<TViewModel extends ConnectableViewModel> extends GraphElementView<TViewModel> implements Connectable, MouseSelectable {
+public abstract class ConnectableGraphElementView extends GraphElementView implements Connectable, MouseSelectable {
 
     private final List<ArcView> arcs;
 
-    public ConnectableGraphElementView(GraphView graphView, TViewModel connectableViewModel) {
+    public ConnectableGraphElementView(GraphView graphView, ConnectableViewModel connectableViewModel) {
         super(graphView, connectableViewModel);
 
         arcs = new ArrayList<>();
+    }
+
+    @Override
+    public ConnectableViewModel getViewModel() {
+        return (ConnectableViewModel) viewModel;
     }
 
     public void addArc(ArcView arcView) {

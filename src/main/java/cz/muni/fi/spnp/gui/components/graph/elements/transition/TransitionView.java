@@ -17,17 +17,22 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 
-public abstract class TransitionView<TViewModel extends TransitionViewModel> extends ConnectableGraphElementView<TViewModel> {
+public abstract class TransitionView extends ConnectableGraphElementView {
 
     private Label nameLabel;
     private VBox container;
     protected Rectangle rectangle;
 
-    public TransitionView(GraphView graphView, TViewModel transitionViewModel) {
+    public TransitionView(GraphView graphView, TransitionViewModel transitionViewModel) {
         super(graphView, transitionViewModel);
 
         createView();
         bindViewModel();
+    }
+
+    @Override
+    public TransitionViewModel getViewModel() {
+        return (TransitionViewModel) viewModel;
     }
 
     private void createView() {
@@ -58,8 +63,8 @@ public abstract class TransitionView<TViewModel extends TransitionViewModel> ext
         nameLabel.textProperty().bind(viewModel.nameProperty());
         // TODO priority, guard function
 
-        container.translateXProperty().bind(viewModel.positionXProperty());
-        container.translateYProperty().bind(viewModel.positionYProperty());
+        container.translateXProperty().bind(getViewModel().positionXProperty());
+        container.translateYProperty().bind(getViewModel().positionYProperty());
     }
 
     @Override
