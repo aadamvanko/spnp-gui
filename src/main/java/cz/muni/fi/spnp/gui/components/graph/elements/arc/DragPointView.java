@@ -103,7 +103,7 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
     @Override
     public void move(Point2D offset) {
         moveViaTranslate(offset);
-        arcView.dragPointMovedHandler(this, getCenterPosition());
+        arcView.onDragPointMovedHandler(this);
     }
 
     protected void moveViaTranslate(Point2D offset) {

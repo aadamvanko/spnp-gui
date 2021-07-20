@@ -25,8 +25,8 @@ public abstract class ArcView extends GraphElementView {
     private Group container;
     private Group groupLines;
     private final List<DragPointView> dragPointViews;
-    private final ConnectableGraphElementView fromElement;
-    private final ConnectableGraphElementView toElement;
+    private final ConnectableGraphElementView fromElementView;
+    private final ConnectableGraphElementView toElementView;
     protected Group groupSymbols;
     protected List<Line> lines;
     protected ArcEnding ending;
@@ -39,8 +39,8 @@ public abstract class ArcView extends GraphElementView {
 
         lines = new ArrayList<>();
         dragPointViews = new ArrayList<>();
-        this.fromElement = from;
-        this.toElement = to;
+        this.fromElementView = from;
+        this.toElementView = to;
         this.onDragPointsChangedListener = this::onDragPointsChangedListener;
 
         createView(from, to);
@@ -78,10 +78,10 @@ public abstract class ArcView extends GraphElementView {
     }
 
     private void createFirstLine() {
-        fromElement.addArc(this);
-        toElement.addArc(this);
+        fromElementView.addArc(this);
+        toElementView.addArc(this);
 
-        Line line = createLine(fromElement.getShapeCenter(), toElement.getShapeCenter());
+        Line line = createLine(fromElementView.getShapeCenter(), toElementView.getShapeCenter());
         lines.add(line);
         groupLines.getChildren().add(line);
 
@@ -208,11 +208,12 @@ public abstract class ArcView extends GraphElementView {
         dragPointViews.add(index, lastAddedDragPointView);
     }
 
-    public void dragPointMovedHandler(DragPointView dragPointView, Point2D center) {
+    public void onDragPointMovedHandler(DragPointView dragPointView) {
         int index = dragPointViews.indexOf(dragPointView);
 //        System.out.println("drag point index " + index);
         Line lineTo = lines.get(index);
 //        System.out.println("lineTo " + lineTo);
+        var center = dragPointView.getCenterPosition();
         lineTo.setEndX(center.getX());
         lineTo.setEndY(center.getY());
         Line lineFrom = lines.get(index + 1);
@@ -221,11 +222,11 @@ public abstract class ArcView extends GraphElementView {
         lineFrom.setStartY(center.getY());
 
         if (index == 0) {
-            setStart(fromElement.getBorderConnectionPoint(getLineEnd(lines.get(0))));
+            setStart(fromElementView.getBorderConnectionPoint(getLineEnd(lines.get(0))));
         }
 
         if (index == dragPointViews.size() - 1) {
-            setEnd(toElement.getBorderConnectionPoint(getLineStart(lines.get(index + 1))));
+            setEnd(toElementView.getBorderConnectionPoint(getLineStart(lines.get(index + 1))));
         }
 
         updateMultiplicityPosition();
@@ -272,8 +273,8 @@ public abstract class ArcView extends GraphElementView {
     }
 
     public void updateEnds(ConnectableGraphElementView source) {
-        setStart(fromElement.getBorderConnectionPoint(getLineEnd(lines.get(0))));
-        setEnd(toElement.getBorderConnectionPoint(getLineStart(lines.get(lines.size() - 1))));
+        setStart(fromElementView.getBorderConnectionPoint(getLineEnd(lines.get(0))));
+        setEnd(toElementView.getBorderConnectionPoint(getLineStart(lines.get(lines.size() - 1))));
         updateMultiplicityPosition();
     }
 
@@ -316,8 +317,8 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     public void removedFromParent() {
-        fromElement.removeArc(this);
-        toElement.removeArc(this);
+        fromElementView.removeArc(this);
+        toElementView.removeArc(this);
         destroyDragPoints();
     }
 
@@ -342,7 +343,7 @@ public abstract class ArcView extends GraphElementView {
     }
 
     public boolean hasHighlightedEnds() {
-        return fromElement.isHighlighted() && toElement.isHighlighted();
+        return fromElementView.isHighlighted() && toElementView.isHighlighted();
     }
 
     public void removeStraightConnections() {
@@ -393,6 +394,7 @@ public abstract class ArcView extends GraphElementView {
         groupLines.getChildren().remove(lineFrom);
 
         updateMultiplicityPosition();
+        updateEnds(toElementView);
     }
 
     @Override
