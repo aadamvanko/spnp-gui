@@ -13,8 +13,6 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.util.List;
-
 public abstract class GraphElementView implements VisualElement, Highlightable, Movable {
 
     private static final double MIN_PADDING_FACTOR = 0.3;
@@ -52,10 +50,6 @@ public abstract class GraphElementView implements VisualElement, Highlightable, 
 
     public GraphView getGraphView() {
         return graphView;
-    }
-
-    public List<GraphElementView> getChildrenViews() {
-        return List.of();
     }
 
     protected void registerMouseHandlers(Node node) {

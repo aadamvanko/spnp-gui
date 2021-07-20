@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
@@ -32,6 +33,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -302,6 +304,12 @@ public class GraphView {
     public void selectViewModels(List<ElementViewModel> selectedViewModels) {
         resetSelection();
         var selectedViews = selectedViewModels.stream().map(this::findElementViewByModel).collect(Collectors.toList());
+        var selectedDragPoints = selectedViews.stream()
+                .filter(graphElementView -> graphElementView instanceof ArcView)
+                .map(graphElementView -> ((ArcView) graphElementView).getDragPointViews())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+        selectedViews.addAll(selectedDragPoints);
         selectedViews.forEach(GraphElementView::enableHighlight);
         select(selectedViews);
     }
