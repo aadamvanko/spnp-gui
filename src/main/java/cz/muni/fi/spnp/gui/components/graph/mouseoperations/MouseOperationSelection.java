@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
@@ -75,13 +76,13 @@ public class MouseOperationSelection extends MouseOperation {
                         selected.add(dragPointView);
                     }
                 }
-            }
-        }
-
-        for (var element : graphView.getGraphElementViews()) {
-            if (element instanceof ArcView && ((ArcView) element).hasHighlightedEnds()) {
-                element.enableHighlight();
-                selected.add(element);
+                if (!arcView.getDragPointViews().isEmpty() && arcView.getDragPointViews().stream().allMatch(DragPointView::isHighlighted)) {
+                    arcView.enableHighlight();
+                    selected.add(arcView);
+                } else if (arcView.getDragPointViews().isEmpty() && arcView.hasHighlightedEnds()) {
+                    arcView.enableHighlight();
+                    selected.add(arcView);
+                }
             }
         }
 
