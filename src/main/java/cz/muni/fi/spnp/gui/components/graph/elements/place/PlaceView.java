@@ -131,11 +131,15 @@ public class PlaceView extends ConnectableGraphElementView {
 
     @Override
     public void enableHighlight() {
+        super.enableHighlight();
+
         circle.setEffect(highlightEffect);
     }
 
     @Override
     public void disableHighlight() {
+        super.disableHighlight();
+
         circle.setEffect(null);
     }
 

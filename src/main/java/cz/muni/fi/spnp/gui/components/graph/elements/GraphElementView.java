@@ -5,8 +5,6 @@ import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Highlightable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -25,23 +23,15 @@ public abstract class GraphElementView implements VisualElement, Highlightable, 
     }
 
     protected GraphView graphView;
-    private final ChangeListener<Boolean> onHighlightedChangedListener;
     protected ElementViewModel viewModel;
+    private boolean isHighlighted;
 
     public GraphElementView(GraphView graphView, ElementViewModel elementViewModel) {
         this.graphView = graphView;
         this.viewModel = elementViewModel;
-        this.onHighlightedChangedListener = this::onHighlightedChangedListener;
+        this.isHighlighted = false;
 
         bindViewModel();
-    }
-
-    private void onHighlightedChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-        if (newValue) {
-            enableHighlight();
-        } else {
-            disableHighlight();
-        }
     }
 
     public void setGraphView(GraphView graphView) {
@@ -149,19 +139,26 @@ public abstract class GraphElementView implements VisualElement, Highlightable, 
     public abstract Node getContextMenuNode();
 
     private void bindViewModel() {
-        viewModel.highlightedProperty().addListener(this.onHighlightedChangedListener);
     }
 
     public void unbindViewModel() {
-        viewModel.highlightedProperty().removeListener(this.onHighlightedChangedListener);
-
         this.viewModel = null;
         this.graphView = null;
     }
 
     @Override
+    public void enableHighlight() {
+        this.isHighlighted = true;
+    }
+
+    @Override
+    public void disableHighlight() {
+        this.isHighlighted = false;
+    }
+
+    @Override
     public boolean isHighlighted() {
-        return viewModel.isHighlighted();
+        return isHighlighted;
     }
 
     public ElementViewModel getViewModel() {

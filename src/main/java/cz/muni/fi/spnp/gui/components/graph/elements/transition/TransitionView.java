@@ -135,11 +135,15 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
     @Override
     public void enableHighlight() {
+        super.enableHighlight();
+
         rectangle.setEffect(highlightEffect);
     }
 
     @Override
     public void disableHighlight() {
+        super.disableHighlight();
+
         rectangle.setEffect(null);
     }
 

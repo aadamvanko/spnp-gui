@@ -280,6 +280,8 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     public void enableHighlight() {
+        super.enableHighlight();
+
         lines.forEach(line -> line.setEffect(highlightEffect));
         dragPointViews.forEach(dragPointView -> dragPointView.enableHighlight());
         ending.getShape().setEffect(highlightEffect);
@@ -287,6 +289,8 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     public void disableHighlight() {
+        super.disableHighlight();
+
         lines.forEach(line -> line.setEffect(null));
         dragPointViews.forEach(dragPointView -> dragPointView.disableHighlight());
         ending.getShape().setEffect(null);
