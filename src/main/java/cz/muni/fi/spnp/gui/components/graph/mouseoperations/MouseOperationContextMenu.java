@@ -2,10 +2,13 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationCopyElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationCutElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationSelectAll;
+import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ViewModelUtils;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -62,6 +65,11 @@ public class MouseOperationContextMenu extends MouseOperation {
     private void onDeleteHandler(ActionEvent actionEvent) {
         var diagramViewModel = graphView.getDiagramViewModel();
         graphView.getSelected().forEach(element -> diagramViewModel.getElements().remove(element.getViewModel()));
+        graphView.getSelected().stream()
+                .filter(graphElementView -> graphElementView instanceof DragPointView)
+                .map(graphElementView -> (DragPointView) graphElementView)
+                .forEach(dragPointView -> ViewModelUtils.onlyElements(ArcViewModel.class, diagramViewModel.getElements())
+                        .forEach(arcViewModel -> arcViewModel.getDragPoints().remove(dragPointView.getViewModel())));
         diagramViewModel.removeDisconnectedArcs();
         graphView.resetSelection();
     }

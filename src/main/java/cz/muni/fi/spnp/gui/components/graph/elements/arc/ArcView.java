@@ -54,8 +54,7 @@ public abstract class ArcView extends GraphElementView {
     private void onDragPointsChangedListener(ListChangeListener.Change<? extends DragPointViewModel> dragPointsChange) {
         while (dragPointsChange.next()) {
             for (var removedViewModel : dragPointsChange.getRemoved()) {
-                var removedViewModelIndex = getViewModel().getDragPoints().indexOf(removedViewModel);
-                var dragPointView = dragPointViews.get(removedViewModelIndex);
+                var dragPointView = dragPointViews.stream().filter(dpv -> dpv.getViewModel() == removedViewModel).findAny().get();
                 destroyDragPointView(dragPointView);
             }
 

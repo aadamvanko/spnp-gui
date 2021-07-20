@@ -12,13 +12,13 @@ import javafx.scene.shape.Rectangle;
 
 public class DragPointView extends GraphElementView implements MouseSelectable {
 
-    private final ArcView arc;
+    private final ArcView arcView;
     private final Rectangle rectangle;
 
     public DragPointView(GraphView graphView, ArcView arcView, DragPointViewModel dragPointViewModel) {
         super(graphView, dragPointViewModel);
 
-        this.arc = arcView;
+        this.arcView = arcView;
 
         rectangle = new Rectangle();
         rectangle.setWidth(7);
@@ -92,7 +92,7 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
     @Override
     public void onMouseReleasedHandler(MouseEvent mouseEvent) {
         super.onMouseReleasedHandler(mouseEvent);
-        arc.removeStraightConnections();
+        arcView.removeStraightConnections();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
     @Override
     public void move(Point2D offset) {
         moveViaTranslate(offset);
-        arc.dragPointMovedHandler(this, getCenterPosition());
+        arcView.dragPointMovedHandler(this, getCenterPosition());
     }
 
     protected void moveViaTranslate(Point2D offset) {
