@@ -119,20 +119,17 @@ public class GraphView {
 
     private void onElementsChangesListener(ListChangeListener.Change<? extends ElementViewModel> elementsChange) {
         while (elementsChange.next()) {
-            if (elementsChange.wasAdded()) {
-                for (var addedElementViewModel : elementsChange.getAddedSubList()) {
-                    addGraphElement(addedElementViewModel);
-                }
-            } else if (elementsChange.wasRemoved()) {
-                for (var removedElementViewModel : elementsChange.getRemoved()) {
-                    var elementView = findElementViewByModel(removedElementViewModel);
-                    removeGraphElement(elementView);
-                }
+            for (var addedElementViewModel : elementsChange.getAddedSubList()) {
+                addGraphElementView(addedElementViewModel);
+            }
+            for (var removedElementViewModel : elementsChange.getRemoved()) {
+                var elementView = findElementViewByModel(removedElementViewModel);
+                removeGraphElementView(elementView);
             }
         }
     }
 
-    private void addGraphElement(ElementViewModel addedElementViewModel) {
+    private void addGraphElementView(ElementViewModel addedElementViewModel) {
         var elementView = graphElementViewFactory.createGraphElementView(addedElementViewModel);
         addToLayerBottom(elementView.getBottomLayerContainer());
         addToLayerMiddle(elementView.getMiddleLayerContainer());
@@ -143,7 +140,7 @@ public class GraphView {
         adjustCanvasSize();
     }
 
-    private void removeGraphElement(GraphElementView elementView) {
+    private void removeGraphElementView(GraphElementView elementView) {
         removeFromLayerBottom(elementView.getBottomLayerContainer());
         removeFromLayerMiddle(elementView.getMiddleLayerContainer());
         removeFromLayerTop(elementView.getTopLayerContainer());
@@ -435,9 +432,9 @@ public class GraphView {
         this.diagramViewModel = diagramViewModel;
         diagramViewModel.getElements().stream()
                 .filter(elementViewModel -> elementViewModel instanceof ConnectableViewModel)
-                .forEach(this::addGraphElement);
+                .forEach(this::addGraphElementView);
         diagramViewModel.getElements().stream()
                 .filter(elementViewModel -> elementViewModel instanceof ArcViewModel)
-                .forEach(this::addGraphElement);
+                .forEach(this::addGraphElementView);
     }
 }

@@ -43,11 +43,8 @@ public class GraphComponent extends ApplicationComponent {
 
     private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
         while (projectsChange.next()) {
-            if (projectsChange.wasAdded()) {
-                projectsChange.getAddedSubList().forEach(added -> added.getDiagrams().addListener(onDiagramsChangedListener));
-            } else if (projectsChange.wasRemoved()) {
-                projectsChange.getAddedSubList().forEach(removed -> removed.getDiagrams().removeListener(onDiagramsChangedListener));
-            }
+            projectsChange.getAddedSubList().forEach(added -> added.getDiagrams().addListener(onDiagramsChangedListener));
+            projectsChange.getAddedSubList().forEach(removed -> removed.getDiagrams().removeListener(onDiagramsChangedListener));
         }
     }
 
