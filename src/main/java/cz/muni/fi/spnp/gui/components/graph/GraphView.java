@@ -104,9 +104,6 @@ public class GraphView {
         this.onGridSnappingChangedListener = this::onGridSnappingChangedListener;
 
         bindDiagramViewModel(diagramViewModel);
-
-        model.gridSnappingProperty().addListener(this.onGridSnappingChangedListener);
-        onGridSnappingChangedListener(null, null, model.isGridSnapping());
     }
 
     private void onScrollZoomHandler(ScrollEvent scrollEvent) {
@@ -141,13 +138,15 @@ public class GraphView {
 
         diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
         onZoomLevelChangedListener(null, null, diagramViewModel.getZoomLevel());
+
+        diagramViewModel.gridSnappingProperty().addListener(this.onGridSnappingChangedListener);
+        onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
     }
 
     public void unbindViewModels() {
         diagramViewModel.getElements().removeListener(this.onElementsChangedListener);
         diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
-
-        model.gridSnappingProperty().removeListener(this.onGridSnappingChangedListener);
+        diagramViewModel.gridSnappingProperty().removeListener(this.onGridSnappingChangedListener);
 
         this.diagramViewModel = null;
     }
@@ -300,7 +299,7 @@ public class GraphView {
     }
 
     public void moveSelectedEnded() {
-        if (model.isGridSnapping()) {
+        if (diagramViewModel.isGridSnapping()) {
             selected.forEach(Movable::snapToGrid);
         }
     }

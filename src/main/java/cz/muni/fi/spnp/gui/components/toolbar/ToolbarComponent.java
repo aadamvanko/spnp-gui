@@ -30,6 +30,7 @@ public class ToolbarComponent extends ApplicationComponent {
     private final Label labelActualZoom;
     private final ChangeListener<DiagramViewModel> onSelectedDiagramChangedListener;
     private final ChangeListener<? super Number> onZoomLevelChangedListener;
+    private final ChangeListener<? super Boolean> onGridSnappingChangedListener;
     private DiagramViewModel diagramViewModel;
 
     public ToolbarComponent(Model model, Notifications notifications) {
@@ -37,6 +38,7 @@ public class ToolbarComponent extends ApplicationComponent {
 
         this.onSelectedDiagramChangedListener = this::onSelectedDiagramChangedListener;
         this.onZoomLevelChangedListener = this::onZoomLevelChangedListener;
+        this.onGridSnappingChangedListener = this::onGridSnappingChangedListener;
         model.cursorModeProperty().addListener(this::onCursorModeChangedListener);
         model.selectedDiagramProperty().addListener(this.onSelectedDiagramChangedListener);
 
@@ -96,7 +98,7 @@ public class ToolbarComponent extends ApplicationComponent {
         zoomVBox.setSpacing(8);
 
         toggleGridButton = new ToggleGridButton(this::onToggleGridButtonClicked);
-        model.gridSnappingProperty().addListener(this::onGridSnappingChangedListener);
+
 
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(new ZoomOutButton(this::onZoomOutButtonClicked).getRoot());
@@ -105,9 +107,7 @@ public class ToolbarComponent extends ApplicationComponent {
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(toggleGridButton.getRoot());
 
-
         onCursorModeChangedListener(null, null, model.getCursorMode());
-        onGridSnappingChangedListener(null, null, model.isGridSnapping());
     }
 
     private void onGridSnappingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -138,6 +138,7 @@ public class ToolbarComponent extends ApplicationComponent {
         }
         zoomSlider.valueProperty().unbindBidirectional(diagramViewModel.zoomLevelProperty());
         diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
+        diagramViewModel.gridSnappingProperty().removeListener(this.onGridSnappingChangedListener);
     }
 
     private void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
@@ -148,6 +149,8 @@ public class ToolbarComponent extends ApplicationComponent {
         zoomSlider.valueProperty().bindBidirectional(diagramViewModel.zoomLevelProperty());
         diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
         onZoomLevelChangedListener(null, null, diagramViewModel.getZoomLevel());
+        diagramViewModel.gridSnappingProperty().addListener(this.onGridSnappingChangedListener);
+        onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
     }
 
     private void onCursorModeChangedListener(ObservableValue<? extends CursorMode> observableValue, CursorMode oldCursorMode, CursorMode newCursorMode) {
@@ -223,7 +226,7 @@ public class ToolbarComponent extends ApplicationComponent {
     }
 
     private void onToggleGridButtonClicked(MouseEvent mouseEvent) {
-        model.gridSnappingProperty().set(!model.isGridSnapping());
+        diagramViewModel.gridSnappingProperty().set(!diagramViewModel.isGridSnapping());
     }
 
     @Override

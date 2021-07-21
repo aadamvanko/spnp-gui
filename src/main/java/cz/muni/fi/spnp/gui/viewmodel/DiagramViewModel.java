@@ -7,7 +7,9 @@ import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,7 +31,9 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final ObservableList<VariableViewModel> variables;
     private final ObservableList<InputParameterViewModel> inputParameters;
     private final ObservableList<FunctionViewModel> functions;
+
     private final IntegerProperty zoomLevel;
+    private final BooleanProperty gridSnapping;
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
         this(notifications,
@@ -45,7 +49,6 @@ public class DiagramViewModel extends DisplayableViewModel {
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements,
                             List<IncludeViewModel> includes, List<DefineViewModel> defines, List<VariableViewModel> variables,
                             List<InputParameterViewModel> inputParameters, List<FunctionViewModel> functions) {
-        zoomLevel = new SimpleIntegerProperty(120);
         nameProperty().set("unnamedDiagram");
 
         this.notifications = notifications;
@@ -60,6 +63,9 @@ public class DiagramViewModel extends DisplayableViewModel {
         for (var function : functions) {
             addFunction(function);
         }
+
+        zoomLevel = new SimpleIntegerProperty(120);
+        gridSnapping = new SimpleBooleanProperty(true);
     }
 
     public void addFunction(FunctionViewModel function) {
@@ -119,6 +125,14 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     public IntegerProperty zoomLevelProperty() {
         return zoomLevel;
+    }
+
+    public boolean isGridSnapping() {
+        return gridSnapping.get();
+    }
+
+    public BooleanProperty gridSnappingProperty() {
+        return gridSnapping;
     }
 
     public ProjectViewModel getProject() {
