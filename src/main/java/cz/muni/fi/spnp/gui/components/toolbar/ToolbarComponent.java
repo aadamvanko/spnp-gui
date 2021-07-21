@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import org.controlsfx.control.SegmentedButton;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +27,15 @@ public class ToolbarComponent extends ApplicationComponent {
     private final ToggleButton viewButton;
     private final Map<GraphElementType, ToggleButton> createButtons;
     private final ToggleGridButton toggleGridButton;
-
+    private final ToggleButton showGraphButton;
+    private final ToggleButton showCodeButton;
     private final Slider zoomSlider;
     private final Label labelActualZoom;
+
     private final ChangeListener<DiagramViewModel> onSelectedDiagramChangedListener;
     private final ChangeListener<? super Number> onZoomLevelChangedListener;
     private final ChangeListener<? super Boolean> onGridSnappingChangedListener;
+    private final ChangeListener<DiagramViewMode> onViewModeChangedListener;
     private DiagramViewModel diagramViewModel;
 
     public ToolbarComponent(Model model, Notifications notifications) {
@@ -39,6 +44,7 @@ public class ToolbarComponent extends ApplicationComponent {
         this.onSelectedDiagramChangedListener = this::onSelectedDiagramChangedListener;
         this.onZoomLevelChangedListener = this::onZoomLevelChangedListener;
         this.onGridSnappingChangedListener = this::onGridSnappingChangedListener;
+        this.onViewModeChangedListener = this::onViewModeChangedListener;
         model.cursorModeProperty().addListener(this::onCursorModeChangedListener);
         model.selectedDiagramProperty().addListener(this.onSelectedDiagramChangedListener);
 
@@ -99,6 +105,15 @@ public class ToolbarComponent extends ApplicationComponent {
 
         toggleGridButton = new ToggleGridButton(this::onToggleGridButtonClicked);
 
+        showGraphButton = new ToggleButton("graph");
+        showGraphButton.setOnMouseClicked(this::onShowGraphButtonClicked);
+        showGraphButton.setPrefHeight(48);
+        showCodeButton = new ToggleButton("code");
+        showCodeButton.setOnMouseClicked(this::onShowCodeButtonClicked);
+        showCodeButton.setPrefHeight(48);
+
+        var graphCodeButton = new SegmentedButton();
+        graphCodeButton.getButtons().addAll(showGraphButton, showCodeButton);
 
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(new ZoomOutButton(this::onZoomOutButtonClicked).getRoot());
@@ -106,8 +121,34 @@ public class ToolbarComponent extends ApplicationComponent {
         toolBar.getItems().add(new ZoomInButton(this::onZoomInButtonClicked).getRoot());
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(toggleGridButton.getRoot());
+        toolBar.getItems().add(new Separator(Orientation.VERTICAL));
+        toolBar.getItems().add(graphCodeButton);
 
         onCursorModeChangedListener(null, null, model.getCursorMode());
+    }
+
+    private void onShowGraphButtonClicked(MouseEvent mouseEvent) {
+        if (diagramViewModel == null) {
+            return;
+        }
+        diagramViewModel.setViewMode(DiagramViewMode.GRAPH);
+        showGraphButton.setSelected(true);
+    }
+
+    private void onShowCodeButtonClicked(MouseEvent mouseEvent) {
+        if (diagramViewModel == null) {
+            return;
+        }
+        diagramViewModel.setViewMode(DiagramViewMode.CODE);
+        showCodeButton.setSelected(true);
+    }
+
+    private void onViewModeChangedListener(ObservableValue<? extends DiagramViewMode> observableValue, DiagramViewMode oldValue, DiagramViewMode newValue) {
+        if (newValue == DiagramViewMode.GRAPH) {
+            showGraphButton.setSelected(true);
+        } else {
+            showCodeButton.setSelected(true);
+        }
     }
 
     private void onGridSnappingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -139,6 +180,7 @@ public class ToolbarComponent extends ApplicationComponent {
         zoomSlider.valueProperty().unbindBidirectional(diagramViewModel.zoomLevelProperty());
         diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
         diagramViewModel.gridSnappingProperty().removeListener(this.onGridSnappingChangedListener);
+        diagramViewModel.viewModeProperty().removeListener(this.onViewModeChangedListener);
     }
 
     private void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
@@ -151,6 +193,8 @@ public class ToolbarComponent extends ApplicationComponent {
         onZoomLevelChangedListener(null, null, diagramViewModel.getZoomLevel());
         diagramViewModel.gridSnappingProperty().addListener(this.onGridSnappingChangedListener);
         onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
+        diagramViewModel.viewModeProperty().addListener(this.onViewModeChangedListener);
+        onViewModeChangedListener(null, null, diagramViewModel.getViewMode());
     }
 
     private void onCursorModeChangedListener(ObservableValue<? extends CursorMode> observableValue, CursorMode oldCursorMode, CursorMode newCursorMode) {

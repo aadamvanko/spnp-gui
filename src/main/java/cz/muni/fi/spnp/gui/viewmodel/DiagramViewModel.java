@@ -7,10 +7,7 @@ import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -34,6 +31,7 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     private final IntegerProperty zoomLevel;
     private final BooleanProperty gridSnapping;
+    private final ObjectProperty<DiagramViewMode> viewMode;
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
         this(notifications,
@@ -66,6 +64,7 @@ public class DiagramViewModel extends DisplayableViewModel {
 
         zoomLevel = new SimpleIntegerProperty(120);
         gridSnapping = new SimpleBooleanProperty(true);
+        viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
     }
 
     public void addFunction(FunctionViewModel function) {
@@ -125,6 +124,18 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     public IntegerProperty zoomLevelProperty() {
         return zoomLevel;
+    }
+
+    public DiagramViewMode getViewMode() {
+        return viewMode.get();
+    }
+
+    public void setViewMode(DiagramViewMode viewMode) {
+        this.viewMode.set(viewMode);
+    }
+
+    public ObjectProperty<DiagramViewMode> viewModeProperty() {
+        return viewMode;
     }
 
     public boolean isGridSnapping() {

@@ -3,6 +3,7 @@ module cz.muni.fi {
     requires javafx.fxml;
     requires spnp.core.models;
     requires spnp.core.transformators;
+    requires org.controlsfx.controls;
 
     opens cz.muni.fi.spnp.gui to javafx.fxml;
     exports cz.muni.fi.spnp.gui;
