@@ -1,10 +1,8 @@
 package cz.muni.fi.spnp.gui.components.graph.canvas;
 
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
 
 public class ZoomableScrollPane extends ScrollPane {
@@ -22,8 +20,6 @@ public class ZoomableScrollPane extends ScrollPane {
 
         scaleTransform = new Scale(scaleValue, scaleValue, 0, 0);
         zoomGroup.getTransforms().add(scaleTransform);
-
-        zoomGroup.setOnScroll(new ZoomHandler());
     }
 
     public Group getZoomGroup() {
@@ -34,10 +30,6 @@ public class ZoomableScrollPane extends ScrollPane {
         return scaleValue;
     }
 
-    public void zoomToActual() {
-        zoomTo(1.0);
-    }
-
     public void zoomTo(double scaleValue) {
         this.scaleValue = scaleValue;
         double oldHValue = getHvalue();
@@ -46,27 +38,6 @@ public class ZoomableScrollPane extends ScrollPane {
         scaleTransform.setY(scaleValue);
         setHvalue(oldHValue);
         setVvalue(oldVValue);
-    }
-
-    public void zoomActual() {
-        scaleValue = 1;
-        zoomTo(scaleValue);
-    }
-
-    public void zoomOut() {
-        scaleValue -= delta;
-        if (Double.compare(scaleValue, 0.1) < 0) {
-            scaleValue = 0.1;
-        }
-        zoomTo(scaleValue);
-    }
-
-    public void zoomIn() {
-        scaleValue += delta;
-        if (Double.compare(scaleValue, 10) > 0) {
-            scaleValue = 10;
-        }
-        zoomTo(scaleValue);
     }
 
     /**
@@ -98,21 +69,5 @@ public class ZoomableScrollPane extends ScrollPane {
         }
         // apply zoom
         zoomTo(scale);
-    }
-
-    private class ZoomHandler implements EventHandler<ScrollEvent> {
-
-        @Override
-        public void handle(ScrollEvent scrollEvent) {
-            if (scrollEvent.isControlDown()) {
-                if (scrollEvent.getDeltaY() < 0) {
-                    zoomOut();
-                } else {
-                    zoomIn();
-                }
-
-                scrollEvent.consume();
-            }
-        }
     }
 }

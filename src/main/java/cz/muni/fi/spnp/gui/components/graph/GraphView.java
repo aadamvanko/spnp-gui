@@ -19,15 +19,14 @@ import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -56,6 +55,9 @@ public class GraphView {
     private List<GraphElementView> selected;
 
     private Point2D initialMousePosition;
+
+    private final ListChangeListener<ElementViewModel> onElementsChangedListener;
+    private final ChangeListener<? super Number> onZoomLevelChangedListener;
 
     public GraphView(Notifications notifications, Model model, DiagramViewModel diagramViewModel) {
         this.notifications = notifications;
@@ -92,11 +94,48 @@ public class GraphView {
         gridBackgroundPane.setOnMouseReleased(this::onMouseReleased);
 
         zoomableScrollPane.setOnKeyReleased(this::onKeyReleased);
+        zoomableScrollPane.getZoomGroup().setOnScroll(this::onScrollZoomHandler);
 
         setSnappingToGrid(true);
         adjustCanvasSize();
 
-        diagramViewModel.getElements().addListener(this::onElementsChangesListener);
+
+        this.onElementsChangedListener = this::onElementsChangedListener;
+        this.onZoomLevelChangedListener = this::onZoomLevelChangedListener;
+
+        bindDiagramViewModel(diagramViewModel);
+    }
+
+    private void onScrollZoomHandler(ScrollEvent scrollEvent) {
+        if (scrollEvent.isControlDown()) {
+            if (scrollEvent.getDeltaY() < 0) {
+                diagramViewModel.zoomIn();
+            } else {
+                diagramViewModel.zoomOut();
+            }
+
+            scrollEvent.consume();
+        }
+    }
+
+    private void onZoomLevelChangedListener(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+        zoomableScrollPane.zoomTo(newValue.intValue() / 100.0);
+    }
+
+    private void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
+        resetSelection();
+        this.graphElementViews.clear();
+
+        this.diagramViewModel = diagramViewModel;
+        diagramViewModel.getElements().stream()
+                .filter(elementViewModel -> elementViewModel instanceof ConnectableViewModel)
+                .forEach(this::addGraphElementView);
+        diagramViewModel.getElements().stream()
+                .filter(elementViewModel -> elementViewModel instanceof ArcViewModel)
+                .forEach(this::addGraphElementView);
+
+        diagramViewModel.getElements().addListener(this.onElementsChangedListener);
+        diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
     }
 
     private void onKeyReleased(KeyEvent keyEvent) {
@@ -117,7 +156,7 @@ public class GraphView {
         return model;
     }
 
-    private void onElementsChangesListener(ListChangeListener.Change<? extends ElementViewModel> elementsChange) {
+    private void onElementsChangedListener(ListChangeListener.Change<? extends ElementViewModel> elementsChange) {
         while (elementsChange.next()) {
             for (var addedElementViewModel : elementsChange.getAddedSubList()) {
                 addGraphElementView(addedElementViewModel);
@@ -427,16 +466,4 @@ public class GraphView {
         return graphElementViews;
     }
 
-    public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
-        resetSelection();
-        this.graphElementViews.clear();
-
-        this.diagramViewModel = diagramViewModel;
-        diagramViewModel.getElements().stream()
-                .filter(elementViewModel -> elementViewModel instanceof ConnectableViewModel)
-                .forEach(this::addGraphElementView);
-        diagramViewModel.getElements().stream()
-                .filter(elementViewModel -> elementViewModel instanceof ArcViewModel)
-                .forEach(this::addGraphElementView);
-    }
 }

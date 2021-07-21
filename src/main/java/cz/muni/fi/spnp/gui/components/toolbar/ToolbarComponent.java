@@ -5,15 +5,16 @@ import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.Separator;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,10 +25,19 @@ public class ToolbarComponent extends ApplicationComponent {
     private final ToggleButton viewButton;
     private final Map<GraphElementType, ToggleButton> createButtons;
 
+    private final Slider zoomSlider;
+    private final Label labelActualZoom;
+    private final ChangeListener<DiagramViewModel> onSelectedDiagramChangedListener;
+    private final ChangeListener<? super Number> onZoomLevelChangedListener;
+    private DiagramViewModel diagramViewModel;
+
     public ToolbarComponent(Model model, Notifications notifications) {
         super(model, notifications);
 
+        this.onSelectedDiagramChangedListener = this::onSelectedDiagramChangedListener;
+        this.onZoomLevelChangedListener = this::onZoomLevelChangedListener;
         model.cursorModeProperty().addListener(this::onCursorModeChangedListener);
+        model.selectedDiagramProperty().addListener(this.onSelectedDiagramChangedListener);
 
         toolBar = new ToolBar();
         createButtons = new HashMap<>();
@@ -64,13 +74,72 @@ public class ToolbarComponent extends ApplicationComponent {
         createButtons.put(GraphElementType.INHIBITOR_ARC, createInhibitorArcButton);
         toolBar.getItems().add(createInhibitorArcButton);
 
+        zoomSlider = new Slider(DiagramViewModel.ZOOM_MIN_VALUE, DiagramViewModel.ZOOM_MAX_VALUE, 100);
+        zoomSlider.setBlockIncrement(DiagramViewModel.ZOOM_STEP);
+        zoomSlider.setMajorTickUnit(DiagramViewModel.ZOOM_STEP);
+        zoomSlider.setSnapToTicks(true);
+        zoomSlider.valueProperty().addListener((obs, oldval, newVal) -> {
+            var newValueInt = newVal.intValue();
+            newValueInt = newValueInt / 10 * 10;
+            zoomSlider.setValue(newValueInt);
+            System.out.println(zoomSlider.getValue());
+        });
+
+        var gridZoomDetails = new GridPane();
+        labelActualZoom = new Label("Actual: 100%");
+        var buttonDefaultZoom = new Button("100%");
+        buttonDefaultZoom.setOnMouseClicked(this::onDefaultZoomClicked);
+        gridZoomDetails.addRow(0, buttonDefaultZoom, labelActualZoom);
+        gridZoomDetails.setHgap(10);
+        var zoomVBox = new VBox(zoomSlider, gridZoomDetails);
+        zoomVBox.setSpacing(8);
+
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(new ZoomOutButton(this::onZoomOutButtonClicked).getRoot());
+        toolBar.getItems().add(zoomVBox);
         toolBar.getItems().add(new ZoomInButton(this::onZoomInButtonClicked).getRoot());
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(new ToggleGridButton(this::onToggleGridButtonClicked).getRoot());
 
         model.cursorModeProperty().set(CursorMode.VIEW);
+    }
+
+    private void onDefaultZoomClicked(MouseEvent mouseEvent) {
+        if (diagramViewModel == null) {
+            return;
+        }
+
+        diagramViewModel.setZoomLevel(100);
+    }
+
+    public void onZoomLevelChangedListener(ObservableValue<? extends Number> observableValue,
+                                           Number oldValue, Number newValue) {
+        labelActualZoom.setText(String.format("Actual: %s%%", newValue));
+    }
+
+    public void onSelectedDiagramChangedListener(ObservableValue<? extends DiagramViewModel> observableValue,
+                                                 DiagramViewModel oldDiagramViewModel, DiagramViewModel newDiagramViewModel) {
+        unbindDiagramViewModel(oldDiagramViewModel);
+        bindDiagramViewModel(newDiagramViewModel);
+    }
+
+    private void unbindDiagramViewModel(DiagramViewModel diagramViewModel) {
+        if (diagramViewModel == null) {
+            return;
+        }
+
+        zoomSlider.valueProperty().unbindBidirectional(diagramViewModel.zoomLevelProperty());
+        diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
+    }
+
+    private void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
+        this.diagramViewModel = diagramViewModel;
+        if (diagramViewModel == null) {
+            return;
+        }
+
+        zoomSlider.valueProperty().bindBidirectional(diagramViewModel.zoomLevelProperty());
+        diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
     }
 
     private void onCursorModeChangedListener(ObservableValue<? extends CursorMode> observableValue, CursorMode oldCursorMode, CursorMode newCursorMode) {
@@ -132,10 +201,19 @@ public class ToolbarComponent extends ApplicationComponent {
     }
 
     private void onZoomOutButtonClicked(MouseEvent mouseEvent) {
+        if (diagramViewModel == null) {
+            return;
+        }
 
+        diagramViewModel.zoomOut();
     }
 
     private void onZoomInButtonClicked(MouseEvent mouseEvent) {
+        if (diagramViewModel == null) {
+            return;
+        }
+
+        diagramViewModel.zoomIn();
     }
 
     private void onToggleGridButtonClicked(MouseEvent mouseEvent) {

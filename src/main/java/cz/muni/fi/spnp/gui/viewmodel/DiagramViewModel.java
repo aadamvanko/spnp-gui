@@ -7,6 +7,8 @@ import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,6 +16,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DiagramViewModel extends DisplayableViewModel {
+
+    public static final int ZOOM_STEP = 10;
+    public static final int ZOOM_MAX_VALUE = 500;
+    public static final int ZOOM_MIN_VALUE = 10;
 
     private final Notifications notifications;
     private final ProjectViewModel projectViewModel;
@@ -23,6 +29,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final ObservableList<VariableViewModel> variables;
     private final ObservableList<InputParameterViewModel> inputParameters;
     private final ObservableList<FunctionViewModel> functions;
+    private final IntegerProperty zoomLevel;
 
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
         this(notifications,
@@ -38,7 +45,9 @@ public class DiagramViewModel extends DisplayableViewModel {
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements,
                             List<IncludeViewModel> includes, List<DefineViewModel> defines, List<VariableViewModel> variables,
                             List<InputParameterViewModel> inputParameters, List<FunctionViewModel> functions) {
+        zoomLevel = new SimpleIntegerProperty(100);
         nameProperty().set("unnamedDiagram");
+
         this.notifications = notifications;
         this.projectViewModel = projectViewModel;
         this.includes = FXCollections.observableArrayList(includes);
@@ -90,6 +99,26 @@ public class DiagramViewModel extends DisplayableViewModel {
         for (var arc : arcsToRemove) {
             elements.remove(arc);
         }
+    }
+
+    public void zoomIn() {
+        setZoomLevel(Math.min(ZOOM_MAX_VALUE, getZoomLevel() + ZOOM_STEP));
+    }
+
+    public void zoomOut() {
+        setZoomLevel(Math.max(ZOOM_MIN_VALUE, getZoomLevel() - ZOOM_STEP));
+    }
+
+    public int getZoomLevel() {
+        return zoomLevel.get();
+    }
+
+    public void setZoomLevel(int zoomLevel) {
+        this.zoomLevel.set(zoomLevel);
+    }
+
+    public IntegerProperty zoomLevelProperty() {
+        return zoomLevel;
     }
 
     public ProjectViewModel getProject() {

@@ -26,7 +26,7 @@ public class GraphComponent extends ApplicationComponent {
 
         createView();
 
-        onDiagramsChangedListener = this::onDiagramsChangedListener;
+        this.onDiagramsChangedListener = this::onDiagramsChangedListener;
 
         model.gridSnappingProperty().addListener(this::onGridSnappingChangedListener);
         model.getProjects().addListener(this::onProjectsChangedListener);
@@ -53,7 +53,6 @@ public class GraphComponent extends ApplicationComponent {
             if (diagramsChange.wasAdded()) {
                 for (var added : diagramsChange.getAddedSubList()) {
                     var graphView = new GraphView(notifications, model, added);
-                    graphView.bindDiagramViewModel(added);
                     var tabName = createTabName(added);
                     addGraphView(tabName, graphView);
                 }
@@ -130,7 +129,6 @@ public class GraphComponent extends ApplicationComponent {
         } else {
             var tabName = createTabName(newDiagram);
             var graphView = new GraphView(notifications, model, newDiagram);
-            graphView.bindDiagramViewModel(newDiagram);
             addGraphView(tabName, graphView);
         }
     }
