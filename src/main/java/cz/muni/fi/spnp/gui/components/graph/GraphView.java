@@ -138,6 +138,13 @@ public class GraphView {
         diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
     }
 
+    public void unbindDiagramViewModel() {
+        diagramViewModel.getElements().removeListener(this.onElementsChangedListener);
+        diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
+
+        this.diagramViewModel = null;
+    }
+
     private void onKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) {
             if (keyEvent.getCode() == KeyCode.C && !selected.isEmpty()) {

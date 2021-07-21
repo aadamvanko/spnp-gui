@@ -59,6 +59,7 @@ public class GraphComponent extends ApplicationComponent {
             } else if (diagramsChange.wasRemoved()) {
                 for (var removed : diagramsChange.getRemoved()) {
                     var tab = getTabForDiagram(removed);
+                    (graphViews.get(tab)).unbindDiagramViewModel();
                     if (tab != null) {
                         graphViews.remove(tab);
                     }
@@ -90,7 +91,10 @@ public class GraphComponent extends ApplicationComponent {
 
     private void addGraphView(String tabName, GraphView graphView) {
         var tab = new Tab(tabName, graphView.getZoomableScrollPane());
-        tab.setOnClosed(event -> graphViews.remove(tab));
+        tab.setOnClosed(event -> {
+            (graphViews.get(tab)).unbindDiagramViewModel();
+            graphViews.remove(tab);
+        });
 
         graphViews.put(tab, graphView);
         tabPane.getTabs().add(tab);
