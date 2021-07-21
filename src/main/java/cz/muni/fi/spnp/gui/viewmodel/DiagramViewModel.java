@@ -45,7 +45,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements,
                             List<IncludeViewModel> includes, List<DefineViewModel> defines, List<VariableViewModel> variables,
                             List<InputParameterViewModel> inputParameters, List<FunctionViewModel> functions) {
-        zoomLevel = new SimpleIntegerProperty(100);
+        zoomLevel = new SimpleIntegerProperty(120);
         nameProperty().set("unnamedDiagram");
 
         this.notifications = notifications;

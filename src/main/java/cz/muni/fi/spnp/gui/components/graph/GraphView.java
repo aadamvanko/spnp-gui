@@ -138,7 +138,9 @@ public class GraphView {
                 .forEach(this::addGraphElementView);
 
         diagramViewModel.getElements().addListener(this.onElementsChangedListener);
+
         diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
+        onZoomLevelChangedListener(null, null, diagramViewModel.getZoomLevel());
     }
 
     public void unbindViewModels() {

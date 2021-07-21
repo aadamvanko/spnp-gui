@@ -147,6 +147,7 @@ public class ToolbarComponent extends ApplicationComponent {
         }
         zoomSlider.valueProperty().bindBidirectional(diagramViewModel.zoomLevelProperty());
         diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
+        onZoomLevelChangedListener(null, null, diagramViewModel.getZoomLevel());
     }
 
     private void onCursorModeChangedListener(ObservableValue<? extends CursorMode> observableValue, CursorMode oldCursorMode, CursorMode newCursorMode) {
