@@ -24,6 +24,7 @@ public class ToolbarComponent extends ApplicationComponent {
     private final ToolBar toolBar;
     private final ToggleButton viewButton;
     private final Map<GraphElementType, ToggleButton> createButtons;
+    private final ToggleGridButton toggleGridButton;
 
     private final Slider zoomSlider;
     private final Label labelActualZoom;
@@ -94,21 +95,29 @@ public class ToolbarComponent extends ApplicationComponent {
         var zoomVBox = new VBox(zoomSlider, gridZoomDetails);
         zoomVBox.setSpacing(8);
 
+        toggleGridButton = new ToggleGridButton(this::onToggleGridButtonClicked);
+        model.gridSnappingProperty().addListener(this::onGridSnappingChangedListener);
+
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(new ZoomOutButton(this::onZoomOutButtonClicked).getRoot());
         toolBar.getItems().add(zoomVBox);
         toolBar.getItems().add(new ZoomInButton(this::onZoomInButtonClicked).getRoot());
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
-        toolBar.getItems().add(new ToggleGridButton(this::onToggleGridButtonClicked).getRoot());
+        toolBar.getItems().add(toggleGridButton.getRoot());
 
-        model.cursorModeProperty().set(CursorMode.VIEW);
+
+        onCursorModeChangedListener(null, null, model.getCursorMode());
+        onGridSnappingChangedListener(null, null, model.isGridSnapping());
+    }
+
+    private void onGridSnappingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        toggleGridButton.getRoot().setSelected(newValue);
     }
 
     private void onDefaultZoomClicked(MouseEvent mouseEvent) {
         if (diagramViewModel == null) {
             return;
         }
-
         diagramViewModel.setZoomLevel(100);
     }
 
@@ -127,7 +136,6 @@ public class ToolbarComponent extends ApplicationComponent {
         if (diagramViewModel == null) {
             return;
         }
-
         zoomSlider.valueProperty().unbindBidirectional(diagramViewModel.zoomLevelProperty());
         diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
     }
@@ -137,7 +145,6 @@ public class ToolbarComponent extends ApplicationComponent {
         if (diagramViewModel == null) {
             return;
         }
-
         zoomSlider.valueProperty().bindBidirectional(diagramViewModel.zoomLevelProperty());
         diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
     }
@@ -204,7 +211,6 @@ public class ToolbarComponent extends ApplicationComponent {
         if (diagramViewModel == null) {
             return;
         }
-
         diagramViewModel.zoomOut();
     }
 
@@ -212,7 +218,6 @@ public class ToolbarComponent extends ApplicationComponent {
         if (diagramViewModel == null) {
             return;
         }
-
         diagramViewModel.zoomIn();
     }
 

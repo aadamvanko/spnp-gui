@@ -28,17 +28,8 @@ public class GraphComponent extends ApplicationComponent {
 
         this.onDiagramsChangedListener = this::onDiagramsChangedListener;
 
-        model.gridSnappingProperty().addListener(this::onGridSnappingChangedListener);
         model.getProjects().addListener(this::onProjectsChangedListener);
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
-    }
-
-    private void onGridSnappingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldGridSnapping, Boolean newGridSnapping) {
-        var selectedGraphView = getSelectedGraphView();
-        if (selectedGraphView == null) {
-            return;
-        }
-        selectedGraphView.setSnappingToGrid(newGridSnapping);
     }
 
     private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
@@ -59,7 +50,7 @@ public class GraphComponent extends ApplicationComponent {
             } else if (diagramsChange.wasRemoved()) {
                 for (var removed : diagramsChange.getRemoved()) {
                     var tab = getTabForDiagram(removed);
-                    (graphViews.get(tab)).unbindDiagramViewModel();
+                    (graphViews.get(tab)).unbindViewModels();
                     if (tab != null) {
                         graphViews.remove(tab);
                     }
@@ -92,7 +83,7 @@ public class GraphComponent extends ApplicationComponent {
     private void addGraphView(String tabName, GraphView graphView) {
         var tab = new Tab(tabName, graphView.getZoomableScrollPane());
         tab.setOnClosed(event -> {
-            (graphViews.get(tab)).unbindDiagramViewModel();
+            (graphViews.get(tab)).unbindViewModels();
             graphViews.remove(tab);
         });
 
@@ -113,13 +104,6 @@ public class GraphComponent extends ApplicationComponent {
     @Override
     public Node getRoot() {
         return tabPane;
-    }
-
-    public void gridSnappingToggled() {
-        if (getSelectedGraphView() == null) {
-            return;
-        }
-        getSelectedGraphView().setSnappingToGrid(!getSelectedGraphView().isSnappingEnabled());
     }
 
     private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {

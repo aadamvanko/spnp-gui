@@ -48,7 +48,6 @@ public class GraphView {
     private final Rectangle rectangleSelection;
     private final GraphElementViewFactory graphElementViewFactory;
     private MouseOperation mouseOperation;
-    private boolean snappingToGrid;
     private final Notifications notifications;
     private final Model model;
     private DiagramViewModel diagramViewModel;
@@ -58,6 +57,7 @@ public class GraphView {
 
     private final ListChangeListener<ElementViewModel> onElementsChangedListener;
     private final ChangeListener<? super Number> onZoomLevelChangedListener;
+    private final ChangeListener<? super Boolean> onGridSnappingChangedListener;
 
     public GraphView(Notifications notifications, Model model, DiagramViewModel diagramViewModel) {
         this.notifications = notifications;
@@ -96,14 +96,17 @@ public class GraphView {
         zoomableScrollPane.setOnKeyReleased(this::onKeyReleased);
         zoomableScrollPane.getZoomGroup().setOnScroll(this::onScrollZoomHandler);
 
-        setSnappingToGrid(true);
         adjustCanvasSize();
 
 
         this.onElementsChangedListener = this::onElementsChangedListener;
         this.onZoomLevelChangedListener = this::onZoomLevelChangedListener;
+        this.onGridSnappingChangedListener = this::onGridSnappingChangedListener;
 
         bindDiagramViewModel(diagramViewModel);
+
+        model.gridSnappingProperty().addListener(this.onGridSnappingChangedListener);
+        onGridSnappingChangedListener(null, null, model.isGridSnapping());
     }
 
     private void onScrollZoomHandler(ScrollEvent scrollEvent) {
@@ -138,9 +141,11 @@ public class GraphView {
         diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);
     }
 
-    public void unbindDiagramViewModel() {
+    public void unbindViewModels() {
         diagramViewModel.getElements().removeListener(this.onElementsChangedListener);
         diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
+
+        model.gridSnappingProperty().removeListener(this.onGridSnappingChangedListener);
 
         this.diagramViewModel = null;
     }
@@ -205,12 +210,11 @@ public class GraphView {
                 .get();
     }
 
-    public void setSnappingToGrid(boolean snappingToGrid) {
-        gridBackgroundPane.setDotsVisibility(snappingToGrid);
-        if (!this.snappingToGrid && snappingToGrid) {
+    private void onGridSnappingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        gridBackgroundPane.setDotsVisibility(newValue);
+        if (newValue) {
             graphElementViews.forEach(Movable::snapToGrid);
         }
-        this.snappingToGrid = snappingToGrid;
     }
 
     private void onMousePressed(MouseEvent mouseEvent) {
@@ -294,7 +298,7 @@ public class GraphView {
     }
 
     public void moveSelectedEnded() {
-        if (snappingToGrid) {
+        if (model.isGridSnapping()) {
             selected.forEach(Movable::snapToGrid);
         }
     }
@@ -442,10 +446,6 @@ public class GraphView {
         }
 
         layerTop.getChildren().remove(node);
-    }
-
-    public boolean isSnappingEnabled() {
-        return snappingToGrid;
     }
 
     public Rectangle getRectangleSelection() {
