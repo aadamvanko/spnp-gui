@@ -178,6 +178,8 @@ public class GraphView {
             mouseOperation = new MouseOperationCreateConnectable(this, model);
         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
             mouseOperation = new MouseOperationPanning(this);
+        } else {
+            model.cursorModeProperty().set(CursorMode.VIEW);
         }
 
         if (mouseOperation == null) {
