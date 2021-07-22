@@ -15,13 +15,13 @@ import javafx.scene.control.TabPane;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GraphComponent extends ApplicationComponent {
+public class DiagramComponent extends ApplicationComponent {
 
     private TabPane tabPane;
     private Map<Tab, GraphView> graphViews;
     private final ListChangeListener<? super DiagramViewModel> onDiagramsChangedListener;
 
-    public GraphComponent(Model model, Notifications notifications) {
+    public DiagramComponent(Model model, Notifications notifications) {
         super(model, notifications);
 
         createView();

@@ -4,7 +4,7 @@ import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.diagramoutline.DiagramOutlineComponent;
 import cz.muni.fi.spnp.gui.components.functions.FunctionsCategoriesComponent;
-import cz.muni.fi.spnp.gui.components.graph.GraphComponent;
+import cz.muni.fi.spnp.gui.components.graph.DiagramComponent;
 import cz.muni.fi.spnp.gui.components.menu.MenuComponent;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
@@ -49,7 +49,7 @@ public class MainWindowController {
     private StatusBarComponent statusBarComponent;
     private ToolbarComponent toolbarComponent;
     private PropertiesComponent propertiesComponent;
-    private GraphComponent graphComponent;
+    private DiagramComponent diagramComponent;
 
     public MainWindowController() {
         notifications = new Notifications();
@@ -170,11 +170,11 @@ public class MainWindowController {
 
     private Node createCenterPanel() {
         toolbarComponent = new ToolbarComponent(model, notifications);
-        graphComponent = new GraphComponent(model, notifications);
+        diagramComponent = new DiagramComponent(model, notifications);
 
-        VBox vBox = new VBox(toolbarComponent.getRoot(), graphComponent.getRoot());
+        VBox vBox = new VBox(toolbarComponent.getRoot(), diagramComponent.getRoot());
 
-        var graphComponentRegion = (Region) graphComponent.getRoot();
+        var graphComponentRegion = (Region) diagramComponent.getRoot();
         graphComponentRegion.prefWidthProperty().bind(vBox.widthProperty());
         graphComponentRegion.prefHeightProperty().bind(vBox.heightProperty());
 
