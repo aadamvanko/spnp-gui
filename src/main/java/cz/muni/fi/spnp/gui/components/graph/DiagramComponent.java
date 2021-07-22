@@ -18,7 +18,7 @@ import java.util.Map;
 public class DiagramComponent extends ApplicationComponent {
 
     private TabPane tabPane;
-    private Map<Tab, GraphView> graphViews;
+    private Map<Tab, DiagramView> diagramViews;
     private final ListChangeListener<? super DiagramViewModel> onDiagramsChangedListener;
 
     public DiagramComponent(Model model, Notifications notifications) {
@@ -43,16 +43,14 @@ public class DiagramComponent extends ApplicationComponent {
         while (diagramsChange.next()) {
             if (diagramsChange.wasAdded()) {
                 for (var added : diagramsChange.getAddedSubList()) {
-                    var graphView = new GraphView(notifications, model, added);
-                    var tabName = createTabName(added);
-                    addGraphView(tabName, graphView);
+                    createDiagramView(added);
                 }
             } else if (diagramsChange.wasRemoved()) {
                 for (var removed : diagramsChange.getRemoved()) {
                     var tab = getTabForDiagram(removed);
-                    (graphViews.get(tab)).unbindViewModels();
+                    (diagramViews.get(tab)).unbindViewModels();
                     if (tab != null) {
-                        graphViews.remove(tab);
+                        diagramViews.remove(tab);
                     }
                 }
             }
@@ -66,7 +64,7 @@ public class DiagramComponent extends ApplicationComponent {
     private void createView() {
         tabPane = new TabPane();
         tabPane.setSide(Side.BOTTOM);
-        graphViews = new HashMap<>();
+        diagramViews = new HashMap<>();
 
         tabPane.getSelectionModel().selectedItemProperty().addListener(changeEvent -> {
             var selectedTab = tabPane.getSelectionModel().getSelectedItem();
@@ -75,30 +73,32 @@ public class DiagramComponent extends ApplicationComponent {
                 return;
             }
 
-            var diagram = graphViews.get(selectedTab).getDiagramViewModel();
+            var diagram = diagramViews.get(selectedTab).getDiagramViewModel();
             model.selectedDiagramProperty().set(diagram);
         });
     }
 
-    private void addGraphView(String tabName, GraphView graphView) {
-        var tab = new Tab(tabName, graphView.getZoomableScrollPane());
+    private void createDiagramView(DiagramViewModel diagramViewModel) {
+        var tabName = createTabName(diagramViewModel);
+        var diagramView = new DiagramView(notifications, model, diagramViewModel);
+        var tab = new Tab(tabName, diagramView.getRoot());
         tab.setOnClosed(event -> {
-            (graphViews.get(tab)).unbindViewModels();
-            graphViews.remove(tab);
+            (diagramViews.get(tab)).unbindViewModels();
+            diagramViews.remove(tab);
         });
 
-        graphViews.put(tab, graphView);
+        diagramViews.put(tab, diagramView);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
     }
 
-    private GraphView getSelectedGraphView() {
+    private DiagramView getSelectedDiagramView() {
         var selectedTab = tabPane.getSelectionModel().getSelectedItem();
         if (selectedTab == null) {
             return null;
         }
 
-        return graphViews.get(selectedTab);
+        return diagramViews.get(selectedTab);
     }
 
     @Override
@@ -115,14 +115,12 @@ public class DiagramComponent extends ApplicationComponent {
             var tab = getTabForDiagram(newDiagram);
             tabPane.getSelectionModel().select(tab);
         } else {
-            var tabName = createTabName(newDiagram);
-            var graphView = new GraphView(notifications, model, newDiagram);
-            addGraphView(tabName, graphView);
+            createDiagramView(newDiagram);
         }
     }
 
     private Tab getTabForDiagram(DiagramViewModel diagramViewModel) {
-        for (var entry : graphViews.entrySet()) {
+        for (var entry : diagramViews.entrySet()) {
             if (entry.getValue().getDiagramViewModel() == diagramViewModel) {
                 return entry.getKey();
             }
