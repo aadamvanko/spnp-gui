@@ -3,8 +3,10 @@ package cz.muni.fi.spnp.gui.components.graph;
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.notifications.Notifications;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Side;
@@ -20,6 +22,7 @@ public class DiagramComponent extends ApplicationComponent {
     private TabPane tabPane;
     private Map<Tab, DiagramView> diagramViews;
     private final ListChangeListener<? super DiagramViewModel> onDiagramsChangedListener;
+    private final ChangeListener<DiagramViewMode> onViewModeChangedListener;
 
     public DiagramComponent(Model model, Notifications notifications) {
         super(model, notifications);
@@ -27,9 +30,24 @@ public class DiagramComponent extends ApplicationComponent {
         createView();
 
         this.onDiagramsChangedListener = this::onDiagramsChangedListener;
+        this.onViewModeChangedListener = this::onViewModeChangedListener;
 
         model.getProjects().addListener(this::onProjectsChangedListener);
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
+    }
+
+    private void onViewModeChangedListener(ObservableValue<? extends DiagramViewMode> observableValue, DiagramViewMode oldValue, DiagramViewMode newValue) {
+        var selectedTab = getSelectedTab();
+        if (selectedTab == null) {
+            return;
+        }
+
+        if (newValue == DiagramViewMode.GRAPH) {
+            selectedTab.setContent(getSelectedDiagramView().getGraphView().getRoot());
+        } else {
+            getSelectedDiagramView().getCodeView().prepare();
+            selectedTab.setContent(getSelectedDiagramView().getCodeView().getRoot());
+        }
     }
 
     private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
@@ -81,7 +99,7 @@ public class DiagramComponent extends ApplicationComponent {
     private void createDiagramView(DiagramViewModel diagramViewModel) {
         var tabName = createTabName(diagramViewModel);
         var diagramView = new DiagramView(notifications, model, diagramViewModel);
-        var tab = new Tab(tabName, diagramView.getRoot());
+        var tab = new Tab(tabName, diagramView.getGraphView().getRoot());
         tab.setOnClosed(event -> {
             (diagramViews.get(tab)).unbindViewModels();
             diagramViews.remove(tab);
@@ -92,8 +110,12 @@ public class DiagramComponent extends ApplicationComponent {
         tabPane.getSelectionModel().select(tab);
     }
 
+    private Tab getSelectedTab() {
+        return tabPane.getSelectionModel().getSelectedItem();
+    }
+
     private DiagramView getSelectedDiagramView() {
-        var selectedTab = tabPane.getSelectionModel().getSelectedItem();
+        var selectedTab = getSelectedTab();
         if (selectedTab == null) {
             return null;
         }
@@ -116,6 +138,14 @@ public class DiagramComponent extends ApplicationComponent {
             tabPane.getSelectionModel().select(tab);
         } else {
             createDiagramView(newDiagram);
+        }
+
+        if (oldDiagram != null) {
+            oldDiagram.viewModeProperty().removeListener(this.onViewModeChangedListener);
+        }
+        if (newDiagram != null) {
+            newDiagram.viewModeProperty().addListener(this.onViewModeChangedListener);
+            onViewModeChangedListener(null, null, newDiagram.getViewMode());
         }
     }
 

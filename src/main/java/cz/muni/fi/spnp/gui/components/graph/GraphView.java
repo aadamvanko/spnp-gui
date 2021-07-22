@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph;
 
+import cz.muni.fi.spnp.gui.components.UIComponent;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
@@ -37,7 +38,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class GraphView {
+public class GraphView implements UIComponent {
 
     private final Group layerBottom;
     private final Group layerMiddle;
@@ -474,4 +475,8 @@ public class GraphView {
         return graphElementViews;
     }
 
+    @Override
+    public Node getRoot() {
+        return zoomableScrollPane;
+    }
 }

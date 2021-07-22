@@ -1,6 +1,8 @@
 package cz.muni.fi.spnp.gui.components.graph;
 
+import cz.muni.fi.spnp.core.transformators.spnp.SPNPTransformator;
 import cz.muni.fi.spnp.gui.components.UIComponent;
+import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
@@ -21,4 +23,13 @@ public class CodeView implements UIComponent {
         return textArea;
     }
 
+    public void prepare() {
+        var diagramMapper = new DiagramMapper(diagramViewModel);
+        var petriNet = diagramMapper.createPetriNet();
+        var spnpCode = diagramMapper.createSPNPCode();
+        var spnpOptions = diagramMapper.createSPNPOptions();
+        var transformator = new SPNPTransformator(spnpCode, spnpOptions);
+        var sourceCode = transformator.transform(petriNet);
+        textArea.setText(sourceCode);
+    }
 }
