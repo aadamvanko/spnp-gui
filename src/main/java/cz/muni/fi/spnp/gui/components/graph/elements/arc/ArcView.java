@@ -351,7 +351,7 @@ public abstract class ArcView extends GraphElementView {
             Line lineTo = lines.get(i);
             Line lineFrom = lines.get(i + 1);
             if (areInLine(getLineStart(lineTo), getLineEnd(lineTo), getLineEnd(lineFrom))) {
-                destroyDragPointView(dragPointViews.get(i));
+                getViewModel().getDragPoints().remove(dragPointViews.get(i).getViewModel());
             } else {
                 i++;
             }
