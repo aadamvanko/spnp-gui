@@ -143,6 +143,11 @@ public class MainWindowController {
         diagram2.nameProperty().set("mock_diagram2");
         project1.getDiagrams().add(diagram2);
 
+        var d2_place1 = new PlaceViewModel();
+        d2_place1.positionXProperty().set(30);
+        d2_place1.positionYProperty().set(30);
+        diagram2.getElements().add(d2_place1);
+
         var diagramMapper = new DiagramMapper(diagram1);
         var petriNet = diagramMapper.createPetriNet();
         var spnpCode = diagramMapper.createSPNPCode();

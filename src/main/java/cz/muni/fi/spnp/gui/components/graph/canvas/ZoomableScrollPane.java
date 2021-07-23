@@ -1,5 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.canvas;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -10,6 +12,7 @@ public class ZoomableScrollPane extends ScrollPane {
     private final Scale scaleTransform;
     private final double delta = 0.1;
     private double scaleValue = 1.0;
+    private final BooleanProperty firstRendering;
 
     public ZoomableScrollPane(Node content) {
         Group contentGroup = new Group();
@@ -20,6 +23,15 @@ public class ZoomableScrollPane extends ScrollPane {
 
         scaleTransform = new Scale(scaleValue, scaleValue, 0, 0);
         zoomGroup.getTransforms().add(scaleTransform);
+        firstRendering = new SimpleBooleanProperty(false);
+    }
+
+    public boolean getFirstRendering() {
+        return firstRendering.get();
+    }
+
+    public BooleanProperty firstRenderingProperty() {
+        return firstRendering;
     }
 
     public Group getZoomGroup() {
@@ -69,5 +81,14 @@ public class ZoomableScrollPane extends ScrollPane {
         }
         // apply zoom
         zoomTo(scale);
+    }
+
+    @Override
+    protected void layoutChildren() {
+        super.layoutChildren();
+
+        if (!getFirstRendering()) {
+            firstRenderingProperty().set(true);
+        }
     }
 }

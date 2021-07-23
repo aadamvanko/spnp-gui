@@ -96,15 +96,25 @@ public class GraphView implements UIComponent {
 
         zoomableScrollPane.setOnKeyReleased(this::onKeyReleased);
         zoomableScrollPane.getZoomGroup().setOnScroll(this::onScrollZoomHandler);
-
-        adjustCanvasSize();
-
+        zoomableScrollPane.firstRenderingProperty().addListener(this::firstRenderingFinished);
 
         this.onElementsChangedListener = this::onElementsChangedListener;
         this.onZoomLevelChangedListener = this::onZoomLevelChangedListener;
         this.onGridSnappingChangedListener = this::onGridSnappingChangedListener;
 
         bindDiagramViewModel(diagramViewModel);
+    }
+
+    private void firstRenderingFinished(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        if (diagramViewModel.isGridSnapping()) {
+            graphElementViews.forEach(Movable::snapToGrid);
+        }
+        graphElementViews.forEach(graphElementView -> graphElementView.move(Point2D.ZERO));
+        graphElementViews.stream()
+                .filter(graphElementView -> graphElementView instanceof ArcView)
+                .map(graphElementView -> (ArcView) graphElementView)
+                .forEach(arcView -> arcView.getDragPointViews().forEach(dragPointView -> dragPointView.move(Point2D.ZERO)));
+        adjustCanvasSize();
     }
 
     private void onScrollZoomHandler(ScrollEvent scrollEvent) {
