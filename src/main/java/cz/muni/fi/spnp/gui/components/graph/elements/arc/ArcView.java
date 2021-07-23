@@ -319,13 +319,7 @@ public abstract class ArcView extends GraphElementView {
     public void removedFromParent() {
         fromElementView.removeArc(this);
         toElementView.removeArc(this);
-        destroyDragPoints();
-    }
-
-    private void destroyDragPoints() {
-        while (dragPointViews.size() > 0) {
-            destroyDragPointView(dragPointViews.get(0));
-        }
+        getViewModel().getDragPoints().clear();
     }
 
     @Override

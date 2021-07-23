@@ -198,9 +198,9 @@ public class GraphView implements UIComponent {
         removeFromLayerMiddle(elementView.getMiddleLayerContainer());
         removeFromLayerTop(elementView.getTopLayerContainer());
         graphElementViews.remove(elementView);
+        elementView.removedFromParent();
         elementView.unbindViewModel();
         elementView.setGraphView(null);
-        elementView.removedFromParent();
 
         adjustCanvasSize();
     }
