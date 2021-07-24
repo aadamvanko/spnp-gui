@@ -1,20 +1,17 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ProjectViewModel extends DisplayableViewModel {
     private final ObservableList<DiagramViewModel> diagrams;
-    private final Notifications notifications;
     private String owner;
     private String dateCreated;
     private String comment;
 
-    public ProjectViewModel(Notifications notifications) {
+    public ProjectViewModel() {
         nameProperty().set("unnamedProject");
         this.diagrams = FXCollections.observableArrayList();
-        this.notifications = notifications;
     }
 
     public ObservableList<DiagramViewModel> getDiagrams() {
@@ -48,6 +45,4 @@ public class ProjectViewModel extends DisplayableViewModel {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-    //    private Map<String, FunctionViewModel> functions;
 }

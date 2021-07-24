@@ -2,7 +2,6 @@ package cz.muni.fi.spnp.gui.components.diagramoutline;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import javafx.beans.value.ObservableValue;
@@ -22,8 +21,8 @@ public class DiagramOutlineComponent extends ApplicationComponent {
     private ListChangeListener<? super DisplayableViewModel> listChangeListener;
     private final TreeItemsIconsLoader treeItemsIconsLoader;
 
-    public DiagramOutlineComponent(Model model, Notifications notifications) {
-        super(model, notifications);
+    public DiagramOutlineComponent(Model model) {
+        super(model);
 
         treeItemsIconsLoader = new TreeItemsIconsLoader(16);
 

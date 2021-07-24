@@ -6,16 +6,12 @@ import cz.muni.fi.spnp.gui.components.menu.views.diagrams.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludesView;
 import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
-import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParameterView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParametersView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -39,20 +35,20 @@ public class MenuComponent extends ApplicationComponent {
     private final NewDiagramView newDiagramView;
     private final MenuItem menuItemNewDiagram;
 
-    public MenuComponent(Model model, Notifications notifications) {
-        super(model, notifications);
+    public MenuComponent(Model model) {
+        super(model);
 
         menuBar = new MenuBar();
 
         Menu menuFile = new Menu("File");
-        newProjectView = new NewProjectView(model, notifications);
+        newProjectView = new NewProjectView(model);
         menuItemNewProject = new MenuItem("New Project");
         menuItemNewProject.setOnAction(actionEvent -> {
             newProjectView.getStage().showAndWait();
         });
         menuFile.getItems().add(menuItemNewProject);
 
-        newDiagramView = new NewDiagramView(model, notifications);
+        newDiagramView = new NewDiagramView(model);
         menuItemNewDiagram = new MenuItem("New Diagram");
         menuItemNewDiagram.setDisable(true);
         menuItemNewDiagram.setOnAction(actionEvent -> {

@@ -46,7 +46,7 @@ public class SubmodelConverter {
         var functions = convertFunctions(submodel.functions);
         var elements = convertElements(submodel.elements, functions);
 
-        var diagram = new DiagramViewModel(notifications, projectViewModel, elements, includes, defines, variables, inputParameters, functions);
+        var diagram = new DiagramViewModel(projectViewModel, elements, includes, defines, variables, inputParameters, functions);
         diagram.nameProperty().set(submodel.name);
         return diagram;
     }

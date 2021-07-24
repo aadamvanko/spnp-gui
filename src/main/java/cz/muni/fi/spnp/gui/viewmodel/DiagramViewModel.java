@@ -5,7 +5,6 @@ import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -20,7 +19,6 @@ public class DiagramViewModel extends DisplayableViewModel {
     public static final int ZOOM_MAX_VALUE = 500;
     public static final int ZOOM_MIN_VALUE = 10;
 
-    private final Notifications notifications;
     private final ProjectViewModel projectViewModel;
     private final ObservableList<ElementViewModel> elements;
     private final ObservableList<IncludeViewModel> includes;
@@ -33,9 +31,8 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final BooleanProperty gridSnapping;
     private final ObjectProperty<DiagramViewMode> viewMode;
 
-    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel) {
-        this(notifications,
-                projectViewModel,
+    public DiagramViewModel(ProjectViewModel projectViewModel) {
+        this(projectViewModel,
                 FXCollections.observableArrayList(),
                 FXCollections.observableArrayList(),
                 FXCollections.observableArrayList(),
@@ -44,12 +41,11 @@ public class DiagramViewModel extends DisplayableViewModel {
                 FXCollections.observableArrayList());
     }
 
-    public DiagramViewModel(Notifications notifications, ProjectViewModel projectViewModel, List<ElementViewModel> elements,
+    public DiagramViewModel(ProjectViewModel projectViewModel, List<ElementViewModel> elements,
                             List<IncludeViewModel> includes, List<DefineViewModel> defines, List<VariableViewModel> variables,
                             List<InputParameterViewModel> inputParameters, List<FunctionViewModel> functions) {
         nameProperty().set("unnamedDiagram");
 
-        this.notifications = notifications;
         this.projectViewModel = projectViewModel;
         this.includes = FXCollections.observableArrayList(includes);
         this.elements = FXCollections.observableArrayList(elements);

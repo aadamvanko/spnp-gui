@@ -4,7 +4,6 @@ import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.value.ChangeListener;
@@ -38,8 +37,8 @@ public class ToolbarComponent extends ApplicationComponent {
     private final ChangeListener<DiagramViewMode> onViewModeChangedListener;
     private DiagramViewModel diagramViewModel;
 
-    public ToolbarComponent(Model model, Notifications notifications) {
-        super(model, notifications);
+    public ToolbarComponent(Model model) {
+        super(model);
 
         this.onSelectedDiagramChangedListener = this::onSelectedDiagramChangedListener;
         this.onZoomLevelChangedListener = this::onZoomLevelChangedListener;

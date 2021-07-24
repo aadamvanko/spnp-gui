@@ -3,11 +3,9 @@ package cz.muni.fi.spnp.gui.components.projects;
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.diagramoutline.TreeItemsIconsLoader;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
@@ -23,8 +21,8 @@ public class ProjectsComponent extends ApplicationComponent {
     private TreeItem<DisplayableViewModel> treeItemRoot;
     private final TreeItemsIconsLoader treeItemsIconsLoader;
 
-    public ProjectsComponent(Model model, Notifications notifications) {
-        super(model, notifications);
+    public ProjectsComponent(Model model) {
+        super(model);
 
         treeItemsIconsLoader = new TreeItemsIconsLoader(16);
 

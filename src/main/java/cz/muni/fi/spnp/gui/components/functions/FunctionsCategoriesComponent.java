@@ -2,7 +2,6 @@ package cz.muni.fi.spnp.gui.components.functions;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -11,8 +10,8 @@ public class FunctionsCategoriesComponent extends ApplicationComponent {
 
     private final TreeView treeView;
 
-    public FunctionsCategoriesComponent(Model model, Notifications notifications) {
-        super(model, notifications);
+    public FunctionsCategoriesComponent(Model model) {
+        super(model);
 
         treeView = new TreeView();
 

@@ -62,7 +62,7 @@ public class MainWindowController {
         borderPane.setRight(createRightPanel());
         borderPane.setCenter(createCenterPanel());
 
-        var project1 = new ProjectViewModel(notifications);
+        var project1 = new ProjectViewModel();
         project1.nameProperty().set("mock_project1");
         model.getProjects().add(project1);
 
@@ -135,11 +135,11 @@ public class MainWindowController {
         inputParameters.add(new InputParameterViewModel("input_param_1_int", VariableDataType.INT, "Enter int value for input param"));
         inputParameters.add(new InputParameterViewModel("input_param_1_double", VariableDataType.DOUBLE, "Enter double value for input param"));
 
-        var diagram1 = new DiagramViewModel(notifications, project1, elements, includes, defines, variables, inputParameters, functions);
+        var diagram1 = new DiagramViewModel(project1, elements, includes, defines, variables, inputParameters, functions);
         diagram1.nameProperty().set("mock_diagram1");
         project1.getDiagrams().add(diagram1);
 
-        var diagram2 = new DiagramViewModel(notifications, project1);
+        var diagram2 = new DiagramViewModel(project1);
         diagram2.nameProperty().set("mock_diagram2");
         project1.getDiagrams().add(diagram2);
 
@@ -174,7 +174,7 @@ public class MainWindowController {
     }
 
     private Node createCenterPanel() {
-        toolbarComponent = new ToolbarComponent(model, notifications);
+        toolbarComponent = new ToolbarComponent(model);
         diagramComponent = new DiagramComponent(model, notifications);
 
         VBox vBox = new VBox(toolbarComponent.getRoot(), diagramComponent.getRoot());
@@ -191,33 +191,33 @@ public class MainWindowController {
         propertiesComponent = new PropertiesComponent(model, notifications);
         vbox.getChildren().add(propertiesComponent.getRoot());
 
-        functionsCategoriesComponent = new FunctionsCategoriesComponent(model, notifications);
+        functionsCategoriesComponent = new FunctionsCategoriesComponent(model);
         vbox.getChildren().add(functionsCategoriesComponent.getRoot());
         return vbox;
     }
 
     private Node createBottomPanel() {
-        statusBarComponent = new StatusBarComponent(model, notifications);
+        statusBarComponent = new StatusBarComponent(model);
         return statusBarComponent.getRoot();
     }
 
     private Node createLeftPanel() {
         VBox vbox = new VBox();
 
-        projectsComponent = new ProjectsComponent(model, notifications);
+        projectsComponent = new ProjectsComponent(model);
         vbox.getChildren().add(projectsComponent.getRoot());
 
-        elementsOutlineView = new DiagramOutlineComponent(model, notifications);
+        elementsOutlineView = new DiagramOutlineComponent(model);
         vbox.getChildren().add(elementsOutlineView.getRoot());
         return vbox;
     }
 
     private Node createTopPanel() {
         VBox vbox = new VBox();
-        menuComponent = new MenuComponent(model, notifications);
+        menuComponent = new MenuComponent(model);
         vbox.getChildren().add(menuComponent.getRoot());
 
-        quickActionsComponent = new QuickActionsComponent(model, notifications);
+        quickActionsComponent = new QuickActionsComponent(model);
         vbox.getChildren().add(quickActionsComponent.getRoot());
         return vbox;
     }

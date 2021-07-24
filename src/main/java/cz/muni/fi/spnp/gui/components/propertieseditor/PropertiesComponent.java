@@ -32,7 +32,7 @@ public class PropertiesComponent extends ApplicationComponent implements Selecte
     private PropertiesEditor currentEditor;
 
     public PropertiesComponent(Model model, Notifications notifications) {
-        super(model, notifications);
+        super(model);
 
         editors = new HashMap<>();
         editors.put(null, new PropertiesEditorPlaceholder());

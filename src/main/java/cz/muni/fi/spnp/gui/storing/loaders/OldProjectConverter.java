@@ -13,7 +13,7 @@ public class OldProjectConverter {
     }
 
     public ProjectViewModel convert(ProjectOldFormat oldProject) {
-        var project = new ProjectViewModel(notifications);
+        var project = new ProjectViewModel();
         project.nameProperty().set(oldProject.modelName);
         project.setOwner(oldProject.owner);
         project.setDateCreated(oldProject.dateCreated);

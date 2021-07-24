@@ -23,9 +23,11 @@ public class DiagramComponent extends ApplicationComponent {
     private Map<Tab, DiagramView> diagramViews;
     private final ListChangeListener<? super DiagramViewModel> onDiagramsChangedListener;
     private final ChangeListener<DiagramViewMode> onViewModeChangedListener;
+    private final Notifications notifications;
 
     public DiagramComponent(Model model, Notifications notifications) {
-        super(model, notifications);
+        super(model);
+        this.notifications = notifications;
 
         createView();
 
