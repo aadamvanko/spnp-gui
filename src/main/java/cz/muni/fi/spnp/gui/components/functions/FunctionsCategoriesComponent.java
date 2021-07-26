@@ -35,9 +35,12 @@ public class FunctionsCategoriesComponent extends TreeViewContainer<FunctionView
 
     public void onSelectedDiagramChangedListener(ObservableValue<? extends DiagramViewModel> observableValue,
                                                  DiagramViewModel oldDiagramViewModel, DiagramViewModel newDiagramViewModel) {
+        categories.values().forEach(categoryTreeItem -> categoryTreeItem.getChildren().clear());
+
         if (oldDiagramViewModel != null) {
             oldDiagramViewModel.getFunctions().removeListener(this.onFunctionsChangedListener);
         }
+
         if (newDiagramViewModel != null) {
             newDiagramViewModel.getFunctions().addListener(this.onFunctionsChangedListener);
             newDiagramViewModel.getFunctions().forEach(this::addItemToTree);
