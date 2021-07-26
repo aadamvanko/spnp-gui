@@ -1,74 +1,39 @@
 package cz.muni.fi.spnp.gui.components.projects;
 
-import cz.muni.fi.spnp.gui.components.ApplicationComponent;
-import cz.muni.fi.spnp.gui.components.diagramoutline.TreeItemsIconsLoader;
+import cz.muni.fi.spnp.gui.components.TreeViewContainer;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 
 import java.util.stream.Collectors;
 
-public class ProjectsComponent extends ApplicationComponent {
-
-    private TreeView<DisplayableViewModel> treeView;
-    private TreeItem<DisplayableViewModel> treeItemRoot;
-    private final TreeItemsIconsLoader treeItemsIconsLoader;
+public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
 
     public ProjectsComponent(Model model) {
-        super(model);
-
-        treeItemsIconsLoader = new TreeItemsIconsLoader(16);
-
-        createView();
+        super(model, "Projects");
 
         model.getProjects().addListener(this::onProjectsChangedListener);
     }
 
-    private void createView() {
-        treeView = new TreeView<>();
-        treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        treeItemRoot = createItem(new DisplayableViewModel("PROJECTS ROOT"));
-        treeView.setRoot(treeItemRoot);
-        treeView.setShowRoot(false);
-        treeItemRoot.setExpanded(true);
-
-        treeView.setCellFactory(tv -> {
-            var cell = new TreeCell<DisplayableViewModel>() {
-
-                @Override
-                protected void updateItem(DisplayableViewModel item, boolean empty) {
-                    super.updateItem(item, empty);
-                    textProperty().unbind();
-                    if (empty) {
-                        setText(null);
-                        setGraphic(null);
-                    } else {
-                        textProperty().bind(item.nameProperty());
-                        setGraphic(treeItemsIconsLoader.createIcon(item));
-                    }
-                }
-            };
-
-            cell.setOnMouseClicked(mouseEvent -> {
-                var sourceItem = cell.getItem();
-                if (sourceItem instanceof DiagramViewModel && mouseEvent.getClickCount() == 2) {
-                    model.selectedDiagramProperty().set((DiagramViewModel) sourceItem);
-                }
-            });
-
-            return cell;
-        });
+    @Override
+    protected EventHandler<? super MouseEvent> getOnItemMouseClickHandler() {
+        return mouseEvent -> {
+            var sourceItem = ((TreeCell<DisplayableViewModel>) mouseEvent.getSource()).getItem();
+            if (sourceItem instanceof DiagramViewModel && mouseEvent.getClickCount() == 2) {
+                model.selectedDiagramProperty().set((DiagramViewModel) sourceItem);
+            }
+        };
     }
 
-    private TreeItem<DisplayableViewModel> createItem(DisplayableViewModel object) {
+    @Override
+    protected TreeItem<DisplayableViewModel> createItem(DisplayableViewModel object) {
         TreeItem<DisplayableViewModel> item = new TreeItem<>(object);
         item.setExpanded(true);
         if (object instanceof ProjectViewModel) {

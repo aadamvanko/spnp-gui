@@ -28,7 +28,9 @@ public abstract class TreeViewContainer<T extends DisplayableViewModel> extends 
         createView();
     }
 
-    protected abstract void addItemToTree(T viewModel);
+    protected void addItemToTree(T viewModel) {
+        treeItemRoot.getChildren().add(createItem(viewModel));
+    }
 
     protected Callback<TreeView<DisplayableViewModel>, TreeCell<DisplayableViewModel>> getCellFactory() {
         return tv -> {
