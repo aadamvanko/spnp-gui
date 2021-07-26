@@ -1,15 +1,13 @@
 package cz.muni.fi.spnp.gui.components.menu.views.functions;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
+import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.Objects;
-
-public class FunctionViewModel {
-    private final StringProperty name;
+public class FunctionViewModel extends DisplayableViewModel {
     private final ObjectProperty<FunctionType> functionType;
     private final StringProperty body;
     private final ObjectProperty<FunctionReturnType> returnType;
@@ -20,19 +18,11 @@ public class FunctionViewModel {
     }
 
     public FunctionViewModel(String name, FunctionType functionType, String body, FunctionReturnType returnType, Boolean required) {
-        this.name = new SimpleStringProperty(name);
+        super(name);
         this.functionType = new SimpleObjectProperty<>(functionType);
         this.body = new SimpleStringProperty(body);
         this.returnType = new SimpleObjectProperty<>(returnType);
         this.required = required;
-    }
-
-    public String getName() {
-        return name.get();
-    }
-
-    public StringProperty nameProperty() {
-        return name;
     }
 
     public FunctionType getFunctionType() {
@@ -79,7 +69,7 @@ public class FunctionViewModel {
     @Override
     public String toString() {
         return "FunctionViewModel{" +
-                "name=" + name.get() +
+                "name=" + getName() +
                 '}';
     }
 }

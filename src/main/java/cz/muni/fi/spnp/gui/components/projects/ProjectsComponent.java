@@ -99,6 +99,7 @@ public class ProjectsComponent extends ApplicationComponent {
             if (projectsChange.wasAdded()) {
                 projectsChange.getAddedSubList().forEach(addedProject -> treeItemRoot.getChildren().add(createItem(addedProject)));
             }
+            // TODO handle closing/deletion of projects
         }
     }
 }
