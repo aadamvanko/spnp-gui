@@ -18,7 +18,13 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
     public ProjectsComponent(Model model) {
         super(model, "Projects");
 
+        createView();
+
         model.getProjects().addListener(this::onProjectsChangedListener);
+    }
+
+    private void createView() {
+        buttonAdd.setVisible(false);
     }
 
     @Override

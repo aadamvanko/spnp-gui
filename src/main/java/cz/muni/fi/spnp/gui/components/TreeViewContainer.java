@@ -85,4 +85,5 @@ public abstract class TreeViewContainer<T extends DisplayableViewModel> extends 
     public Node getRoot() {
         return root;
     }
+
 }

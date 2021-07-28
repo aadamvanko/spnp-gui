@@ -14,6 +14,7 @@ public abstract class ViewContainer extends ApplicationComponent {
 
     protected final String title;
     protected VBox root;
+    protected Button buttonAdd;
 
     public ViewContainer(Model model, String title) {
         super(model);
@@ -30,12 +31,12 @@ public abstract class ViewContainer extends ApplicationComponent {
         labelHeader.setStyle("-fx-font-weight: bold; -fx-font-size: 15px;");
         var fillPane = new Pane();
         HBox.setHgrow(fillPane, Priority.ALWAYS);
-        var buttonAddFunction = new Button("+");
-        buttonAddFunction.setAlignment(Pos.CENTER_RIGHT);
+        buttonAdd = new Button("+");
+        buttonAdd.setAlignment(Pos.CENTER_RIGHT);
         var hboxHeader = new HBox();
         hboxHeader.setAlignment(Pos.BASELINE_CENTER);
         hboxHeader.setStyle("-fx-padding: 2px");
-        hboxHeader.getChildren().addAll(labelHeader, fillPane, buttonAddFunction);
+        hboxHeader.getChildren().addAll(labelHeader, fillPane, buttonAdd);
 
         root.getChildren().add(hboxHeader);
         root.setStyle("-fx-border-color: gray");
