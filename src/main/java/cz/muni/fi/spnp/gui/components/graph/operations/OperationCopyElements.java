@@ -13,7 +13,7 @@ public class OperationCopyElements implements GraphElementsOperation {
 
     @Override
     public void execute() {
-        var selectedWithoutDragPoints = filterOutDragPoints(graphView.getSelected());
+        var selectedWithoutDragPoints = filterOutDragPoints(graphView.getDiagramViewModel().getSelected());
         var model = graphView.getModel();
         model.getClipboardElements().clear();
         model.getClipboardElements().addAll(createViewModelsCopies(selectedWithoutDragPoints));

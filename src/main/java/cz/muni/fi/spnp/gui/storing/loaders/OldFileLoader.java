@@ -1,6 +1,5 @@
 package cz.muni.fi.spnp.gui.storing.loaders;
 
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 
@@ -12,14 +11,13 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class OldFileLoader {
-    private final Notifications notificiations;
+
     private final SubmodelConverter submodelConverter;
     private final OldProjectConverter oldProjectConverter;
 
-    public OldFileLoader(Notifications notifications) {
-        this.notificiations = notifications;
-        this.submodelConverter = new SubmodelConverter(notifications);
-        this.oldProjectConverter = new OldProjectConverter(notifications);
+    public OldFileLoader() {
+        this.submodelConverter = new SubmodelConverter();
+        this.oldProjectConverter = new OldProjectConverter();
     }
 
     public ProjectViewModel loadProject(String projectFilepath) {

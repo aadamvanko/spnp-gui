@@ -30,6 +30,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final IntegerProperty zoomLevel;
     private final BooleanProperty gridSnapping;
     private final ObjectProperty<DiagramViewMode> viewMode;
+    private final ObservableList<ElementViewModel> selected;
 
     public DiagramViewModel(ProjectViewModel projectViewModel) {
         this(projectViewModel,
@@ -61,6 +62,7 @@ public class DiagramViewModel extends DisplayableViewModel {
         zoomLevel = new SimpleIntegerProperty(120);
         gridSnapping = new SimpleBooleanProperty(true);
         viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
+        selected = FXCollections.observableArrayList();
     }
 
     public void addFunction(FunctionViewModel function) {
@@ -87,6 +89,21 @@ public class DiagramViewModel extends DisplayableViewModel {
                 new FunctionViewModel("ac_final", FunctionType.Other, "", FunctionReturnType.VOID, true)
         );
         return predefinedFunctions;
+    }
+
+    public void select(List<ElementViewModel> selectedViewModels) {
+        resetSelection();
+        selected.addAll(selectedViewModels);
+        selected.forEach(viewModel -> viewModel.highlightedProperty().set(true));
+    }
+
+    public void resetSelection() {
+        selected.forEach(viewModel -> viewModel.highlightedProperty().set(false));
+        selected.clear();
+    }
+
+    public ObservableList<ElementViewModel> getSelected() {
+        return selected;
     }
 
     public void removeDisconnectedArcs() {

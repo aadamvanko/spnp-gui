@@ -12,7 +12,7 @@ public class OperationSelectAll implements GraphElementsOperation {
 
     @Override
     public void execute() {
-        graphView.selectViewModels(graphView.getDiagramViewModel().getElements());
+        graphView.getDiagramViewModel().select(graphView.getDiagramViewModel().getElements());
     }
 
 }

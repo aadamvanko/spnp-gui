@@ -7,7 +7,6 @@ import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
@@ -31,12 +30,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SubmodelConverter {
-
-    private final Notifications notifications;
-
-    public SubmodelConverter(Notifications notifications) {
-        this.notifications = notifications;
-    }
 
     public DiagramViewModel convert(Submodel submodel, ProjectViewModel projectViewModel) {
         var includes = convertIncludes(submodel.includes);

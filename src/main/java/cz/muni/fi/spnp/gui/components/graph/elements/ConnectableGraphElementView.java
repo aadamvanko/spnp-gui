@@ -57,7 +57,7 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
     }
 
     protected void moveViaTranslate(Point2D offset) {
-        var connectableViewModel = (ConnectableViewModel) getViewModel();
+        var connectableViewModel = getViewModel();
 
         Point2D old = new Point2D(connectableViewModel.positionXProperty().get(), connectableViewModel.positionYProperty().get());
         Point2D newPos = preventNegativeCoordinates(old.add(offset));

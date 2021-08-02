@@ -6,7 +6,6 @@ import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
@@ -15,11 +14,7 @@ import cz.muni.fi.spnp.gui.components.graph.operations.OperationCutElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationSelectAll;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
-import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -49,19 +44,18 @@ public class GraphView implements UIComponent {
     private final Rectangle rectangleSelection;
     private final GraphElementViewFactory graphElementViewFactory;
     private MouseOperation mouseOperation;
-    private final Notifications notifications;
     private final Model model;
     private DiagramViewModel diagramViewModel;
-    private List<GraphElementView> selected;
+    private final ListChangeListener<ElementViewModel> onSelectedChangedListener;
 
     private Point2D initialMousePosition;
 
     private final ListChangeListener<ElementViewModel> onElementsChangedListener;
+    private List<GraphElementView> selectedViews;
     private final ChangeListener<? super Number> onZoomLevelChangedListener;
     private final ChangeListener<? super Boolean> onGridSnappingChangedListener;
 
-    public GraphView(Notifications notifications, Model model, DiagramViewModel diagramViewModel) {
-        this.notifications = notifications;
+    public GraphView(Model model, DiagramViewModel diagramViewModel) {
         this.model = model;
         this.graphElementViewFactory = new GraphElementViewFactory(this);
 
@@ -77,7 +71,7 @@ public class GraphView implements UIComponent {
         zoomableScrollPane = new ZoomableScrollPane(gridBackgroundPane);
 
         graphElementViews = new ArrayList<>();
-        selected = new ArrayList<>();
+        selectedViews = new ArrayList<>();
 
         rectangleSelection = new Rectangle();
 //        rectangleSelection.setWidth(100);
@@ -99,6 +93,7 @@ public class GraphView implements UIComponent {
         zoomableScrollPane.firstRenderingProperty().addListener(this::firstRenderingFinished);
 
         this.onElementsChangedListener = this::onElementsChangedListener;
+        this.onSelectedChangedListener = this::onSelectedChangedListener;
         this.onZoomLevelChangedListener = this::onZoomLevelChangedListener;
         this.onGridSnappingChangedListener = this::onGridSnappingChangedListener;
 
@@ -134,7 +129,6 @@ public class GraphView implements UIComponent {
     }
 
     private void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
-        resetSelection();
         this.graphElementViews.clear();
 
         this.diagramViewModel = diagramViewModel;
@@ -152,10 +146,16 @@ public class GraphView implements UIComponent {
 
         diagramViewModel.gridSnappingProperty().addListener(this.onGridSnappingChangedListener);
         onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
+
+        diagramViewModel.getSelected().addListener(this.onSelectedChangedListener);
+        selectedViews = graphElementViews.stream()
+                .filter(graphElementView -> diagramViewModel.getSelected().contains(graphElementView.getViewModel()))
+                .collect(Collectors.toList());
     }
 
     public void unbindViewModels() {
         diagramViewModel.getElements().removeListener(this.onElementsChangedListener);
+        diagramViewModel.getSelected().removeListener(this.onSelectedChangedListener);
         diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
         diagramViewModel.gridSnappingProperty().removeListener(this.onGridSnappingChangedListener);
 
@@ -164,9 +164,9 @@ public class GraphView implements UIComponent {
 
     private void onKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) {
-            if (keyEvent.getCode() == KeyCode.C && !selected.isEmpty()) {
+            if (keyEvent.getCode() == KeyCode.C && !selectedViews.isEmpty()) {
                 new OperationCopyElements(this).execute();
-            } else if (keyEvent.getCode() == KeyCode.X && !selected.isEmpty()) {
+            } else if (keyEvent.getCode() == KeyCode.X && !selectedViews.isEmpty()) {
                 new OperationCutElements(this).execute();
             } else if (keyEvent.getCode() == KeyCode.V && !model.getClipboardElements().isEmpty()) {
                 new OperationPasteElements(this).execute();
@@ -182,13 +182,23 @@ public class GraphView implements UIComponent {
 
     private void onElementsChangedListener(ListChangeListener.Change<? extends ElementViewModel> elementsChange) {
         while (elementsChange.next()) {
-            for (var addedElementViewModel : elementsChange.getAddedSubList()) {
-                addGraphElementView(addedElementViewModel);
-            }
             for (var removedElementViewModel : elementsChange.getRemoved()) {
                 var elementView = findElementViewByModel(removedElementViewModel);
                 removeGraphElementView(elementView);
             }
+            for (var addedElementViewModel : elementsChange.getAddedSubList()) {
+                addGraphElementView(addedElementViewModel);
+            }
+        }
+    }
+
+    private void onSelectedChangedListener(ListChangeListener.Change<? extends ElementViewModel> selectedChange) {
+        while (selectedChange.next()) {
+            if (selectedChange.wasRemoved()) {
+                selectedViews.removeIf(view -> selectedChange.getRemoved().contains(view.getViewModel()));
+            }
+
+            selectedChange.getAddedSubList().forEach(viewModel -> selectedViews.add(findElementViewByModel(viewModel)));
         }
     }
 
@@ -216,6 +226,19 @@ public class GraphView implements UIComponent {
     }
 
     public GraphElementView findElementViewByModel(ElementViewModel elementViewModel) {
+        if (elementViewModel instanceof DragPointViewModel) {
+            for (var graphElementView : graphElementViews) {
+                if (graphElementView instanceof ArcView) {
+                    var arcView = (ArcView) graphElementView;
+                    for (var dragPointView : arcView.getDragPointViews()) {
+                        if (dragPointView.getViewModel() == elementViewModel) {
+                            return dragPointView;
+                        }
+                    }
+                }
+            }
+        }
+
         return graphElementViews.stream()
                 .filter(elementView -> elementView.getViewModel().equals(elementViewModel))
                 .findAny()
@@ -303,20 +326,8 @@ public class GraphView implements UIComponent {
         return firstX == secondX && firstY == secondY;
     }
 
-    public void moveSelected(Point2D moveOffset) {
-        if (selected.stream().allMatch(element -> element.canMove(moveOffset))) {
-            selected.forEach(element -> element.move(moveOffset));
-        }
-    }
-
-    public void moveSelectedEnded() {
-        if (diagramViewModel.isGridSnapping()) {
-            selected.forEach(Movable::snapToGrid);
-        }
-    }
-
-    public List<GraphElementView> getSelected() {
-        return selected;
+    public List<GraphElementView> getSelectedViews() {
+        return selectedViews;
     }
 
     public void graphElementPressed(GraphElementView graphElementView, MouseEvent mouseEvent) {
@@ -362,7 +373,7 @@ public class GraphView implements UIComponent {
         mouseOperation = null;
     }
 
-    public void selectViewModels(List<ElementViewModel> selectedViewModels) {
+    private void selectViewModels(List<ElementViewModel> selectedViewModels) {
         resetSelection();
         var selectedViews = selectedViewModels.stream().map(this::findElementViewByModel).collect(Collectors.toList());
         var selectedDragPoints = selectedViews.stream()
@@ -371,37 +382,28 @@ public class GraphView implements UIComponent {
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
         selectedViews.addAll(selectedDragPoints);
-        selectedViews.forEach(GraphElementView::enableHighlight);
+//        selectedViews.forEach(GraphElementView::enableHighlight);
         select(selectedViews);
     }
 
-    public void select(GraphElementView graphElementView) {
+    private void select(GraphElementView graphElementView) {
         resetSelection();
-        graphElementView.enableHighlight();
-        selected.add(graphElementView);
-        fireSelectedElementsChanged();
+//        graphElementView.enableHighlight();
+        selectedViews.add(graphElementView);
     }
 
-    public void select(List<GraphElementView> selectedElements) {
+    private void select(List<GraphElementView> selectedElements) {
         resetSelection();
-        this.selected = selectedElements;
-        fireSelectedElementsChanged();
-    }
-
-    private void fireSelectedElementsChanged() {
-        if (selected.size() == 1 && selected.get(0) instanceof DragPointView) {
-            return;
-        }
-        notifications.selectedElementsChanged(selected);
+        this.selectedViews = selectedElements;
     }
 
     public DiagramViewModel getDiagramViewModel() {
         return diagramViewModel;
     }
 
-    public void resetSelection() {
-        selected.forEach(GraphElementView::disableHighlight);
-        selected.clear();
+    private void resetSelection() {
+//        selectedViews.forEach(GraphElementView::disableHighlight);
+        selectedViews.clear();
     }
 
     public GridBackgroundPane getGridPane() {

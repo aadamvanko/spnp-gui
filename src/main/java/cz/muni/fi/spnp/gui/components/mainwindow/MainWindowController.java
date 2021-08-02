@@ -17,7 +17,6 @@ import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
 import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
@@ -38,7 +37,6 @@ import java.util.List;
 public class MainWindowController {
 
     private final Model model;
-    private final Notifications notifications;
 
     private final BorderPane borderPane;
     private MenuComponent menuComponent;
@@ -52,8 +50,7 @@ public class MainWindowController {
     private DiagramComponent diagramComponent;
 
     public MainWindowController() {
-        notifications = new Notifications();
-        model = new Model(notifications);
+        model = new Model();
 
         borderPane = new BorderPane();
         borderPane.setTop(createTopPanel());
@@ -153,7 +150,7 @@ public class MainWindowController {
         var spnpCode = diagramMapper.createSPNPCode();
         var spnpOptions = diagramMapper.createSPNPOptions();
 
-        var oldFileLoader = new OldFileLoader(notifications);
+        var oldFileLoader = new OldFileLoader();
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P2.rgl");
         var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P3.rgl"); // expressions in timed transition values
@@ -175,7 +172,7 @@ public class MainWindowController {
 
     private Node createCenterPanel() {
         toolbarComponent = new ToolbarComponent(model);
-        diagramComponent = new DiagramComponent(model, notifications);
+        diagramComponent = new DiagramComponent(model);
 
         VBox vBox = new VBox(toolbarComponent.getRoot(), diagramComponent.getRoot());
 
@@ -188,7 +185,7 @@ public class MainWindowController {
 
     private Node createRightPanel() {
         VBox vbox = new VBox();
-        propertiesComponent = new PropertiesComponent(model, notifications);
+        propertiesComponent = new PropertiesComponent(model);
         vbox.getChildren().add(propertiesComponent.getRoot());
 
         functionsCategoriesComponent = new FunctionsCategoriesComponent(model);

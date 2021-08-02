@@ -28,4 +28,5 @@ public abstract class TransitionViewModel extends ConnectableViewModel {
         return guardFunction;
     }
 
+
 }

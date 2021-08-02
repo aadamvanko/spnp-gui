@@ -196,7 +196,7 @@ public abstract class ArcView extends GraphElementView {
 //        System.out.println(lines);
 
         lastAddedDragPointView = new DragPointView(graphView, this, dragPointViewModel);
-        if (isHighlighted()) {
+        if (getViewModel().isHighlighted()) {
             lastAddedDragPointView.enableHighlight();
         }
 
@@ -279,18 +279,14 @@ public abstract class ArcView extends GraphElementView {
     }
 
     @Override
-    public void enableHighlight() {
-        super.enableHighlight();
-
+    protected void enableHighlight() {
         lines.forEach(line -> line.setEffect(highlightEffect));
         dragPointViews.forEach(dragPointView -> dragPointView.enableHighlight());
         ending.getShape().setEffect(highlightEffect);
     }
 
     @Override
-    public void disableHighlight() {
-        super.disableHighlight();
-
+    protected void disableHighlight() {
         lines.forEach(line -> line.setEffect(null));
         dragPointViews.forEach(dragPointView -> dragPointView.disableHighlight());
         ending.getShape().setEffect(null);
@@ -337,7 +333,7 @@ public abstract class ArcView extends GraphElementView {
     }
 
     public boolean hasHighlightedEnds() {
-        return fromElementView.isHighlighted() && toElementView.isHighlighted();
+        return getViewModel().getFromViewModel().isHighlighted() && getViewModel().getToViewModel().isHighlighted();
     }
 
     public void removeStraightConnections() {

@@ -1,7 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph;
 
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 
 public class DiagramView {
@@ -10,9 +9,9 @@ public class DiagramView {
     private final CodeView codeView;
     private DiagramViewModel diagramViewModel;
 
-    public DiagramView(Notifications notifications, Model model, DiagramViewModel diagramViewModel) {
+    public DiagramView(Model model, DiagramViewModel diagramViewModel) {
         this.diagramViewModel = diagramViewModel;
-        this.graphView = new GraphView(notifications, model, diagramViewModel);
+        this.graphView = new GraphView(model, diagramViewModel);
         this.codeView = new CodeView(diagramViewModel);
     }
 

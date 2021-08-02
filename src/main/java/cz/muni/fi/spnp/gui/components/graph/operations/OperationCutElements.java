@@ -15,7 +15,8 @@ public class OperationCutElements implements GraphElementsOperation {
 
     @Override
     public void execute() {
-        var selectedWithoutDragPoints = filterOutDragPoints(graphView.getSelected());
+        var diagramViewModel = graphView.getDiagramViewModel();
+        var selectedWithoutDragPoints = filterOutDragPoints(diagramViewModel.getSelected());
         var model = graphView.getModel();
         model.getClipboardElements().clear();
         model.getClipboardElements().addAll(selectedWithoutDragPoints);

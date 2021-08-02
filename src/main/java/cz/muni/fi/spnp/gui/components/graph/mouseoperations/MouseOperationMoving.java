@@ -2,8 +2,11 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
+
+import java.util.List;
 
 public class MouseOperationMoving extends MouseOperation {
 
@@ -16,8 +19,9 @@ public class MouseOperationMoving extends MouseOperation {
 
     @Override
     public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
-        if (graphView.getSelected().size() <= 1 || !graphView.getSelected().contains(graphElementView)) {
-            graphView.select(graphElementView);
+        var diagramViewModel = graphView.getDiagramViewModel();
+        if (diagramViewModel.getSelected().size() <= 1 || !diagramViewModel.getSelected().contains(graphElementView.getViewModel())) {
+            diagramViewModel.select(List.of(graphElementView.getViewModel()));
         }
 
         oldMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
@@ -29,12 +33,19 @@ public class MouseOperationMoving extends MouseOperation {
         double scale = graphView.getZoomableScrollPane().getScaleValue();
         Point2D offset = mousePosition.subtract(oldMousePosition).multiply(1 / scale);
         oldMousePosition = mousePosition;
-        graphView.moveSelected(offset);
+
+        var selectedViews = graphView.getSelectedViews();
+        if (selectedViews.stream().allMatch(element -> element.canMove(offset))) {
+            selectedViews.forEach(element -> element.move(offset));
+        }
     }
 
     @Override
     public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
-        graphView.moveSelectedEnded();
+        if (graphView.getDiagramViewModel().isGridSnapping()) {
+            graphView.getSelectedViews().forEach(Movable::snapToGrid);
+        }
+
         graphView.adjustCanvasSize();
     }
 }

@@ -2,7 +2,6 @@ package cz.muni.fi.spnp.gui.model;
 
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
-    private final Notifications notifications;
     private final ObservableList<ProjectViewModel> projects;
     private final ObjectProperty<DiagramViewModel> selectedDiagram;
 
@@ -24,8 +22,7 @@ public class Model {
     private final ObjectProperty<CursorMode> cursorMode;
     private final ObjectProperty<GraphElementType> createElementType;
 
-    public Model(Notifications notifications) {
-        this.notifications = notifications;
+    public Model() {
         projects = FXCollections.observableArrayList();
         selectedDiagram = new SimpleObjectProperty<>();
         cursorMode = new SimpleObjectProperty<>(CursorMode.VIEW);

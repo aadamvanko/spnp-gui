@@ -2,12 +2,12 @@ package cz.muni.fi.spnp.gui.components.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationCopyElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationCutElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
 import cz.muni.fi.spnp.gui.components.graph.operations.OperationSelectAll;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ViewModelUtils;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
@@ -15,6 +15,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MouseOperationContextMenu extends MouseOperation {
 
@@ -64,24 +67,29 @@ public class MouseOperationContextMenu extends MouseOperation {
 
     private void onDeleteHandler(ActionEvent actionEvent) {
         var diagramViewModel = graphView.getDiagramViewModel();
-        graphView.getSelected().forEach(element -> diagramViewModel.getElements().remove(element.getViewModel()));
-        graphView.getSelected().stream()
-                .filter(graphElementView -> graphElementView instanceof DragPointView)
-                .map(graphElementView -> (DragPointView) graphElementView)
-                .forEach(dragPointView -> ViewModelUtils.onlyElements(ArcViewModel.class, diagramViewModel.getElements())
-                        .forEach(arcViewModel -> arcViewModel.getDragPoints().remove(dragPointView.getViewModel())));
+
+        // celar selection first, because removing from elements causes unbind and null pointer exception
+        var selectedCopy = new ArrayList<>(diagramViewModel.getSelected());
+        diagramViewModel.resetSelection();
+
+        diagramViewModel.getElements().removeAll(selectedCopy);
+        selectedCopy.stream()
+                .filter(elementViewModel -> elementViewModel instanceof DragPointViewModel)
+                .forEach(dragPointViewModel -> ViewModelUtils.onlyElements(ArcViewModel.class, diagramViewModel.getElements())
+                        .forEach(arcViewModel -> arcViewModel.getDragPoints().remove(dragPointViewModel)));
         diagramViewModel.removeDisconnectedArcs();
-        graphView.resetSelection();
     }
 
     private void onPropertiesHandler(ActionEvent actionEvent) {
+        // TODO select/focus properties component
         System.out.println("missing code handler");
     }
 
     @Override
     public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
-        if (graphView.getSelected().size() <= 1) {
-            graphView.select(graphElementView);
+        var diagramViewModel = graphView.getDiagramViewModel();
+        if (diagramViewModel.getSelected().size() <= 1) {
+            diagramViewModel.select(List.of(graphElementView.getViewModel()));
         }
     }
 

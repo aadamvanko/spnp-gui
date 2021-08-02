@@ -1,7 +1,5 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 
@@ -13,10 +11,9 @@ public interface GraphElementsOperation {
 
     void execute();
 
-    default List<ElementViewModel> filterOutDragPoints(List<GraphElementView> selected) {
+    default List<ElementViewModel> filterOutDragPoints(List<ElementViewModel> selected) {
         return selected.stream()
-                .filter(graphElementView -> !(graphElementView instanceof DragPointView))
-                .map(GraphElementView::getViewModel)
+                .filter(elementViewModel -> !(elementViewModel instanceof DragPointViewModel))
                 .collect(Collectors.toList());
     }
 

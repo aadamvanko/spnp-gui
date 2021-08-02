@@ -2,16 +2,17 @@ package cz.muni.fi.spnp.gui.components.graph.elements;
 
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
-import cz.muni.fi.spnp.gui.components.graph.interfaces.Highlightable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public abstract class GraphElementView implements VisualElement, Highlightable, Movable {
+public abstract class GraphElementView implements VisualElement, Movable {
 
     private static final double MIN_PADDING_FACTOR = 0.3;
     protected static DropShadow highlightEffect;
@@ -24,14 +25,42 @@ public abstract class GraphElementView implements VisualElement, Highlightable, 
 
     protected GraphView graphView;
     protected ElementViewModel viewModel;
-    private boolean isHighlighted;
+    private final ChangeListener<? super Boolean> onHighlightedChangedListener;
 
     public GraphElementView(GraphView graphView, ElementViewModel elementViewModel) {
         this.graphView = graphView;
         this.viewModel = elementViewModel;
-        this.isHighlighted = false;
+
+        this.onHighlightedChangedListener = this::onHighlightedChangedListener;
 
         bindViewModel();
+    }
+
+    private void bindViewModel() {
+        this.viewModel.highlightedProperty().addListener(this.onHighlightedChangedListener);
+    }
+
+    public void unbindViewModel() {
+        this.viewModel.highlightedProperty().removeListener(this.onHighlightedChangedListener);
+
+        this.viewModel = null;
+        this.graphView = null;
+    }
+
+    public ElementViewModel getViewModel() {
+        return viewModel;
+    }
+
+    protected abstract void enableHighlight();
+
+    protected abstract void disableHighlight();
+
+    private void onHighlightedChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        if (newValue) {
+            enableHighlight();
+        } else {
+            disableHighlight();
+        }
     }
 
     public void setGraphView(GraphView graphView) {
@@ -138,30 +167,4 @@ public abstract class GraphElementView implements VisualElement, Highlightable, 
 
     public abstract Node getContextMenuNode();
 
-    private void bindViewModel() {
-    }
-
-    public void unbindViewModel() {
-        this.viewModel = null;
-        this.graphView = null;
-    }
-
-    @Override
-    public void enableHighlight() {
-        this.isHighlighted = true;
-    }
-
-    @Override
-    public void disableHighlight() {
-        this.isHighlighted = false;
-    }
-
-    @Override
-    public boolean isHighlighted() {
-        return isHighlighted;
-    }
-
-    public ElementViewModel getViewModel() {
-        return viewModel;
-    }
 }

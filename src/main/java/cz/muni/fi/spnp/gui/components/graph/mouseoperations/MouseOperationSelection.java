@@ -6,11 +6,13 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.DragPointView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
+import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MouseOperationSelection extends MouseOperation {
 
@@ -25,7 +27,7 @@ public class MouseOperationSelection extends MouseOperation {
 
     @Override
     public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
-        graphView.resetSelection();
+        graphView.getDiagramViewModel().resetSelection();
 
         rectangleSelection.setWidth(0);
         rectangleSelection.setHeight(0);
@@ -57,7 +59,7 @@ public class MouseOperationSelection extends MouseOperation {
     public void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         rectangleSelection.setVisible(false);
 
-        graphView.resetSelection();
+        graphView.getDiagramViewModel().resetSelection();
         List<GraphElementView> selected = new ArrayList<>();
         for (var element : graphView.getGraphElementViews()) {
             if (element instanceof MouseSelectable) {
@@ -65,28 +67,35 @@ public class MouseOperationSelection extends MouseOperation {
 //            System.out.println(mouseSelectable);
 //            System.out.println(mouseSelectable.getShapeCenter());
                 if (rectangleSelection.getBoundsInParent().contains(mouseSelectable.getShapeCenter())) {
-                    element.enableHighlight();
+                    element.getViewModel().highlightedProperty().set(true);
                     selected.add(element);
                 }
             } else if (element instanceof ArcView) {
                 var arcView = (ArcView) element;
                 for (var dragPointView : arcView.getDragPointViews()) {
                     if (rectangleSelection.getBoundsInParent().contains(dragPointView.getShapeCenter())) {
-                        dragPointView.enableHighlight();
+                        dragPointView.getViewModel().highlightedProperty().set(true);
                         selected.add(dragPointView);
                     }
                 }
-                if (!arcView.getDragPointViews().isEmpty() && arcView.getDragPointViews().stream().allMatch(DragPointView::isHighlighted)) {
-                    arcView.enableHighlight();
+                if (!arcView.getDragPointViews().isEmpty() && areAllDragPointsHighlighted(arcView)) {
+                    arcView.getViewModel().highlightedProperty().set(true);
                     selected.add(arcView);
                 } else if (arcView.getDragPointViews().isEmpty() && arcView.hasHighlightedEnds()) {
-                    arcView.enableHighlight();
+                    arcView.getViewModel().highlightedProperty().set(true);
                     selected.add(arcView);
                 }
             }
         }
 
-        graphView.select(selected);
+        var selectedViewModels = selected.stream().map(GraphElementView::getViewModel).collect(Collectors.toList());
+        graphView.getDiagramViewModel().select(selectedViewModels);
+    }
+
+    private boolean areAllDragPointsHighlighted(ArcView arcView) {
+        return arcView.getDragPointViews().stream()
+                .map(DragPointView::getViewModel)
+                .allMatch(DragPointViewModel::isHighlighted);
     }
 
     @Override

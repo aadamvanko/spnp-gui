@@ -2,7 +2,6 @@ package cz.muni.fi.spnp.gui.components.graph;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.notifications.Notifications;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
@@ -23,11 +22,9 @@ public class DiagramComponent extends ApplicationComponent {
     private Map<Tab, DiagramView> diagramViews;
     private final ListChangeListener<? super DiagramViewModel> onDiagramsChangedListener;
     private final ChangeListener<DiagramViewMode> onViewModeChangedListener;
-    private final Notifications notifications;
 
-    public DiagramComponent(Model model, Notifications notifications) {
+    public DiagramComponent(Model model) {
         super(model);
-        this.notifications = notifications;
 
         createView();
 
@@ -100,7 +97,7 @@ public class DiagramComponent extends ApplicationComponent {
 
     private void createDiagramView(DiagramViewModel diagramViewModel) {
         var tabName = createTabName(diagramViewModel);
-        var diagramView = new DiagramView(notifications, model, diagramViewModel);
+        var diagramView = new DiagramView(model, diagramViewModel);
         var tab = new Tab(tabName, diagramView.getGraphView().getRoot());
         tab.setOnClosed(event -> {
             (diagramViews.get(tab)).unbindViewModels();

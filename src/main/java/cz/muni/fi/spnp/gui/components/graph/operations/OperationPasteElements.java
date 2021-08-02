@@ -25,14 +25,14 @@ public class OperationPasteElements implements GraphElementsOperation {
                 renameIfNeeded(graphView.getDiagramViewModel(), newCopies);
                 offsetElements(newCopies);
                 graphView.getDiagramViewModel().getElements().addAll(newCopies);
-                graphView.selectViewModels(newCopies);
+                graphView.getDiagramViewModel().select(newCopies);
                 break;
 
             case CUT:
                 renameIfNeeded(graphView.getDiagramViewModel(), model.getClipboardElements());
                 offsetElements(model.getClipboardElements());
                 graphView.getDiagramViewModel().getElements().addAll(model.getClipboardElements());
-                graphView.selectViewModels(model.getClipboardElements());
+                graphView.getDiagramViewModel().select(model.getClipboardElements());
                 model.getClipboardElements().clear();
                 break;
         }

@@ -133,16 +133,12 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
     }
 
     @Override
-    public void enableHighlight() {
-        super.enableHighlight();
-
+    protected void enableHighlight() {
         rectangle.setEffect(highlightEffect);
     }
 
     @Override
-    public void disableHighlight() {
-        super.disableHighlight();
-
+    protected void disableHighlight() {
         rectangle.setEffect(null);
     }
 
