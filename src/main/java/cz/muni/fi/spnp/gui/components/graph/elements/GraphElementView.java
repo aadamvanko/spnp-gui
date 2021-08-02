@@ -32,12 +32,11 @@ public abstract class GraphElementView implements VisualElement, Movable {
         this.viewModel = elementViewModel;
 
         this.onHighlightedChangedListener = this::onHighlightedChangedListener;
-
-        bindViewModel();
     }
 
-    private void bindViewModel() {
+    protected void bindViewModel() {
         this.viewModel.highlightedProperty().addListener(this.onHighlightedChangedListener);
+        onHighlightedChangedListener(null, null, viewModel.isHighlighted());
     }
 
     public void unbindViewModel() {

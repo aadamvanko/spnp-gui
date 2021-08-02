@@ -81,7 +81,9 @@ public class PlaceView extends ConnectableGraphElementView {
         }
     }
 
-    private void bindViewModel() {
+    protected void bindViewModel() {
+        super.bindViewModel();
+
         nameLabel.textProperty().bind(getViewModel().nameProperty());
         tokensCountText.textProperty().bind(getViewModel().numberOfTokensProperty());
 

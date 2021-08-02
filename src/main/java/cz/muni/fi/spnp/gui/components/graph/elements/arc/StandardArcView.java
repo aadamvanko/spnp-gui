@@ -12,6 +12,7 @@ public class StandardArcView extends ArcView {
         super(graphView, standardArcViewModel, Objects.requireNonNull(from), Objects.requireNonNull(to));
 
         createView();
+        bindViewModel();
     }
 
     private void createView() {

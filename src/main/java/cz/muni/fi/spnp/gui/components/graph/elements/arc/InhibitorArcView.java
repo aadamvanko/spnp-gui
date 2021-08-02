@@ -9,6 +9,7 @@ public class InhibitorArcView extends ArcView {
     public InhibitorArcView(GraphView graphView, InhibitorArcViewModel inhibitorArcViewModel, PlaceView from, TransitionView to) {
         super(graphView, inhibitorArcViewModel, from, to);
         createView();
+        bindViewModel();
     }
 
     private void createView() {

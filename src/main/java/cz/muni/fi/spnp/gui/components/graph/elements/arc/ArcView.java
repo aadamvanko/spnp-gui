@@ -44,7 +44,6 @@ public abstract class ArcView extends GraphElementView {
         this.onDragPointsChangedListener = this::onDragPointsChangedListener;
 
         createView(from, to);
-        bindViewModel();
     }
 
     public ArcViewModel getViewModel() {
@@ -134,6 +133,7 @@ public abstract class ArcView extends GraphElementView {
             Line sourceLine = (Line) mouseEvent.getSource();
             getViewModel().getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
             System.out.println("last added drag point view " + lastAddedDragPointView);
+            graphView.getDiagramViewModel().select(List.of(lastAddedDragPointView.getViewModel()));
             lastAddedDragPointView.onMousePressedHandler(mouseEvent);
 //            savedMouseEvent = mouseEvent;
         }
@@ -158,7 +158,9 @@ public abstract class ArcView extends GraphElementView {
         }
     }
 
-    private void bindViewModel() {
+    protected void bindViewModel() {
+        super.bindViewModel();
+
         textMultiplicity.textProperty().bind(getViewModel().multiplicityProperty());
 
         createDragPoints(getViewModel().getDragPoints());

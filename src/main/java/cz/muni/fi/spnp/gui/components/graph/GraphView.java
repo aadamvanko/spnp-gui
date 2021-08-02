@@ -306,6 +306,7 @@ public class GraphView implements UIComponent {
         System.out.println("canvas mouse released");
 
         if (mouseOperation == null) {
+            diagramViewModel.resetSelection();
             return;
         }
         mouseOperation.mouseReleasedHandler(null, mouseEvent);

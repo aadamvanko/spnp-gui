@@ -59,7 +59,9 @@ public abstract class TransitionView extends ConnectableGraphElementView {
         }
     }
 
-    private void bindViewModel() {
+    protected void bindViewModel() {
+        super.bindViewModel();
+
         nameLabel.textProperty().bind(viewModel.nameProperty());
         // TODO priority, guard function
 
