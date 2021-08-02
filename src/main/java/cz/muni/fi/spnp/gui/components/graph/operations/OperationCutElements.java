@@ -22,8 +22,9 @@ public class OperationCutElements implements GraphElementsOperation {
         model.getClipboardElements().addAll(selectedWithoutDragPoints);
         model.setClipboardOperationType(ClipboardOperationType.CUT);
 
-        graphView.getDiagramViewModel().getElements().removeAll(selectedWithoutDragPoints);
-        graphView.getDiagramViewModel().getElements().removeIf(this::isDisconnectedArc);
+        diagramViewModel.getSelected().removeAll(selectedWithoutDragPoints);
+        diagramViewModel.getElements().removeAll(selectedWithoutDragPoints);
+        diagramViewModel.getElements().removeIf(this::isDisconnectedArc);
     }
 
     private boolean isDisconnectedArc(ElementViewModel elementViewModel) {
