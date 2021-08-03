@@ -158,13 +158,12 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     protected void bindViewModel() {
-        super.bindViewModel();
-
         textMultiplicity.textProperty().bind(getViewModel().multiplicityProperty());
 
         createDragPoints(getViewModel().getDragPoints());
-
         getViewModel().getDragPoints().addListener(this.onDragPointsChangedListener);
+
+        super.bindViewModel();
     }
 
     @Override
@@ -316,11 +315,11 @@ public abstract class ArcView extends GraphElementView {
     public void removedFromParent() {
         fromElementView.removeArc(this);
         toElementView.removeArc(this);
-        dragPointViews.forEach(dragPointView -> {
-            dragPointView.removedFromParent();
-            dragPointView.unbindViewModel();
-            dragPointView.setGraphView(null);
-        });
+//        dragPointViews.forEach(dragPointView -> {
+//            dragPointView.removedFromParent();
+//            dragPointView.unbindViewModel();
+//            dragPointView.setGraphView(null);
+//        });
     }
 
     @Override
