@@ -7,6 +7,8 @@ import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class OperationPasteElements implements GraphElementsOperation {
 
@@ -25,17 +27,30 @@ public class OperationPasteElements implements GraphElementsOperation {
                 renameIfNeeded(graphView.getDiagramViewModel(), newCopies);
                 offsetElements(newCopies);
                 graphView.getDiagramViewModel().getElements().addAll(newCopies);
-                graphView.getDiagramViewModel().select(newCopies);
+                graphView.getDiagramViewModel().select(flattenArcs(newCopies));
                 break;
 
             case CUT:
                 renameIfNeeded(graphView.getDiagramViewModel(), model.getClipboardElements());
                 offsetElements(model.getClipboardElements());
                 graphView.getDiagramViewModel().getElements().addAll(model.getClipboardElements());
-                graphView.getDiagramViewModel().select(model.getClipboardElements());
+                graphView.getDiagramViewModel().select(flattenArcs(model.getClipboardElements()));
                 model.getClipboardElements().clear();
                 break;
         }
+    }
+
+    private List<ElementViewModel> flattenArcs(List<ElementViewModel> elementViewModels) {
+        var extractedDragPoints = extractDragPoints(elementViewModels);
+        return Stream.concat(elementViewModels.stream(), extractedDragPoints)
+                .collect(Collectors.toList());
+    }
+
+    private Stream<ElementViewModel> extractDragPoints(List<ElementViewModel> elementViewModels) {
+        return elementViewModels.stream()
+                .filter(viewModel -> viewModel instanceof ArcViewModel)
+                .map(viewModel -> (ArcViewModel) viewModel)
+                .flatMap(arcViewModel -> arcViewModel.getDragPoints().stream());
     }
 
     private void offsetElements(List<ElementViewModel> elements) {
