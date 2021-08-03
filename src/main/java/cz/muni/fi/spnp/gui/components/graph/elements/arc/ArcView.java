@@ -133,9 +133,7 @@ public abstract class ArcView extends GraphElementView {
             Line sourceLine = (Line) mouseEvent.getSource();
             getViewModel().getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
             System.out.println("last added drag point view " + lastAddedDragPointView);
-            graphView.getDiagramViewModel().select(List.of(lastAddedDragPointView.getViewModel()));
             lastAddedDragPointView.onMousePressedHandler(mouseEvent);
-//            savedMouseEvent = mouseEvent;
         }
     }
 
@@ -158,6 +156,7 @@ public abstract class ArcView extends GraphElementView {
         }
     }
 
+    @Override
     protected void bindViewModel() {
         super.bindViewModel();
 
@@ -199,7 +198,7 @@ public abstract class ArcView extends GraphElementView {
 
         lastAddedDragPointView = new DragPointView(graphView, this, dragPointViewModel);
         if (getViewModel().isHighlighted()) {
-            lastAddedDragPointView.enableHighlight();
+            lastAddedDragPointView.getViewModel().highlightedProperty().set(true);
         }
 
         System.out.println("adding drag point");
@@ -283,14 +282,14 @@ public abstract class ArcView extends GraphElementView {
     @Override
     protected void enableHighlight() {
         lines.forEach(line -> line.setEffect(highlightEffect));
-        dragPointViews.forEach(dragPointView -> dragPointView.enableHighlight());
+        dragPointViews.forEach(dragPointView -> dragPointView.getViewModel().highlightedProperty().set(true));
         ending.getShape().setEffect(highlightEffect);
     }
 
     @Override
     protected void disableHighlight() {
         lines.forEach(line -> line.setEffect(null));
-        dragPointViews.forEach(dragPointView -> dragPointView.disableHighlight());
+        dragPointViews.forEach(dragPointView -> dragPointView.getViewModel().highlightedProperty().set(false));
         ending.getShape().setEffect(null);
     }
 

@@ -81,6 +81,7 @@ public class PlaceView extends ConnectableGraphElementView {
         }
     }
 
+    @Override
     protected void bindViewModel() {
         super.bindViewModel();
 

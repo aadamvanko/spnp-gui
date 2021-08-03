@@ -59,6 +59,7 @@ public abstract class TransitionView extends ConnectableGraphElementView {
         }
     }
 
+    @Override
     protected void bindViewModel() {
         super.bindViewModel();
 

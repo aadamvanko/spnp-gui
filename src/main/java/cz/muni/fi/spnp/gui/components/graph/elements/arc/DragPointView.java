@@ -36,7 +36,10 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
         return (DragPointViewModel) viewModel;
     }
 
-    private void bindViewModel() {
+    @Override
+    protected void bindViewModel() {
+        super.bindViewModel();
+
         rectangle.translateXProperty().bindBidirectional(getViewModel().positionXProperty());
         rectangle.translateYProperty().bindBidirectional(getViewModel().positionYProperty());
     }
