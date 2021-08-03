@@ -316,7 +316,11 @@ public abstract class ArcView extends GraphElementView {
     public void removedFromParent() {
         fromElementView.removeArc(this);
         toElementView.removeArc(this);
-        getViewModel().getDragPoints().clear();
+        dragPointViews.forEach(dragPointView -> {
+            dragPointView.removedFromParent();
+            dragPointView.unbindViewModel();
+            dragPointView.setGraphView(null);
+        });
     }
 
     @Override

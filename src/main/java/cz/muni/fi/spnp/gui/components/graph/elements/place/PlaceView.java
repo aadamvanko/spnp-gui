@@ -45,7 +45,6 @@ public class PlaceView extends ConnectableGraphElementView {
         circle.setFill(Color.WHITE);
         circle.setSmooth(true);
         circle.setStrokeType(StrokeType.OUTSIDE);
-        registerMouseHandlers(circle);
 
         tokensCountText = new Text("3");
         tokensCountText.setBoundsType(TextBoundsType.VISUAL);
@@ -53,7 +52,6 @@ public class PlaceView extends ConnectableGraphElementView {
         tokensCountText.textProperty().addListener((observable, oldValue, newValue) -> {
             tokensCountText.setVisible(!newValue.equals("0"));
         });
-        registerMouseHandlers(tokensCountText);
 
         circleStack = new StackPane();
         circleStack.getChildren().add(circle);
@@ -159,10 +157,14 @@ public class PlaceView extends ConnectableGraphElementView {
 
     @Override
     public void addedToParent() {
+        registerMouseHandlers(circle);
+        registerMouseHandlers(tokensCountText);
     }
 
     @Override
     public void removedFromParent() {
+        unregisterMouseHandlers(circle);
+        unregisterMouseHandlers(tokensCountText);
     }
 
     @Override

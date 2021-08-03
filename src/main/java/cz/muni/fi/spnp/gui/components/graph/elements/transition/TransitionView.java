@@ -37,7 +37,6 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
     private void createView() {
         rectangle = new Rectangle();
-        registerMouseHandlers(rectangle);
 
         nameLabel = new Label("transition");
         nameLabel.setText("name name name");
@@ -163,11 +162,12 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
     @Override
     public void addedToParent() {
-
+        registerMouseHandlers(rectangle);
     }
 
     @Override
     public void removedFromParent() {
+        unregisterMouseHandlers(rectangle);
     }
 
     @Override
