@@ -23,4 +23,12 @@ public abstract class ConnectableViewModel extends ElementViewModel {
     public DoubleProperty positionYProperty() {
         return positionY;
     }
+
+    @Override
+    public String toString() {
+        return "ConnectableViewModel{" + super.toString() +
+                "positionX=" + getPositionX() +
+                ", positionY=" + getPositionY() +
+                '}';
+    }
 }

@@ -19,4 +19,10 @@ public abstract class ElementViewModel extends DisplayableViewModel {
         return highlighted;
     }
 
+    @Override
+    public String toString() {
+        return "ElementViewModel{" + super.toString() +
+                "highlighted=" + isHighlighted() +
+                '}';
+    }
 }

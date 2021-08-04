@@ -20,4 +20,11 @@ public class DisplayableViewModel {
     public StringProperty nameProperty() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "DisplayableViewModel{" +
+                "name=" + getName() +
+                '}';
+    }
 }
