@@ -2,6 +2,9 @@
 //
 //import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 //import cz.muni.fi.spnp.gui.viewmodel.*;
+//import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
+//import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
+//import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 //
 //import java.util.HashMap;
 //import java.util.List;
@@ -12,21 +15,29 @@
 //
 //    public Submodel convert(DiagramViewModel diagram) {
 //        var submodel = new Submodel();
+//        submodel.name = diagram.getName();
 //        submodel.elements = convertElements(diagram);
 //        submodel.includes = convertIncludes(diagram);
 //        submodel.defines = convertDefines(diagram);
 //        submodel.functions = convertFunctions(diagram);
+//        submodel.variables = convertVariables(diagram);
 //        return submodel;
 //    }
 //
-//    private String convertIncludes(DiagramViewModel diagram) {
-//        return "";
+//    private List<VariableOldFormat> convertVariables(DiagramViewModel diagramViewModel) {
+//        return diagramViewModel.getVariables().stream()
+//                .map(this::convertVariable)
+//                .collect(Collectors.toList());
+//    }
+//
+//    private VariableOldFormat convertVariable(VariableViewModel variableViewModel) {
+//        return null;
 //    }
 //
 //    private List<ElementOldFormat> convertElements(DiagramViewModel diagram) {
 //        var connectableElements = diagram.getElements().stream()
-//                .filter(e -> e instanceof ConnectableElementViewModel)
-//                .map(e -> (ConnectableElementViewModel) e)
+//                .filter(e -> e instanceof ConnectableViewModel)
+//                .map(e -> (ConnectableViewModel) e)
 //                .collect(Collectors.toList());
 //
 //        var arcs = diagram.getElements().stream()
@@ -39,13 +50,17 @@
 //        return oldElements;
 //    }
 //
-//    private List<ElementOldFormat> convertConnectableElements(List<ConnectableElementViewModel> connectableElements, List<ArcViewModel> arcs) {
+//    private String convertIncludes(DiagramViewModel diagram) {
+//        return "";
+//    }
+//
+//    private List<ElementOldFormat> convertConnectableElements(List<ConnectableViewModel> connectableElements, List<ArcViewModel> arcs) {
 //        return connectableElements.stream()
 //                .map(e -> convertConnectableElement(e, arcs))
 //                .collect(Collectors.toList());
 //    }
 //
-//    private ElementOldFormat convertConnectableElement(ConnectableElementViewModel element, List<ArcViewModel> arcs) {
+//    private ElementOldFormat convertConnectableElement(ConnectableViewModel element, List<ArcViewModel> arcs) {
 //        if (element instanceof PlaceViewModel) {
 //            return convertPlace((PlaceViewModel) element, arcs);
 //        } else if (element instanceof ImmediateTransitionViewModel) {
@@ -90,7 +105,7 @@
 //        return oldPlace;
 //    }
 //
-//    private LabelOldFormat createLabel(ConnectableElementViewModel element) {
+//    private LabelOldFormat createLabel(ConnectableViewModel element) {
 //        var label = new LabelOldFormat();
 //        label.xy = new XY();
 //        // TODO not important, label does not have separate position in my model
@@ -120,13 +135,13 @@
 //                .collect(Collectors.toList());
 //    }
 //
-//    private List<ArcViewModel> findInputArcs(ConnectableElementViewModel to, List<ArcViewModel> arcs) {
+//    private List<ArcViewModel> findInputArcs(ConnectableViewModel to, List<ArcViewModel> arcs) {
 //        return arcs.stream()
 //                .filter(a -> a.getToViewModel() == to)
 //                .collect(Collectors.toList());
 //    }
 //
-//    private List<ArcViewModel> findOutputArcs(ConnectableElementViewModel from, List<ArcViewModel> arcs) {
+//    private List<ArcViewModel> findOutputArcs(ConnectableViewModel from, List<ArcViewModel> arcs) {
 //        return arcs.stream()
 //                .filter(a -> a.getFromViewModel() == from)
 //                .collect(Collectors.toList());
