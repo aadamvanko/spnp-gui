@@ -29,6 +29,8 @@ public class DiagramView {
 
     public void unbindViewModels() {
         diagramViewModel = null;
+        graphView.unbindViewModels();
+        codeView.unbindViewModels();
     }
 
 }

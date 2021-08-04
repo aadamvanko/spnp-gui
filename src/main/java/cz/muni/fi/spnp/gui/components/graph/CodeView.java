@@ -9,7 +9,7 @@ import javafx.scene.control.TextArea;
 
 public class CodeView implements UIComponent {
 
-    private final DiagramViewModel diagramViewModel;
+    private DiagramViewModel diagramViewModel;
     private final TextArea textArea;
 
     public CodeView(DiagramViewModel diagramViewModel) {
@@ -32,4 +32,9 @@ public class CodeView implements UIComponent {
         var sourceCode = transformator.transform(petriNet);
         textArea.setText(sourceCode);
     }
+
+    public void unbindViewModels() {
+        diagramViewModel = null;
+    }
+
 }

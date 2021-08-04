@@ -161,7 +161,7 @@ public class GraphView implements UIComponent {
         diagramViewModel.zoomLevelProperty().removeListener(this.onZoomLevelChangedListener);
         diagramViewModel.gridSnappingProperty().removeListener(this.onGridSnappingChangedListener);
 
-        this.diagramViewModel = null;
+        diagramViewModel = null;
     }
 
     private void onKeyReleased(KeyEvent keyEvent) {
