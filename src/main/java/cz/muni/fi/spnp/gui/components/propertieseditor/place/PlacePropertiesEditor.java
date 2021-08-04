@@ -1,14 +1,12 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.place;
 
-import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.PositionableElementPropertiesEditor;
+import cz.muni.fi.spnp.gui.components.propertieseditor.ConnectablePropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.Property;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class PlacePropertiesEditor extends PositionableElementPropertiesEditor {
+public class PlacePropertiesEditor extends ConnectablePropertiesEditor {
 
     private final Label numberOfTokensLabel;
     private final TextField numberOfTokensTextField;
