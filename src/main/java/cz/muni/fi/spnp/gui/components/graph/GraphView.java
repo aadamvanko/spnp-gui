@@ -151,6 +151,8 @@ public class GraphView implements UIComponent {
         selectedViews = graphElementViews.stream()
                 .filter(graphElementView -> diagramViewModel.getSelected().contains(graphElementView.getViewModel()))
                 .collect(Collectors.toList());
+
+        adjustCanvasSize();
     }
 
     public void unbindViewModels() {
@@ -190,6 +192,9 @@ public class GraphView implements UIComponent {
                 addGraphElementView(addedElementViewModel);
             }
         }
+
+        onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
+        adjustCanvasSize();
     }
 
     private void onSelectedChangedListener(ListChangeListener.Change<? extends ElementViewModel> selectedChange) {
@@ -209,8 +214,6 @@ public class GraphView implements UIComponent {
         addToLayerTop(elementView.getTopLayerContainer());
         graphElementViews.add(elementView);
         elementView.addedToParent();
-
-        adjustCanvasSize();
     }
 
     private void removeGraphElementView(GraphElementView elementView) {
