@@ -13,7 +13,7 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.Be
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
-public class MouseOperationCreateConnectable extends MouseOperation {
+public class MouseOperationCreateConnectable extends MouseOperationCreate {
 
     private final Model model;
 
@@ -38,6 +38,7 @@ public class MouseOperationCreateConnectable extends MouseOperation {
 
         if (newViewModel != null) {
             var diagramViewModel = graphView.getDiagramViewModel();
+            renameIfNeeded(graphView.getDiagramViewModel(), newViewModel);
             diagramViewModel.getElements().add(newViewModel);
 
             if (model.getCursorMode() == CursorMode.CREATE) {

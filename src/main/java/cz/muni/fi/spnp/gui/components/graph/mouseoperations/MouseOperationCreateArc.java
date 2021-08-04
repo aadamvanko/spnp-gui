@@ -4,9 +4,12 @@ import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
-import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
-import cz.muni.fi.spnp.gui.components.graph.elements.arc.*;
+import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcEnding;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcEndingArrow;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcEndingCircle;
+import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceView;
 import cz.muni.fi.spnp.gui.components.graph.elements.transition.TransitionView;
 import cz.muni.fi.spnp.gui.model.Model;
@@ -19,7 +22,7 @@ import javafx.scene.shape.Line;
 
 import java.util.Collections;
 
-public class MouseOperationCreateArc extends MouseOperation {
+public class MouseOperationCreateArc extends MouseOperationCreate {
 
     private final Model model;
     private ConnectableGraphElementView fromElement;
@@ -125,6 +128,7 @@ public class MouseOperationCreateArc extends MouseOperation {
                 } else {
                     arcViewModel = new InhibitorArcViewModel("inhibitorArc", fromElement.getViewModel(), toElement.getViewModel(), Collections.emptyList());
                 }
+                renameIfNeeded(graphView.getDiagramViewModel(), arcViewModel);
                 graphView.getDiagramViewModel().getElements().add(arcViewModel);
 
                 if (model.getCursorMode() == CursorMode.CREATE) {
