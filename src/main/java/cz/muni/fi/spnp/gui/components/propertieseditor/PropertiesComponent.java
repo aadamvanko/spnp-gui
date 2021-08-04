@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
-import cz.muni.fi.spnp.gui.components.ApplicationComponent;
+import cz.muni.fi.spnp.gui.components.ViewContainer;
 import cz.muni.fi.spnp.gui.components.propertieseditor.arc.InhibitorArcPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.arc.StandardArcPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.place.PlacePropertiesEditor;
@@ -13,17 +13,14 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PropertiesComponent extends ApplicationComponent {
+public class PropertiesComponent extends ViewContainer {
 
-    private final VBox vbox;
     private final Map<Class<?>, PropertiesEditor> editors;
     private Class<?> currentType;
     private PropertiesEditor currentEditor;
@@ -31,7 +28,7 @@ public class PropertiesComponent extends ApplicationComponent {
     private DiagramViewModel diagramViewModel;
 
     public PropertiesComponent(Model model) {
-        super(model);
+        super(model, "Properties");
 
         editors = new HashMap<>();
         editors.put(null, new PropertiesEditorPlaceholder());
@@ -41,14 +38,17 @@ public class PropertiesComponent extends ApplicationComponent {
         editors.put(ImmediateTransitionViewModel.class, new ImmediateTransitionPropertiesEditor());
         editors.put(TimedTransitionViewModel.class, new TimedTransitionPropertiesEditor());
 
-        vbox = new VBox();
-        vbox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-        vbox.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        vbox.getChildren().add(editors.get(null).getRoot());
+        createView();
 
         this.onSelectedChangedListener = this::onSelectedChangedListener;
 
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
+    }
+
+    private void createView() {
+        root.getChildren().add(editors.get(null).getRoot());
+        VBox.setVgrow(root, Priority.NEVER);
+        buttonAdd.setVisible(false);
     }
 
     private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
@@ -62,10 +62,6 @@ public class PropertiesComponent extends ApplicationComponent {
             newDiagram.getSelected().addListener(this.onSelectedChangedListener);
             setCorrectEditor(newDiagram.getSelected());
         }
-    }
-
-    public Node getRoot() {
-        return vbox;
     }
 
     private void onSelectedChangedListener(ListChangeListener.Change<? extends ElementViewModel> selectedChange) {
@@ -92,7 +88,7 @@ public class PropertiesComponent extends ApplicationComponent {
                 }
                 currentEditor = editors.get(elementViewModel.getClass());
                 currentEditor.bindViewModel(elementViewModel);
-                vbox.getChildren().set(0, currentEditor.getRoot());
+                root.getChildren().set(1, currentEditor.getRoot());
             }
             currentType = elementViewModel.getClass();
         } else {
@@ -101,7 +97,7 @@ public class PropertiesComponent extends ApplicationComponent {
                 currentEditor = null;
                 currentType = null;
             }
-            vbox.getChildren().set(0, editors.get(null).getRoot());
+            root.getChildren().set(1, editors.get(null).getRoot());
         }
     }
 
