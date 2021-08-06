@@ -8,65 +8,62 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArcPropertiesEditor extends DisplayablePropertiesEditor {
 
-    private final Label arcMultiplicityTypeLabel;
-    private final ChoiceBox<ArcMultiplicityType> arcMultiplicityTypeChoiceBox;
-    private final Label multiplicityLabel;
-    private final TextField multiplicityTextField;
-    private final Label multiplicityFunctionLabel;
-    private final ChoiceBox<String> multiplicityFunctionChoiceBox;
+    private final Map<ArcMultiplicityType, ArcMultiplicitySubEditor> subEditors;
+    private Label arcMultiplicityTypeLabel;
+    private ChoiceBox<ArcMultiplicityType> arcMultiplicityTypeChoiceBox;
 
     public ArcPropertiesEditor() {
-        arcMultiplicityTypeLabel = new Label("Multiplicity type:");
-        var arcMultiplicityTypes = FXCollections.observableArrayList(ArcMultiplicityType.CONSTANT, ArcMultiplicityType.FUNCTION);
-        arcMultiplicityTypeChoiceBox = new ChoiceBox<>(arcMultiplicityTypes);
-        multiplicityLabel = new Label("Multiplicity:");
-        multiplicityTextField = new TextField();
-        multiplicityFunctionLabel = new Label("Multiplicity function:");
-        multiplicityFunctionChoiceBox = new ChoiceBox<>();
+        createView();
 
-        arcMultiplicityTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::arcMultiplicityTypeChanged);
-
-        gridPane.add(arcMultiplicityTypeLabel, 0, 1);
-        gridPane.add(arcMultiplicityTypeChoiceBox, 1, 1);
-        gridPane.add(multiplicityLabel, 0, 2);
-        gridPane.add(multiplicityTextField, 1, 2);
-        gridPane.add(multiplicityFunctionLabel, 0, 3);
-        gridPane.add(multiplicityFunctionChoiceBox, 1, 3);
+        subEditors = new HashMap<>();
+        subEditors.put(ArcMultiplicityType.CONSTANT, new ConstantMultiplicitySubEditor());
+        subEditors.put(ArcMultiplicityType.FUNCTION, new FunctionalMultiplicitySubEditor());
     }
 
-    private void arcMultiplicityTypeChanged(ObservableValue<? extends ArcMultiplicityType> observableValue, ArcMultiplicityType oldValue, ArcMultiplicityType newValue) {
-        if (oldValue == newValue) {
-            return;
+    private void createView() {
+        arcMultiplicityTypeLabel = new Label("Multiplicity type:");
+        var arcMultiplicityTypes = FXCollections.observableArrayList(ArcMultiplicityType.values());
+        arcMultiplicityTypeChoiceBox = new ChoiceBox<>(arcMultiplicityTypes);
+        addRow(arcMultiplicityTypeLabel, arcMultiplicityTypeChoiceBox);
+
+        arcMultiplicityTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::arcMultiplicityTypeChanged);
+    }
+
+    private void arcMultiplicityTypeChanged(ObservableValue<? extends ArcMultiplicityType> observableValue, ArcMultiplicityType oldType, ArcMultiplicityType newType) {
+        if (oldType != null) {
+            var oldSubEditor = subEditors.get(oldType);
+            oldSubEditor.unbindViewModel();
+            oldSubEditor.unbindDiagramViewModel();
+            oldSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
         }
 
-        if (newValue == ArcMultiplicityType.CONSTANT) {
-            multiplicityTextField.setDisable(false);
-            multiplicityFunctionChoiceBox.setDisable(true);
-        } else {
-            multiplicityTextField.setDisable(true);
-            multiplicityFunctionChoiceBox.setDisable(false);
+        if (newType != null) {
+            var newSubEditor = subEditors.get(newType);
+            newSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
+            newSubEditor.bindDiagramViewModel(diagramViewModel);
+            newSubEditor.bindViewModel((ArcViewModel) viewModel);
         }
     }
 
     @Override
     public void bindViewModel(ElementViewModel viewModel) {
         super.bindViewModel(viewModel);
+
         ArcViewModel arcViewModel = (ArcViewModel) viewModel;
         arcMultiplicityTypeChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityTypeProperty());
-        multiplicityTextField.textProperty().bindBidirectional(arcViewModel.multiplicityProperty());
-//        multiplicityFunctionChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityFunctionProperty());
     }
 
     @Override
     public void unbindViewModel() {
         ArcViewModel arcViewModel = (ArcViewModel) viewModel;
         arcMultiplicityTypeChoiceBox.valueProperty().unbindBidirectional(arcViewModel.multiplicityTypeProperty());
-        multiplicityTextField.textProperty().unbindBidirectional(arcViewModel.multiplicityProperty());
-//        multiplicityFunctionChoiceBox.valueProperty().unbindBidirectional(arcViewModel.multiplicityFunctionProperty());
+
         super.unbindViewModel();
     }
 

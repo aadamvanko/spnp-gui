@@ -16,17 +16,14 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
     private final Map<TransitionProbabilityType, TransitionProbabilitySubEditor> subEditors;
     private Label transitionProbabilityTypeLabel;
     private ChoiceBox<TransitionProbabilityType> transitionProbabilityTypeChoiceBox;
-    private ConstantProbabilityPropertiesSubEditor constantProbabilityPropertiesSubEditor;
-    private FunctionalProbabilityPropertiesSubEditor functionalProbabilityPropertiesSubEditor;
-    private PlaceDependentProbabilityPropertiesSubEditor placeDependentProbabilityPropertiesSubEditor;
 
     public ImmediateTransitionPropertiesEditor() {
         createView();
 
         subEditors = new HashMap<>();
-        subEditors.put(TransitionProbabilityType.CONSTANT, constantProbabilityPropertiesSubEditor);
-        subEditors.put(TransitionProbabilityType.FUNCTIONAL, functionalProbabilityPropertiesSubEditor);
-        subEditors.put(TransitionProbabilityType.PLACE_DEPENDANT, placeDependentProbabilityPropertiesSubEditor);
+        subEditors.put(TransitionProbabilityType.CONSTANT, new ConstantProbabilityPropertiesSubEditor());
+        subEditors.put(TransitionProbabilityType.FUNCTIONAL, new FunctionalProbabilityPropertiesSubEditor());
+        subEditors.put(TransitionProbabilityType.PLACE_DEPENDANT, new PlaceDependentProbabilityPropertiesSubEditor());
     }
 
     private void createView() {
@@ -37,16 +34,9 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
         transitionProbabilityTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::onTransitionProbabilityTypeChangedListener);
 
         addRow(transitionProbabilityTypeLabel, transitionProbabilityTypeChoiceBox);
-
-        constantProbabilityPropertiesSubEditor = new ConstantProbabilityPropertiesSubEditor();
-        functionalProbabilityPropertiesSubEditor = new FunctionalProbabilityPropertiesSubEditor();
-        placeDependentProbabilityPropertiesSubEditor = new PlaceDependentProbabilityPropertiesSubEditor();
     }
 
     private void onTransitionProbabilityTypeChangedListener(ObservableValue<? extends TransitionProbabilityType> observable, TransitionProbabilityType oldType, TransitionProbabilityType newType) {
-        System.out.println("oldValue type " + oldType);
-        System.out.println("newValue type " + newType);
-
         if (oldType != null) {
             var oldSubEditor = subEditors.get(oldType);
             oldSubEditor.unbindViewModel();
