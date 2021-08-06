@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
-public class ConnectablePropertiesEditor extends PropertiesEditor {
+public class ConnectablePropertiesEditor extends DisplayablePropertiesEditor {
 
     protected final Label positionXLabel;
     protected final IntegerTextField positionXTextField;

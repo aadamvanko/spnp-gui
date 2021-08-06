@@ -76,7 +76,7 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     public FunctionViewModel getFunctionByName(String functionName) {
         return functions.stream()
-                .filter(function -> function.getName().equals(functionName))
+                .filter(functionViewModel -> functionViewModel.getName().equals(functionName))
                 .findAny()
                 .get();
     }
@@ -181,6 +181,20 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     public ObservableList<ElementViewModel> getElements() {
         return elements;
+    }
+
+    public List<PlaceViewModel> getPlaces() {
+        return elements.stream()
+                .filter(elementViewModel -> elementViewModel instanceof PlaceViewModel)
+                .map(elementViewModel -> (PlaceViewModel) elementViewModel)
+                .collect(Collectors.toList());
+    }
+
+    public PlaceViewModel getPlaceByName(String placeName) {
+        return getPlaces().stream()
+                .filter(placeViewModel -> placeViewModel.getName().equals(placeName))
+                .findAny()
+                .get();
     }
 
     public ObservableList<InputParameterViewModel> getInputParameters() {

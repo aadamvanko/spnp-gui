@@ -5,12 +5,13 @@ import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
-public abstract class PropertiesEditor implements UIComponent {
+public abstract class DisplayablePropertiesEditor implements UIComponent {
 
     protected final GridPane gridPane;
     protected final Label nameLabel;
@@ -19,7 +20,7 @@ public abstract class PropertiesEditor implements UIComponent {
     protected ElementViewModel viewModel;
     protected DiagramViewModel diagramViewModel;
 
-    public PropertiesEditor() {
+    public DisplayablePropertiesEditor() {
         gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setPadding(new Insets(5, 10, 5, 5));
@@ -32,6 +33,13 @@ public abstract class PropertiesEditor implements UIComponent {
     }
 
     protected void addRow(Node left, Node right) {
+        if (right != nameTextField) {
+            if (right instanceof TextField) {
+                ((TextField) right).minWidthProperty().bind(nameTextField.widthProperty());
+            } else if (right instanceof ChoiceBox) {
+                ((ChoiceBox) right).minWidthProperty().bind(nameTextField.widthProperty());
+            }
+        }
         gridPane.addRow(gridPane.getRowCount(), left, right);
     }
 

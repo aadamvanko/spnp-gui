@@ -403,12 +403,12 @@ public class SubmodelConverter {
             case "Place dependent":
                 var placeDependentProbability = new PlaceDependentTransitionProbabilityViewModel();
                 placeDependentProbability.valueProperty().set(parseDoubleOrDefault(oldImmediate.probability, 1));
-                placeDependentProbability.setDependentPlace(findPlaceViewModel(places, oldImmediate.placeDependent));
+                placeDependentProbability.dependentPlaceProperty().set(findPlaceViewModel(places, oldImmediate.placeDependent));
                 return placeDependentProbability;
 
             case "Function":
                 var functionalProbability = new FunctionalTransitionProbabilityViewModel();
-                functionalProbability.setFunction(findFunctionViewModel(functions, oldImmediate.probability));
+                functionalProbability.functionProperty().set(findFunctionViewModel(functions, oldImmediate.probability));
                 return functionalProbability;
 
             default:

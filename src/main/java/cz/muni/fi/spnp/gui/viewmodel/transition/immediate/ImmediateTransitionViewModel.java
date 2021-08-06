@@ -4,7 +4,7 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 
 public class ImmediateTransitionViewModel extends TransitionViewModel {
 
-    private TransitionProbabilityViewModel transitionProbability;
+    private TransitionProbabilityViewModel transitionProbability = new ConstantTransitionProbabilityViewModel();
 
     public TransitionProbabilityViewModel getTransitionProbability() {
         return transitionProbability;

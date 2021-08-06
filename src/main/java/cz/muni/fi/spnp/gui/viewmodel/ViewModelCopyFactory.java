@@ -192,14 +192,14 @@ public class ViewModelCopyFactory {
 
     public FunctionalTransitionProbabilityViewModel createCopy(FunctionalTransitionProbabilityViewModel functionalTransitionProbabilityViewModel) {
         var copy = new FunctionalTransitionProbabilityViewModel();
-        copy.setFunction(functionalTransitionProbabilityViewModel.getFunction());
+        copy.functionProperty().set(functionalTransitionProbabilityViewModel.getFunction());
         return copy;
     }
 
     public PlaceDependentTransitionProbabilityViewModel createCopy(PlaceDependentTransitionProbabilityViewModel placeDependentTransitionProbabilityViewModel) {
         var copy = new PlaceDependentTransitionProbabilityViewModel();
         copy.valueProperty().set(placeDependentTransitionProbabilityViewModel.getValue());
-        copy.setDependentPlace((PlaceViewModel) findOrReturn(placeDependentTransitionProbabilityViewModel.getDependentPlace()));
+        copy.dependentPlaceProperty().set((PlaceViewModel) findOrReturn(placeDependentTransitionProbabilityViewModel.getDependentPlace()));
         return copy;
     }
 

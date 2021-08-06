@@ -29,7 +29,6 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
         priorityTextField = new IntegerTextField();
         guardFunctionLabel = new Label("Guard function:");
         guardFunctionChoiceBox = new ChoiceBox<>();
-        guardFunctionChoiceBox.setMinWidth(100);
 
         addRow(priorityLabel, priorityTextField.getTextField());
         addRow(guardFunctionLabel, guardFunctionChoiceBox);
@@ -37,7 +36,7 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
         this.onFunctionsChangedListener = this::onFunctionsChangedListener;
     }
 
-    public void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
+    private void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
         var guardFunctions = diagramViewModel.getFunctions().stream()
                 .filter(functionViewModel -> functionViewModel.getFunctionType() == FunctionType.Guard)
                 .collect(Collectors.toList());
@@ -45,7 +44,6 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
         functionsCopy.add(0, null);
         guardFunctionChoiceBox.setItems(functionsCopy);
     }
-
 
     @Override
     public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {

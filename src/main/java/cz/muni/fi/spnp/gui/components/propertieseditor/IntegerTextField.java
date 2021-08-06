@@ -5,6 +5,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.util.converter.IntegerStringConverter;
 
 public class IntegerTextField {
+
     private final TextField textField;
 
     public IntegerTextField() {
@@ -21,4 +22,5 @@ public class IntegerTextField {
     public TextFormatter<Integer> getTextFormatter() {
         return (TextFormatter<Integer>) textField.getTextFormatter();
     }
+
 }

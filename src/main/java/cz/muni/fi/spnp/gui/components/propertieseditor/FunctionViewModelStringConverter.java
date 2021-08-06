@@ -24,4 +24,5 @@ public class FunctionViewModelStringConverter extends StringConverter<FunctionVi
     public FunctionViewModel fromString(String name) {
         return diagramViewModel.getFunctionByName(name);
     }
+
 }

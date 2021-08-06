@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class PropertiesEditorPlaceholder extends PropertiesEditor {
+public class PropertiesEditorPlaceholder extends DisplayablePropertiesEditor {
 
     private final VBox vbox;
 

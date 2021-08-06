@@ -21,9 +21,9 @@ import java.util.Map;
 
 public class PropertiesComponent extends ViewContainer {
 
-    private final Map<Class<?>, PropertiesEditor> editors;
+    private final Map<Class<?>, DisplayablePropertiesEditor> editors;
     private Class<?> currentType;
-    private PropertiesEditor currentEditor;
+    private DisplayablePropertiesEditor currentEditor;
     private final ListChangeListener<ElementViewModel> onSelectedChangedListener;
     private DiagramViewModel diagramViewModel;
 

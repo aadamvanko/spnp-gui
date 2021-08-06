@@ -1,18 +1,16 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.arc;
 
-import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesEditor;
+import cz.muni.fi.spnp.gui.components.propertieseditor.DisplayablePropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ArcMultiplicityType;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class ArcPropertiesEditor extends PropertiesEditor {
+public class ArcPropertiesEditor extends DisplayablePropertiesEditor {
 
     private final Label arcMultiplicityTypeLabel;
     private final ChoiceBox<ArcMultiplicityType> arcMultiplicityTypeChoiceBox;
