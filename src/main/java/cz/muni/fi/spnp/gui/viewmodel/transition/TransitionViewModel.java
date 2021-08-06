@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public abstract class TransitionViewModel extends ConnectableViewModel {
 
-    private final IntegerProperty priority = new SimpleIntegerProperty();
+    private final IntegerProperty priority = new SimpleIntegerProperty(0);
     private final ObjectProperty<FunctionViewModel> guardFunction = new SimpleObjectProperty<>();
 
     public int getPriority() {

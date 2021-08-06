@@ -20,10 +20,8 @@ public class ConnectablePropertiesEditor extends PropertiesEditor {
         positionYLabel = new Label("Position Y");
         positionYTextField = new IntegerTextField();
 
-        gridPane.add(positionXLabel, 0, 1);
-        gridPane.add(positionXTextField.getTextField(), 1, 1);
-        gridPane.add(positionYLabel, 0, 2);
-        gridPane.add(positionYTextField.getTextField(), 1, 2);
+        addRow(positionXLabel, positionXTextField.getTextField());
+        addRow(positionYLabel, positionYTextField.getTextField());
     }
 
     public void bindViewModel(ElementViewModel viewModel) {

@@ -16,8 +16,7 @@ public class PlacePropertiesEditor extends ConnectablePropertiesEditor {
         numberOfTokensLabel = new Label("Tokens:");
         numberOfTokensTextField = new TextField();
 
-        gridPane.add(numberOfTokensLabel, 0, 3);
-        gridPane.add(numberOfTokensTextField, 1, 3);
+        addRow(numberOfTokensLabel, numberOfTokensTextField);
     }
 
     @Override

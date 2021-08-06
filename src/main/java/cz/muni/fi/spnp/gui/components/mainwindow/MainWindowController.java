@@ -63,6 +63,10 @@ public class MainWindowController {
         project1.nameProperty().set("mock_project1");
         model.getProjects().add(project1);
 
+        var functions = new ArrayList<FunctionViewModel>();
+        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID, false));
+        functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID, false));
+
         var place1 = new PlaceViewModel();
         place1.nameProperty().set("place1");
         place1.positionXProperty().set(100);
@@ -99,6 +103,7 @@ public class MainWindowController {
         immediateTransition1.positionYProperty().set(200);
         immediateTransition1.priorityProperty().set(1);
         immediateTransition1.setTransitionProbability(new ConstantTransitionProbabilityViewModel());
+        immediateTransition1.guardFunctionProperty().set(functions.get(0));
 
         var inhibitorArc1 = new InhibitorArcViewModel("inhibitor1", place3, immediateTransition1, Collections.emptyList());
 
@@ -118,9 +123,6 @@ public class MainWindowController {
         defines.add(new DefineViewModel("MAX_SIZE", "10"));
         defines.add(new DefineViewModel("MIN_SIZE", "-4"));
 
-        var functions = new ArrayList<FunctionViewModel>();
-        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID, false));
-        functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID, false));
 
         var variables = new ArrayList<VariableViewModel>();
         variables.add(new VariableViewModel("var_1_global_int", VariableType.Global, VariableDataType.INT, "10"));

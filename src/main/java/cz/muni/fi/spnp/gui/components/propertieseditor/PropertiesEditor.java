@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
 import cz.muni.fi.spnp.gui.components.UIComponent;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -14,7 +15,9 @@ public abstract class PropertiesEditor implements UIComponent {
     protected final GridPane gridPane;
     protected final Label nameLabel;
     protected final TextField nameTextField;
+
     protected ElementViewModel viewModel;
+    protected DiagramViewModel diagramViewModel;
 
     public PropertiesEditor() {
         gridPane = new GridPane();
@@ -25,8 +28,20 @@ public abstract class PropertiesEditor implements UIComponent {
         nameTextField = new TextField();
         GridPane.setHgrow(nameTextField, Priority.ALWAYS);
 
-        gridPane.add(nameLabel, 0, 0);
-        gridPane.add(nameTextField, 1, 0);
+        addRow(nameLabel, nameTextField);
+    }
+
+    protected void addRow(Node left, Node right) {
+        gridPane.addRow(gridPane.getRowCount(), left, right);
+    }
+
+
+    public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
+        this.diagramViewModel = diagramViewModel;
+    }
+
+    public void unbindDiagramViewModel() {
+        this.diagramViewModel = null;
     }
 
     public void bindViewModel(ElementViewModel viewModel) {

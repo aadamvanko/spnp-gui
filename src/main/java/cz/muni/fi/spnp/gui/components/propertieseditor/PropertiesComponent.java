@@ -81,12 +81,17 @@ public class PropertiesComponent extends ViewContainer {
 
             if (elementViewModel.getClass().equals(currentType)) {
                 currentEditor.unbindViewModel();
+                currentEditor.unbindDiagramViewModel();
+
+                currentEditor.bindDiagramViewModel(diagramViewModel);
                 currentEditor.bindViewModel(elementViewModel);
             } else {
                 if (currentEditor != null) {
                     currentEditor.unbindViewModel();
+                    currentEditor.unbindDiagramViewModel();
                 }
                 currentEditor = editors.get(elementViewModel.getClass());
+                currentEditor.bindDiagramViewModel(diagramViewModel);
                 currentEditor.bindViewModel(elementViewModel);
                 root.getChildren().set(1, currentEditor.getRoot());
             }
@@ -94,6 +99,7 @@ public class PropertiesComponent extends ViewContainer {
         } else {
             if (currentEditor != null) {
                 currentEditor.unbindViewModel();
+                currentEditor.unbindDiagramViewModel();
                 currentEditor = null;
                 currentType = null;
             }

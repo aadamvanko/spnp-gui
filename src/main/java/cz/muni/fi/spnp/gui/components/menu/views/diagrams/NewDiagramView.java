@@ -30,7 +30,7 @@ public class NewDiagramView extends UIWindowComponent {
         gridPane.add(textFieldName, 1, 0);
         var labelProject = new Label("Project");
         gridPane.add(labelProject, 0, 1);
-        choiceBoxProject = new ChoiceBox<ProjectViewModel>();
+        choiceBoxProject = new ChoiceBox<>();
         choiceBoxProject.setConverter(new ProjectViewModelStringConverter(model));
         choiceBoxProject.setItems(model.getProjects());
         gridPane.add(choiceBoxProject, 1, 1);
