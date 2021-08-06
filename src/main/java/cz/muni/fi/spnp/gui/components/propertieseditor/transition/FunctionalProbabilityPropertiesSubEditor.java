@@ -64,7 +64,6 @@ public class FunctionalProbabilityPropertiesSubEditor extends TransitionProbabil
 
         var functionalTransitionProbabilityViewModel = (FunctionalTransitionProbabilityViewModel) transitionProbabilityViewModel;
         functionChoiceBox.valueProperty().bindBidirectional(functionalTransitionProbabilityViewModel.functionProperty());
-        functionChoiceBox.getSelectionModel().select(functionalTransitionProbabilityViewModel.getFunction());
     }
 
     public void unbindViewModel() {
