@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
+import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.ConnectablePropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.FunctionViewModelStringConverter;
@@ -12,6 +13,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+
+import java.util.stream.Collectors;
 
 public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEditor {
 
@@ -35,7 +38,10 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
     }
 
     public void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
-        var functionsCopy = FXCollections.observableArrayList(diagramViewModel.getFunctions());
+        var guardFunctions = diagramViewModel.getFunctions().stream()
+                .filter(functionViewModel -> functionViewModel.getFunctionType() == FunctionType.Guard)
+                .collect(Collectors.toList());
+        var functionsCopy = FXCollections.observableArrayList(guardFunctions);
         functionsCopy.add(0, null);
         guardFunctionChoiceBox.setItems(functionsCopy);
     }
