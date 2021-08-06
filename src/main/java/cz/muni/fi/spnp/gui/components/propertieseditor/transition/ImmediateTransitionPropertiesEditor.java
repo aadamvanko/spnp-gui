@@ -16,17 +16,17 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
     private final Map<TransitionProbabilityType, TransitionProbabilitySubEditor> subEditors;
     private Label transitionProbabilityTypeLabel;
     private ChoiceBox<TransitionProbabilityType> transitionProbabilityTypeChoiceBox;
-    private ConstantProbabilityPropertiesEditor constantProbabilityPropertiesEditor;
-    private FunctionalProbabilityPropertiesEditor functionalProbabilityPropertiesEditor;
-    private PlaceDependentProbabilityPropertiesEditor placeDependentProbabilityPropertiesEditor;
+    private ConstantProbabilityPropertiesSubEditor constantProbabilityPropertiesSubEditor;
+    private FunctionalProbabilityPropertiesSubEditor functionalProbabilityPropertiesSubEditor;
+    private PlaceDependentProbabilityPropertiesSubEditor placeDependentProbabilityPropertiesSubEditor;
 
     public ImmediateTransitionPropertiesEditor() {
         createView();
 
         subEditors = new HashMap<>();
-        subEditors.put(TransitionProbabilityType.CONSTANT, constantProbabilityPropertiesEditor);
-        subEditors.put(TransitionProbabilityType.FUNCTIONAL, functionalProbabilityPropertiesEditor);
-        subEditors.put(TransitionProbabilityType.PLACE_DEPENDANT, placeDependentProbabilityPropertiesEditor);
+        subEditors.put(TransitionProbabilityType.CONSTANT, constantProbabilityPropertiesSubEditor);
+        subEditors.put(TransitionProbabilityType.FUNCTIONAL, functionalProbabilityPropertiesSubEditor);
+        subEditors.put(TransitionProbabilityType.PLACE_DEPENDANT, placeDependentProbabilityPropertiesSubEditor);
     }
 
     private void createView() {
@@ -38,9 +38,9 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
 
         addRow(transitionProbabilityTypeLabel, transitionProbabilityTypeChoiceBox);
 
-        constantProbabilityPropertiesEditor = new ConstantProbabilityPropertiesEditor();
-        functionalProbabilityPropertiesEditor = new FunctionalProbabilityPropertiesEditor();
-        placeDependentProbabilityPropertiesEditor = new PlaceDependentProbabilityPropertiesEditor();
+        constantProbabilityPropertiesSubEditor = new ConstantProbabilityPropertiesSubEditor();
+        functionalProbabilityPropertiesSubEditor = new FunctionalProbabilityPropertiesSubEditor();
+        placeDependentProbabilityPropertiesSubEditor = new PlaceDependentProbabilityPropertiesSubEditor();
     }
 
     private void onTransitionProbabilityTypeChangedListener(ObservableValue<? extends TransitionProbabilityType> observable, TransitionProbabilityType oldType, TransitionProbabilityType newType) {

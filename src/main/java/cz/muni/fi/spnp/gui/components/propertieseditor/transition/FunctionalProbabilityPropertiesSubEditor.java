@@ -13,13 +13,13 @@ import javafx.scene.control.Label;
 
 import java.util.stream.Collectors;
 
-public class FunctionalProbabilityPropertiesEditor extends TransitionProbabilitySubEditor {
+public class FunctionalProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
     private Label functionLabel;
     private ChoiceBox<FunctionViewModel> functionChoiceBox;
 
-    public FunctionalProbabilityPropertiesEditor() {
+    public FunctionalProbabilityPropertiesSubEditor() {
         createView();
 
         this.onFunctionsChangedListener = this::onFunctionsChangedListener;

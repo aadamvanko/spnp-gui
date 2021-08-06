@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
-public class PlaceDependentProbabilityPropertiesEditor extends TransitionProbabilitySubEditor {
+public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
     private final ListChangeListener<? super ElementViewModel> onPlacesChangedListener;
     private Label valueLabel;
@@ -23,7 +23,7 @@ public class PlaceDependentProbabilityPropertiesEditor extends TransitionProbabi
     private Label placeLabel;
     private ChoiceBox<PlaceViewModel> dependentPlaceChoiceBox;
 
-    public PlaceDependentProbabilityPropertiesEditor() {
+    public PlaceDependentProbabilityPropertiesSubEditor() {
         createView();
 
         this.onPlacesChangedListener = this::onPlacesChangedListener;

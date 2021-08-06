@@ -8,12 +8,12 @@ import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
-public class ConstantProbabilityPropertiesEditor extends TransitionProbabilitySubEditor {
+public class ConstantProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
     private Label valueLabel;
     private DoubleTextField valueTextField;
 
-    public ConstantProbabilityPropertiesEditor() {
+    public ConstantProbabilityPropertiesSubEditor() {
         createView();
     }
 
