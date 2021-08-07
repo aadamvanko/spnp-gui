@@ -64,9 +64,8 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
                 return new FunctionalTransitionProbabilityViewModel();
             case PlaceDependent:
                 return new PlaceDependentTransitionProbabilityViewModel();
-            default:
-                return null;
         }
+        throw new AssertionError("Unknown transition probability type " + transitionProbabilityType);
     }
 
     @Override

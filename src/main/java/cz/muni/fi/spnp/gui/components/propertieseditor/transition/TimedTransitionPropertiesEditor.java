@@ -41,20 +41,19 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
     }
 
     private void createView() {
-        distributionTypeLabel = new Label("Distribution type:");
-        distributionTypeChoiceBox = new ChoiceBox<>(FXCollections.observableArrayList(TransitionDistributionType.values()));
-        addRow(distributionTypeLabel, distributionTypeChoiceBox);
-
         transitionDistributionTypeLabel = new Label("Transition distribution type:");
         transitionDistributionTypeChoiceBox = new ChoiceBox<>(FXCollections.observableArrayList(TimedDistributionType.values()));
         addRow(transitionDistributionTypeLabel, transitionDistributionTypeChoiceBox);
+
+        distributionTypeLabel = new Label("Distribution type:");
+        distributionTypeChoiceBox = new ChoiceBox<>(FXCollections.observableArrayList(TransitionDistributionType.values()));
+        addRow(distributionTypeLabel, distributionTypeChoiceBox);
     }
 
 
     private void onDistributionTypeChangedListener(ObservableValue<? extends TransitionDistributionType> observable, TransitionDistributionType oldType, TransitionDistributionType newType) {
         var oldSubEditor = subEditors.get(oldType);
         if (oldSubEditor != null && oldSubEditor.getDiagramViewModel() != null) {
-            System.out.println("unbinding old sub editor distribution type");
             oldSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
             oldSubEditor.unbindViewModel();
             oldSubEditor.unbindDiagramViewModel();
@@ -141,17 +140,17 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
 
         var oldSubEditor = subEditors.get(timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get());
         if (oldSubEditor.getDiagramViewModel() != null) {
-            System.out.println("unbinding old sub editor transition distribution type");
             oldSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
             oldSubEditor.unbindViewModel();
             oldSubEditor.unbindDiagramViewModel();
         }
 
         if (newType != null) {
-            timedTransitionViewModel.setTransitionDistribution(createTransitionDistribution(timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get(), newType));
+            var newTransitionDistribution = createTransitionDistribution(
+                    timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get(), newType);
+            timedTransitionViewModel.setTransitionDistribution(newTransitionDistribution);
 
             var newSubEditor = subEditors.get(timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get());
-
             newSubEditor.bindDiagramViewModel(diagramViewModel);
             newSubEditor.bindViewModel(timedTransitionViewModel.getTransitionDistribution());
             newSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
