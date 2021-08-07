@@ -92,7 +92,9 @@ public class MainWindowController {
         timedTransition1.positionXProperty().set(300);
         timedTransition1.positionYProperty().set(100);
         timedTransition1.priorityProperty().set(1);
-        timedTransition1.setTransitionDistribution(new ConstantTransitionDistributionViewModel("0.4"));
+        var constantDistribution = new ConstantTransitionDistributionViewModel("0.4");
+        constantDistribution.valueProperty().set("0.59");
+        timedTransition1.setTransitionDistribution(constantDistribution);
 
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1,
                 List.of(new DragPointViewModel(200, 50), new DragPointViewModel(250, 75)));

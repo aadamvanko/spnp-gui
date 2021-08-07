@@ -61,7 +61,9 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
 
         if (newType != null) {
             var timedTransitionViewModel = (TimedTransitionViewModel) viewModel;
-            timedTransitionViewModel.setTransitionDistribution(createTransitionDistribution(newType, timedTransitionViewModel.getTransitionDistribution().getEnumType()));
+            if (newType != timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get()) {
+                timedTransitionViewModel.setTransitionDistribution(createTransitionDistribution(newType, timedTransitionViewModel.getTransitionDistribution().getEnumType()));
+            }
 
             var newSubEditor = subEditors.get(newType);
 
@@ -146,9 +148,11 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
         }
 
         if (newType != null) {
-            var newTransitionDistribution = createTransitionDistribution(
-                    timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get(), newType);
-            timedTransitionViewModel.setTransitionDistribution(newTransitionDistribution);
+            if (newType != timedTransitionViewModel.getTransitionDistribution().getEnumType()) {
+                var newTransitionDistribution = createTransitionDistribution(
+                        timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get(), newType);
+                timedTransitionViewModel.setTransitionDistribution(newTransitionDistribution);
+            }
 
             var newSubEditor = subEditors.get(timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get());
             newSubEditor.bindDiagramViewModel(diagramViewModel);

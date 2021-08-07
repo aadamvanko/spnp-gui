@@ -38,7 +38,7 @@ public abstract class TransitionDistributionBaseViewModel implements TransitionD
     protected List<StringProperty> createNValues(int count) {
         var valuesList = new ArrayList<StringProperty>();
         for (int i = 0; i < count; i++) {
-            valuesList.add(new SimpleStringProperty(String.format("value%d", i + 1)));
+            valuesList.add(new SimpleStringProperty());
         }
         return valuesList;
     }
