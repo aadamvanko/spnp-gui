@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import javafx.beans.property.StringProperty;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 
 public class ConstantTransitionDistributionViewModel extends SingleValueTransitionDistributionBaseViewModel {
 
@@ -22,12 +22,8 @@ public class ConstantTransitionDistributionViewModel extends SingleValueTransiti
     }
 
     @Override
-    public StringProperty valueProperty() {
-        return super.valueProperty();
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Constant;
     }
 
-    @Override
-    public FunctionViewModel getFirstFunction() {
-        return super.getFirstFunction();
-    }
 }

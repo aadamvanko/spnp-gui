@@ -39,4 +39,5 @@ public class ConstantProbabilityPropertiesSubEditor extends TransitionProbabilit
 
         super.unbindViewModel();
     }
+
 }

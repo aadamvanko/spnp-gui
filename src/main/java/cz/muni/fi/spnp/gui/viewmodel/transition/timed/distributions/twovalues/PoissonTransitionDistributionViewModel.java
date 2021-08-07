@@ -5,7 +5,10 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.PoissonTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import javafx.beans.property.StringProperty;
+
+import java.util.List;
 
 public class PoissonTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
@@ -65,6 +68,16 @@ public class PoissonTransitionDistributionViewModel extends TwoValuesTransitionD
 
     public void setTValueFunction(FunctionViewModel tValueFunction) {
         this.setFirstFunction(tValueFunction);
+    }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Poisson;
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return List.of("Lambda value", "T value");
     }
 
 }

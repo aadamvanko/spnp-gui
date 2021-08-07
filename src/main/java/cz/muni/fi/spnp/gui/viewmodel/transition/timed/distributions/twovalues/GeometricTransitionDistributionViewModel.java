@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.core.models.places.StandardPlace;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 
 public class GeometricTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
@@ -40,4 +41,10 @@ public class GeometricTransitionDistributionViewModel extends TwoValuesTransitio
     public GeometricTransitionDistributionViewModel(String firstValue, String secondValue, PlaceViewModel dependentPlace) {
         super(firstValue, secondValue, dependentPlace);
     }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Geometric;
+    }
+
 }

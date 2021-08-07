@@ -5,7 +5,10 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.UniformTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import javafx.beans.property.StringProperty;
+
+import java.util.List;
 
 public class UniformTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
@@ -65,6 +68,16 @@ public class UniformTransitionDistributionViewModel extends TwoValuesTransitionD
 
     public void setUpperBoundFunction(FunctionViewModel upperBoundFunction) {
         this.setSecondFunction(upperBoundFunction);
+    }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Uniform;
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return List.of("Lower bound", "Upper bound");
     }
 
 }

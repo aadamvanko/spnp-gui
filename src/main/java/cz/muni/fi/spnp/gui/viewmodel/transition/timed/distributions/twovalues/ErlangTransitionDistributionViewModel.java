@@ -2,7 +2,10 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues;
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import javafx.beans.property.StringProperty;
+
+import java.util.List;
 
 public class ErlangTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
@@ -36,4 +39,15 @@ public class ErlangTransitionDistributionViewModel extends TwoValuesTransitionDi
     public FunctionViewModel numberOfPhasesFunctionProperty() {
         return getSecondFunction();
     }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Erlang;
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return List.of("Rate", "Number of phases");
+    }
+
 }

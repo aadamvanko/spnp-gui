@@ -2,7 +2,6 @@ package cz.muni.fi.spnp.gui.mappers;
 
 import cz.muni.fi.spnp.core.models.arcs.Arc;
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
-import cz.muni.fi.spnp.core.models.arcs.StandardArc;
 import cz.muni.fi.spnp.core.models.places.Place;
 import cz.muni.fi.spnp.core.models.places.StandardPlace;
 import cz.muni.fi.spnp.core.models.transitions.ImmediateTransition;
@@ -19,7 +18,9 @@ import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPInhibitorArc;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPStandardArc;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPStandardPlace;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.*;
+import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.StandardArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
@@ -107,97 +108,97 @@ public class ElementMapper {
                 timedTransitionViewModel.getName(),
                 timedTransitionViewModel.getPriority(),
                 findFunction(timedTransitionViewModel.getGuardFunction()),
-                convertTransitionDistribution(timedTransitionViewModel.getTransitionDistribution(), timedTransitionViewModel.timedDistributionTypeProperty().get())
+                convertTransitionDistribution(timedTransitionViewModel.getTransitionDistribution())
         );
     }
 
-    private TransitionDistribution convertTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
-        switch (timedDistributionType.getNumberOfValuesType()) {
+    private TransitionDistribution convertTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
+        switch (transitionDistributionViewModel.getEnumType().getNumberOfValuesType()) {
             case ONE:
-                return convertSingleValueTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertSingleValueTransitionDistribution(transitionDistributionViewModel);
             case TWO:
-                return convertTwoValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertTwoValuesTransitionDistribution(transitionDistributionViewModel);
             case THREE:
-                return convertThreeValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertThreeValuesTransitionDistribution(transitionDistributionViewModel);
             case FOUR:
-                return convertFourValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertFourValuesTransitionDistribution(transitionDistributionViewModel);
         }
         return null;
     }
 
-    private TransitionDistribution convertSingleValueTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertSingleValueTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var distributionType = transitionDistributionViewModel.distributionTypeProperty().get();
         switch (distributionType) {
             case Constant:
-                return convertConstantSingleValueTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertConstantSingleValueTransitionDistribution(transitionDistributionViewModel);
             case Functional:
-                return convertFunctionalSingleValueTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertFunctionalSingleValueTransitionDistribution(transitionDistributionViewModel);
             case PlaceDependent:
-                return convertPlaceDependentSingleValueTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertPlaceDependentSingleValueTransitionDistribution(transitionDistributionViewModel);
         }
         throw new AssertionError("Unknown single value distribution type " + distributionType);
     }
 
-    private TransitionDistribution convertConstantSingleValueTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertConstantSingleValueTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var singleValueViewModel = (SingleValueTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstValue = singleValueViewModel.getValue();
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Constant:
                 return new SPNPConstantTransitionDistribution(firstValue);
             case Exponential:
                 return new SPNPExponentialTransitionDistribution(firstValue);
         }
-        throw new AssertionError("Unknown constant single value transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown constant single value transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertFunctionalSingleValueTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertFunctionalSingleValueTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var singleValueViewModel = (SingleValueTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstFunction = (FunctionSPNP<Double>) findFunction(singleValueViewModel.getFirstFunction());
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Constant:
                 return new SPNPConstantTransitionDistribution(firstFunction);
             case Exponential:
                 return new SPNPExponentialTransitionDistribution(firstFunction);
         }
-        throw new AssertionError("Unknown functional single value transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown functional single value transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertPlaceDependentSingleValueTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertPlaceDependentSingleValueTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var singleValueViewModel = (SingleValueTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstValue = singleValueViewModel.getValue();
-        var dependentPlace = (StandardPlace) findPlace(singleValueViewModel.getDependentPlace());
+        var dependentPlace = (StandardPlace) findPlace(singleValueViewModel.dependentPlaceProperty().get());
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Constant:
                 return new SPNPConstantTransitionDistribution(firstValue, dependentPlace);
             case Exponential:
                 return new SPNPExponentialTransitionDistribution(firstValue, dependentPlace);
         }
-        throw new AssertionError("Unknown place dependent single value transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown place dependent single value transition distribution type " + transitionDistributionViewModel.getEnumType());
 
     }
 
-    private TransitionDistribution convertTwoValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertTwoValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var distributionType = transitionDistributionViewModel.distributionTypeProperty().get();
         switch (distributionType) {
             case Constant:
-                return convertConstantTwoValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertConstantTwoValuesTransitionDistribution(transitionDistributionViewModel);
             case Functional:
-                return convertFunctionalTwoValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertFunctionalTwoValuesTransitionDistribution(transitionDistributionViewModel);
             case PlaceDependent:
-                return convertPlaceDependentTwoValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertPlaceDependentTwoValuesTransitionDistribution(transitionDistributionViewModel);
         }
         throw new AssertionError("Unknown two values distribution type " + distributionType);
     }
 
-    private TransitionDistribution convertConstantTwoValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertConstantTwoValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var twoValuesViewModel = (TwoValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstValue = twoValuesViewModel.getFirstValue();
         var secondValue = twoValuesViewModel.getSecondValue();
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Beta:
                 return new SPNPBetaTransitionDistribution(firstValue, secondValue);
             case Cauchy:
@@ -221,12 +222,12 @@ public class ElementMapper {
             case Weibull:
                 return new SPNPWeibullTransitionDistribution(firstValue, secondValue);
         }
-        throw new AssertionError("Unknown constant two values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown constant two values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertFunctionalTwoValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertFunctionalTwoValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var twoValuesViewModel = (TwoValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
-        if (timedDistributionType == TimedDistributionType.Erlang) {
+        if (transitionDistributionViewModel.getEnumType() == TimedDistributionType.Erlang) {
             var firstFunction = (FunctionSPNP<Double>) findFunction(twoValuesViewModel.getFirstFunction());
             var secondFunction = (FunctionSPNP<Integer>) findFunction(twoValuesViewModel.getSecondFunction());
             return new SPNPErlangTransitionDIstribution(firstFunction, secondFunction);
@@ -235,7 +236,7 @@ public class ElementMapper {
         var firstFunction = (FunctionSPNP<Double>) findFunction(twoValuesViewModel.getFirstFunction());
         var secondFunction = (FunctionSPNP<Double>) findFunction(twoValuesViewModel.getSecondFunction());
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Beta:
                 return new SPNPBetaTransitionDistribution(firstFunction, secondFunction);
             case Cauchy:
@@ -257,16 +258,16 @@ public class ElementMapper {
             case Weibull:
                 return new SPNPWeibullTransitionDistribution(firstFunction, secondFunction);
         }
-        throw new AssertionError("Unknown functional two values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown functional two values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertPlaceDependentTwoValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertPlaceDependentTwoValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var twoValuesViewModel = (TwoValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstValue = twoValuesViewModel.getFirstValue();
         var secondValue = twoValuesViewModel.getSecondValue();
-        var dependentPlace = findPlace(twoValuesViewModel.getDependentPlace());
+        var dependentPlace = findPlace(twoValuesViewModel.dependentPlaceProperty().get());
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Beta:
                 return new SPNPBetaTransitionDistribution(firstValue, secondValue, dependentPlace);
             case Cauchy:
@@ -290,29 +291,29 @@ public class ElementMapper {
             case Weibull:
                 return new SPNPWeibullTransitionDistribution(firstValue, secondValue, dependentPlace);
         }
-        throw new AssertionError("Unknown place dependent two values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown place dependent two values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertThreeValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertThreeValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var distributionType = transitionDistributionViewModel.distributionTypeProperty().get();
         switch (distributionType) {
             case Constant:
-                return convertConstantThreeValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertConstantThreeValuesTransitionDistribution(transitionDistributionViewModel);
             case Functional:
-                return convertFunctionalThreeValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertFunctionalThreeValuesTransitionDistribution(transitionDistributionViewModel);
             case PlaceDependent:
-                return convertPlaceDependentThreeValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertPlaceDependentThreeValuesTransitionDistribution(transitionDistributionViewModel);
         }
         throw new AssertionError("Unknown three values distribution type " + distributionType);
     }
 
-    private TransitionDistribution convertConstantThreeValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertConstantThreeValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var threeValuesViewModel = (ThreeValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstValue = threeValuesViewModel.getFirstValue();
         var secondValue = threeValuesViewModel.getSecondValue();
         var thirdValue = threeValuesViewModel.getThirdValue();
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Binomial:
                 return new SPNPBinomialTransitionDistribution(firstValue, secondValue, thirdValue);
             case HyperExponential:
@@ -320,16 +321,16 @@ public class ElementMapper {
             case NegativeBinomial:
                 return new SPNPNegativeBinomialTransitionDistribution(firstValue, secondValue, thirdValue);
         }
-        throw new AssertionError("Unknown constant three values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown constant three values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertFunctionalThreeValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertFunctionalThreeValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var threeValuesViewModel = (ThreeValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstFunction = (FunctionSPNP<Double>) findFunction(threeValuesViewModel.getFirstFunction());
         var secondFunction = (FunctionSPNP<Double>) findFunction(threeValuesViewModel.getSecondFunction());
         var thirdFunction = (FunctionSPNP<Double>) findFunction(threeValuesViewModel.getThirdFunction());
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Binomial:
                 return new SPNPBinomialTransitionDistribution(firstFunction, secondFunction, thirdFunction);
             case HyperExponential:
@@ -337,17 +338,17 @@ public class ElementMapper {
             case NegativeBinomial:
                 return new SPNPNegativeBinomialTransitionDistribution(firstFunction, secondFunction, thirdFunction);
         }
-        throw new AssertionError("Unknown functional three values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown functional three values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertPlaceDependentThreeValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertPlaceDependentThreeValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var threeValuesViewModel = (ThreeValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstValue = threeValuesViewModel.getFirstValue();
         var secondValue = threeValuesViewModel.getSecondValue();
         var thirdValue = threeValuesViewModel.getThirdValue();
-        var dependentPlace = findPlace(threeValuesViewModel.getDependentPlace());
+        var dependentPlace = findPlace(threeValuesViewModel.dependentPlaceProperty().get());
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case Binomial:
                 return new SPNPBinomialTransitionDistribution(firstValue, secondValue, thirdValue, dependentPlace);
             case HyperExponential:
@@ -355,63 +356,63 @@ public class ElementMapper {
             case NegativeBinomial:
                 return new SPNPNegativeBinomialTransitionDistribution(firstValue, secondValue, thirdValue, dependentPlace);
         }
-        throw new AssertionError("Unknown constant three values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown constant three values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertFourValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertFourValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var distributionType = transitionDistributionViewModel.distributionTypeProperty().get();
         switch (distributionType) {
             case Constant:
-                return convertConstantFourValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertConstantFourValuesTransitionDistribution(transitionDistributionViewModel);
             case Functional:
-                return convertFunctionalFourValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertFunctionalFourValuesTransitionDistribution(transitionDistributionViewModel);
             case PlaceDependent:
-                return convertPlaceDependentFourValuesTransitionDistribution(transitionDistributionViewModel, timedDistributionType);
+                return convertPlaceDependentFourValuesTransitionDistribution(transitionDistributionViewModel);
         }
         throw new AssertionError("Unknown four values distribution type " + distributionType);
     }
 
-    private TransitionDistribution convertConstantFourValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertConstantFourValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var fourValuesViewModel = (FourValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstValue = fourValuesViewModel.getFirstValue();
         var secondValue = fourValuesViewModel.getSecondValue();
         var thirdValue = fourValuesViewModel.getThirdValue();
         var fourthValue = fourValuesViewModel.getFourthValue();
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case HypoExponential:
                 return new SPNPHypoExponentialTransitionDistribution(firstValue, secondValue, thirdValue, fourthValue);
         }
-        throw new AssertionError("Unknown constant four values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown constant four values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertFunctionalFourValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertFunctionalFourValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var fourValuesViewModel = (FourValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstFunction = (FunctionSPNP<Integer>) findFunction(fourValuesViewModel.getFirstFunction());
         var secondFunction = (FunctionSPNP<Double>) findFunction(fourValuesViewModel.getSecondFunction());
         var thirdFunction = (FunctionSPNP<Double>) findFunction(fourValuesViewModel.getThirdFunction());
         var fourthFunction = (FunctionSPNP<Double>) findFunction(fourValuesViewModel.getFourthFunction());
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case HypoExponential:
                 return new SPNPHypoExponentialTransitionDistribution(firstFunction, secondFunction, thirdFunction, fourthFunction);
         }
-        throw new AssertionError("Unknown functional four values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown functional four values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    private TransitionDistribution convertPlaceDependentFourValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel, TimedDistributionType timedDistributionType) {
+    private TransitionDistribution convertPlaceDependentFourValuesTransitionDistribution(TransitionDistributionViewModel transitionDistributionViewModel) {
         var fourValuesViewModel = (FourValuesTransitionDistributionBaseViewModel) transitionDistributionViewModel;
         var firstValue = fourValuesViewModel.getFirstValue();
         var secondValue = fourValuesViewModel.getSecondValue();
         var thirdValue = fourValuesViewModel.getThirdValue();
         var fourthValue = fourValuesViewModel.getFourthValue();
-        var dependentPlace = findPlace(fourValuesViewModel.getDependentPlace());
+        var dependentPlace = findPlace(fourValuesViewModel.dependentPlaceProperty().get());
 
-        switch (timedDistributionType) {
+        switch (transitionDistributionViewModel.getEnumType()) {
             case HypoExponential:
                 return new SPNPHypoExponentialTransitionDistribution(firstValue, secondValue, thirdValue, fourthValue, dependentPlace);
         }
-        throw new AssertionError("Unknown place dependent four values transition distribution type " + timedDistributionType);
+        throw new AssertionError("Unknown place dependent four values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
     public Arc mapArc(ArcViewModel arcViewModel) {

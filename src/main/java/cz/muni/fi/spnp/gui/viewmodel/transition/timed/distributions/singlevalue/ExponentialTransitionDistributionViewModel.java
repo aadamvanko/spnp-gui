@@ -4,7 +4,10 @@ import cz.muni.fi.spnp.core.models.places.StandardPlace;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import javafx.beans.property.StringProperty;
+
+import java.util.List;
 
 public class ExponentialTransitionDistributionViewModel extends SingleValueTransitionDistributionBaseViewModel {
 
@@ -49,6 +52,16 @@ public class ExponentialTransitionDistributionViewModel extends SingleValueTrans
 
     public void setRateFunction(FunctionViewModel rateFunction) {
         this.setFirstFunction(rateFunction);
+    }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Exponential;
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return List.of("Rate");
     }
 
 }

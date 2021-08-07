@@ -4,17 +4,14 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionBaseViewModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class TwoValuesTransitionDistributionBaseViewModel extends TransitionDistributionBaseViewModel {
-
-    protected SimpleStringProperty firstValue = new SimpleStringProperty("value1");
-    protected StringProperty secondValue = new SimpleStringProperty("value2");
 
     protected TwoValuesTransitionDistributionBaseViewModel() {
     }
@@ -22,59 +19,69 @@ public abstract class TwoValuesTransitionDistributionBaseViewModel extends Trans
     public TwoValuesTransitionDistributionBaseViewModel(String firstValue, String secondValue) {
         super(TransitionDistributionType.Constant, null);
 
-        this.firstValue = new SimpleStringProperty(firstValue);
-        this.secondValue = new SimpleStringProperty(secondValue);
+        this.values.set(0, new SimpleStringProperty(firstValue));
+        this.values.set(1, new SimpleStringProperty(secondValue));
     }
 
     public TwoValuesTransitionDistributionBaseViewModel(FunctionViewModel firstFunction, FunctionViewModel secondFunction) {
         super(TransitionDistributionType.Functional, null);
 
-        this.functions.set(0, firstFunction);
-        this.functions.set(1, secondFunction);
+        this.functions.set(0, new SimpleObjectProperty<>(firstFunction));
+        this.functions.set(1, new SimpleObjectProperty<>(secondFunction));
     }
 
     public TwoValuesTransitionDistributionBaseViewModel(String firstValue, String secondValue, PlaceViewModel dependentPlace) {
         super(TransitionDistributionType.PlaceDependent, dependentPlace);
 
-        this.firstValue = new SimpleStringProperty(firstValue);
-        this.secondValue = new SimpleStringProperty(secondValue);
+        this.values.set(0, new SimpleStringProperty(firstValue));
+        this.values.set(1, new SimpleStringProperty(secondValue));
     }
 
     @Override
-    protected List<FunctionViewModel> createFunctionsArray() {
-        return new ArrayList<>(Collections.nCopies(2, null));
+    protected List<StringProperty> createValues() {
+        return createNValues(2);
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return createNValuesNames(2);
+    }
+
+    @Override
+    protected List<ObjectProperty<FunctionViewModel>> createFunctionsArray() {
+        return createNFunctions(2);
     }
 
     public String getFirstValue() {
-        return firstValue.get();
+        return values.get(0).get();
     }
 
-    public SimpleStringProperty firstValueProperty() {
-        return firstValue;
+    public StringProperty firstValueProperty() {
+        return values.get(0);
     }
 
     public String getSecondValue() {
-        return secondValue.get();
+        return values.get(1).get();
     }
 
     public StringProperty secondValueProperty() {
-        return secondValue;
+        return values.get(1);
     }
 
     public FunctionViewModel getFirstFunction() {
-        return functions.get(0);
+        return functions.get(0).get();
     }
 
     public void setFirstFunction(FunctionViewModel firstFunction) {
-        functions.set(0, firstFunction);
+        functions.get(0).set(firstFunction);
     }
 
     public FunctionViewModel getSecondFunction() {
-        return functions.get(1);
+        return functions.get(1).get();
     }
 
     public void setSecondFunction(FunctionViewModel secondFunction) {
-        functions.set(1, secondFunction);
+        functions.get(1).set(secondFunction);
     }
 
 }

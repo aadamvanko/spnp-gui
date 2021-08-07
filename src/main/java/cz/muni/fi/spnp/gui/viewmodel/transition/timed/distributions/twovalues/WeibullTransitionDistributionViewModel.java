@@ -5,7 +5,10 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.WeibullTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import javafx.beans.property.StringProperty;
+
+import java.util.List;
 
 public class WeibullTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
@@ -65,6 +68,16 @@ public class WeibullTransitionDistributionViewModel extends TwoValuesTransitionD
 
     public void setLambdaValueFunction(FunctionViewModel lambdaValueFunction) {
         this.setSecondFunction(lambdaValueFunction);
+    }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Weibull;
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return List.of("Alpha value", "Lambda value");
     }
 
 }

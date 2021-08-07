@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.GammaTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 
 public class GammaTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
@@ -41,4 +42,10 @@ public class GammaTransitionDistributionViewModel extends TwoValuesTransitionDis
     public GammaTransitionDistributionViewModel(String firstValue, String secondValue, PlaceViewModel dependentPlace) {
         super(firstValue, secondValue, dependentPlace);
     }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Gamma;
+    }
+
 }

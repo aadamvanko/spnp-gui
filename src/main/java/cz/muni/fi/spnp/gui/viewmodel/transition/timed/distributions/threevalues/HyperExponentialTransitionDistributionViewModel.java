@@ -5,7 +5,10 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.HyperExponentialTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import javafx.beans.property.StringProperty;
+
+import java.util.List;
 
 public class HyperExponentialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
 
@@ -87,6 +90,16 @@ public class HyperExponentialTransitionDistributionViewModel extends ThreeValues
 
     public void setProbabilityValueFunction(FunctionViewModel probabilityValueFunction) {
         this.setThirdFunction(probabilityValueFunction);
+    }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.HyperExponential;
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return List.of("Lambda rate 1", "Lambda rate 2", "Probability value");
     }
 
 }

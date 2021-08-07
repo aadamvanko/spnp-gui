@@ -3,7 +3,10 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import javafx.beans.property.StringProperty;
+
+import java.util.List;
 
 public class BinomialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
 
@@ -87,4 +90,13 @@ public class BinomialTransitionDistributionViewModel extends ThreeValuesTransiti
         this.setThirdFunction(tValueFunction);
     }
 
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.Binomial;
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return List.of("Number value", "Probability value", "T value");
+    }
 }

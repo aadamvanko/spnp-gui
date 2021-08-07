@@ -2,7 +2,10 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.fourvalues;
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import javafx.beans.property.StringProperty;
+
+import java.util.List;
 
 public class HypoExponentialDistributionViewModel extends FourValuesTransitionDistributionBaseViewModel {
 
@@ -80,4 +83,15 @@ public class HypoExponentialDistributionViewModel extends FourValuesTransitionDi
     public void setThirdRateValueFunction(FunctionViewModel thirdRateValueFunction) {
         this.setFourthFunction(thirdRateValueFunction);
     }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.HypoExponential;
+    }
+
+    @Override
+    protected List<String> createValuesNames() {
+        return List.of("Number of stages", "Rate 1", "Rate 2", "Rate 3");
+    }
+
 }

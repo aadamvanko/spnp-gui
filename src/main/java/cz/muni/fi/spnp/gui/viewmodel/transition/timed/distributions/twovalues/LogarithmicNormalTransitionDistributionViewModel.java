@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.LogarithmicNormalTransitionDistribution;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 
 public class LogarithmicNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
@@ -41,4 +42,10 @@ public class LogarithmicNormalTransitionDistributionViewModel extends TwoValuesT
     public LogarithmicNormalTransitionDistributionViewModel(String firstValue, String secondValue, PlaceViewModel dependentPlace) {
         super(firstValue, secondValue, dependentPlace);
     }
+
+    @Override
+    public TimedDistributionType getEnumType() {
+        return TimedDistributionType.LogarithmicNormal;
+    }
+
 }

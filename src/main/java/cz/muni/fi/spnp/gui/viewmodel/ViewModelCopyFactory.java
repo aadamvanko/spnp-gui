@@ -109,7 +109,6 @@ public class ViewModelCopyFactory {
 
     private void copyTo(TimedTransitionViewModel copy, TimedTransitionViewModel timedTransitionViewModel) {
         copyTo(copy, (TransitionViewModel) timedTransitionViewModel);
-        copy.timedDistributionTypeProperty().set(timedTransitionViewModel.getTimedDistributionType());
         copy.setTransitionDistribution(createCopy(timedTransitionViewModel.getTransitionDistribution()));
     }
 
@@ -259,7 +258,7 @@ public class ViewModelCopyFactory {
         copy.getFunctions().clear();
         copy.getFunctions().addAll(new ArrayList<>(transitionDistributionBaseViewModel.getFunctions()));
         copy.distributionTypeProperty().set(transitionDistributionBaseViewModel.getDistributionType());
-        copy.setDependentPlace((PlaceViewModel) findOrReturn(transitionDistributionBaseViewModel.getDependentPlace()));
+        copy.setDependentPlace((PlaceViewModel) findOrReturn(transitionDistributionBaseViewModel.dependentPlaceProperty().get()));
     }
 
     private void copyTo(SingleValueTransitionDistributionBaseViewModel copy, SingleValueTransitionDistributionBaseViewModel singleValueViewModel) {

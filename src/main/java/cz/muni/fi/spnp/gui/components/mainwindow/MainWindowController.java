@@ -19,7 +19,6 @@ import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.viewmodel.*;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
@@ -68,6 +67,7 @@ public class MainWindowController {
         functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID, false));
         functions.add(new FunctionViewModel("function_prob_1", FunctionType.Probability, "return 0.4;", FunctionReturnType.DOUBLE, false));
         functions.add(new FunctionViewModel("function_arc_card", FunctionType.ArcCardinality, "return 5;", FunctionReturnType.INT, false));
+        functions.add(new FunctionViewModel("function_dist", FunctionType.Distribution, "return 0.7;", FunctionReturnType.DOUBLE, false));
 
         var place1 = new PlaceViewModel();
         place1.nameProperty().set("place1");
@@ -92,7 +92,6 @@ public class MainWindowController {
         timedTransition1.positionXProperty().set(300);
         timedTransition1.positionYProperty().set(100);
         timedTransition1.priorityProperty().set(1);
-        timedTransition1.timedDistributionTypeProperty().set(TimedDistributionType.Constant);
         timedTransition1.setTransitionDistribution(new ConstantTransitionDistributionViewModel("0.4"));
 
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1,

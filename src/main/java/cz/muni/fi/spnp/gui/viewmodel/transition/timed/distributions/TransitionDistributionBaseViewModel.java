@@ -5,30 +5,78 @@ import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TransitionDistributionBaseViewModel implements TransitionDistributionViewModel {
 
-    protected List<FunctionViewModel> functions;
+    private final ObjectProperty<PlaceViewModel> dependentPlace;
+    protected List<StringProperty> values;
+    protected List<String> valuesNames;
     private final ObjectProperty<TransitionDistributionType> distributionType;
-    private PlaceViewModel dependentPlace;
+    protected List<ObjectProperty<FunctionViewModel>> functions;
 
     protected TransitionDistributionBaseViewModel() {
         distributionType = new SimpleObjectProperty<>(TransitionDistributionType.Constant);
-        this.dependentPlace = null;
+        this.dependentPlace = new SimpleObjectProperty<>();
+        this.values = createValues();
+        this.valuesNames = createValuesNames();
         this.functions = createFunctionsArray();
     }
 
     public TransitionDistributionBaseViewModel(TransitionDistributionType distributionType, PlaceViewModel dependentPlace) {
         this.distributionType = new SimpleObjectProperty<>(distributionType);
-        this.dependentPlace = dependentPlace;
+        this.dependentPlace = new SimpleObjectProperty<>(dependentPlace);
+        this.values = createValues();
+        this.valuesNames = createValuesNames();
         this.functions = createFunctionsArray();
     }
 
-    protected abstract List<FunctionViewModel> createFunctionsArray();
+    protected List<StringProperty> createNValues(int count) {
+        var valuesList = new ArrayList<StringProperty>();
+        for (int i = 0; i < count; i++) {
+            valuesList.add(new SimpleStringProperty(String.format("value%d", i + 1)));
+        }
+        return valuesList;
+    }
 
-    public List<FunctionViewModel> getFunctions() {
+    protected List<String> createNValuesNames(int count) {
+        var valuesList = new ArrayList<String>();
+        for (int i = 0; i < count; i++) {
+            valuesList.add(String.format("Value %d", i + 1));
+        }
+        return valuesList;
+    }
+
+    protected List<ObjectProperty<FunctionViewModel>> createNFunctions(int count) {
+        var functionsList = new ArrayList<ObjectProperty<FunctionViewModel>>();
+        for (int i = 0; i < count; i++) {
+            functionsList.add(new SimpleObjectProperty<FunctionViewModel>());
+        }
+        return functionsList;
+    }
+
+    protected abstract List<StringProperty> createValues();
+
+    protected abstract List<String> createValuesNames();
+
+    protected abstract List<ObjectProperty<FunctionViewModel>> createFunctionsArray();
+
+    @Override
+    public List<StringProperty> getValues() {
+        return values;
+    }
+
+    @Override
+    public List<String> getValuesNames() {
+        return valuesNames;
+    }
+
+    @Override
+    public List<ObjectProperty<FunctionViewModel>> getFunctions() {
         return functions;
     }
 
@@ -42,12 +90,13 @@ public abstract class TransitionDistributionBaseViewModel implements TransitionD
     }
 
     @Override
-    public PlaceViewModel getDependentPlace() {
+    public ObjectProperty<PlaceViewModel> dependentPlaceProperty() {
         return this.dependentPlace;
     }
 
     @Override
     public void setDependentPlace(PlaceViewModel dependentPlace) {
-        this.dependentPlace = dependentPlace;
+        this.dependentPlace.set(dependentPlace);
     }
+
 }

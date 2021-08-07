@@ -6,7 +6,6 @@ import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.BetaTransitionDistributionViewModel;
@@ -63,7 +62,6 @@ public class MouseOperationCreateConnectable extends MouseOperationCreate {
                 timedTransitionViewModel.positionXProperty().set(position.getX());
                 timedTransitionViewModel.positionYProperty().set(position.getY());
                 timedTransitionViewModel.priorityProperty().set(0);
-                timedTransitionViewModel.timedDistributionTypeProperty().set(TimedDistributionType.Beta);
                 timedTransitionViewModel.setTransitionDistribution(new BetaTransitionDistributionViewModel("0.0", "0.0"));
                 return timedTransitionViewModel;
 
