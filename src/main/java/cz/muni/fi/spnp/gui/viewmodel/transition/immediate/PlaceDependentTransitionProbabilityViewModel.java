@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.immediate;
 
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -26,4 +27,10 @@ public class PlaceDependentTransitionProbabilityViewModel implements TransitionP
     public ObjectProperty<PlaceViewModel> dependentPlaceProperty() {
         return dependentPlace;
     }
+
+    @Override
+    public TransitionProbabilityType getEnumType() {
+        return TransitionProbabilityType.PlaceDependent;
+    }
+
 }

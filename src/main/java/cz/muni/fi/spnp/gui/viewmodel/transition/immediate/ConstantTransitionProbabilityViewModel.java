@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.immediate;
 
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -13,6 +14,11 @@ public class ConstantTransitionProbabilityViewModel implements TransitionProbabi
 
     public DoubleProperty valueProperty() {
         return value;
+    }
+
+    @Override
+    public TransitionProbabilityType getEnumType() {
+        return TransitionProbabilityType.Constant;
     }
 
 }

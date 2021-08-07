@@ -21,9 +21,9 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
         createView();
 
         subEditors = new HashMap<>();
-        subEditors.put(TransitionProbabilityType.CONSTANT, new ConstantProbabilityPropertiesSubEditor());
-        subEditors.put(TransitionProbabilityType.FUNCTIONAL, new FunctionalProbabilityPropertiesSubEditor());
-        subEditors.put(TransitionProbabilityType.PLACE_DEPENDANT, new PlaceDependentProbabilityPropertiesSubEditor());
+        subEditors.put(TransitionProbabilityType.Constant, new ConstantProbabilityPropertiesSubEditor());
+        subEditors.put(TransitionProbabilityType.Functional, new FunctionalProbabilityPropertiesSubEditor());
+        subEditors.put(TransitionProbabilityType.PlaceDependent, new PlaceDependentProbabilityPropertiesSubEditor());
     }
 
     private void createView() {
@@ -58,11 +58,11 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
 
     private TransitionProbabilityViewModel createNewProbabilityViewModel(TransitionProbabilityType transitionProbabilityType) {
         switch (transitionProbabilityType) {
-            case CONSTANT:
+            case Constant:
                 return new ConstantTransitionProbabilityViewModel();
-            case FUNCTIONAL:
+            case Functional:
                 return new FunctionalTransitionProbabilityViewModel();
-            case PLACE_DEPENDANT:
+            case PlaceDependent:
                 return new PlaceDependentTransitionProbabilityViewModel();
             default:
                 return null;
@@ -74,15 +74,7 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
         super.bindViewModel(viewModel);
 
         var immediateTransitionViewModel = (ImmediateTransitionViewModel) viewModel;
-        transitionProbabilityTypeChoiceBox.getSelectionModel().select(probabilityClassToType(immediateTransitionViewModel.getTransitionProbability()));
-    }
-
-    private TransitionProbabilityType probabilityClassToType(TransitionProbabilityViewModel transitionProbabilityViewModel) {
-        var probabilityToType = new HashMap<Class<? extends TransitionProbabilityViewModel>, TransitionProbabilityType>();
-        probabilityToType.put(ConstantTransitionProbabilityViewModel.class, TransitionProbabilityType.CONSTANT);
-        probabilityToType.put(FunctionalTransitionProbabilityViewModel.class, TransitionProbabilityType.FUNCTIONAL);
-        probabilityToType.put(PlaceDependentTransitionProbabilityViewModel.class, TransitionProbabilityType.PLACE_DEPENDANT);
-        return probabilityToType.get(transitionProbabilityViewModel.getClass());
+        transitionProbabilityTypeChoiceBox.getSelectionModel().select(immediateTransitionViewModel.getTransitionProbability().getEnumType());
     }
 
 }

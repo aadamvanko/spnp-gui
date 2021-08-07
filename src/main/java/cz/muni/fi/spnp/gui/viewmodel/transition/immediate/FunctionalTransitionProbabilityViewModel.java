@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.immediate;
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -14,6 +15,11 @@ public class FunctionalTransitionProbabilityViewModel implements TransitionProba
 
     public ObjectProperty<FunctionViewModel> functionProperty() {
         return function;
+    }
+
+    @Override
+    public TransitionProbabilityType getEnumType() {
+        return TransitionProbabilityType.Functional;
     }
 
 }
