@@ -470,10 +470,10 @@ public class SubmodelConverter {
 
 
         if (oldArc.choiceInput.equals("Constant")) {
-            arcViewModel.multiplicityTypeProperty().set(ArcMultiplicityType.CONSTANT);
+            arcViewModel.multiplicityTypeProperty().set(ArcMultiplicityType.Constant);
             arcViewModel.multiplicityProperty().set(oldArc.multiplicity);
         } else if (oldArc.choiceInput.equals("Function")) {
-            arcViewModel.multiplicityTypeProperty().set(ArcMultiplicityType.FUNCTION);
+            arcViewModel.multiplicityTypeProperty().set(ArcMultiplicityType.Function);
             arcViewModel.multiplicityFunctionProperty().set(findFunctionViewModel(functions, oldArc.multiplicity));
         } else {
             throw new AssertionError("Unknown arc choice input " + oldArc.choiceInput);

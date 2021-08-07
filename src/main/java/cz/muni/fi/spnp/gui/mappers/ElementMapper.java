@@ -443,7 +443,7 @@ public class ElementMapper {
 
     private Arc createOutputStandardArc(ArcViewModel arcViewModel, StandardPlace toPlace, Transition fromTransition) {
         switch (arcViewModel.getMultiplicityType()) {
-            case CONSTANT:
+            case Constant:
                 return new SPNPStandardArc(
                         getId(),
                         ArcDirection.Output,
@@ -451,7 +451,7 @@ public class ElementMapper {
                         fromTransition,
                         arcViewModel.getMultiplicity()
                 );
-            case FUNCTION:
+            case Function:
                 return new SPNPStandardArc(
                         getId(),
                         ArcDirection.Output,
@@ -473,14 +473,14 @@ public class ElementMapper {
 
     private Arc createInhibitorArc(ArcViewModel arcViewModel, StandardPlace toPlace, Transition fromTransition) {
         switch (arcViewModel.getMultiplicityType()) {
-            case CONSTANT:
+            case Constant:
                 return new SPNPInhibitorArc(
                         getId(),
                         toPlace,
                         fromTransition,
                         arcViewModel.getMultiplicity()
                 );
-            case FUNCTION:
+            case Function:
                 return new SPNPInhibitorArc(
                         getId(),
                         toPlace,
@@ -493,7 +493,7 @@ public class ElementMapper {
 
     private Arc createInputStandardArc(ArcViewModel arcViewModel, StandardPlace fromPlace, Transition toTransition) {
         switch (arcViewModel.getMultiplicityType()) {
-            case CONSTANT:
+            case Constant:
                 return new SPNPStandardArc(
                         getId(),
                         ArcDirection.Input,
@@ -501,7 +501,7 @@ public class ElementMapper {
                         toTransition,
                         arcViewModel.getMultiplicity()
                 );
-            case FUNCTION:
+            case Function:
                 return new SPNPStandardArc(
                         getId(),
                         ArcDirection.Input,

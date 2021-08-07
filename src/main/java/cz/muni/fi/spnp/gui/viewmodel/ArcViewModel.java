@@ -13,7 +13,7 @@ import java.util.List;
 
 public abstract class ArcViewModel extends ElementViewModel {
 
-    private final ObjectProperty<ArcMultiplicityType> multiplicityType = new SimpleObjectProperty<>(ArcMultiplicityType.CONSTANT);
+    private final ObjectProperty<ArcMultiplicityType> multiplicityType = new SimpleObjectProperty<>(ArcMultiplicityType.Constant);
     private final StringProperty multiplicity = new SimpleStringProperty("1");
     private final ObjectProperty<FunctionViewModel> multiplicityFunction = new SimpleObjectProperty<>();
     private ElementViewModel fromViewModel;

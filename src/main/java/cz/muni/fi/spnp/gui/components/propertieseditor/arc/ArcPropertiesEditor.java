@@ -22,8 +22,8 @@ public class ArcPropertiesEditor extends DisplayablePropertiesEditor {
         createView();
 
         subEditors = new HashMap<>();
-        subEditors.put(ArcMultiplicityType.CONSTANT, new ConstantMultiplicitySubEditor());
-        subEditors.put(ArcMultiplicityType.FUNCTION, new FunctionalMultiplicitySubEditor());
+        subEditors.put(ArcMultiplicityType.Constant, new ConstantMultiplicitySubEditor());
+        subEditors.put(ArcMultiplicityType.Function, new FunctionalMultiplicitySubEditor());
     }
 
     private void createView() {
