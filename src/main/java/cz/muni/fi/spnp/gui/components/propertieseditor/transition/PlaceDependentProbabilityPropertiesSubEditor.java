@@ -20,7 +20,7 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
     private final ListChangeListener<? super ElementViewModel> onPlacesChangedListener;
     private Label valueLabel;
     private DoubleTextField valueTextField;
-    private Label placeLabel;
+    private Label dependentPlaceLabel;
     private ChoiceBox<PlaceViewModel> dependentPlaceChoiceBox;
 
     public PlaceDependentProbabilityPropertiesSubEditor() {
@@ -34,9 +34,9 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
         valueTextField = new DoubleTextField();
         addRow(valueLabel, valueTextField.getTextField());
 
-        placeLabel = new Label("Place:");
+        dependentPlaceLabel = new Label("Dependent place:");
         dependentPlaceChoiceBox = new ChoiceBox<>();
-        addRow(placeLabel, dependentPlaceChoiceBox);
+        addRow(dependentPlaceLabel, dependentPlaceChoiceBox);
     }
 
     private void onPlacesChangedListener(ListChangeListener.Change<? extends ElementViewModel> placesChange) {
@@ -71,7 +71,6 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
         Bindings.bindBidirectional(valueTextField.getTextField().textProperty(), placeDependentTransitionProbabilityViewModel.valueProperty(), converter);
 
         dependentPlaceChoiceBox.valueProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.dependentPlaceProperty());
-        dependentPlaceChoiceBox.getSelectionModel().select(placeDependentTransitionProbabilityViewModel.getDependentPlace());
     }
 
     public void unbindViewModel() {
