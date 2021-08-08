@@ -21,6 +21,7 @@ import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.PlaceDependentTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ConstantTransitionDistributionViewModel;
 import javafx.scene.Node;
@@ -105,10 +106,23 @@ public class MainWindowController {
         immediateTransition1.positionXProperty().set(300);
         immediateTransition1.positionYProperty().set(200);
         immediateTransition1.priorityProperty().set(1);
-        immediateTransition1.setTransitionProbability(new ConstantTransitionProbabilityViewModel());
+        var constantProbability = new ConstantTransitionProbabilityViewModel();
+        constantProbability.valueProperty().set(12.77);
+        immediateTransition1.setTransitionProbability(constantProbability);
         immediateTransition1.guardFunctionProperty().set(functions.get(0));
 
         var inhibitorArc1 = new InhibitorArcViewModel("inhibitor1", place3, immediateTransition1, Collections.emptyList());
+
+        var immediateTransition2 = new ImmediateTransitionViewModel();
+        immediateTransition2.nameProperty().set("immediate2");
+        immediateTransition2.positionXProperty().set(300);
+        immediateTransition2.positionYProperty().set(300);
+        immediateTransition2.priorityProperty().set(1);
+        var placeDependentProbability = new PlaceDependentTransitionProbabilityViewModel();
+        placeDependentProbability.valueProperty().set(1.78);
+        placeDependentProbability.dependentPlaceProperty().set(place1);
+        immediateTransition2.setTransitionProbability(placeDependentProbability);
+        immediateTransition2.guardFunctionProperty().set(functions.get(0));
 
         var place4 = new PlaceViewModel();
         place4.nameProperty().set("place4");
@@ -116,7 +130,7 @@ public class MainWindowController {
         place4.positionYProperty().set(500);
         place4.numberOfTokensProperty().set("4");
 
-        var elements = Arrays.asList(place1, place2, place3, timedTransition1, standardArc1, standardArc2, immediateTransition1, inhibitorArc1, place4);
+        var elements = Arrays.asList(place1, place2, place3, timedTransition1, standardArc1, standardArc2, immediateTransition1, immediateTransition2, inhibitorArc1, place4);
 
         var includes = new ArrayList<IncludeViewModel>();
         includes.add(new IncludeViewModel("<stdio.h>"));

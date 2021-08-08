@@ -7,13 +7,11 @@ import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.PlaceDependentTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.TransitionProbabilityViewModel;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
+import javafx.util.converter.DoubleStringConverter;
 
 public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
@@ -67,16 +65,14 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
         super.bindViewModel(transitionProbabilityViewModel);
 
         var placeDependentTransitionProbabilityViewModel = (PlaceDependentTransitionProbabilityViewModel) transitionProbabilityViewModel;
-        StringConverter<Number> converter = new NumberStringConverter();
-        Bindings.bindBidirectional(valueTextField.getTextField().textProperty(), placeDependentTransitionProbabilityViewModel.valueProperty(), converter);
-
+        valueTextField.getTextField().textProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.valueProperty().asObject(), new DoubleStringConverter());
         dependentPlaceChoiceBox.valueProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.dependentPlaceProperty());
     }
 
     public void unbindViewModel() {
         var placeDependentTransitionProbabilityViewModel = (PlaceDependentTransitionProbabilityViewModel) viewModel;
 
-        Bindings.unbindBidirectional(valueTextField.getTextField().textProperty(), placeDependentTransitionProbabilityViewModel.valueProperty());
+        valueTextField.getTextField().textProperty().unbindBidirectional(placeDependentTransitionProbabilityViewModel.valueProperty().asObject());
         dependentPlaceChoiceBox.valueProperty().unbindBidirectional(placeDependentTransitionProbabilityViewModel.dependentPlaceProperty());
 
         super.unbindViewModel();

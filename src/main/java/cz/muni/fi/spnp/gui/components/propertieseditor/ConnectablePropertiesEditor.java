@@ -15,9 +15,9 @@ public class ConnectablePropertiesEditor extends DisplayablePropertiesEditor {
     protected final IntegerTextField positionYTextField;
 
     public ConnectablePropertiesEditor() {
-        positionXLabel = new Label("Position X");
+        positionXLabel = new Label("Position X:");
         positionXTextField = new IntegerTextField();
-        positionYLabel = new Label("Position Y");
+        positionYLabel = new Label("Position Y:");
         positionYTextField = new IntegerTextField();
 
         addRow(positionXLabel, positionXTextField.getTextField());
