@@ -8,11 +8,11 @@ import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
-import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.util.stream.Collectors;
 
@@ -67,7 +67,7 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
         super.bindViewModel(viewModel);
 
         TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
-        priorityTextField.getTextFormatter().valueProperty().bindBidirectional((Property) transitionViewModel.priorityProperty());
+        priorityTextField.getTextField().textProperty().bindBidirectional(transitionViewModel.priorityProperty().asObject(), new IntegerStringConverter());
         guardFunctionChoiceBox.valueProperty().bindBidirectional(transitionViewModel.guardFunctionProperty());
         guardFunctionChoiceBox.getSelectionModel().select(transitionViewModel.getGuardFunction());
     }
@@ -75,7 +75,7 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
     @Override
     public void unbindViewModel() {
         TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
-        priorityTextField.getTextFormatter().valueProperty().unbindBidirectional((Property) transitionViewModel.priorityProperty());
+        priorityTextField.getTextField().textProperty().unbindBidirectional(transitionViewModel.priorityProperty().asObject());
         guardFunctionChoiceBox.valueProperty().unbindBidirectional(transitionViewModel.guardFunctionProperty());
 
         super.unbindViewModel();
