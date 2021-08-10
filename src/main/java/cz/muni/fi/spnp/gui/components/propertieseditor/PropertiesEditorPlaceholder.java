@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class PropertiesEditorPlaceholder extends DisplayablePropertiesEditor {
+public class PropertiesEditorPlaceholder extends ElementPropertiesEditor {
 
     private final VBox vbox;
 
@@ -32,4 +32,5 @@ public class PropertiesEditorPlaceholder extends DisplayablePropertiesEditor {
     @Override
     public void unbindViewModel() {
     }
+
 }

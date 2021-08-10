@@ -20,12 +20,16 @@ public abstract class SubEditor<TViewModel> {
         rows.add(new PropertiesEditorRow(left, right));
     }
 
+    public List<PropertiesEditorRow> getRows() {
+        return rows;
+    }
+
     public DiagramViewModel getDiagramViewModel() {
         return diagramViewModel;
     }
 
-    public List<PropertiesEditorRow> getRows() {
-        return rows;
+    public TViewModel getViewModel() {
+        return viewModel;
     }
 
     public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {

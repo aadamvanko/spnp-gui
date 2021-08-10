@@ -21,7 +21,6 @@ import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.PlaceDependentTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ConstantTransitionDistributionViewModel;
 import javafx.scene.Node;
@@ -118,10 +117,9 @@ public class MainWindowController {
         immediateTransition2.positionXProperty().set(300);
         immediateTransition2.positionYProperty().set(300);
         immediateTransition2.priorityProperty().set(1);
-        var placeDependentProbability = new PlaceDependentTransitionProbabilityViewModel();
-        placeDependentProbability.valueProperty().set(1.78);
-        placeDependentProbability.dependentPlaceProperty().set(place1);
-        immediateTransition2.setTransitionProbability(placeDependentProbability);
+        var constantProbability2 = new ConstantTransitionProbabilityViewModel();
+        constantProbability2.valueProperty().set(1.78);
+        immediateTransition2.setTransitionProbability(constantProbability2);
         immediateTransition2.guardFunctionProperty().set(functions.get(0));
 
         var place4 = new PlaceViewModel();

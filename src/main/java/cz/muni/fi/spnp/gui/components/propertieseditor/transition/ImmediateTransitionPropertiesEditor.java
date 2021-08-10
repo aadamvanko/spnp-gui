@@ -16,6 +16,7 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
     private final Map<TransitionProbabilityType, TransitionProbabilitySubEditor> subEditors;
     private Label transitionProbabilityTypeLabel;
     private ChoiceBox<TransitionProbabilityType> transitionProbabilityTypeChoiceBox;
+    private TransitionProbabilitySubEditor selectedSubEditor;
 
     public ImmediateTransitionPropertiesEditor() {
         createView();
@@ -37,23 +38,16 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
     }
 
     private void onTransitionProbabilityTypeChangedListener(ObservableValue<? extends TransitionProbabilityType> observable, TransitionProbabilityType oldType, TransitionProbabilityType newType) {
-        if (oldType != null) {
-            var oldSubEditor = subEditors.get(oldType);
-            oldSubEditor.unbindViewModel();
-            oldSubEditor.unbindDiagramViewModel();
-            oldSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
+        TransitionProbabilityViewModel oldTransitionProbability = null;
+        if (selectedSubEditor != null) {
+            oldTransitionProbability = selectedSubEditor.getViewModel();
         }
 
-        if (newType != null) {
-            var immediateTransitionViewModel = (ImmediateTransitionViewModel) viewModel;
-            immediateTransitionViewModel.setTransitionProbability(createNewProbabilityViewModel(newType));
-
-            var newSubEditor = subEditors.get(newType);
-            newSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
-
-            newSubEditor.bindDiagramViewModel(diagramViewModel);
-            newSubEditor.bindViewModel(immediateTransitionViewModel.getTransitionProbability());
+        unbindSelectedEditor();
+        if (oldType != newType && oldTransitionProbability != null && oldTransitionProbability == getViewModel().getTransitionProbability()) {
+            getViewModel().setTransitionProbability(createNewProbabilityViewModel(newType));
         }
+        bindSelectedSubEditor(newType);
     }
 
     private TransitionProbabilityViewModel createNewProbabilityViewModel(TransitionProbabilityType transitionProbabilityType) {
@@ -72,8 +66,40 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
     public void bindViewModel(ElementViewModel viewModel) {
         super.bindViewModel(viewModel);
 
-        var immediateTransitionViewModel = (ImmediateTransitionViewModel) viewModel;
-        transitionProbabilityTypeChoiceBox.getSelectionModel().select(immediateTransitionViewModel.getTransitionProbability().getEnumType());
+        transitionProbabilityTypeChoiceBox.getSelectionModel().select(getViewModel().getTransitionProbability().getEnumType());
+        bindSelectedSubEditor(getViewModel().getTransitionProbability().getEnumType());
+    }
+
+    @Override
+    public void unbindViewModel() {
+        unbindSelectedEditor();
+
+        super.unbindViewModel();
+    }
+
+    @Override
+    protected ImmediateTransitionViewModel getViewModel() {
+        return (ImmediateTransitionViewModel) viewModel;
+    }
+
+    private void bindSelectedSubEditor(TransitionProbabilityType transitionProbabilityType) {
+        if (selectedSubEditor != null) {
+            return;
+        }
+
+        selectedSubEditor = subEditors.get(transitionProbabilityType);
+        selectedSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
+        selectedSubEditor.bindDiagramViewModel(diagramViewModel);
+        selectedSubEditor.bindViewModel(getViewModel().getTransitionProbability());
+    }
+
+    private void unbindSelectedEditor() {
+        if (selectedSubEditor != null) {
+            selectedSubEditor.unbindViewModel();
+            selectedSubEditor.unbindDiagramViewModel();
+            selectedSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
+        }
+        selectedSubEditor = null;
     }
 
 }

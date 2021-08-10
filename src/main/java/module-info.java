@@ -20,4 +20,6 @@ module cz.muni.fi {
     opens cz.muni.fi.spnp.gui.storing.loaders to javafx.fxml;
     exports cz.muni.fi.spnp.gui.viewmodel;
     opens cz.muni.fi.spnp.gui.viewmodel to java.base;
+    exports cz.muni.fi.spnp.gui.components.propertieseditor;
+    opens cz.muni.fi.spnp.gui.components.propertieseditor to javafx.fxml;
 }

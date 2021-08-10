@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
+import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleIntegerProperty;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -59,7 +60,7 @@ public class DiagramViewModel extends DisplayableViewModel {
             addFunction(function);
         }
 
-        zoomLevel = new SimpleIntegerProperty(120);
+        zoomLevel = new MySimpleIntegerProperty(120);
         gridSnapping = new SimpleBooleanProperty(true);
         viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
         selected = FXCollections.observableArrayList();

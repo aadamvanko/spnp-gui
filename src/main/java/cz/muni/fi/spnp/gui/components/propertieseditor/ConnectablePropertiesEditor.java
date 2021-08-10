@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
-public class ConnectablePropertiesEditor extends DisplayablePropertiesEditor {
+public class ConnectablePropertiesEditor extends ElementPropertiesEditor {
 
     protected final Label positionXLabel;
     protected final IntegerTextField positionXTextField;
@@ -27,19 +27,23 @@ public class ConnectablePropertiesEditor extends DisplayablePropertiesEditor {
     public void bindViewModel(ElementViewModel viewModel) {
         super.bindViewModel(viewModel);
 
-        var connectableViewModel = (ConnectableViewModel) viewModel;
         StringConverter<Number> converter = new NumberStringConverter();
-        Bindings.bindBidirectional(positionXTextField.getTextField().textProperty(), connectableViewModel.positionXProperty(), converter);
-        Bindings.bindBidirectional(positionYTextField.getTextField().textProperty(), connectableViewModel.positionYProperty(), converter);
+        Bindings.bindBidirectional(positionXTextField.getTextField().textProperty(), getViewModel().positionXProperty(), converter);
+        Bindings.bindBidirectional(positionYTextField.getTextField().textProperty(), getViewModel().positionYProperty(), converter);
     }
 
     public void unbindViewModel() {
-        var connectableViewModel = (ConnectableViewModel) viewModel;
-        Bindings.unbindBidirectional(positionXTextField.getTextField().textProperty(), connectableViewModel.positionXProperty());
-        Bindings.unbindBidirectional(positionYTextField.getTextField().textProperty(), connectableViewModel.positionYProperty());
+        Bindings.unbindBidirectional(positionXTextField.getTextField().textProperty(), getViewModel().positionXProperty());
+        Bindings.unbindBidirectional(positionYTextField.getTextField().textProperty(), getViewModel().positionYProperty());
 
         // TODO adjust canvas size, prevent too small values
 
         super.unbindViewModel();
     }
+
+    @Override
+    protected ConnectableViewModel getViewModel() {
+        return (ConnectableViewModel) viewModel;
+    }
+
 }

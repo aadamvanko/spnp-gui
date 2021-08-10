@@ -1,12 +1,12 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
+import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleDoubleProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class ConnectableViewModel extends ElementViewModel {
 
-    private final DoubleProperty positionX = new SimpleDoubleProperty();
-    private final DoubleProperty positionY = new SimpleDoubleProperty();
+    private final DoubleProperty positionX = new MySimpleDoubleProperty();
+    private final DoubleProperty positionY = new MySimpleDoubleProperty();
 
     public double getPositionX() {
         return positionX.get();

@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.arc;
 
-import cz.muni.fi.spnp.gui.components.propertieseditor.DisplayablePropertiesEditor;
+import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ArcMultiplicityType;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ArcPropertiesEditor extends DisplayablePropertiesEditor {
+public class ArcPropertiesEditor extends ElementPropertiesEditor {
 
     private final Map<ArcMultiplicityType, ArcMultiplicitySubEditor> subEditors;
     private Label arcMultiplicityTypeLabel;
@@ -55,16 +55,19 @@ public class ArcPropertiesEditor extends DisplayablePropertiesEditor {
     public void bindViewModel(ElementViewModel viewModel) {
         super.bindViewModel(viewModel);
 
-        ArcViewModel arcViewModel = (ArcViewModel) viewModel;
-        arcMultiplicityTypeChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityTypeProperty());
+        arcMultiplicityTypeChoiceBox.valueProperty().bindBidirectional(getViewModel().multiplicityTypeProperty());
     }
 
     @Override
     public void unbindViewModel() {
-        ArcViewModel arcViewModel = (ArcViewModel) viewModel;
-        arcMultiplicityTypeChoiceBox.valueProperty().unbindBidirectional(arcViewModel.multiplicityTypeProperty());
+        arcMultiplicityTypeChoiceBox.valueProperty().unbindBidirectional(getViewModel().multiplicityTypeProperty());
 
         super.unbindViewModel();
+    }
+
+    @Override
+    protected ArcViewModel getViewModel() {
+        return (ArcViewModel) viewModel;
     }
 
 }

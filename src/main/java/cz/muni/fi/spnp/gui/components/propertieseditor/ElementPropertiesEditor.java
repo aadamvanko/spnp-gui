@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
-public abstract class DisplayablePropertiesEditor implements UIComponent {
+public abstract class ElementPropertiesEditor implements UIComponent {
 
     protected final GridPane gridPane;
     protected final Label nameLabel;
@@ -20,7 +20,7 @@ public abstract class DisplayablePropertiesEditor implements UIComponent {
     protected ElementViewModel viewModel;
     protected DiagramViewModel diagramViewModel;
 
-    public DisplayablePropertiesEditor() {
+    public ElementPropertiesEditor() {
         gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setPadding(new Insets(5, 10, 5, 5));
@@ -65,6 +65,10 @@ public abstract class DisplayablePropertiesEditor implements UIComponent {
     @Override
     public Node getRoot() {
         return gridPane;
+    }
+
+    protected ElementViewModel getViewModel() {
+        return viewModel;
     }
 
 }

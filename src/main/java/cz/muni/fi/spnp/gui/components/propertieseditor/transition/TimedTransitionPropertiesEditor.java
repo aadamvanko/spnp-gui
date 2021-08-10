@@ -60,15 +60,14 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
         }
 
         if (newType != null) {
-            var timedTransitionViewModel = (TimedTransitionViewModel) viewModel;
-            if (newType != timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get()) {
-                timedTransitionViewModel.setTransitionDistribution(createTransitionDistribution(newType, timedTransitionViewModel.getTransitionDistribution().getEnumType()));
+            if (newType != getViewModel().getTransitionDistribution().distributionTypeProperty().get()) {
+                getViewModel().setTransitionDistribution(createTransitionDistribution(newType, getViewModel().getTransitionDistribution().getEnumType()));
             }
 
             var newSubEditor = subEditors.get(newType);
 
             newSubEditor.bindDiagramViewModel(diagramViewModel);
-            newSubEditor.bindViewModel(timedTransitionViewModel.getTransitionDistribution());
+            newSubEditor.bindViewModel(getViewModel().getTransitionDistribution());
             newSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
         }
     }
@@ -138,9 +137,7 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
     }
 
     private void onTransitionDistributionTypeChangedListener(ObservableValue<? extends TimedDistributionType> observable, TimedDistributionType oldType, TimedDistributionType newType) {
-        var timedTransitionViewModel = (TimedTransitionViewModel) viewModel;
-
-        var oldSubEditor = subEditors.get(timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get());
+        var oldSubEditor = subEditors.get(getViewModel().getTransitionDistribution().distributionTypeProperty().get());
         if (oldSubEditor.getDiagramViewModel() != null) {
             oldSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
             oldSubEditor.unbindViewModel();
@@ -148,15 +145,15 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
         }
 
         if (newType != null) {
-            if (newType != timedTransitionViewModel.getTransitionDistribution().getEnumType()) {
+            if (newType != getViewModel().getTransitionDistribution().getEnumType()) {
                 var newTransitionDistribution = createTransitionDistribution(
-                        timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get(), newType);
-                timedTransitionViewModel.setTransitionDistribution(newTransitionDistribution);
+                        getViewModel().getTransitionDistribution().distributionTypeProperty().get(), newType);
+                getViewModel().setTransitionDistribution(newTransitionDistribution);
             }
 
-            var newSubEditor = subEditors.get(timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get());
+            var newSubEditor = subEditors.get(getViewModel().getTransitionDistribution().distributionTypeProperty().get());
             newSubEditor.bindDiagramViewModel(diagramViewModel);
-            newSubEditor.bindViewModel(timedTransitionViewModel.getTransitionDistribution());
+            newSubEditor.bindViewModel(getViewModel().getTransitionDistribution());
             newSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
         }
     }
@@ -165,9 +162,13 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
     public void bindViewModel(ElementViewModel viewModel) {
         super.bindViewModel(viewModel);
 
-        var timedTransitionViewModel = (TimedTransitionViewModel) viewModel;
-        distributionTypeChoiceBox.getSelectionModel().select(timedTransitionViewModel.getTransitionDistribution().distributionTypeProperty().get());
-        transitionDistributionTypeChoiceBox.getSelectionModel().select(timedTransitionViewModel.getTransitionDistribution().getEnumType());
+        distributionTypeChoiceBox.getSelectionModel().select(getViewModel().getTransitionDistribution().distributionTypeProperty().get());
+        transitionDistributionTypeChoiceBox.getSelectionModel().select(getViewModel().getTransitionDistribution().getEnumType());
+    }
+
+    @Override
+    protected TimedTransitionViewModel getViewModel() {
+        return (TimedTransitionViewModel) viewModel;
     }
 
 }

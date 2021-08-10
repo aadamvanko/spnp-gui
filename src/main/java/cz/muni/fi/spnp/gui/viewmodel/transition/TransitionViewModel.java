@@ -1,15 +1,15 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition;
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleIntegerProperty;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public abstract class TransitionViewModel extends ConnectableViewModel {
 
-    private final IntegerProperty priority = new SimpleIntegerProperty(0);
+    private final IntegerProperty priority = new MySimpleIntegerProperty(0);
     private final ObjectProperty<FunctionViewModel> guardFunction = new SimpleObjectProperty<>();
 
     public int getPriority() {
