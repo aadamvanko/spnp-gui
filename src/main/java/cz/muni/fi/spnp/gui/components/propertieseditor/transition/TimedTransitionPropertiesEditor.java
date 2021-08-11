@@ -27,6 +27,7 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
     private ChoiceBox<TransitionDistributionType> distributionTypeChoiceBox;
     private Label transitionDistributionTypeLabel;
     private ChoiceBox<TimedDistributionType> transitionDistributionTypeChoiceBox;
+    private TransitionDistributionSubEditor selectedSubEditor;
 
     public TimedTransitionPropertiesEditor() {
         createView();
@@ -50,27 +51,6 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
         addRow(distributionTypeLabel, distributionTypeChoiceBox);
     }
 
-
-    private void onDistributionTypeChangedListener(ObservableValue<? extends TransitionDistributionType> observable, TransitionDistributionType oldType, TransitionDistributionType newType) {
-        var oldSubEditor = subEditors.get(oldType);
-        if (oldSubEditor != null && oldSubEditor.getDiagramViewModel() != null) {
-            oldSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
-            oldSubEditor.unbindViewModel();
-            oldSubEditor.unbindDiagramViewModel();
-        }
-
-        if (newType != null) {
-            if (newType != getViewModel().getTransitionDistribution().distributionTypeProperty().get()) {
-                getViewModel().setTransitionDistribution(createTransitionDistribution(newType, getViewModel().getTransitionDistribution().getEnumType()));
-            }
-
-            var newSubEditor = subEditors.get(newType);
-
-            newSubEditor.bindDiagramViewModel(diagramViewModel);
-            newSubEditor.bindViewModel(getViewModel().getTransitionDistribution());
-            newSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
-        }
-    }
 
     private TransitionDistributionViewModel createTransitionDistribution(TransitionDistributionType transitionDistributionType, TimedDistributionType timedDistributionType) {
         switch (transitionDistributionType) {
@@ -136,26 +116,30 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
         return transitionDistribution;
     }
 
+    private void onDistributionTypeChangedListener(ObservableValue<? extends TransitionDistributionType> observable, TransitionDistributionType oldType, TransitionDistributionType newType) {
+        TransitionDistributionViewModel transitionDistributionViewModel = null;
+        if (selectedSubEditor != null) {
+            transitionDistributionViewModel = selectedSubEditor.getViewModel();
+        }
+
+        unbindSelectedSubEditor();
+        if (oldType != newType && transitionDistributionViewModel != null && transitionDistributionViewModel == getViewModel().getTransitionDistribution()) {
+            getViewModel().setTransitionDistribution(createTransitionDistribution(newType, getViewModel().getTransitionDistribution().getEnumType()));
+        }
+        bindSelectedSubEditor();
+    }
+
     private void onTransitionDistributionTypeChangedListener(ObservableValue<? extends TimedDistributionType> observable, TimedDistributionType oldType, TimedDistributionType newType) {
-        var oldSubEditor = subEditors.get(getViewModel().getTransitionDistribution().distributionTypeProperty().get());
-        if (oldSubEditor.getDiagramViewModel() != null) {
-            oldSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
-            oldSubEditor.unbindViewModel();
-            oldSubEditor.unbindDiagramViewModel();
+        TransitionDistributionViewModel transitionDistributionViewModel = null;
+        if (selectedSubEditor != null) {
+            transitionDistributionViewModel = selectedSubEditor.getViewModel();
         }
 
-        if (newType != null) {
-            if (newType != getViewModel().getTransitionDistribution().getEnumType()) {
-                var newTransitionDistribution = createTransitionDistribution(
-                        getViewModel().getTransitionDistribution().distributionTypeProperty().get(), newType);
-                getViewModel().setTransitionDistribution(newTransitionDistribution);
-            }
-
-            var newSubEditor = subEditors.get(getViewModel().getTransitionDistribution().distributionTypeProperty().get());
-            newSubEditor.bindDiagramViewModel(diagramViewModel);
-            newSubEditor.bindViewModel(getViewModel().getTransitionDistribution());
-            newSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
+        unbindSelectedSubEditor();
+        if (oldType != newType && transitionDistributionViewModel != null && transitionDistributionViewModel == getViewModel().getTransitionDistribution()) {
+            getViewModel().setTransitionDistribution(createTransitionDistribution(getViewModel().getTransitionDistribution().distributionTypeProperty().get(), newType));
         }
+        bindSelectedSubEditor();
     }
 
     @Override
@@ -164,6 +148,34 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
 
         distributionTypeChoiceBox.getSelectionModel().select(getViewModel().getTransitionDistribution().distributionTypeProperty().get());
         transitionDistributionTypeChoiceBox.getSelectionModel().select(getViewModel().getTransitionDistribution().getEnumType());
+        bindSelectedSubEditor();
+    }
+
+    @Override
+    public void unbindViewModel() {
+        unbindSelectedSubEditor();
+
+        super.unbindViewModel();
+    }
+
+    private void bindSelectedSubEditor() {
+        if (selectedSubEditor != null) {
+            return;
+        }
+
+        selectedSubEditor = subEditors.get(getViewModel().getTransitionDistribution().distributionTypeProperty().get());
+        selectedSubEditor.bindDiagramViewModel(diagramViewModel);
+        selectedSubEditor.bindViewModel(getViewModel().getTransitionDistribution());
+        selectedSubEditor.getRows().forEach(row -> addRow(row.getLeft(), row.getRight()));
+    }
+
+    private void unbindSelectedSubEditor() {
+        if (selectedSubEditor != null) {
+            selectedSubEditor.getRows().forEach(row -> gridPane.getChildren().removeAll(row.getLeft(), row.getRight()));
+            selectedSubEditor.unbindViewModel();
+            selectedSubEditor.unbindDiagramViewModel();
+        }
+        selectedSubEditor = null;
     }
 
     @Override

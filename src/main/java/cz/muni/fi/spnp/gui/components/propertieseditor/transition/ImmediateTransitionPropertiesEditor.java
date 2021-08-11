@@ -43,7 +43,7 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
             oldTransitionProbability = selectedSubEditor.getViewModel();
         }
 
-        unbindSelectedEditor();
+        unbindSelectedSubEditor();
         if (oldType != newType && oldTransitionProbability != null && oldTransitionProbability == getViewModel().getTransitionProbability()) {
             getViewModel().setTransitionProbability(createNewProbabilityViewModel(newType));
         }
@@ -72,7 +72,7 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
 
     @Override
     public void unbindViewModel() {
-        unbindSelectedEditor();
+        unbindSelectedSubEditor();
 
         super.unbindViewModel();
     }
@@ -93,7 +93,7 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
         selectedSubEditor.bindViewModel(getViewModel().getTransitionProbability());
     }
 
-    private void unbindSelectedEditor() {
+    private void unbindSelectedSubEditor() {
         if (selectedSubEditor != null) {
             selectedSubEditor.unbindViewModel();
             selectedSubEditor.unbindDiagramViewModel();
