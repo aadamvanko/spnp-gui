@@ -77,6 +77,7 @@ public class SubmodelConverter {
         assert oldVariable.kind.equals("Parameter") : "Input parameter must have kind Parameter";
         var inputParameter = new InputParameterViewModel();
         inputParameter.nameProperty().set(oldVariable.name);
+        inputParameter.typeProperty().set(convertVariableType(oldVariable.type));
         inputParameter.userPromptTextProperty().set(oldVariable.userPromptText);
         return inputParameter;
     }
