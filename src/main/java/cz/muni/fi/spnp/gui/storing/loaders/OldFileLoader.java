@@ -99,7 +99,13 @@ public class OldFileLoader {
     }
 
     private String readBlockInclusive(BufferedReader bufferedReader, String endLine) {
-        return String.format("%s%n%s", extractValue(bufferedReader), readBlock(bufferedReader, endLine));
+        var firstLine = extractValue(bufferedReader);
+        var rest = readBlock(bufferedReader, endLine);
+        if (rest.isEmpty()) {
+            return firstLine;
+        } else {
+            return String.format("%s%n%s", firstLine, rest);
+        }
     }
 
     private String readBlockExclusive(BufferedReader bufferedReader, String endLine) {
@@ -376,4 +382,5 @@ public class OldFileLoader {
         var value = tokens[1];
         return Map.entry(key.stripTrailing(), value.stripLeading());
     }
+
 }
