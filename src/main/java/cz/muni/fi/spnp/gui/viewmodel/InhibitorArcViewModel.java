@@ -7,7 +7,7 @@ public class InhibitorArcViewModel extends ArcViewModel {
     protected InhibitorArcViewModel() {
     }
 
-    public InhibitorArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel, List<DragPointViewModel> dragMarks) {
+    public InhibitorArcViewModel(String name, ConnectableViewModel fromViewModel, ConnectableViewModel toViewModel, List<DragPointViewModel> dragMarks) {
         super(name, fromViewModel, toViewModel, dragMarks);
     }
 

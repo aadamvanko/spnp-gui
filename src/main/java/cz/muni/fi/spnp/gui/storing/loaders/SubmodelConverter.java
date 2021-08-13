@@ -462,9 +462,9 @@ public class SubmodelConverter {
 
         ArcViewModel arcViewModel;
         if (oldArc.type.equals("Regular")) {
-            arcViewModel = new StandardArcViewModel(oldArc.name, source, destination, dragMarks);
+            arcViewModel = new StandardArcViewModel(oldArc.name, (ConnectableViewModel) source, (ConnectableViewModel) destination, dragMarks);
         } else if (oldArc.type.equals("Inhibitor")) {
-            arcViewModel = new InhibitorArcViewModel(oldArc.name, source, destination, dragMarks);
+            arcViewModel = new InhibitorArcViewModel(oldArc.name, (ConnectableViewModel) source, (ConnectableViewModel) destination, dragMarks);
         } else {
             throw new AssertionError("Unknown arc type " + oldArc.type);
         }

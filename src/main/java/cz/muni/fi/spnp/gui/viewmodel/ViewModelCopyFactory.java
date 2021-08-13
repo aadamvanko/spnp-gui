@@ -121,8 +121,8 @@ public class ViewModelCopyFactory {
 
     private void copyTo(ArcViewModel copy, ArcViewModel arcViewModel) {
         copyTo(copy, (ElementViewModel) arcViewModel);
-        copy.setFromViewModel(findOrReturn(arcViewModel.getFromViewModel()));
-        copy.setToViewModel(findOrReturn(arcViewModel.getToViewModel()));
+        copy.setFromViewModel((ConnectableViewModel) findOrReturn(arcViewModel.getFromViewModel()));
+        copy.setToViewModel((ConnectableViewModel) findOrReturn(arcViewModel.getToViewModel()));
         copy.multiplicityTypeProperty().set(arcViewModel.getMultiplicityType());
         copy.multiplicityProperty().set(arcViewModel.getMultiplicity());
         copy.getDragPoints().addAll(createCopyDragPoints(arcViewModel));

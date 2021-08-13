@@ -16,8 +16,8 @@ public abstract class ArcViewModel extends ElementViewModel {
     private final ObjectProperty<ArcMultiplicityType> multiplicityType = new SimpleObjectProperty<>(ArcMultiplicityType.Constant);
     private final StringProperty multiplicity = new SimpleStringProperty("1");
     private final ObjectProperty<FunctionViewModel> multiplicityFunction = new SimpleObjectProperty<>();
-    private ElementViewModel fromViewModel;
-    private ElementViewModel toViewModel;
+    private ConnectableViewModel fromViewModel;
+    private ConnectableViewModel toViewModel;
     private final ObservableList<DragPointViewModel> dragPoints;
 
     public ArcViewModel() {
@@ -27,7 +27,7 @@ public abstract class ArcViewModel extends ElementViewModel {
         dragPoints = FXCollections.observableArrayList();
     }
 
-    public ArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel, List<DragPointViewModel> dragPoints) {
+    public ArcViewModel(String name, ConnectableViewModel fromViewModel, ConnectableViewModel toViewModel, List<DragPointViewModel> dragPoints) {
         nameProperty().set(name);
 
         if (fromViewModel == null) {
@@ -75,23 +75,24 @@ public abstract class ArcViewModel extends ElementViewModel {
         return multiplicityFunction;
     }
 
-    public ElementViewModel getFromViewModel() {
+    public ConnectableViewModel getFromViewModel() {
         return fromViewModel;
     }
 
-    public void setFromViewModel(ElementViewModel fromViewModel) {
+    public void setFromViewModel(ConnectableViewModel fromViewModel) {
         this.fromViewModel = fromViewModel;
     }
 
-    public ElementViewModel getToViewModel() {
+    public ConnectableViewModel getToViewModel() {
         return toViewModel;
     }
 
-    public void setToViewModel(ElementViewModel toViewModel) {
+    public void setToViewModel(ConnectableViewModel toViewModel) {
         this.toViewModel = toViewModel;
     }
 
     public ObservableList<DragPointViewModel> getDragPoints() {
         return dragPoints;
     }
+
 }

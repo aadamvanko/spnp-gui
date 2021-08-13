@@ -13,4 +13,5 @@ public class ImmediateTransitionViewModel extends TransitionViewModel {
     public void setTransitionProbability(TransitionProbabilityViewModel transitionProbability) {
         this.transitionProbability = transitionProbability;
     }
+
 }

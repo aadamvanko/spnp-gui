@@ -7,7 +7,7 @@ public class StandardArcViewModel extends ArcViewModel {
     protected StandardArcViewModel() {
     }
 
-    public StandardArcViewModel(String name, ElementViewModel fromViewModel, ElementViewModel toViewModel, List<DragPointViewModel> dragMarks) {
+    public StandardArcViewModel(String name, ConnectableViewModel fromViewModel, ConnectableViewModel toViewModel, List<DragPointViewModel> dragMarks) {
         super(name, fromViewModel, toViewModel, dragMarks);
     }
 

@@ -44,4 +44,5 @@ public class InputParameterViewModel {
     public StringProperty userPromptTextProperty() {
         return userPromptText;
     }
+
 }
