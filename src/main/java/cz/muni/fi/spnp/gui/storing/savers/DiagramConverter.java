@@ -176,8 +176,8 @@ Textwidth: 0
         label.xy.x = (int) element.positionXProperty().get();
         label.xy.y = (int) element.positionYProperty().get();
         label.widthHeight = new WidthHeight();
-        label.widthHeight.width = -1;
-        label.widthHeight.height = -1;
+        label.widthHeight.width = 20;
+        label.widthHeight.height = 20;
         label.textwidth = 0;
         return label;
     }
