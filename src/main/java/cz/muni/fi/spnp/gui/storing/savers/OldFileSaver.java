@@ -43,8 +43,8 @@ public class OldFileSaver {
     private void writeSubmodelsNames(ProjectOldFormat oldProject, BufferedWriter bufferedWriter) {
         for (int i = 0; i < oldProject.submodelsNames.size(); i++) {
             writeln(bufferedWriter, System.lineSeparator());
-            writelnPair(bufferedWriter, "SubModel", oldProject.submodelsNames.get(i));
-            writelnPair(bufferedWriter, "Type", "SRN Model");
+            writelnPairExtraSpace(bufferedWriter, "SubModel", oldProject.submodelsNames.get(i));
+            writelnPairExtraSpace(bufferedWriter, "Type", "SRN Model");
         }
     }
 
@@ -352,10 +352,10 @@ Textwidth: 0
     }
 
     private void writeProjectInfo(ProjectOldFormat project, BufferedWriter bufferedWriter) {
-        writelnPair(bufferedWriter, "Model Name", project.modelName);
-        writelnPair(bufferedWriter, "Owner", project.owner);
-        writelnPair(bufferedWriter, "Date Created", project.dateCreated);
-        writeBlock(bufferedWriter, "Comment", project.comment, "CommentEnd");
+        writelnPairExtraSpace(bufferedWriter, "Model Name", project.modelName);
+        writelnPairExtraSpace(bufferedWriter, "Owner", project.owner);
+        writelnPairExtraSpace(bufferedWriter, "Date Created", project.dateCreated);
+        writeBlockExclusiveExtraSpace(bufferedWriter, "Comment", project.comment, "CommentEnd");
     }
 
     private void writeBlock(BufferedWriter bufferedWriter, String start, String content, String end) {
@@ -369,8 +369,18 @@ Textwidth: 0
         writeln(bufferedWriter, end);
     }
 
+    private void writeBlockExclusiveExtraSpace(BufferedWriter bufferedWriter, String start, String content, String end) {
+        writelnPairExtraSpace(bufferedWriter, start, "");
+        writeln(bufferedWriter, content);
+        writeln(bufferedWriter, end);
+    }
+
     private void writelnPair(BufferedWriter bufferedWriter, String key, String value) {
         writeln(bufferedWriter, String.format("%s: %s", key, value));
+    }
+
+    private void writelnPairExtraSpace(BufferedWriter bufferedWriter, String key, String value) {
+        writeln(bufferedWriter, String.format("%s : %s", key, value));
     }
 
     private void writeln(BufferedWriter bufferedWriter, String text) {
