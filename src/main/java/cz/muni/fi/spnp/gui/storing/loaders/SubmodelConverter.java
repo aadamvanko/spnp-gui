@@ -428,15 +428,18 @@ public class SubmodelConverter {
         }
     }
 
-    private FunctionViewModel findFunctionViewModel(List<FunctionViewModel> functions, String name) {
-        if (name.equals(NULL_VALUE)) {
+    private FunctionViewModel findFunctionViewModel(List<FunctionViewModel> functions, String functionName) {
+        var foundFunctions = getFunctionsByName(functions, functionName);
+        if (functionName.equals(NULL_VALUE) && foundFunctions.isEmpty()) {
             return null;
         }
+        return foundFunctions.get(0);
+    }
 
+    private List<FunctionViewModel> getFunctionsByName(List<FunctionViewModel> functions, String functionName) {
         return functions.stream()
-                .filter(f -> f.nameProperty().get().equals(name))
-                .collect(Collectors.toList())
-                .get(0);
+                .filter(f -> f.nameProperty().get().equals(functionName))
+                .collect(Collectors.toList());
     }
 
     private PlaceViewModel findPlaceViewModel(List<PlaceViewModel> places, String name) {

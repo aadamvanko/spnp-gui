@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu.views.functions;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
+import cz.muni.fi.spnp.gui.storing.OldFormatUtils;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
@@ -52,6 +53,9 @@ public class FunctionView extends UIWindowComponent {
                     viewModel.bodyProperty().get(), viewModel.returnTypeProperty().get(), false);
             if (diagramViewModel.getFunctions().contains(function)) {
                 DialogMessages.showError("Conflicting name!");
+                return;
+            } else if (function.getName().equals(OldFormatUtils.NULL_VALUE)) {
+                DialogMessages.showError("String null is not valid function name due to the old format's problems.");
                 return;
             } else {
                 diagramViewModel.getFunctions().add(function);
