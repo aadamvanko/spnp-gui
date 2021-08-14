@@ -18,6 +18,7 @@ import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
+import cz.muni.fi.spnp.gui.storing.savers.OldFileSaver;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
@@ -180,6 +181,10 @@ public class MainWindowController {
 //        var oldFileSaver = new OldFileSaver();
 //        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
         model.getProjects().add(project1x);
+
+        var definesTestProject = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\all_things.rgl");
+        var oldFileSaver = new OldFileSaver();
+        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\saved\\file.rgl", definesTestProject);
 
         var project1AllTransitions = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
         model.getProjects().add(project1AllTransitions);
