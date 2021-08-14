@@ -6,6 +6,7 @@ import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribut
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.storing.OldFormatUtils;
 import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
@@ -457,11 +458,25 @@ Textwidth: 0
 
     private FunctionOldFormat convertFunction(FunctionViewModel functionViewModel) {
         var oldFunction = new FunctionOldFormat();
-        oldFunction.name = functionViewModel.getName();
+        oldFunction.name = convertFunctionName(functionViewModel.getName());
         oldFunction.kind = convertFunctionKind(functionViewModel.getFunctionType());
         oldFunction.returnType = convertFunctionReturnType(functionViewModel.getReturnType());
         oldFunction.body = functionViewModel.getBody();
         return oldFunction;
+    }
+
+    private String convertFunctionName(String functionName) {
+        if (OldFormatUtils.isRequiredFunction(functionName.toLowerCase())) {
+            return capitalizeString(functionName);
+        }
+        return functionName;
+    }
+
+    private String capitalizeString(String str) {
+        if (str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
     private String convertFunctionKind(FunctionType functionType) {

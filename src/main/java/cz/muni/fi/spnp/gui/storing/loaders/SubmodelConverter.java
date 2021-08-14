@@ -7,6 +7,7 @@ import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
+import cz.muni.fi.spnp.gui.storing.OldFormatUtils;
 import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
@@ -24,7 +25,6 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -551,7 +551,7 @@ public class SubmodelConverter {
 
     private FunctionViewModel convertFunction(FunctionOldFormat oldFunction) {
         var lowercaseName = oldFunction.name.toLowerCase();
-        if (isRequiredFunction(lowercaseName)) {
+        if (OldFormatUtils.isRequiredFunction(lowercaseName)) {
             return new FunctionViewModel(lowercaseName,
                     convertFunctionKind(oldFunction.kind),
                     oldFunction.body,
@@ -567,12 +567,6 @@ public class SubmodelConverter {
             );
         }
 
-    }
-
-    private Boolean isRequiredFunction(String functionName) {
-        // options and net are not included in the file but created from model
-        var requiredFunctions = Set.of("assert", "ac_init", "ac_reach", "ac_final");
-        return requiredFunctions.contains(functionName);
     }
 
     private FunctionReturnType convertFunctionReturnType(String returnType) {
