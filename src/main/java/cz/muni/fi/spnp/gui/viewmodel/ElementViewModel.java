@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -25,4 +26,8 @@ public abstract class ElementViewModel extends DisplayableViewModel {
                 "highlighted=" + isHighlighted() +
                 '}';
     }
+
+    public void removeFunctionReference(FunctionViewModel removedFunction) {
+    }
+
 }

@@ -9,6 +9,7 @@ import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleIntegerProperty;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -64,6 +65,18 @@ public class DiagramViewModel extends DisplayableViewModel {
         gridSnapping = new SimpleBooleanProperty(true);
         viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
         selected = FXCollections.observableArrayList();
+
+        this.functions.addListener(this::onFunctionsChangedListener);
+    }
+
+    private void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
+        while (functionsChange.next()) {
+            functionsChange.getRemoved().forEach(this::removeFunctionReferences);
+        }
+    }
+
+    private void removeFunctionReferences(FunctionViewModel removedFunction) {
+        elements.forEach(elementViewModel -> elementViewModel.removeFunctionReference(removedFunction));
     }
 
     public void addFunction(FunctionViewModel function) {

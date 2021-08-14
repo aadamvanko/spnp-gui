@@ -43,6 +43,15 @@ public abstract class ArcViewModel extends ElementViewModel {
         this.dragPoints = FXCollections.observableArrayList(dragPoints);
     }
 
+    @Override
+    public void removeFunctionReference(FunctionViewModel removedFunction) {
+        super.removeFunctionReference(removedFunction);
+
+        if (getMultiplicityFunction() == removedFunction) {
+            multiplicityFunctionProperty().set(null);
+        }
+    }
+
     public ArcDirection getArcDirection() {
         if (fromViewModel instanceof PlaceViewModel) {
             return ArcDirection.Input;
