@@ -31,6 +31,8 @@ import java.util.stream.Stream;
 
 public class SubmodelConverter {
 
+    private static final String NULL_VALUE = "null";
+
     public DiagramViewModel convert(Submodel submodel, ProjectViewModel projectViewModel) {
         var includes = convertIncludes(submodel.includes);
         var defines = convertDefines(submodel.defines);
@@ -156,6 +158,7 @@ public class SubmodelConverter {
         immediate.positionXProperty().set(oldImmediate.xy.x);
         immediate.positionYProperty().set(oldImmediate.xy.y);
         immediate.priorityProperty().set(oldImmediate.valueTransition);
+        immediate.guardFunctionProperty().set(findFunctionViewModel(functions, oldImmediate.guard));
         immediate.setTransitionProbability(convertImmediateProbability(oldImmediate, places, functions));
         return immediate;
     }
@@ -166,6 +169,7 @@ public class SubmodelConverter {
         timed.positionXProperty().set(oldTimed.xy.x);
         timed.positionYProperty().set(oldTimed.xy.y);
         timed.priorityProperty().set(convertPriority(oldTimed.priority));
+        timed.guardFunctionProperty().set(findFunctionViewModel(functions, oldTimed.guard));
         timed.setTransitionDistribution(createTransitionDistribution(convertDistributionType(oldTimed.distribution), oldTimed, places, functions));
         return timed;
     }
@@ -417,7 +421,7 @@ public class SubmodelConverter {
     }
 
     private double parseDoubleOrDefault(String value, double defaultValue) {
-        if (value.equals("null")) {
+        if (value.equals(NULL_VALUE)) {
             return defaultValue;
         } else {
             return Double.parseDouble(value);
@@ -425,6 +429,10 @@ public class SubmodelConverter {
     }
 
     private FunctionViewModel findFunctionViewModel(List<FunctionViewModel> functions, String name) {
+        if (name.equals(NULL_VALUE)) {
+            return null;
+        }
+
         return functions.stream()
                 .filter(f -> f.nameProperty().get().equals(name))
                 .collect(Collectors.toList())
@@ -432,6 +440,10 @@ public class SubmodelConverter {
     }
 
     private PlaceViewModel findPlaceViewModel(List<PlaceViewModel> places, String name) {
+        if (name.equals(NULL_VALUE)) {
+            return null;
+        }
+
         return places.stream()
                 .filter(p -> p.nameProperty().get().equals(name))
                 .collect(Collectors.toList())
@@ -439,7 +451,7 @@ public class SubmodelConverter {
     }
 
     private int convertPriority(String priority) {
-        if (priority.equals("null")) {
+        if (priority.equals(NULL_VALUE)) {
             return 0;
         } else {
             return Integer.parseInt(priority);
