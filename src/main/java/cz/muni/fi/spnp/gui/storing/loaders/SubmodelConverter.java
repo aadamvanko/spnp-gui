@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.storing.loaders;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
+import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
@@ -553,6 +554,10 @@ public class SubmodelConverter {
     }
 
     private FunctionViewModel convertFunction(FunctionOldFormat oldFunction) {
+        if (oldFunction.name.equals(NULL_VALUE)) {
+            DialogMessages.showWarning("One of the loaded functions is named null! Every function property with missing value will reference it.");
+        }
+
         var lowercaseName = oldFunction.name.toLowerCase();
         if (OldFormatUtils.isRequiredFunction(lowercaseName)) {
             return new FunctionViewModel(lowercaseName,
