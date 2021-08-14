@@ -77,7 +77,7 @@ public class DiagramConverter {
     private String convertVariableKind(VariableType variableKind) {
         var variableTypeToString = new HashMap<VariableType, String>();
         variableTypeToString.put(VariableType.Global, "Global");
-        variableTypeToString.put(VariableType.Parameter, "Parameter");
+        variableTypeToString.put(VariableType.Parameter, "Param");
         return variableTypeToString.get(variableKind);
     }
 

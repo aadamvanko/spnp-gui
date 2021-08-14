@@ -87,7 +87,7 @@ public class SubmodelConverter {
     private VariableType convertVariableKind(String kind) {
         var stringToVariableType = new HashMap<String, VariableType>();
         stringToVariableType.put("Global", VariableType.Global);
-        stringToVariableType.put("Parameter", VariableType.Parameter);
+        stringToVariableType.put("Param", VariableType.Parameter);
         return stringToVariableType.get(kind);
     }
 
