@@ -22,9 +22,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DiagramConverter {
+import static cz.muni.fi.spnp.gui.storing.OldFormatUtils.NULL_VALUE;
 
-    private static final String NULL_VALUE = "null";
+public class DiagramConverter {
 
     public Submodel convert(DiagramViewModel diagram) {
         var submodel = new Submodel();

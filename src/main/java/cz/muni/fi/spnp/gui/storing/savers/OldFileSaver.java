@@ -11,9 +11,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OldFileSaver {
+import static cz.muni.fi.spnp.gui.storing.OldFormatUtils.NULL_VALUE;
 
-    private static final String NULL_VALUE = "null";
+public class OldFileSaver {
 
     private final ProjectConverter projectConverter;
     private final DiagramConverter diagramConverter;

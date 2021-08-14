@@ -29,9 +29,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SubmodelConverter {
+import static cz.muni.fi.spnp.gui.storing.OldFormatUtils.NULL_VALUE;
 
-    private static final String NULL_VALUE = "null";
+public class SubmodelConverter {
 
     public DiagramViewModel convert(Submodel submodel, ProjectViewModel projectViewModel) {
         var includes = convertIncludes(submodel.includes);
