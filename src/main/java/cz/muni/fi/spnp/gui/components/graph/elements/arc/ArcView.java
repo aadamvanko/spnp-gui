@@ -3,8 +3,11 @@ package cz.muni.fi.spnp.gui.components.graph.elements.arc;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
+import cz.muni.fi.spnp.gui.viewmodel.ArcMultiplicityType;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DragPointViewModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -32,6 +35,8 @@ public abstract class ArcView extends GraphElementView {
     protected ArcEnding ending;
     private final ListChangeListener<? super DragPointViewModel> onDragPointsChangedListener;
     private Text textMultiplicity;
+    private final ChangeListener<String> onMultiplicityChangedListener;
+    private final ChangeListener<? super ArcMultiplicityType> onMultiplicityTypeChangedListener;
     private DragPointView lastAddedDragPointView;
 
     public ArcView(GraphView graphView, ArcViewModel arcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
@@ -42,8 +47,22 @@ public abstract class ArcView extends GraphElementView {
         this.fromElementView = from;
         this.toElementView = to;
         this.onDragPointsChangedListener = this::onDragPointsChangedListener;
+        this.onMultiplicityChangedListener = this::onMultiplicityChangedListener;
+        this.onMultiplicityTypeChangedListener = this::onMultiplicityTypeChangedListener;
 
         createView(from, to);
+    }
+
+    private void onMultiplicityChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+        setMultiplicityTextVisibility();
+    }
+
+    private void onMultiplicityTypeChangedListener(ObservableValue<? extends ArcMultiplicityType> observableValue, ArcMultiplicityType oldValue, ArcMultiplicityType newValue) {
+        setMultiplicityTextVisibility();
+    }
+
+    private void setMultiplicityTextVisibility() {
+        textMultiplicity.setVisible(!getViewModel().getMultiplicity().equals("1") && getViewModel().getMultiplicityType() == ArcMultiplicityType.Constant);
     }
 
     public ArcViewModel getViewModel() {
@@ -65,9 +84,6 @@ public abstract class ArcView extends GraphElementView {
 
     private void createView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
         textMultiplicity = new Text();
-        textMultiplicity.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            textMultiplicity.setVisible(!newValue.equals("1"));
-        });
 
         groupLines = new Group();
         groupSymbols = new Group(textMultiplicity);
@@ -162,6 +178,13 @@ public abstract class ArcView extends GraphElementView {
 
         createDragPoints(getViewModel().getDragPoints());
         getViewModel().getDragPoints().addListener(this.onDragPointsChangedListener);
+        getViewModel().multiplicityProperty().addListener(this.onMultiplicityChangedListener);
+        getViewModel().multiplicityTypeProperty().addListener(this.onMultiplicityTypeChangedListener);
+
+        System.out.println(getViewModel().getMultiplicity() + ", " + getViewModel().getMultiplicityType());
+
+        onMultiplicityChangedListener(null, null, getViewModel().getMultiplicity());
+        onMultiplicityTypeChangedListener(null, null, getViewModel().getMultiplicityType());
 
         super.bindViewModel();
     }
@@ -171,6 +194,8 @@ public abstract class ArcView extends GraphElementView {
         textMultiplicity.textProperty().unbind();
 
         getViewModel().getDragPoints().removeListener(this.onDragPointsChangedListener);
+        getViewModel().multiplicityProperty().removeListener(this.onMultiplicityChangedListener);
+        getViewModel().multiplicityTypeProperty().removeListener(this.onMultiplicityTypeChangedListener);
 
         super.unbindViewModel();
     }
