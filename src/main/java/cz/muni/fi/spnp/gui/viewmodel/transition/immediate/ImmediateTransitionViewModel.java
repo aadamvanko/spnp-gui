@@ -1,11 +1,24 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.immediate;
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 
 public class ImmediateTransitionViewModel extends TransitionViewModel {
 
     private TransitionProbabilityViewModel transitionProbability = new ConstantTransitionProbabilityViewModel();
+
+    @Override
+    public void removePlaceReference(PlaceViewModel removedPlace) {
+        super.removePlaceReference(removedPlace);
+
+        if (transitionProbability instanceof PlaceDependentTransitionProbabilityViewModel) {
+            var placeDependentProbability = (PlaceDependentTransitionProbabilityViewModel) transitionProbability;
+            if (placeDependentProbability.getDependentPlace() == removedPlace) {
+                placeDependentProbability.dependentPlaceProperty().set(null);
+            }
+        }
+    }
 
     @Override
     public void removeFunctionReference(FunctionViewModel removedFunction) {

@@ -27,6 +27,9 @@ public abstract class ElementViewModel extends DisplayableViewModel {
                 '}';
     }
 
+    public void removePlaceReference(PlaceViewModel removedPlace) {
+    }
+
     public void removeFunctionReference(FunctionViewModel removedFunction) {
     }
 

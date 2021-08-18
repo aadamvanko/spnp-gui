@@ -66,7 +66,22 @@ public class DiagramViewModel extends DisplayableViewModel {
         viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
         selected = FXCollections.observableArrayList();
 
+        this.elements.addListener(this::onElementsChangedListener);
         this.functions.addListener(this::onFunctionsChangedListener);
+    }
+
+    private void onElementsChangedListener(ListChangeListener.Change<? extends ElementViewModel> elementsChange) {
+        while (elementsChange.next()) {
+            elementsChange.getRemoved().forEach(elementViewModel -> {
+                if (elementViewModel instanceof PlaceViewModel) {
+                    removePlaceReferences((PlaceViewModel) elementViewModel);
+                }
+            });
+        }
+    }
+
+    private void removePlaceReferences(PlaceViewModel placeViewModel) {
+        elements.forEach(elementViewModel -> elementViewModel.removePlaceReference(placeViewModel));
     }
 
     private void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
