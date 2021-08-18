@@ -25,4 +25,8 @@ public final class ViewModelUtils {
                 .flatMap(arcViewModel -> arcViewModel.getDragPoints().stream());
     }
 
+    public static String createFlushFunctionBody(String arcName) {
+        return String.format("return mark(\"%s\");", arcName);
+    }
+
 }

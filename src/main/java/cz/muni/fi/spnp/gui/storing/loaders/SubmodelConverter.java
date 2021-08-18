@@ -564,6 +564,7 @@ public class SubmodelConverter {
                     convertFunctionKind(oldFunction.kind),
                     oldFunction.body,
                     convertFunctionReturnType(oldFunction.returnType),
+                    true,
                     true);
         } else {
             return new FunctionViewModel(
@@ -571,7 +572,8 @@ public class SubmodelConverter {
                     convertFunctionKind(oldFunction.kind),
                     oldFunction.body,
                     convertFunctionReturnType(oldFunction.returnType),
-                    false
+                    false,
+                    true
             );
         }
 

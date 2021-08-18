@@ -2,10 +2,7 @@ package cz.muni.fi.spnp.gui.viewmodel;
 
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,12 +16,15 @@ public abstract class ArcViewModel extends ElementViewModel {
     private ConnectableViewModel fromViewModel;
     private ConnectableViewModel toViewModel;
     private final ObservableList<DragPointViewModel> dragPoints;
+    private final BooleanProperty isFlushing = new SimpleBooleanProperty(false);
 
     public ArcViewModel() {
         nameProperty().set("unnamedArcViewModel");
         fromViewModel = null;
         toViewModel = null;
         dragPoints = FXCollections.observableArrayList();
+
+        addNameListener();
     }
 
     public ArcViewModel(String name, ConnectableViewModel fromViewModel, ConnectableViewModel toViewModel, List<DragPointViewModel> dragPoints) {
@@ -41,6 +41,17 @@ public abstract class ArcViewModel extends ElementViewModel {
         this.fromViewModel = fromViewModel;
         this.toViewModel = toViewModel;
         this.dragPoints = FXCollections.observableArrayList(dragPoints);
+
+        addNameListener();
+    }
+
+    private void addNameListener() {
+        nameProperty().addListener((observable, oldName, newName) -> {
+            if (isFlushing()) {
+                getMultiplicityFunction().bodyProperty().set(ViewModelUtils.createFlushFunctionBody(getName()));
+                System.out.println("new body " + getMultiplicityFunction().getBody());
+            }
+        });
     }
 
     @Override
@@ -102,6 +113,14 @@ public abstract class ArcViewModel extends ElementViewModel {
 
     public ObservableList<DragPointViewModel> getDragPoints() {
         return dragPoints;
+    }
+
+    public boolean isFlushing() {
+        return isFlushing.get();
+    }
+
+    public BooleanProperty isFlushingProperty() {
+        return isFlushing;
     }
 
 }

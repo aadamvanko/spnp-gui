@@ -16,7 +16,6 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +32,14 @@ public abstract class ArcView extends GraphElementView {
     protected Group groupSymbols;
     protected List<Line> lines;
     protected ArcEnding ending;
+    private final ChangeListener<Boolean> onIsFlushingChangedListener;
+    private DragPointView lastAddedDragPointView;
+    private ArcMultiplicityText multiplicityText;
+
     private final ListChangeListener<? super DragPointViewModel> onDragPointsChangedListener;
-    private Text textMultiplicity;
     private final ChangeListener<String> onMultiplicityChangedListener;
     private final ChangeListener<? super ArcMultiplicityType> onMultiplicityTypeChangedListener;
-    private DragPointView lastAddedDragPointView;
+    private ArcMultiplicityFlushing multiplicityFlushing;
 
     public ArcView(GraphView graphView, ArcViewModel arcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {
         super(graphView, arcViewModel);
@@ -49,8 +51,20 @@ public abstract class ArcView extends GraphElementView {
         this.onDragPointsChangedListener = this::onDragPointsChangedListener;
         this.onMultiplicityChangedListener = this::onMultiplicityChangedListener;
         this.onMultiplicityTypeChangedListener = this::onMultiplicityTypeChangedListener;
+        this.onIsFlushingChangedListener = this::onIsFlushingChangedListener;
 
         createView(from, to);
+    }
+
+    private void onIsFlushingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        if (newValue) {
+            System.out.println("flushing is on");
+            multiplicityFlushing.setVisible(true);
+            multiplicityText.setVisible(false);
+        } else {
+            multiplicityFlushing.setVisible(false);
+            setMultiplicityTextVisibility();
+        }
     }
 
     private void onMultiplicityChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
@@ -62,7 +76,7 @@ public abstract class ArcView extends GraphElementView {
     }
 
     private void setMultiplicityTextVisibility() {
-        textMultiplicity.setVisible(!getViewModel().getMultiplicity().equals("1") && getViewModel().getMultiplicityType() == ArcMultiplicityType.Constant);
+        multiplicityText.setVisible(!getViewModel().getMultiplicity().equals("1") && getViewModel().getMultiplicityType() == ArcMultiplicityType.Constant);
     }
 
     public ArcViewModel getViewModel() {
@@ -83,10 +97,11 @@ public abstract class ArcView extends GraphElementView {
     }
 
     private void createView(ConnectableGraphElementView from, ConnectableGraphElementView to) {
-        textMultiplicity = new Text();
+        multiplicityText = new ArcMultiplicityText();
+        multiplicityFlushing = new ArcMultiplicityFlushing();
 
         groupLines = new Group();
-        groupSymbols = new Group(textMultiplicity);
+        groupSymbols = new Group(multiplicityText.getRoot(), multiplicityFlushing.getRoot());
         container = new Group(groupLines, groupSymbols);
 
         createFirstLine();
@@ -105,17 +120,8 @@ public abstract class ArcView extends GraphElementView {
 
     private void updateMultiplicityPosition() {
         Line line = lines.get(lines.size() / 2);
-        var start = new Point2D(line.getStartX(), line.getStartY());
-        var end = new Point2D(line.getEndX(), line.getEndY());
-        var midpoint = start.midpoint(end);
-        var vector = end.subtract(start).normalize();
-        var perpendicular = new Point2D(vector.getY(), -vector.getX());
-        double OFFSET = 10;
-        var pos = midpoint.add(perpendicular.multiply(OFFSET));
-        textMultiplicity.setX(pos.getX());
-        textMultiplicity.setY(pos.getY());
-        textMultiplicity.setX(textMultiplicity.getX() - textMultiplicity.getLayoutBounds().getWidth() / 2);
-        textMultiplicity.setY(textMultiplicity.getY() + textMultiplicity.getLayoutBounds().getHeight() / 4);
+        multiplicityText.update(line);
+        multiplicityFlushing.update(line);
     }
 
     public List<DragPointView> getDragPointViews() {
@@ -174,28 +180,29 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     protected void bindViewModel() {
-        textMultiplicity.textProperty().bind(getViewModel().multiplicityProperty());
+        multiplicityText.bindViewModel(getViewModel());
 
         createDragPoints(getViewModel().getDragPoints());
         getViewModel().getDragPoints().addListener(this.onDragPointsChangedListener);
         getViewModel().multiplicityProperty().addListener(this.onMultiplicityChangedListener);
         getViewModel().multiplicityTypeProperty().addListener(this.onMultiplicityTypeChangedListener);
-
-        System.out.println(getViewModel().getMultiplicity() + ", " + getViewModel().getMultiplicityType());
+        getViewModel().isFlushingProperty().addListener(this.onIsFlushingChangedListener);
 
         onMultiplicityChangedListener(null, null, getViewModel().getMultiplicity());
         onMultiplicityTypeChangedListener(null, null, getViewModel().getMultiplicityType());
+        onIsFlushingChangedListener(null, null, getViewModel().isFlushing());
 
         super.bindViewModel();
     }
 
     @Override
     public void unbindViewModel() {
-        textMultiplicity.textProperty().unbind();
+        multiplicityText.unbindViewModel(getViewModel());
 
         getViewModel().getDragPoints().removeListener(this.onDragPointsChangedListener);
         getViewModel().multiplicityProperty().removeListener(this.onMultiplicityChangedListener);
         getViewModel().multiplicityTypeProperty().removeListener(this.onMultiplicityTypeChangedListener);
+        getViewModel().isFlushingProperty().removeListener(this.onIsFlushingChangedListener);
 
         super.unbindViewModel();
     }
@@ -424,4 +431,5 @@ public abstract class ArcView extends GraphElementView {
     public Group getGroupSymbols() {
         return groupSymbols;
     }
+
 }

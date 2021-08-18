@@ -11,18 +11,20 @@ public class FunctionViewModel extends DisplayableViewModel {
     private final ObjectProperty<FunctionType> functionType;
     private final StringProperty body;
     private final ObjectProperty<FunctionReturnType> returnType;
-    private final Boolean required;
+    private Boolean required;
+    private Boolean visible;
 
     public FunctionViewModel() {
-        this("unnamedFunctionViewModel", FunctionType.Other, "emptyBody", FunctionReturnType.VOID, false);
+        this("unnamedFunctionViewModel", FunctionType.Other, "emptyBody", FunctionReturnType.VOID, false, true);
     }
 
-    public FunctionViewModel(String name, FunctionType functionType, String body, FunctionReturnType returnType, Boolean required) {
+    public FunctionViewModel(String name, FunctionType functionType, String body, FunctionReturnType returnType, Boolean required, Boolean visible) {
         super(name);
         this.functionType = new SimpleObjectProperty<>(functionType);
         this.body = new SimpleStringProperty(body);
         this.returnType = new SimpleObjectProperty<>(returnType);
         this.required = required;
+        this.visible = visible;
     }
 
     public FunctionType getFunctionType() {
@@ -49,8 +51,20 @@ public class FunctionViewModel extends DisplayableViewModel {
         return returnType;
     }
 
-    public Boolean getRequired() {
+    public Boolean isRequired() {
         return required;
+    }
+
+    public void setRequired(Boolean required) {
+        this.required = required;
+    }
+
+    public Boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 
     @Override
@@ -72,4 +86,5 @@ public class FunctionViewModel extends DisplayableViewModel {
                 "name=" + getName() +
                 '}';
     }
+
 }

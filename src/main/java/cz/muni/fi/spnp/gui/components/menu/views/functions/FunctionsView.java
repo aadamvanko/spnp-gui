@@ -1,6 +1,5 @@
 package cz.muni.fi.spnp.gui.components.menu.views.functions;
 
-import cz.muni.fi.spnp.core.models.functions.Function;
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
@@ -62,7 +61,7 @@ public class FunctionsView extends UIWindowComponent {
             if (selectedItem == null) {
                 return;
             }
-            if (selectedItem.getRequired()) {
+            if (selectedItem.isRequired()) {
                 DialogMessages.showError("Cannot delete predefined function, only edit it!");
                 return;
             }

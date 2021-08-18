@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
@@ -28,6 +29,21 @@ public class ViewModelCopyFactory {
 
     public ViewModelCopyFactory() {
         originalToCopy = new HashMap<>();
+    }
+
+    private void copyTo(FunctionViewModel copy, FunctionViewModel functionViewModel) {
+        copyTo(copy, (DisplayableViewModel) functionViewModel);
+        copy.functionTypeProperty().set(functionViewModel.getFunctionType());
+        copy.bodyProperty().set(functionViewModel.getBody());
+        copy.returnTypeProperty().set(functionViewModel.getReturnType());
+        copy.setRequired(functionViewModel.isRequired());
+        copy.setVisible(functionViewModel.isVisible());
+    }
+
+    public FunctionViewModel createCopy(FunctionViewModel functionViewModel) {
+        var copy = new FunctionViewModel();
+        copyTo(copy, functionViewModel);
+        return copy;
     }
 
     private void addToMapping(ElementViewModel original, ElementViewModel copy) {
@@ -125,6 +141,8 @@ public class ViewModelCopyFactory {
         copy.setToViewModel((ConnectableViewModel) findOrReturn(arcViewModel.getToViewModel()));
         copy.multiplicityTypeProperty().set(arcViewModel.getMultiplicityType());
         copy.multiplicityProperty().set(arcViewModel.getMultiplicity());
+        copy.multiplicityFunctionProperty().set(arcViewModel.getMultiplicityFunction());
+        copy.isFlushingProperty().set(arcViewModel.isFlushing());
         copy.getDragPoints().addAll(createCopyDragPoints(arcViewModel));
     }
 

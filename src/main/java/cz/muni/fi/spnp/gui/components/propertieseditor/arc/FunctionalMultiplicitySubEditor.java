@@ -14,9 +14,10 @@ import java.util.stream.Collectors;
 
 public class FunctionalMultiplicitySubEditor extends ArcMultiplicitySubEditor {
 
-    private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
     private Label multiplicityFunctionLabel;
     private ChoiceBox<FunctionViewModel> multiplicityFunctionChoiceBox;
+
+    private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
 
     public FunctionalMultiplicitySubEditor() {
         createView();
@@ -33,6 +34,7 @@ public class FunctionalMultiplicitySubEditor extends ArcMultiplicitySubEditor {
     private void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
         var arcCardinalityFunctions = diagramViewModel.getFunctions().stream()
                 .filter(functionViewModel -> functionViewModel.getFunctionType() == FunctionType.ArcCardinality)
+                .filter(functionViewModel -> functionViewModel.isVisible())
                 .collect(Collectors.toList());
         var functionsCopy = FXCollections.observableArrayList(arcCardinalityFunctions);
         functionsCopy.add(0, null);
@@ -61,11 +63,13 @@ public class FunctionalMultiplicitySubEditor extends ArcMultiplicitySubEditor {
         super.bindViewModel(arcViewModel);
 
         multiplicityFunctionChoiceBox.valueProperty().bindBidirectional(arcViewModel.multiplicityFunctionProperty());
+        multiplicityFunctionChoiceBox.disableProperty().bind(arcViewModel.isFlushingProperty());
     }
 
     @Override
     public void unbindViewModel() {
         multiplicityFunctionChoiceBox.valueProperty().unbindBidirectional(viewModel.multiplicityFunctionProperty());
+        multiplicityFunctionChoiceBox.disableProperty().unbind();
 
         super.unbindViewModel();
     }

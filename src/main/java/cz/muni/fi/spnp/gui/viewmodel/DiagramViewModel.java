@@ -79,13 +79,40 @@ public class DiagramViewModel extends DisplayableViewModel {
         elements.forEach(elementViewModel -> elementViewModel.removeFunctionReference(removedFunction));
     }
 
-    public void addFunction(FunctionViewModel function) {
+    private void addFunction(FunctionViewModel function) {
         int index = functions.indexOf(function);
         if (index != -1) {
             functions.get(index).bodyProperty().set(function.getBody());
         } else {
             functions.add(function);
         }
+    }
+
+    public boolean existsFunctionWithName(String functionName) {
+        return functions.stream()
+                .anyMatch(functionViewModel -> functionViewModel.getName().equals(functionName));
+    }
+
+    public FunctionViewModel createFlushFunction(String arcName) {
+        int id = 0;
+        var flushFunction = new FunctionViewModel(createFlushFunctionName(id),
+                FunctionType.ArcCardinality,
+                ViewModelUtils.createFlushFunctionBody(arcName),
+                FunctionReturnType.INT,
+                false,
+                true);
+        while (functions.contains(flushFunction)) {
+            id++;
+            flushFunction.nameProperty().set(createFlushFunctionName(id));
+        }
+        System.out.println(flushFunction.getName() + " { " + flushFunction.getBody() + " } ");
+        System.out.println("adding flushFunction");
+        functions.add(flushFunction);
+        return flushFunction;
+    }
+
+    private String createFlushFunctionName(int id) {
+        return String.format("flush_arc_%d", id);
     }
 
     public FunctionViewModel getFunctionByName(String functionName) {
@@ -97,10 +124,10 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     private List<FunctionViewModel> predefinedFunctions() {
         var predefinedFunctions = List.of(
-                new FunctionViewModel("assert", FunctionType.Other, "", FunctionReturnType.INT, true),
-                new FunctionViewModel("ac_init", FunctionType.Other, "/* Information on the net structure */" + System.lineSeparator() + "pr_net_info();", FunctionReturnType.VOID, true),
-                new FunctionViewModel("ac_reach", FunctionType.Other, "/* Information on the reachability graph */" + System.lineSeparator() + "pr_rg_info();", FunctionReturnType.VOID, true),
-                new FunctionViewModel("ac_final", FunctionType.Other, "", FunctionReturnType.VOID, true)
+                new FunctionViewModel("assert", FunctionType.Other, "", FunctionReturnType.INT, true, true),
+                new FunctionViewModel("ac_init", FunctionType.Other, "/* Information on the net structure */" + System.lineSeparator() + "pr_net_info();", FunctionReturnType.VOID, true, true),
+                new FunctionViewModel("ac_reach", FunctionType.Other, "/* Information on the reachability graph */" + System.lineSeparator() + "pr_rg_info();", FunctionReturnType.VOID, true, true),
+                new FunctionViewModel("ac_final", FunctionType.Other, "", FunctionReturnType.VOID, true, true)
         );
         return predefinedFunctions;
     }
