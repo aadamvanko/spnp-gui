@@ -37,14 +37,14 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
     }
 
     private void createView() {
+        isFlushingLabel = new Label("Flushing:");
+        isFlushingCheckBox = new CheckBox();
+        addRow(isFlushingLabel, isFlushingCheckBox);
+
         arcMultiplicityTypeLabel = new Label("Multiplicity type:");
         var arcMultiplicityTypes = FXCollections.observableArrayList(ArcMultiplicityType.values());
         arcMultiplicityTypeChoiceBox = new ChoiceBox<>(arcMultiplicityTypes);
         addRow(arcMultiplicityTypeLabel, arcMultiplicityTypeChoiceBox);
-
-        isFlushingLabel = new Label("Flushing:");
-        isFlushingCheckBox = new CheckBox();
-        addRow(isFlushingLabel, isFlushingCheckBox);
     }
 
     private void onIsFlushingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -74,6 +74,7 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         super.bindViewModel(viewModel);
 
         arcMultiplicityTypeChoiceBox.valueProperty().bindBidirectional(getViewModel().multiplicityTypeProperty());
+        arcMultiplicityTypeChoiceBox.disableProperty().bind(getViewModel().isFlushingProperty());
         isFlushingCheckBox.selectedProperty().bindBidirectional(getViewModel().isFlushingProperty());
 
         getViewModel().isFlushingProperty().addListener(this.onIsFlushingChangedListener);
@@ -88,6 +89,7 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
     @Override
     public void unbindViewModel() {
         arcMultiplicityTypeChoiceBox.valueProperty().unbindBidirectional(getViewModel().multiplicityTypeProperty());
+        arcMultiplicityTypeChoiceBox.disableProperty().unbind();
         isFlushingCheckBox.selectedProperty().unbindBidirectional(getViewModel().isFlushingProperty());
 
         getViewModel().isFlushingProperty().removeListener(this.onIsFlushingChangedListener);
