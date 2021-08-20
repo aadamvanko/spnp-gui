@@ -20,6 +20,7 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
     private Label arcMultiplicityTypeLabel;
     private ChoiceBox<ArcMultiplicityType> arcMultiplicityTypeChoiceBox;
     private final ChangeListener<Boolean> onIsFlushingChangedListener;
+    private final ChangeListener<ArcMultiplicityType> onMultiplicityTypeChangedListener;
     private Label isFlushingLabel;
     private CheckBox isFlushingCheckBox;
     private ArcMultiplicitySubEditor selectedSubEditor;
@@ -28,6 +29,7 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         createView();
 
         onIsFlushingChangedListener = this::onIsFlushingChangedListener;
+        onMultiplicityTypeChangedListener = this::onMultiplicityTypeChangedListener;
 
         subEditors = new HashMap<>();
         subEditors.put(ArcMultiplicityType.Constant, new ConstantMultiplicitySubEditor());
@@ -43,8 +45,6 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         isFlushingLabel = new Label("Flushing:");
         isFlushingCheckBox = new CheckBox();
         addRow(isFlushingLabel, isFlushingCheckBox);
-
-        arcMultiplicityTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::arcMultiplicityTypeChanged);
     }
 
     private void onIsFlushingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -60,9 +60,13 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         }
     }
 
-    private void arcMultiplicityTypeChanged(ObservableValue<? extends ArcMultiplicityType> observableValue, ArcMultiplicityType oldType, ArcMultiplicityType newType) {
+    private void onMultiplicityTypeChangedListener(ObservableValue<? extends ArcMultiplicityType> observableValue, ArcMultiplicityType oldValue, ArcMultiplicityType newValue) {
+        if (newValue == ArcMultiplicityType.Constant) {
+            getViewModel().isFlushingProperty().set(false);
+        }
+
         unbindSelectedSubEditor();
-        bindSelectedSubEditor(newType);
+        bindSelectedSubEditor(newValue);
     }
 
     @Override
@@ -75,6 +79,9 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         getViewModel().isFlushingProperty().addListener(this.onIsFlushingChangedListener);
         onIsFlushingChangedListener(null, null, getViewModel().isFlushing());
 
+        getViewModel().multiplicityTypeProperty().addListener(this.onMultiplicityTypeChangedListener);
+        onMultiplicityTypeChangedListener(null, null, getViewModel().getMultiplicityType());
+
         bindSelectedSubEditor(getViewModel().getMultiplicityType());
     }
 
@@ -84,6 +91,7 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         isFlushingCheckBox.selectedProperty().unbindBidirectional(getViewModel().isFlushingProperty());
 
         getViewModel().isFlushingProperty().removeListener(this.onIsFlushingChangedListener);
+        getViewModel().multiplicityTypeProperty().removeListener(this.onMultiplicityTypeChangedListener);
 
         unbindSelectedSubEditor();
 

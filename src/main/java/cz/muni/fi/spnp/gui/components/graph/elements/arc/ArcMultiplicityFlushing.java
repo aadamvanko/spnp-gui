@@ -15,7 +15,7 @@ public class ArcMultiplicityFlushing implements ArcMultiplicityVisual {
 
     public ArcMultiplicityFlushing() {
         polyline = new Polyline();
-        polyline.setStroke(Color.RED);
+        polyline.setStroke(Color.BLACK);
         polyline.setStrokeWidth(1);
         polyline.setSmooth(true);
     }
