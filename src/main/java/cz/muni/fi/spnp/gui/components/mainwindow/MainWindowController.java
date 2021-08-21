@@ -212,6 +212,8 @@ public class MainWindowController {
 
         functionsCategoriesComponent = new FunctionsCategoriesComponent(model);
         vbox.getChildren().add(functionsCategoriesComponent.getRoot());
+
+        vbox.setPrefWidth(350);
         return vbox;
     }
 

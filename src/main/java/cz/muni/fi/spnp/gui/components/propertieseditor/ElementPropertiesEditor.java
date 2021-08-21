@@ -25,7 +25,7 @@ public abstract class ElementPropertiesEditor implements UIComponent {
         gridPane.setHgap(10);
         gridPane.setPadding(new Insets(5, 10, 5, 5));
 
-        nameLabel = new Label("Name");
+        nameLabel = new Label("Name:");
         nameTextField = new TextField();
         GridPane.setHgrow(nameTextField, Priority.ALWAYS);
 
