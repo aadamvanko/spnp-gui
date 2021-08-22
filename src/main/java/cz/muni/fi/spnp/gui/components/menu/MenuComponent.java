@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesView;
 import cz.muni.fi.spnp.gui.components.menu.views.diagrams.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludesView;
+import cz.muni.fi.spnp.gui.components.menu.views.preferences.PreferencesView;
 import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParametersView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
@@ -16,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 public class MenuComponent extends ApplicationComponent {
 
@@ -56,6 +58,14 @@ public class MenuComponent extends ApplicationComponent {
             newDiagramView.getStage().showAndWait();
         });
         menuFile.getItems().add(menuItemNewDiagram);
+        menuFile.getItems().add(new SeparatorMenuItem());
+
+        var preferencesView = new PreferencesView(model);
+        var menuItemPreferences = new MenuItem("Preferences");
+        menuItemPreferences.setOnAction(actionEvent -> {
+            preferencesView.getStage().showAndWait();
+        });
+        menuFile.getItems().add(menuItemPreferences);
         menuBar.getMenus().add(menuFile);
 
         Menu menuEdit = new Menu("Edit");

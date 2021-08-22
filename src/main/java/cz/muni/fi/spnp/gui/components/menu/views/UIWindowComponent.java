@@ -4,6 +4,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class UIWindowComponent {
+
     protected Stage stage;
 
     public UIWindowComponent() {
@@ -14,4 +15,5 @@ public class UIWindowComponent {
     public Stage getStage() {
         return stage;
     }
+
 }

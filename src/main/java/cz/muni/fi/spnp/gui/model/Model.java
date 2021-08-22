@@ -7,6 +7,8 @@ import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -22,12 +24,20 @@ public class Model {
     private final ObjectProperty<CursorMode> cursorMode;
     private final ObjectProperty<GraphElementType> createElementType;
 
+    private final StringProperty pathSPNP;
+    private final StringProperty pathSPNPExamples;
+    private final StringProperty pathPlotsLibrary;
+
     public Model() {
         projects = FXCollections.observableArrayList();
         selectedDiagram = new SimpleObjectProperty<>();
         cursorMode = new SimpleObjectProperty<>(CursorMode.VIEW);
         createElementType = new SimpleObjectProperty<>(GraphElementType.PLACE);
         clipboardElements = new ArrayList<>();
+
+        pathSPNP = new SimpleStringProperty("C:\\Spnp-Gui");
+        pathSPNPExamples = new SimpleStringProperty("C:\\Spnp-Gui\\Examples-Official");
+        pathPlotsLibrary = new SimpleStringProperty("C:\\Spnp-Gui\\GRAPH_examples");
     }
 
     public ClipboardOperationType getClipboardOperationType() {
@@ -60,6 +70,30 @@ public class Model {
 
     public ObjectProperty<DiagramViewModel> selectedDiagramProperty() {
         return selectedDiagram;
+    }
+
+    public String getPathSPNP() {
+        return pathSPNP.get();
+    }
+
+    public StringProperty pathSPNPProperty() {
+        return pathSPNP;
+    }
+
+    public String getPathSPNPExamples() {
+        return pathSPNPExamples.get();
+    }
+
+    public StringProperty pathSPNPExamplesProperty() {
+        return pathSPNPExamples;
+    }
+
+    public String getPathPlotsLibrary() {
+        return pathPlotsLibrary.get();
+    }
+
+    public StringProperty pathPlotsLibraryProperty() {
+        return pathPlotsLibrary;
     }
 
     public boolean projectExists(String name) {

@@ -49,8 +49,8 @@ public class MainWindowController {
     private PropertiesComponent propertiesComponent;
     private DiagramComponent diagramComponent;
 
-    public MainWindowController() {
-        model = new Model();
+    public MainWindowController(Model model) {
+        this.model = model;
 
         borderPane = new BorderPane();
         borderPane.setTop(createTopPanel());
