@@ -474,14 +474,18 @@ public class GraphView implements UIComponent {
         double maxX = gridBackgroundPane.getMinWidth();
         double maxY = gridBackgroundPane.getMinHeight();
         for (var element : graphElementViews) {
-            if (!(element instanceof MouseSelectable)) {
-                continue;
+            List<MouseSelectable> mouseSelectables;
+            if (element instanceof ArcView) {
+                mouseSelectables = ((ArcView) element).getDragPointViews().stream().collect(Collectors.toList());
+            } else {
+                mouseSelectables = List.of((MouseSelectable) element);
             }
-            MouseSelectable mouseSelectable = (MouseSelectable) element;
-            var rightBottom = mouseSelectable.rightBottomCorner();
-//            System.out.println(rightBottom);
-            maxX = Math.max(maxX, rightBottom.getX());
-            maxY = Math.max(maxY, rightBottom.getY());
+
+            for (var mouseSelectable : mouseSelectables) {
+                var rightBottom = mouseSelectable.rightBottomCorner();
+                maxX = Math.max(maxX, rightBottom.getX());
+                maxY = Math.max(maxY, rightBottom.getY());
+            }
         }
         gridBackgroundPane.setPrefWidth(maxX + GridBackgroundPane.SPACING_X);
         gridBackgroundPane.setPrefHeight(maxY + GridBackgroundPane.SPACING_Y);
