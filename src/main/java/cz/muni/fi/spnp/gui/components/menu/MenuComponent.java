@@ -10,14 +10,17 @@ import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParametersView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.stage.FileChooser;
 
 public class MenuComponent extends ApplicationComponent {
 
@@ -43,12 +46,18 @@ public class MenuComponent extends ApplicationComponent {
         menuBar = new MenuBar();
 
         Menu menuFile = new Menu("File");
+
+        var menuItemOpenProject = new MenuItem("Open project");
+        menuItemOpenProject.setOnAction(this::onOpenProjectClickedHandler);
+        menuFile.getItems().add(menuItemOpenProject);
+
         newProjectView = new NewProjectView(model);
         menuItemNewProject = new MenuItem("New Project");
         menuItemNewProject.setOnAction(actionEvent -> {
             newProjectView.getStage().showAndWait();
         });
         menuFile.getItems().add(menuItemNewProject);
+        menuFile.getItems().add(new SeparatorMenuItem());
 
         newDiagramView = new NewDiagramView(model);
         menuItemNewDiagram = new MenuItem("New Diagram");
@@ -123,6 +132,16 @@ public class MenuComponent extends ApplicationComponent {
 
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
         menuItemNewDiagram.disableProperty().bind(Bindings.size(model.getProjects()).isEqualTo(0));
+    }
+
+    private void onOpenProjectClickedHandler(ActionEvent actionEvent) {
+        var fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Project files", "*.rgl"));
+        var file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
+        if (file != null) {
+            var oldFileLoader = new OldFileLoader();
+            model.getProjects().add(oldFileLoader.loadProject(file.getAbsolutePath()));
+        }
     }
 
     @Override
