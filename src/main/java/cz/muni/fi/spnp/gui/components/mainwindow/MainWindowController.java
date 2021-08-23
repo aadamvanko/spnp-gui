@@ -169,9 +169,9 @@ public class MainWindowController {
         var spnpOptions = diagramMapper.createSPNPOptions();
 
         var oldFileLoader = new OldFileLoader();
-//        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");
+        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P2.rgl");
-        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P3.rgl"); // expressions in timed transition values
+//        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P3.rgl"); // expressions in timed transition values
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P5.rgl"); // expressions in timed transition values
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P8.rgl"); // expressions in timed transition values
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P20.rgl"); // expressions in timed transition values
@@ -184,7 +184,7 @@ public class MainWindowController {
 
         var definesTestProject = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\all_things.rgl");
         var oldFileSaver = new OldFileSaver();
-        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\saved\\file.rgl", definesTestProject);
+        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\saved", definesTestProject);
 
         var project1AllTransitions = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1.rgl");
         model.getProjects().add(project1AllTransitions);

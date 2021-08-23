@@ -23,8 +23,8 @@ public class OldFileSaver {
         this.diagramConverter = new DiagramConverter();
     }
 
-    public void saveProject(String filePath, ProjectViewModel project) {
-        var directory = Path.of(filePath).getParent();
+    public void saveProject(String directoryPath, ProjectViewModel project) {
+        var directory = Path.of(directoryPath);
         writeProject(directory, project);
         saveSubmodels(directory, project);
     }

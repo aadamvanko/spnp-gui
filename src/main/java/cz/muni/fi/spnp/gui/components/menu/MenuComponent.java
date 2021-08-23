@@ -11,6 +11,7 @@ import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParametersView;
 import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
+import cz.muni.fi.spnp.gui.storing.savers.OldFileSaver;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +21,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 public class MenuComponent extends ApplicationComponent {
@@ -57,6 +59,12 @@ public class MenuComponent extends ApplicationComponent {
             newProjectView.getStage().showAndWait();
         });
         menuFile.getItems().add(menuItemNewProject);
+
+        var menuItemSaveProject = new MenuItem("Save project");
+        menuItemSaveProject.setOnAction(this::onSaveProjectClickedHandler);
+        menuItemSaveProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuFile.getItems().add(menuItemSaveProject);
+
         menuFile.getItems().add(new SeparatorMenuItem());
 
         newDiagramView = new NewDiagramView(model);
@@ -136,11 +144,23 @@ public class MenuComponent extends ApplicationComponent {
 
     private void onOpenProjectClickedHandler(ActionEvent actionEvent) {
         var fileChooser = new FileChooser();
+        fileChooser.setTitle("Select project file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Project files", "*.rgl"));
         var file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if (file != null) {
             var oldFileLoader = new OldFileLoader();
             model.getProjects().add(oldFileLoader.loadProject(file.getAbsolutePath()));
+        }
+    }
+
+    private void onSaveProjectClickedHandler(ActionEvent actionEvent) {
+        var directoryChooser = new DirectoryChooser();
+        var project = model.selectedDiagramProperty().get().getProject();
+        directoryChooser.setTitle("Select save directory for project " + project.getName());
+        var file = directoryChooser.showDialog(menuBar.getScene().getWindow());
+        if (file != null) {
+            var oldFileSaver = new OldFileSaver();
+            oldFileSaver.saveProject(file.getPath(), project);
         }
     }
 

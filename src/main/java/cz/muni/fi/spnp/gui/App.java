@@ -1,7 +1,6 @@
 package cz.muni.fi.spnp.gui;
 
 import cz.muni.fi.spnp.gui.components.mainwindow.MainWindowController;
-import cz.muni.fi.spnp.gui.components.menu.views.preferences.PreferencesView;
 import cz.muni.fi.spnp.gui.model.Model;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -24,13 +23,6 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setTitle("SPNP Editor");
         stage.show();
-//
-//        ProjectViewModel projectViewModel = new ProjectViewModel("project1");
-//        DiagramViewModel diagramViewModel = new DiagramViewModel(projectViewModel);
-//
-//        var definesView = new DefinesView();
-//        definesView.bindDiagramViewModel(diagramViewModel);
-//        definesView.getStage().showAndWait();
     }
 
     public static void main(String[] args) {
