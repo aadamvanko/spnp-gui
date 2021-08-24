@@ -51,8 +51,8 @@ public class DiagramComponent extends ApplicationComponent {
 
     private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
         while (projectsChange.next()) {
-            projectsChange.getAddedSubList().forEach(added -> added.getDiagrams().addListener(onDiagramsChangedListener));
-            projectsChange.getAddedSubList().forEach(removed -> removed.getDiagrams().removeListener(onDiagramsChangedListener));
+            projectsChange.getRemoved().forEach(removed -> removed.getDiagrams().removeListener(this.onDiagramsChangedListener));
+            projectsChange.getAddedSubList().forEach(added -> added.getDiagrams().addListener(this.onDiagramsChangedListener));
         }
     }
 
