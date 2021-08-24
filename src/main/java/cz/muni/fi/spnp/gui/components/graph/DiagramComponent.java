@@ -8,6 +8,8 @@ import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -65,13 +67,20 @@ public class DiagramComponent extends ApplicationComponent {
             } else if (diagramsChange.wasRemoved()) {
                 for (var removed : diagramsChange.getRemoved()) {
                     var tab = getTabForDiagram(removed);
-                    (diagramViews.get(tab)).unbindViewModels();
                     if (tab != null) {
-                        diagramViews.remove(tab);
+                        closeTab(tab);
                     }
                 }
             }
         }
+    }
+
+    private void closeTab(Tab tab) {
+        EventHandler<Event> handler = tab.getOnClosed();
+        if (null != handler) {
+            handler.handle(null);
+        }
+        tab.getTabPane().getTabs().remove(tab);
     }
 
     private String createTabName(DiagramViewModel diagramViewModel) {
