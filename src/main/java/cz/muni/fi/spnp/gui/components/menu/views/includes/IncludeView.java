@@ -8,7 +8,7 @@ public class IncludeView extends GeneralItemView<IncludeViewModel> {
     public IncludeView(IncludeViewModel includeViewModel, ItemViewMode itemViewMode) {
         super(includeViewModel, itemViewMode);
 
-        addRowText("Path:", includeViewModel.pathProperty());
+        addRowTextField("Path:", includeViewModel.pathProperty());
     }
 
 }

@@ -10,9 +10,9 @@ public class InputParameterView extends GeneralItemView<InputParameterViewModel>
     public InputParameterView(InputParameterViewModel inputParameterViewModel, ItemViewMode itemViewMode) {
         super(inputParameterViewModel, itemViewMode);
 
-        addRowText("Name:", inputParameterViewModel.nameProperty());
-        addRowEnum("Type:", inputParameterViewModel.typeProperty(), VariableDataType.class);
-        addRowText("User prompt text:", inputParameterViewModel.userPromptTextProperty());
+        addRowTextField("Name:", inputParameterViewModel.nameProperty());
+        addRowEnumChoiceBox("Type:", inputParameterViewModel.typeProperty(), VariableDataType.class);
+        addRowTextField("User prompt text:", inputParameterViewModel.userPromptTextProperty());
     }
 
 }

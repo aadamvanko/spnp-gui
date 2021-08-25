@@ -2,11 +2,11 @@ package cz.muni.fi.spnp.gui.components.menu.views.general;
 
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
     protected final TViewModel viewModel;
     private final GridPane gridPane;
     private final ItemViewMode itemViewMode;
+    protected TextField firstTextField;
     protected List<BidirectionalBinding> bindings;
     protected Button buttonOk;
     protected Button buttonCancel;
@@ -35,8 +37,10 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
         bindings = new ArrayList<>();
 
         gridPane = new GridPane();
+        gridPane.setHgap(5);
 
         var buttonsPanel = new HBox();
+        buttonsPanel.setSpacing(5);
         buttonOk = new Button("Ok");
         buttonsPanel.getChildren().add(buttonOk);
 
@@ -71,9 +75,13 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
         var vbox = new VBox();
         vbox.getChildren().add(gridPane);
         vbox.getChildren().add(buttonsPanel);
+        vbox.setPadding(new Insets(5));
+        vbox.setSpacing(5);
 
         var scene = new Scene(vbox);
         stage.setScene(scene);
+        stage.setMinWidth(300);
+        stage.setResizable(false);
     }
 
     private void unbindProperties() {
@@ -86,19 +94,28 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
         return !anyBlankValues();
     }
 
-    protected void addRowText(String labelText, StringProperty dataSource) {
+    protected void addRowTextField(String labelText, StringProperty dataSource) {
         Label label = new Label(labelText);
         TextField textField = new TextField();
         textField.textProperty().bindBidirectional(dataSource);
+        GridPane.setHgrow(textField, Priority.ALWAYS);
         gridPane.addRow(gridPane.getRowCount(), label, textField);
         bindings.add(new BidirectionalBinding<>(textField.textProperty(), dataSource));
+
+        if (firstTextField == null) {
+            firstTextField = textField;
+        }
     }
 
-    protected <TEnum extends Enum<TEnum>> void addRowEnum(String labelText, ObjectProperty<TEnum> dataSource, Class<TEnum> enumClass) {
+    protected <TEnum extends Enum<TEnum>> void addRowEnumChoiceBox(String labelText, ObjectProperty<TEnum> dataSource, Class<TEnum> enumClass) {
         Label label = new Label(labelText);
         var enumValues = FXCollections.observableArrayList(enumClass.getEnumConstants());
         ChoiceBox<TEnum> choiceBox = new ChoiceBox<>(enumValues);
         choiceBox.valueProperty().bindBidirectional(dataSource);
+        GridPane.setHgrow(choiceBox, Priority.ALWAYS);
+        if (firstTextField != null) {
+            choiceBox.prefWidthProperty().bind(firstTextField.widthProperty());
+        }
         gridPane.addRow(gridPane.getRowCount(), label, choiceBox);
         bindings.add(new BidirectionalBinding<>(choiceBox.valueProperty(), dataSource));
     }
@@ -116,4 +133,5 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
                 .filter(binding -> binding.second instanceof StringProperty)
                 .anyMatch(binding -> ((StringProperty) binding.second).get().isBlank());
     }
+
 }
