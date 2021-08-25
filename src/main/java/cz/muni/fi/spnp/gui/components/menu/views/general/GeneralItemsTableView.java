@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.components.menu.views.general;
 
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
@@ -9,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public abstract class GeneralItemsTableView<TViewModel> extends UIWindowComponent {
@@ -25,8 +27,10 @@ public abstract class GeneralItemsTableView<TViewModel> extends UIWindowComponen
 
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        VBox.setVgrow(tableView, Priority.ALWAYS);
 
         var buttonsHbox = new HBox();
+        buttonsHbox.setSpacing(5);
 
         buttonAdd = new Button("Add");
         buttonsHbox.getChildren().add(buttonAdd);
@@ -73,6 +77,8 @@ public abstract class GeneralItemsTableView<TViewModel> extends UIWindowComponen
         var vbox = new VBox();
         vbox.getChildren().add(tableView);
         vbox.getChildren().add(buttonsHbox);
+        vbox.setPadding(new Insets(5));
+        vbox.setSpacing(5);
 
         var scene = new Scene(vbox);
         stage.setTitle(title);
@@ -95,4 +101,5 @@ public abstract class GeneralItemsTableView<TViewModel> extends UIWindowComponen
         column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
         tableView.getColumns().add(column);
     }
+
 }

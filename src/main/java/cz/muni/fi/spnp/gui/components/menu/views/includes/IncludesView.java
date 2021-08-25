@@ -26,4 +26,5 @@ public class IncludesView extends GeneralItemsTableView<IncludeViewModel> {
     protected GeneralItemView<IncludeViewModel> createItemViewEdit(IncludeViewModel includeViewModel) {
         return new IncludeView(includeViewModel, ItemViewMode.EDIT);
     }
+
 }
