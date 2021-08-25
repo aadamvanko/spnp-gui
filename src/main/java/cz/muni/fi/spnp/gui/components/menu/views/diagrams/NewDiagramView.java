@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -12,9 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class NewDiagramView extends UIWindowComponent {
+
     private final Model model;
     private final ChoiceBox<ProjectViewModel> choiceBoxProject;
 
@@ -24,16 +27,21 @@ public class NewDiagramView extends UIWindowComponent {
         var vbox = new VBox();
         var gridPane = new GridPane();
 
-        var labelName = new Label("Name");
+        var labelName = new Label("Name:");
         gridPane.add(labelName, 0, 0);
         var textFieldName = new TextField();
+        GridPane.setHgrow(textFieldName, Priority.ALWAYS);
         gridPane.add(textFieldName, 1, 0);
-        var labelProject = new Label("Project");
+        var labelProject = new Label("Project:");
         gridPane.add(labelProject, 0, 1);
         choiceBoxProject = new ChoiceBox<>();
         choiceBoxProject.setConverter(new ProjectViewModelStringConverter(model));
         choiceBoxProject.setItems(model.getProjects());
+        GridPane.setHgrow(choiceBoxProject, Priority.ALWAYS);
+        choiceBoxProject.minWidthProperty().bind(textFieldName.widthProperty());
         gridPane.add(choiceBoxProject, 1, 1);
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
         vbox.getChildren().add(gridPane);
 
         var buttonsPanel = new HBox();
@@ -63,10 +71,16 @@ public class NewDiagramView extends UIWindowComponent {
             stage.close();
         });
         buttonsPanel.getChildren().add(buttonCancel);
+        buttonsPanel.setSpacing(5);
+
         vbox.getChildren().add(buttonsPanel);
+        vbox.setPadding(new Insets(5));
+        vbox.setSpacing(5);
 
         stage.setTitle("New Diagram");
         stage.setScene(new Scene(vbox));
+        stage.setMinWidth(250);
+        stage.setResizable(false);
     }
 
     public void prepare() {

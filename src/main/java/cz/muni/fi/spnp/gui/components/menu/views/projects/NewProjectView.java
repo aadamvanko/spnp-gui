@@ -24,7 +24,7 @@ public class NewProjectView extends UIWindowComponent {
         var vbox = new VBox();
         var gridPane = new GridPane();
 
-        var labelName = new Label("Name");
+        var labelName = new Label("Name:");
         gridPane.add(labelName, 0, 0);
         var textFieldName = new TextField();
         GridPane.setHgrow(textFieldName, Priority.ALWAYS);
