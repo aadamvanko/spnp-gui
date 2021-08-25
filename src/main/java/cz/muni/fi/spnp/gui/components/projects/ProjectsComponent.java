@@ -7,8 +7,11 @@ import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.util.stream.Collectors;
@@ -33,6 +36,13 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
             var sourceItem = ((TreeCell<DisplayableViewModel>) mouseEvent.getSource()).getItem();
             if (sourceItem instanceof DiagramViewModel && mouseEvent.getClickCount() == 2) {
                 model.selectedDiagramProperty().set((DiagramViewModel) sourceItem);
+            } else if (sourceItem instanceof ProjectViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
+                var projectContextMenu = new ContextMenu();
+                var projectTreeItem = ((TreeCell<?>) mouseEvent.getSource());
+                var menuItemCloseProject = new MenuItem("Close project");
+                menuItemCloseProject.setOnAction(actionEvent -> model.getProjects().remove((ProjectViewModel) sourceItem));
+                projectContextMenu.getItems().add(menuItemCloseProject);
+                projectContextMenu.show(projectTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             }
         };
     }
@@ -61,10 +71,9 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
 
     public void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
         while (projectsChange.next()) {
-            if (projectsChange.wasAdded()) {
-                projectsChange.getAddedSubList().forEach(addedProject -> treeItemRoot.getChildren().add(createItem(addedProject)));
-            }
-            // TODO handle closing/deletion of projects
+            projectsChange.getRemoved().forEach(removedProject -> treeItemRoot.getChildren().removeIf(treeItemProject -> treeItemProject.getValue() == removedProject));
+
+            projectsChange.getAddedSubList().forEach(addedProject -> treeItemRoot.getChildren().add(createItem(addedProject)));
         }
     }
 }

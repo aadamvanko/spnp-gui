@@ -55,15 +55,18 @@ public class MenuComponent extends ApplicationComponent {
 
         newProjectView = new NewProjectView(model);
         menuItemNewProject = new MenuItem("New Project");
-        menuItemNewProject.setOnAction(actionEvent -> {
-            newProjectView.getStage().showAndWait();
-        });
+        menuItemNewProject.setOnAction(actionEvent -> newProjectView.getStage().showAndWait());
         menuFile.getItems().add(menuItemNewProject);
 
         var menuItemSaveProject = new MenuItem("Save project");
         menuItemSaveProject.setOnAction(this::onSaveProjectClickedHandler);
         menuItemSaveProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuFile.getItems().add(menuItemSaveProject);
+
+        var menuItemCloseProject = new MenuItem("Close project");
+        menuItemCloseProject.setOnAction(this::onCloseProjectClickedHandler);
+        menuItemCloseProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuFile.getItems().add(menuItemCloseProject);
 
         menuFile.getItems().add(new SeparatorMenuItem());
 
@@ -79,9 +82,7 @@ public class MenuComponent extends ApplicationComponent {
 
         var preferencesView = new PreferencesView(model);
         var menuItemPreferences = new MenuItem("Preferences");
-        menuItemPreferences.setOnAction(actionEvent -> {
-            preferencesView.getStage().showAndWait();
-        });
+        menuItemPreferences.setOnAction(actionEvent -> preferencesView.getStage().showAndWait());
         menuFile.getItems().add(menuItemPreferences);
         menuBar.getMenus().add(menuFile);
 
@@ -93,41 +94,31 @@ public class MenuComponent extends ApplicationComponent {
         includesView = new IncludesView();
         menuItemViewIncludes = new MenuItem("Includes");
         menuItemViewIncludes.setDisable(false);
-        menuItemViewIncludes.setOnAction(actionEvent -> {
-            includesView.getStage().showAndWait();
-        });
+        menuItemViewIncludes.setOnAction(actionEvent -> includesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewIncludes);
 
         definesView = new DefinesView();
         menuItemViewDefines = new MenuItem("Defines");
         menuItemViewDefines.setDisable(false);
-        menuItemViewDefines.setOnAction(actionEvent -> {
-            definesView.getStage().showAndWait();
-        });
+        menuItemViewDefines.setOnAction(actionEvent -> definesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewDefines);
 
         variablesView = new VariablesView();
         menuItemViewVariables = new MenuItem("Variables");
         menuItemViewVariables.setDisable(false);
-        menuItemViewVariables.setOnAction(actionEvent -> {
-            variablesView.getStage().showAndWait();
-        });
+        menuItemViewVariables.setOnAction(actionEvent -> variablesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewVariables);
 
         inputParametersView = new InputParametersView();
         menuItemViewInputParameters = new MenuItem("Input Parameters");
         menuItemViewInputParameters.setDisable(false);
-        menuItemViewInputParameters.setOnAction(actionEvent -> {
-            inputParametersView.getStage().showAndWait();
-        });
+        menuItemViewInputParameters.setOnAction(actionEvent -> inputParametersView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewInputParameters);
 
         functionsView = new FunctionsView();
         menuItemViewFunctions = new MenuItem("Functions");
         menuItemViewFunctions.setDisable(false);
-        menuItemViewFunctions.setOnAction(actionEvent -> {
-            functionsView.getStage().showAndWait();
-        });
+        menuItemViewFunctions.setOnAction(actionEvent -> functionsView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewFunctions);
 
         menuBar.getMenus().add(menuView);
@@ -162,6 +153,11 @@ public class MenuComponent extends ApplicationComponent {
             var oldFileSaver = new OldFileSaver();
             oldFileSaver.saveProject(file.getPath(), project);
         }
+    }
+
+    private void onCloseProjectClickedHandler(ActionEvent actionEvent) {
+        var project = model.selectedDiagramProperty().get().getProject();
+        model.getProjects().remove(project);
     }
 
     @Override

@@ -53,25 +53,25 @@ public class DiagramComponent extends ApplicationComponent {
 
     private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
         while (projectsChange.next()) {
-            projectsChange.getRemoved().forEach(removed -> removed.getDiagrams().removeListener(this.onDiagramsChangedListener));
-            projectsChange.getAddedSubList().forEach(added -> added.getDiagrams().addListener(this.onDiagramsChangedListener));
+            projectsChange.getRemoved().forEach(removedProject -> {
+                removedProject.getDiagrams().removeListener(this.onDiagramsChangedListener);
+                removedProject.getDiagrams().forEach(this::closeTabForDiagram);
+            });
+            projectsChange.getAddedSubList().forEach(addedProject -> addedProject.getDiagrams().addListener(this.onDiagramsChangedListener));
         }
     }
 
     private void onDiagramsChangedListener(ListChangeListener.Change<? extends DiagramViewModel> diagramsChange) {
         while (diagramsChange.next()) {
-            if (diagramsChange.wasAdded()) {
-                for (var added : diagramsChange.getAddedSubList()) {
-                    createDiagramView(added);
-                }
-            } else if (diagramsChange.wasRemoved()) {
-                for (var removed : diagramsChange.getRemoved()) {
-                    var tab = getTabForDiagram(removed);
-                    if (tab != null) {
-                        closeTab(tab);
-                    }
-                }
-            }
+            diagramsChange.getRemoved().forEach(this::closeTabForDiagram);
+            diagramsChange.getAddedSubList().forEach(this::createDiagramView);
+        }
+    }
+
+    private void closeTabForDiagram(DiagramViewModel diagramViewModel) {
+        var tab = getTabForDiagram(diagramViewModel);
+        if (tab != null) {
+            closeTab(tab);
         }
     }
 

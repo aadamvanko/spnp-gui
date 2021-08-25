@@ -35,7 +35,6 @@ public abstract class TreeViewContainer<T extends DisplayableViewModel> extends 
     protected Callback<TreeView<DisplayableViewModel>, TreeCell<DisplayableViewModel>> getCellFactory() {
         return tv -> {
             var cell = new TreeCell<DisplayableViewModel>() {
-
                 @Override
                 protected void updateItem(DisplayableViewModel item, boolean empty) {
                     super.updateItem(item, empty);
