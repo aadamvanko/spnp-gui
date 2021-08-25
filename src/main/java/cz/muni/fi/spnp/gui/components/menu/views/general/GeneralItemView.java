@@ -38,6 +38,7 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
 
         gridPane = new GridPane();
         gridPane.setHgap(5);
+        gridPane.setVgap(5);
 
         var buttonsPanel = new HBox();
         buttonsPanel.setSpacing(5);
@@ -85,7 +86,7 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
     }
 
     private void unbindProperties() {
-        bindings.forEach(b -> b.unbind());
+        bindings.forEach(BidirectionalBinding::unbind);
         bindings.clear();
     }
 

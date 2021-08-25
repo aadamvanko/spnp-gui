@@ -3,12 +3,15 @@ package cz.muni.fi.spnp.gui.components.menu.views.functions;
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class FunctionsView extends UIWindowComponent {
+
     private final ListView<FunctionViewModel> listViewNames;
     private final TextArea textAreaBody;
     private final FunctionView functionView;
@@ -19,7 +22,7 @@ public class FunctionsView extends UIWindowComponent {
         listViewNames = new ListView<>();
         listViewNames.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listViewNames.setPlaceholder(new Label("No functions to show"));
-        listViewNames.setCellFactory(param -> new ListCell<FunctionViewModel>() {
+        listViewNames.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(FunctionViewModel item, boolean empty) {
                 super.updateItem(item, empty);
@@ -33,6 +36,7 @@ public class FunctionsView extends UIWindowComponent {
         });
 
         textAreaBody = new TextArea();
+        HBox.setHgrow(textAreaBody, Priority.ALWAYS);
         textAreaBody.setEditable(false);
 
         listViewNames.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -43,11 +47,14 @@ public class FunctionsView extends UIWindowComponent {
             }
         });
 
-        var hbox = new HBox();
-        hbox.getChildren().add(listViewNames);
-        hbox.getChildren().add(textAreaBody);
+        var splitPane = new SplitPane();
+        VBox.setVgrow(splitPane, Priority.ALWAYS);
+        splitPane.getItems().add(listViewNames);
+        splitPane.getItems().add(textAreaBody);
+        splitPane.setDividerPositions(0.3);
 
         var buttonsPanel = new HBox();
+        buttonsPanel.setSpacing(5);
         var buttonAdd = new Button("Add");
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             functionView.bindDiagramViewModel(diagramViewModel);
@@ -69,13 +76,13 @@ public class FunctionsView extends UIWindowComponent {
         });
         buttonsPanel.getChildren().add(buttonDelete);
         var buttonExit = new Button("Exit");
-        buttonExit.setOnMouseClicked(mouseEvent -> {
-            stage.close();
-        });
+        buttonExit.setOnMouseClicked(mouseEvent -> stage.close());
         buttonsPanel.getChildren().add(buttonExit);
 
         var vbox = new VBox();
-        vbox.getChildren().add(hbox);
+        vbox.setPadding(new Insets(5));
+        vbox.setSpacing(5);
+        vbox.getChildren().add(splitPane);
         vbox.getChildren().add(buttonsPanel);
         stage.setTitle("Functions");
         stage.setScene(new Scene(vbox));
