@@ -4,15 +4,18 @@ import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class NewProjectView extends UIWindowComponent {
+
     private final Model model;
 
     public NewProjectView(Model model) {
@@ -24,8 +27,10 @@ public class NewProjectView extends UIWindowComponent {
         var labelName = new Label("Name");
         gridPane.add(labelName, 0, 0);
         var textFieldName = new TextField();
+        GridPane.setHgrow(textFieldName, Priority.ALWAYS);
         gridPane.add(textFieldName, 1, 0);
         vbox.getChildren().add(gridPane);
+        gridPane.setHgap(5);
 
         var buttonsPanel = new HBox();
         var buttonCreate = new Button("Create");
@@ -52,10 +57,16 @@ public class NewProjectView extends UIWindowComponent {
             stage.close();
         });
         buttonsPanel.getChildren().add(buttonCancel);
+        buttonsPanel.setSpacing(5);
+
         vbox.getChildren().add(buttonsPanel);
+        vbox.setPadding(new Insets(5));
+        vbox.setSpacing(5);
 
         stage.setTitle("New Project");
         stage.setScene(new Scene(vbox));
+        stage.setMinWidth(250);
+        stage.setResizable(false);
     }
 
 
