@@ -124,6 +124,8 @@ public class ToolbarComponent extends ApplicationComponent {
         toolBar.getItems().add(graphCodeButton);
 
         onCursorModeChangedListener(null, null, model.getCursorMode());
+
+        toolBar.disableProperty().bind(model.selectedDiagramProperty().isNull());
     }
 
     private void onShowGraphButtonClicked(MouseEvent mouseEvent) {
