@@ -38,11 +38,20 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
                 model.selectedDiagramProperty().set((DiagramViewModel) sourceItem);
             } else if (sourceItem instanceof ProjectViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
                 var projectContextMenu = new ContextMenu();
-                var projectTreeItem = ((TreeCell<?>) mouseEvent.getSource());
+                var projectTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
                 var menuItemCloseProject = new MenuItem("Close project");
                 menuItemCloseProject.setOnAction(actionEvent -> model.getProjects().remove((ProjectViewModel) sourceItem));
                 projectContextMenu.getItems().add(menuItemCloseProject);
                 projectContextMenu.show(projectTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
+            } else if (sourceItem instanceof DiagramViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
+                var diagramContextMenu = new ContextMenu();
+                var diagramTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
+                var menuItemDeleteDiagram = new MenuItem("Delete diagram");
+                // TODO remove reference from viewmodelcopyfactory...
+                var diagramViewModel = (DiagramViewModel) sourceItem;
+                menuItemDeleteDiagram.setOnAction(actionEvent -> diagramViewModel.getProject().getDiagrams().remove(diagramViewModel));
+                diagramContextMenu.getItems().add(menuItemDeleteDiagram);
+                diagramContextMenu.show(diagramTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             }
         };
     }
