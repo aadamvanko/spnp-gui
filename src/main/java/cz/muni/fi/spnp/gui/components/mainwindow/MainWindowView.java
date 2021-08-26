@@ -229,7 +229,7 @@ public class MainWindowView {
     }
 
     private Node createRightPanel() {
-        VBox vbox = new VBox();
+        var vbox = new VBox();
         propertiesComponent = new PropertiesComponent(model);
         vbox.getChildren().add(propertiesComponent.getRoot());
 
@@ -246,7 +246,7 @@ public class MainWindowView {
     }
 
     private Node createLeftPanel() {
-        VBox vbox = new VBox();
+        var vbox = new VBox();
 
         projectsComponent = new ProjectsComponent(model);
         vbox.getChildren().add(projectsComponent.getRoot());

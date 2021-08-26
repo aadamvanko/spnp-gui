@@ -13,6 +13,8 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 import java.util.stream.Collectors;
 
@@ -28,6 +30,7 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
 
     private void createView() {
         buttonAdd.setVisible(false);
+        VBox.setVgrow(root, Priority.NEVER);
     }
 
     @Override

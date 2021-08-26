@@ -5,15 +5,18 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+import static java.lang.Double.MAX_VALUE;
+
 public abstract class ViewContainer extends ApplicationComponent {
 
     protected final String title;
-    protected VBox root;
+    protected TitledPane root;
     protected Button buttonAdd;
 
     public ViewContainer(Model model, String title) {
@@ -25,7 +28,7 @@ public abstract class ViewContainer extends ApplicationComponent {
     }
 
     private void createView() {
-        root = new VBox();
+        root = new TitledPane();
 
         var labelHeader = new Label(title);
         labelHeader.setStyle("-fx-font-weight: bold; -fx-font-size: 15px;");
@@ -38,9 +41,12 @@ public abstract class ViewContainer extends ApplicationComponent {
         hboxHeader.setStyle("-fx-padding: 2px");
         hboxHeader.getChildren().addAll(labelHeader, fillPane, buttonAdd);
 
-        root.getChildren().add(hboxHeader);
-        root.setStyle("-fx-border-color: gray");
+        root.contentProperty().set(hboxHeader);
+        root.setText(title);
+        root.setExpanded(true);
         VBox.setVgrow(root, Priority.ALWAYS);
+        HBox.setHgrow(root, Priority.ALWAYS);
+        root.setMaxHeight(MAX_VALUE);
     }
 
     @Override

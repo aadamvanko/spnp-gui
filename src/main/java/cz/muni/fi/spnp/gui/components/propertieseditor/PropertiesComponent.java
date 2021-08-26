@@ -46,7 +46,7 @@ public class PropertiesComponent extends ViewContainer {
     }
 
     private void createView() {
-        root.getChildren().add(editors.get(null).getRoot());
+        root.setContent(editors.get(null).getRoot());
         VBox.setVgrow(root, Priority.NEVER);
         buttonAdd.setVisible(false);
     }
@@ -93,7 +93,7 @@ public class PropertiesComponent extends ViewContainer {
                 currentEditor = editors.get(elementViewModel.getClass());
                 currentEditor.bindDiagramViewModel(diagramViewModel);
                 currentEditor.bindViewModel(elementViewModel);
-                root.getChildren().set(1, currentEditor.getRoot());
+                root.setContent(currentEditor.getRoot());
             }
             currentType = elementViewModel.getClass();
         } else {
@@ -103,7 +103,7 @@ public class PropertiesComponent extends ViewContainer {
                 currentEditor = null;
                 currentType = null;
             }
-            root.getChildren().set(1, editors.get(null).getRoot());
+            root.setContent(editors.get(null).getRoot());
         }
     }
 

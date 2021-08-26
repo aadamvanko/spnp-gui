@@ -10,8 +10,6 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 public abstract class TreeViewContainer<T extends DisplayableViewModel> extends ViewContainer {
@@ -70,8 +68,7 @@ public abstract class TreeViewContainer<T extends DisplayableViewModel> extends 
 
         treeView.setCellFactory(getCellFactory());
 
-        root.getChildren().add(treeView);
-        VBox.setVgrow(treeView, Priority.ALWAYS);
+        root.setContent(treeView);
     }
 
     protected TreeItem<DisplayableViewModel> createItem(DisplayableViewModel displayableViewModel) {
