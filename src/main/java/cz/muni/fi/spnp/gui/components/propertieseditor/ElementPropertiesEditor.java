@@ -22,12 +22,13 @@ public abstract class ElementPropertiesEditor implements UIComponent {
 
     public ElementPropertiesEditor() {
         gridPane = new GridPane();
-        gridPane.setHgap(10);
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
         gridPane.setPadding(new Insets(5, 10, 5, 5));
 
         nameLabel = new Label("Name:");
         nameTextField = new TextField();
-        GridPane.setHgrow(nameTextField, Priority.ALWAYS);
+        GridPane.setHgrow(nameTextField, Priority.SOMETIMES);
 
         addRow(nameLabel, nameTextField);
     }
@@ -35,9 +36,9 @@ public abstract class ElementPropertiesEditor implements UIComponent {
     protected void addRow(Node left, Node right) {
         if (right != nameTextField) {
             if (right instanceof TextField) {
-                ((TextField) right).minWidthProperty().bind(nameTextField.widthProperty());
+                ((TextField) right).prefWidthProperty().bind(nameTextField.widthProperty());
             } else if (right instanceof ChoiceBox) {
-                ((ChoiceBox) right).minWidthProperty().bind(nameTextField.widthProperty());
+                ((ChoiceBox) right).prefWidthProperty().bind(nameTextField.widthProperty());
             }
         }
         gridPane.addRow(gridPane.getRowCount(), left, right);

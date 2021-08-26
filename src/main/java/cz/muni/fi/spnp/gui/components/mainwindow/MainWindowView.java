@@ -24,21 +24,21 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProb
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ConstantTransitionDistributionViewModel;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class MainWindowController {
+public class MainWindowView {
 
     private final Model model;
 
-    private final BorderPane borderPane;
+    private Pane pane;
     private MenuComponent menuComponent;
     private ProjectsComponent projectsComponent;
     private QuickActionsComponent quickActionsComponent;
@@ -49,15 +49,10 @@ public class MainWindowController {
     private PropertiesComponent propertiesComponent;
     private DiagramComponent diagramComponent;
 
-    public MainWindowController(Model model) {
+    public MainWindowView(Model model) {
         this.model = model;
 
-        borderPane = new BorderPane();
-        borderPane.setTop(createTopPanel());
-        borderPane.setLeft(createLeftPanel());
-        borderPane.setBottom(createBottomPanel());
-        borderPane.setRight(createRightPanel());
-        borderPane.setCenter(createCenterPanel());
+        createView();
 
         var project1 = new ProjectViewModel();
         project1.nameProperty().set("mock_project1");
@@ -192,6 +187,34 @@ public class MainWindowController {
         model.selectedDiagramProperty().set(diagram1);
     }
 
+    private void createView() {
+        var middleSplitPane = new SplitPane();
+        middleSplitPane.setOrientation(Orientation.HORIZONTAL);
+        middleSplitPane.getItems().add(createLeftPanel());
+        middleSplitPane.getItems().add(createCenterPanel());
+        middleSplitPane.getItems().add(createRightPanel());
+        middleSplitPane.setDividerPositions(0.2, 0.75);
+
+        var mainSplitPane = new SplitPane();
+        mainSplitPane.setOrientation(Orientation.VERTICAL);
+        mainSplitPane.getItems().add(middleSplitPane);
+        mainSplitPane.getItems().add(createBottomPanel());
+        mainSplitPane.setDividerPositions(0.9);
+        VBox.setVgrow(mainSplitPane, Priority.ALWAYS);
+
+        pane = new AnchorPane();
+
+        var vBoxAll = new VBox();
+        vBoxAll.getChildren().add(createTopPanel());
+        vBoxAll.getChildren().add(mainSplitPane);
+        pane.getChildren().add(vBoxAll);
+
+        AnchorPane.setLeftAnchor(vBoxAll, 0.0);
+        AnchorPane.setTopAnchor(vBoxAll, 0.0);
+        AnchorPane.setBottomAnchor(vBoxAll, 0.0);
+        AnchorPane.setRightAnchor(vBoxAll, 0.0);
+    }
+
     private Node createCenterPanel() {
         toolbarComponent = new ToolbarComponent(model);
         diagramComponent = new DiagramComponent(model);
@@ -243,8 +266,8 @@ public class MainWindowController {
         return vbox;
     }
 
-    public BorderPane getRoot() {
-        return borderPane;
+    public Pane getRoot() {
+        return pane;
     }
 
 }
