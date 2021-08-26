@@ -74,7 +74,6 @@ public class MenuComponent extends ApplicationComponent {
         menuItemNewDiagram = new MenuItem("New Diagram");
         menuItemNewDiagram.setDisable(true);
         menuItemNewDiagram.setOnAction(actionEvent -> {
-            newDiagramView.prepare();
             newDiagramView.getStage().showAndWait();
         });
         menuFile.getItems().add(menuItemNewDiagram);

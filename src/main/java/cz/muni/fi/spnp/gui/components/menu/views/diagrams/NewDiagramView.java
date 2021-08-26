@@ -5,6 +5,8 @@ import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,11 +21,18 @@ import javafx.scene.layout.VBox;
 public class NewDiagramView extends UIWindowComponent {
 
     private final Model model;
-    private final ChoiceBox<ProjectViewModel> choiceBoxProject;
+    private ChoiceBox<ProjectViewModel> choiceBoxProject;
 
     public NewDiagramView(Model model) {
         this.model = model;
 
+        createView();
+
+        model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
+        model.getProjects().addListener(this::onProjectsChangedListener);
+    }
+
+    private void createView() {
         var vbox = new VBox();
         var gridPane = new GridPane();
 
@@ -83,14 +92,24 @@ public class NewDiagramView extends UIWindowComponent {
         stage.setResizable(false);
     }
 
-    public void prepare() {
-        var selectedDiagram = model.selectedDiagramProperty().get();
-        if (selectedDiagram == null) {
+    private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
+        if (newDiagram == null) {
             if (!model.getProjects().isEmpty()) {
-                choiceBoxProject.getSelectionModel().select(0);
+                choiceBoxProject.getSelectionModel().select(model.getProjects().get(0));
             }
         } else {
-            choiceBoxProject.getSelectionModel().select(selectedDiagram.getProject());
+            choiceBoxProject.getSelectionModel().select(newDiagram.getProject());
         }
     }
+
+    private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
+        if (model.selectedDiagramProperty().get() == null) {
+            if (model.getProjects().isEmpty()) {
+                choiceBoxProject.getSelectionModel().clearSelection();
+            } else {
+                choiceBoxProject.getSelectionModel().select(model.getProjects().get(0));
+            }
+        }
+    }
+
 }
