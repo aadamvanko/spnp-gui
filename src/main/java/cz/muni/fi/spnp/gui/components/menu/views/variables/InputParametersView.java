@@ -13,6 +13,8 @@ public class InputParametersView extends GeneralItemsTableView<InputParameterVie
         addColumn("Name", "name");
         addColumn("Type", "type");
         addColumn("User prompt text", "userPromptText");
+
+        stage.setWidth(600);
     }
 
     @Override

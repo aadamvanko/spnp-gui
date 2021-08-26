@@ -14,6 +14,8 @@ public class VariablesView extends GeneralItemsTableView<VariableViewModel> {
         addColumn("Kind", "kind");
         addColumn("Type", "type");
         addColumn("Value", "value");
+
+        stage.setWidth(600);
     }
 
     @Override
