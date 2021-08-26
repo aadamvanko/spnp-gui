@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu.views.functions;
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -95,4 +96,10 @@ public class FunctionsView extends UIWindowComponent {
             listViewNames.getSelectionModel().select(0);
         }
     }
+
+    public void unbindDiagramViewModel() {
+        this.diagramViewModel = null;
+        listViewNames.setItems(FXCollections.emptyObservableList());
+    }
+
 }

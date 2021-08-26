@@ -15,6 +15,7 @@ import cz.muni.fi.spnp.gui.storing.savers.OldFileSaver;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
@@ -92,31 +93,31 @@ public class MenuComponent extends ApplicationComponent {
 
         includesView = new IncludesView();
         menuItemViewIncludes = new MenuItem("Includes");
-        menuItemViewIncludes.setDisable(false);
+        menuItemViewIncludes.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewIncludes.setOnAction(actionEvent -> includesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewIncludes);
 
         definesView = new DefinesView();
         menuItemViewDefines = new MenuItem("Defines");
-        menuItemViewDefines.setDisable(false);
+        menuItemViewDefines.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewDefines.setOnAction(actionEvent -> definesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewDefines);
 
         variablesView = new VariablesView();
         menuItemViewVariables = new MenuItem("Variables");
-        menuItemViewVariables.setDisable(false);
+        menuItemViewVariables.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewVariables.setOnAction(actionEvent -> variablesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewVariables);
 
         inputParametersView = new InputParametersView();
         menuItemViewInputParameters = new MenuItem("Input Parameters");
-        menuItemViewInputParameters.setDisable(false);
+        menuItemViewInputParameters.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewInputParameters.setOnAction(actionEvent -> inputParametersView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewInputParameters);
 
         functionsView = new FunctionsView();
         menuItemViewFunctions = new MenuItem("Functions");
-        menuItemViewFunctions.setDisable(false);
+        menuItemViewFunctions.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewFunctions.setOnAction(actionEvent -> functionsView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewFunctions);
 
@@ -166,10 +167,12 @@ public class MenuComponent extends ApplicationComponent {
 
     private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
         if (newDiagram == null) {
-            menuItemViewDefines.setDisable(true);
+            includesView.bindSourceCollection(FXCollections.emptyObservableList());
+            definesView.bindSourceCollection(FXCollections.emptyObservableList());
+            variablesView.bindSourceCollection(FXCollections.emptyObservableList());
+            inputParametersView.bindSourceCollection(FXCollections.emptyObservableList());
+            functionsView.unbindDiagramViewModel();
             return;
-        } else {
-            menuItemViewDefines.setDisable(false);
         }
 
         includesView.bindSourceCollection(newDiagram.getIncludes());

@@ -22,6 +22,7 @@ public class FunctionView extends UIWindowComponent {
     public FunctionView() {
         var nameTextField = new TextField();
         nameTextField.textProperty().bindBidirectional(viewModel.nameProperty());
+        nameTextField.setPrefWidth(200);
         var choiceBoxType = new ChoiceBox<FunctionType>();
         var functionTypes = FXCollections.observableArrayList(FunctionType.values());
         choiceBoxType.setItems(functionTypes);
