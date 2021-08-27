@@ -1,7 +1,6 @@
 package cz.muni.fi.spnp.gui;
 
 import cz.muni.fi.spnp.gui.components.mainwindow.MainWindowView;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.model.Model;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -23,6 +22,7 @@ public class App extends Application {
         scene = new Scene(mainWindowView.getRoot(), 1600, 800);
         stage.setScene(scene);
         stage.setTitle("SPNP Editor");
+        stage.setMaximized(true);
         stage.show();
     }
 
