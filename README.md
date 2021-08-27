@@ -28,13 +28,14 @@ WIP (Work In Progress), about 80% finished
 - Ctrl + V for pasting selected elements
 - right click context menu
 - right click panning with mouse
-- scrolling Ctrl + MouseWheel
+- zooming Ctrl + MouseWheel
 
 ### How to run
 
 This application depends on another project https://github.com/10ondr/spnp-model (currently private), which contains
 model and transformation code for converting the model to the CSPL (C source code runnable by spnp package). Will be
-fixed in the near future, you can try .jar found here INSERT LINK HERE for now.
+fixed in the near future, you can try .jar found
+here https://github.com/aadamvanko/spnp-gui/releases/tag/v0.1-pre-release-showcase for now.
 
 Old GUI:
 ![Alt text](screenshots/old_gui.png?raw=true "Old GUI")
