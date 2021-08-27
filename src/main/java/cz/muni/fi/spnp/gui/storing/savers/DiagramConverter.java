@@ -374,7 +374,7 @@ Textwidth: 0
         oldArc.name = arc.getName();
         oldArc.twoXY = createTwoXY(arc);
         oldArc.type = convertArcType(arc);
-        oldArc.multiplicity = arc.getMultiplicity();
+        oldArc.multiplicity = convertArcMultiplicity(arc);
         oldArc.src = arc.getFromViewModel().getName();
         oldArc.dest = arc.getToViewModel().getName();
         oldArc.points = convertDragPoints(arc);
@@ -383,6 +383,16 @@ Textwidth: 0
         oldArc.circles = createCircles(arc);
         oldArc.typeIO = convertArcDirection(arc.getArcDirection());
         return oldArc;
+    }
+
+    private String convertArcMultiplicity(ArcViewModel arc) {
+        switch (arc.getMultiplicityType()) {
+            case Constant:
+                return arc.getMultiplicity();
+            case Function:
+                return arc.getMultiplicityFunction().getName();
+        }
+        throw new AssertionError("Unknown arc multiplicity type " + arc.getMultiplicityType());
     }
 
     private String convertArcDirection(ArcDirection arcDirection) {

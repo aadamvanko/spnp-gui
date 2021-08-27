@@ -22,7 +22,6 @@ public class App extends Application {
         scene = new Scene(mainWindowView.getRoot(), 1600, 800);
         stage.setScene(scene);
         stage.setTitle("SPNP Editor");
-        stage.setMaximized(true);
         stage.show();
     }
 
