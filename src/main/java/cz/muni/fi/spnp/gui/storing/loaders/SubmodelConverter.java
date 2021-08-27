@@ -485,7 +485,6 @@ public class SubmodelConverter {
             throw new AssertionError("Unknown arc type " + oldArc.type);
         }
 
-
         if (oldArc.choiceInput.equals("Constant")) {
             arcViewModel.multiplicityTypeProperty().set(ArcMultiplicityType.Constant);
             arcViewModel.multiplicityProperty().set(oldArc.multiplicity);
@@ -494,6 +493,11 @@ public class SubmodelConverter {
             arcViewModel.multiplicityFunctionProperty().set(findFunctionViewModel(functions, oldArc.multiplicity));
         } else {
             throw new AssertionError("Unknown arc choice input " + oldArc.choiceInput);
+        }
+
+        arcViewModel.isFlushingProperty().set(oldArc.isFlushing);
+        if (oldArc.isFlushing) {
+            arcViewModel.getMultiplicityFunction().setVisible(false);
         }
 
         return arcViewModel;

@@ -14,4 +14,6 @@ public class ArcOldFormat extends ElementOldFormat {
 
     public Circles circles;
     public String typeIO;
+
+    public boolean isFlushing;
 }

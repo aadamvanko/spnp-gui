@@ -382,6 +382,7 @@ Textwidth: 0
         oldArc.choiceInput = convertArcMultiplicityType(arc.getMultiplicityType());
         oldArc.circles = createCircles(arc);
         oldArc.typeIO = convertArcDirection(arc.getArcDirection());
+        oldArc.isFlushing = arc.isFlushing();
         return oldArc;
     }
 

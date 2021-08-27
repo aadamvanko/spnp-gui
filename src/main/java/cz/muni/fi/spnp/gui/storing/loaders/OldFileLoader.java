@@ -219,7 +219,16 @@ public class OldFileLoader {
         } else {
             throw new IllegalStateException("Unknown arc type");
         }
+        arc.isFlushing = tryParseBoolean(bufferedReader);
         return arc;
+    }
+
+    private boolean tryParseBoolean(BufferedReader bufferedReader) {
+        var line = readLine(bufferedReader);
+        if (line.isBlank()) {
+            return false;
+        }
+        return Boolean.parseBoolean(extractValue(line));
     }
 
     private List<String> extractArcsNames(BufferedReader bufferedReader) {

@@ -305,6 +305,7 @@ Textwidth: 0
         } else { // Inhibitor
             writeCircles(bufferedWriter, oldArc.circles);
         }
+        writelnPair(bufferedWriter, "IsFlushing", String.valueOf(oldArc.isFlushing));
     }
 
     private void writeCircles(BufferedWriter bufferedWriter, Circles circles) {
