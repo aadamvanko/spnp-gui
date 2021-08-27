@@ -13,8 +13,6 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +45,6 @@ public class PropertiesComponent extends ViewContainer {
 
     private void createView() {
         root.setContent(editors.get(null).getRoot());
-        VBox.setVgrow(root, Priority.NEVER);
         buttonAdd.setVisible(false);
     }
 

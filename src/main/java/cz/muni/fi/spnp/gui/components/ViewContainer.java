@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components;
 
 import cz.muni.fi.spnp.gui.model.Model;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -47,6 +48,15 @@ public abstract class ViewContainer extends ApplicationComponent {
         VBox.setVgrow(root, Priority.ALWAYS);
         HBox.setHgrow(root, Priority.ALWAYS);
         root.setMaxHeight(MAX_VALUE);
+        root.expandedProperty().addListener(this::onExpandedChangeListener);
+    }
+
+    private void onExpandedChangeListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        if (newValue) {
+            VBox.setVgrow(root, Priority.ALWAYS);
+        } else {
+            VBox.setVgrow(root, Priority.NEVER);
+        }
     }
 
     @Override
