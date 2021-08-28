@@ -2,7 +2,9 @@ package cz.muni.fi.spnp.gui.components.menu.views.functions;
 
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.menu.views.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -13,13 +15,14 @@ import javafx.scene.layout.VBox;
 
 public class FunctionsView extends UIWindowComponent {
 
+    private final ViewModelCopyFactory viewModelCopyFactory;
     private final ListView<FunctionViewModel> listViewNames;
     private final TextArea textAreaBody;
-    private final FunctionView functionView;
     private DiagramViewModel diagramViewModel;
 
     public FunctionsView() {
-        functionView = new FunctionView();
+        this.viewModelCopyFactory = new ViewModelCopyFactory();
+
         listViewNames = new ListView<>();
         listViewNames.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listViewNames.setPlaceholder(new Label("No functions to show"));
@@ -59,7 +62,7 @@ public class FunctionsView extends UIWindowComponent {
 
         var buttonAdd = new Button("Add");
         buttonAdd.setOnMouseClicked(mouseEvent -> {
-            functionView.bindDiagramViewModel(diagramViewModel);
+            var functionView = new FunctionView(diagramViewModel, new FunctionViewModel(), null, ItemViewMode.ADD);
             functionView.getStage().setTitle("Add Function");
             functionView.getStage().showAndWait();
         });
@@ -67,10 +70,17 @@ public class FunctionsView extends UIWindowComponent {
 
         var buttonEdit = new Button("Edit");
         buttonEdit.setOnMouseClicked(mouseEvent -> {
-            functionView.bindDiagramViewModel(diagramViewModel);
+            var selectedFunction = listViewNames.getSelectionModel().getSelectedItem();
+            if (selectedFunction == null) {
+                return;
+            }
+
+            var copy = viewModelCopyFactory.createCopy(selectedFunction);
+            var functionView = new FunctionView(diagramViewModel, copy, selectedFunction, ItemViewMode.EDIT);
             functionView.getStage().setTitle("Edit Function");
             functionView.getStage().showAndWait();
         });
+        buttonsPanel.getChildren().add(buttonEdit);
 
         var buttonDelete = new Button("Delete");
         buttonDelete.setOnMouseClicked(mouseEvent -> {

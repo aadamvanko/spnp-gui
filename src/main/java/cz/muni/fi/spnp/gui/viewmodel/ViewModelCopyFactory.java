@@ -79,7 +79,7 @@ public class ViewModelCopyFactory {
         return copy;
     }
 
-    private void copyTo(FunctionViewModel copy, FunctionViewModel functionViewModel) {
+    public void copyTo(FunctionViewModel copy, FunctionViewModel functionViewModel) {
         copyTo(copy, (DisplayableViewModel) functionViewModel);
         copy.functionTypeProperty().set(functionViewModel.getFunctionType());
         copy.bodyProperty().set(functionViewModel.getBody());
