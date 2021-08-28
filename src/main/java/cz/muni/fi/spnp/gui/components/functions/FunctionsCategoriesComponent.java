@@ -7,6 +7,7 @@ import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.TreeItem;
@@ -19,11 +20,13 @@ public class FunctionsCategoriesComponent extends TreeViewContainer<FunctionView
 
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
     private final Map<FunctionType, TreeItem<DisplayableViewModel>> categories;
+    private final ChangeListener<FunctionType> onFunctionTypeChangedListener;
 
     public FunctionsCategoriesComponent(Model model) {
         super(model, "Functions");
 
         this.onFunctionsChangedListener = this::onFunctionsChangedListener;
+        this.onFunctionTypeChangedListener = this::onFunctionTypeChangedListener;
 
         categories = new HashMap<>();
         Arrays.stream(FunctionType.values())
@@ -39,23 +42,43 @@ public class FunctionsCategoriesComponent extends TreeViewContainer<FunctionView
 
         if (oldDiagramViewModel != null) {
             oldDiagramViewModel.getFunctions().removeListener(this.onFunctionsChangedListener);
+            oldDiagramViewModel.getFunctions().forEach(this::removeFunctionTypeListener);
         }
 
         if (newDiagramViewModel != null) {
             newDiagramViewModel.getFunctions().addListener(this.onFunctionsChangedListener);
-            newDiagramViewModel.getFunctions().forEach(this::addItemToTree);
+            newDiagramViewModel.getFunctions().forEach(functionViewModel -> {
+                addItemToTree(functionViewModel);
+                addFunctionTypeListener(functionViewModel);
+            });
         }
+    }
+
+    private void addFunctionTypeListener(FunctionViewModel functionViewModel) {
+        functionViewModel.functionTypeProperty().addListener(this.onFunctionTypeChangedListener);
+    }
+
+    private void removeFunctionTypeListener(FunctionViewModel functionViewModel) {
+        functionViewModel.functionTypeProperty().removeListener(this.onFunctionTypeChangedListener);
+    }
+
+    private void onFunctionTypeChangedListener(ObservableValue<? extends FunctionType> observableValue, FunctionType oldValue, FunctionType newValue) {
+        System.out.println("changing category in tree item MOCK");
     }
 
     public void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
         while (functionsChange.next()) {
-            functionsChange.getRemoved().forEach(removedViewModel -> {
+            functionsChange.getRemoved().forEach(removedFunction -> {
                 categories.values().forEach(categoryTreeItem ->
                         categoryTreeItem.getChildren().removeIf(functionTreeItem -> functionsChange.getRemoved().contains(functionTreeItem.getValue()))
                 );
+                removeFunctionTypeListener(removedFunction);
             });
 
-            functionsChange.getAddedSubList().forEach(this::addItemToTree);
+            functionsChange.getAddedSubList().forEach(functionViewModel -> {
+                addItemToTree(functionViewModel);
+                addFunctionTypeListener(functionViewModel);
+            });
         }
     }
 
