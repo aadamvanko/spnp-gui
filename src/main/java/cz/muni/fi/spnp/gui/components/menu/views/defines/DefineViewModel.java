@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 import java.util.Objects;
 
 public class DefineViewModel {
+
     private final StringProperty name;
     private final StringProperty expression;
 

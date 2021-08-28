@@ -1,6 +1,8 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
+import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
@@ -29,6 +31,52 @@ public class ViewModelCopyFactory {
 
     public ViewModelCopyFactory() {
         originalToCopy = new HashMap<>();
+    }
+
+    public void copyTo(InputParameterViewModel copy, InputParameterViewModel inputParameterViewModel) {
+        copy.nameProperty().set(inputParameterViewModel.getName());
+        copy.typeProperty().set(inputParameterViewModel.getType());
+        copy.userPromptTextProperty().set(inputParameterViewModel.getUserPromptText());
+    }
+
+    public InputParameterViewModel createCopy(InputParameterViewModel inputParameterViewModel) {
+        var copy = new InputParameterViewModel();
+        copyTo(copy, inputParameterViewModel);
+        return copy;
+    }
+
+    public void copyTo(IncludeViewModel copy, IncludeViewModel includeViewModel) {
+        copy.pathProperty().set(includeViewModel.getPath());
+    }
+
+    public IncludeViewModel createCopy(IncludeViewModel includeViewModel) {
+        var copy = new IncludeViewModel();
+        copyTo(copy, includeViewModel);
+        return copy;
+    }
+
+    public void copyTo(DefineViewModel copy, DefineViewModel defineViewModel) {
+        copy.nameProperty().set(defineViewModel.getName());
+        copy.expressionProperty().set(defineViewModel.getExpression());
+    }
+
+    public DefineViewModel createCopy(DefineViewModel defineViewModel) {
+        var copy = new DefineViewModel();
+        copyTo(copy, defineViewModel);
+        return copy;
+    }
+
+    public void copyTo(VariableViewModel copy, VariableViewModel variableViewModel) {
+        copy.nameProperty().set(variableViewModel.getName());
+        copy.kindProperty().set(variableViewModel.getKind());
+        copy.typeProperty().set(variableViewModel.getType());
+        copy.valueProperty().set(variableViewModel.getValue());
+    }
+
+    public VariableViewModel createCopy(VariableViewModel variableViewModel) {
+        var copy = new VariableViewModel();
+        copyTo(copy, variableViewModel);
+        return copy;
     }
 
     private void copyTo(FunctionViewModel copy, FunctionViewModel functionViewModel) {

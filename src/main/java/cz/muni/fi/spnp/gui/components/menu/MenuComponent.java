@@ -91,25 +91,25 @@ public class MenuComponent extends ApplicationComponent {
 
         Menu menuView = new Menu("View");
 
-        includesView = new IncludesView();
+        includesView = new IncludesView(model);
         menuItemViewIncludes = new MenuItem("Includes");
         menuItemViewIncludes.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewIncludes.setOnAction(actionEvent -> includesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewIncludes);
 
-        definesView = new DefinesView();
+        definesView = new DefinesView(model);
         menuItemViewDefines = new MenuItem("Defines");
         menuItemViewDefines.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewDefines.setOnAction(actionEvent -> definesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewDefines);
 
-        variablesView = new VariablesView();
+        variablesView = new VariablesView(model);
         menuItemViewVariables = new MenuItem("Variables");
         menuItemViewVariables.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewVariables.setOnAction(actionEvent -> variablesView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewVariables);
 
-        inputParametersView = new InputParametersView();
+        inputParametersView = new InputParametersView(model);
         menuItemViewInputParameters = new MenuItem("Input Parameters");
         menuItemViewInputParameters.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewInputParameters.setOnAction(actionEvent -> inputParametersView.getStage().showAndWait());

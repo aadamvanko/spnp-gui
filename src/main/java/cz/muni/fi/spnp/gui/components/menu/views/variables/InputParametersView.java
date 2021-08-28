@@ -3,12 +3,13 @@ package cz.muni.fi.spnp.gui.components.menu.views.variables;
 import cz.muni.fi.spnp.gui.components.menu.views.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.views.general.GeneralItemsTableView;
 import cz.muni.fi.spnp.gui.components.menu.views.general.ItemViewMode;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.InputParameterViewModel;
 
 public class InputParametersView extends GeneralItemsTableView<InputParameterViewModel> {
 
-    public InputParametersView() {
-        super("Input Parameters", "input parameter");
+    public InputParametersView(Model model) {
+        super(model, "Input Parameters", "input parameter");
 
         addColumn("Name", "name");
         addColumn("Type", "type");
@@ -24,11 +25,13 @@ public class InputParametersView extends GeneralItemsTableView<InputParameterVie
 
     @Override
     protected GeneralItemView<InputParameterViewModel> createItemViewAdd(InputParameterViewModel inputParameterViewModel) {
-        return new InputParameterView(inputParameterViewModel, ItemViewMode.ADD);
+        return new InputParameterView(model, inputParameterViewModel, null, ItemViewMode.ADD);
     }
 
     @Override
     protected GeneralItemView<InputParameterViewModel> createItemViewEdit(InputParameterViewModel inputParameterViewModel) {
-        return new InputParameterView(inputParameterViewModel, ItemViewMode.EDIT);
+        var copy = viewModelCopyFactory.createCopy(inputParameterViewModel);
+        return new InputParameterView(model, copy, inputParameterViewModel, ItemViewMode.EDIT);
     }
+
 }

@@ -1,6 +1,8 @@
 package cz.muni.fi.spnp.gui.components.menu.views.general;
 
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
+import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -15,6 +17,8 @@ import javafx.scene.layout.VBox;
 
 public abstract class GeneralItemsTableView<TViewModel> extends UIWindowComponent {
 
+    protected final Model model;
+    protected final ViewModelCopyFactory viewModelCopyFactory;
     protected final TableView<TViewModel> tableView;
     protected ObservableList<TViewModel> sourceCollection;
     protected Button buttonAdd;
@@ -22,7 +26,9 @@ public abstract class GeneralItemsTableView<TViewModel> extends UIWindowComponen
     protected Button buttonDelete;
     protected Button buttonExit;
 
-    public GeneralItemsTableView(String title, String entityName) {
+    public GeneralItemsTableView(Model model, String title, String entityName) {
+        this.model = model;
+        this.viewModelCopyFactory = new ViewModelCopyFactory();
         this.tableView = new TableView<>();
 
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

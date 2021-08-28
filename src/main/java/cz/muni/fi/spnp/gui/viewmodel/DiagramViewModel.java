@@ -268,4 +268,18 @@ public class DiagramViewModel extends DisplayableViewModel {
         return classes.stream()
                 .anyMatch(classType -> classType.isInstance(element) && classType.isInstance(newElement));
     }
+
+    public InputParameterViewModel getInputParameterByName(String name) {
+        return inputParameters.stream()
+                .filter(inputParameterViewModel -> inputParameterViewModel.getName().equals(name))
+                .findAny()
+                .orElse(null);
+    }
+
+    public VariableViewModel getVariableByName(String name) {
+        return variables.stream()
+                .filter(variableViewModel -> variableViewModel.getName().equals(name))
+                .findAny()
+                .orElse(null);
+    }
 }

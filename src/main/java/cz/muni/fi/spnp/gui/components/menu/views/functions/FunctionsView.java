@@ -56,6 +56,7 @@ public class FunctionsView extends UIWindowComponent {
 
         var buttonsPanel = new HBox();
         buttonsPanel.setSpacing(5);
+
         var buttonAdd = new Button("Add");
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             functionView.bindDiagramViewModel(diagramViewModel);
@@ -63,6 +64,14 @@ public class FunctionsView extends UIWindowComponent {
             functionView.getStage().showAndWait();
         });
         buttonsPanel.getChildren().add(buttonAdd);
+
+        var buttonEdit = new Button("Edit");
+        buttonEdit.setOnMouseClicked(mouseEvent -> {
+            functionView.bindDiagramViewModel(diagramViewModel);
+            functionView.getStage().setTitle("Edit Function");
+            functionView.getStage().showAndWait();
+        });
+
         var buttonDelete = new Button("Delete");
         buttonDelete.setOnMouseClicked(mouseEvent -> {
             var selectedItem = listViewNames.getSelectionModel().getSelectedItem();
@@ -76,6 +85,7 @@ public class FunctionsView extends UIWindowComponent {
             diagramViewModel.getFunctions().remove(selectedItem);
         });
         buttonsPanel.getChildren().add(buttonDelete);
+
         var buttonExit = new Button("Exit");
         buttonExit.setOnMouseClicked(mouseEvent -> stage.close());
         buttonsPanel.getChildren().add(buttonExit);

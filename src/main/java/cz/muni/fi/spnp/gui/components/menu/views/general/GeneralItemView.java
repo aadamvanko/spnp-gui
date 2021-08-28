@@ -2,6 +2,8 @@ package cz.muni.fi.spnp.gui.components.menu.views.general;
 
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
+import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -19,10 +21,14 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
 
+    protected final Model model;
+    protected final ViewModelCopyFactory viewModelCopyFactory;
     protected final TViewModel viewModel;
+    protected final TViewModel original; // for edit mode
     private final GridPane gridPane;
     private final ItemViewMode itemViewMode;
     protected TextField firstTextField;
@@ -31,8 +37,11 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
     protected Button buttonCancel;
     protected ObservableList<TViewModel> sourceCollection;
 
-    public GeneralItemView(TViewModel viewModel, ItemViewMode itemViewMode) {
+    public GeneralItemView(Model model, TViewModel viewModel, TViewModel original, ItemViewMode itemViewMode) {
+        this.model = model;
+        this.viewModelCopyFactory = new ViewModelCopyFactory();
         this.viewModel = viewModel;
+        this.original = original;
         this.itemViewMode = itemViewMode;
         bindings = new ArrayList<>();
 
@@ -50,15 +59,30 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
                 return;
             }
 
+            if (!checkSpecificRules()) {
+                return;
+            }
+
             if (itemViewMode == ItemViewMode.ADD) {
                 if (sourceCollection.contains(viewModel)) {
-                    DialogMessages.showError("Conflicting name!");
+                    DialogMessages.showError("Conflicting id/name!");
                     return;
                 } else {
                     sourceCollection.add(viewModel);
                 }
+            } else if (itemViewMode == ItemViewMode.EDIT) {
+                var foundItems = sourceCollection.stream().filter(tvm -> tvm.equals(viewModel)).collect(Collectors.toList());
+                if (foundItems.size() >= 2) {
+                    throw new AssertionError("Collection cannot contain 2+ of the same object!");
+                }
+
+                if (!foundItems.isEmpty() && foundItems.get(0) != original) {
+                    DialogMessages.showError("Element with the same id/name already exists!");
+                    return;
+                }
+
+                copyToOriginal();
             }
-            // TODO prevent editing name to same
 
             unbindProperties();
             stage.close();
@@ -134,5 +158,11 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
                 .filter(binding -> binding.second instanceof StringProperty)
                 .anyMatch(binding -> ((StringProperty) binding.second).get().isBlank());
     }
+
+    protected boolean checkSpecificRules() {
+        return true;
+    }
+
+    protected abstract void copyToOriginal();
 
 }
