@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class FunctionViewModel extends DisplayableViewModel {
+
     private final ObjectProperty<FunctionType> functionType;
     private final StringProperty body;
     private final ObjectProperty<FunctionReturnType> returnType;
@@ -15,7 +16,7 @@ public class FunctionViewModel extends DisplayableViewModel {
     private Boolean visible;
 
     public FunctionViewModel() {
-        this("unnamedFunctionViewModel", FunctionType.Other, "emptyBody", FunctionReturnType.VOID, false, true);
+        this("unnamedFunctionViewModel", FunctionType.Other, "// empty body", FunctionReturnType.VOID, false, true);
     }
 
     public FunctionViewModel(String name, FunctionType functionType, String body, FunctionReturnType returnType, Boolean required, Boolean visible) {

@@ -7,7 +7,10 @@ import cz.muni.fi.spnp.gui.components.menu.views.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.storing.OldFormatUtils;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,16 +19,34 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FunctionView extends UIWindowComponent {
 
     private final ViewModelCopyFactory viewModelCopyFactory;
     private DiagramViewModel diagramViewModel;
+    private final Map<FunctionType, ObservableList<FunctionReturnType>> possibleReturnsTypes;
+    private final ChangeListener<FunctionType> onTypeChangedListener;
+
+    private final ChoiceBox<FunctionReturnType> choiceBoxReturnType;
 
     public FunctionView(DiagramViewModel diagramViewModel, FunctionViewModel viewModel, FunctionViewModel original, ItemViewMode itemViewMode) {
         this.viewModelCopyFactory = new ViewModelCopyFactory();
         this.diagramViewModel = diagramViewModel;
+        this.onTypeChangedListener = this::onTypeChangedListener;
+
+        possibleReturnsTypes = new HashMap<>();
+        possibleReturnsTypes.put(FunctionType.Generic, FXCollections.observableArrayList(FunctionReturnType.values()));
+        possibleReturnsTypes.put(FunctionType.Guard, FXCollections.observableArrayList(FunctionReturnType.INT));
+        possibleReturnsTypes.put(FunctionType.Reward, FXCollections.observableArrayList(FunctionReturnType.DOUBLE));
+        possibleReturnsTypes.put(FunctionType.ArcCardinality, FXCollections.observableArrayList(FunctionReturnType.INT));
+        possibleReturnsTypes.put(FunctionType.Probability, FXCollections.observableArrayList(FunctionReturnType.DOUBLE));
+        possibleReturnsTypes.put(FunctionType.Distribution, FXCollections.observableArrayList(FunctionReturnType.DOUBLE));
+        possibleReturnsTypes.put(FunctionType.Halting, FXCollections.observableArrayList(FunctionReturnType.DOUBLE));
+        possibleReturnsTypes.put(FunctionType.Other, FXCollections.observableArrayList(FunctionReturnType.values()));
 
         var nameTextField = new TextField();
         nameTextField.textProperty().bindBidirectional(viewModel.nameProperty());
@@ -36,16 +57,21 @@ public class FunctionView extends UIWindowComponent {
         choiceBoxType.valueProperty().bindBidirectional(viewModel.functionTypeProperty());
         choiceBoxType.prefWidthProperty().bind(nameTextField.widthProperty());
 
-        var choiceBoxReturnType = new ChoiceBox<FunctionReturnType>();
-        var functionReturnTypes = FXCollections.observableArrayList(FunctionReturnType.values());
-        choiceBoxReturnType.setItems(functionReturnTypes);
+        choiceBoxReturnType = new ChoiceBox<>();
+        choiceBoxReturnType.setItems(possibleReturnsTypes.get(viewModel.getFunctionType()));
         choiceBoxReturnType.valueProperty().bindBidirectional(viewModel.returnTypeProperty());
         choiceBoxReturnType.prefWidthProperty().bind(nameTextField.widthProperty());
+
+        viewModel.functionTypeProperty().addListener(this.onTypeChangedListener);
 
         if (viewModel.isRequired()) {
             nameTextField.setDisable(true);
             choiceBoxType.setDisable(true);
             choiceBoxReturnType.setDisable(true);
+        }
+
+        if (itemViewMode == ItemViewMode.EDIT) {
+            choiceBoxType.setDisable(true);
         }
 
         var gridPane = new GridPane();
@@ -68,11 +94,15 @@ public class FunctionView extends UIWindowComponent {
         buttonsPanel.setSpacing(5);
         var buttonOk = new Button("Ok");
         buttonOk.setOnMouseClicked(mouseEvent -> {
+            var forbiddenNames = Set.of("options", "net");
             if (viewModel.getName().isBlank()) {
                 DialogMessages.showError("Field name cannot be blank!");
                 return;
             } else if (viewModel.getName().equals(OldFormatUtils.NULL_VALUE)) {
                 DialogMessages.showError("String null is not valid function name due to the old format's problems.");
+                return;
+            } else if (forbiddenNames.contains(viewModel.getName())) {
+                DialogMessages.showError("This name is reserved for internal CSPL functions.");
                 return;
             }
 
@@ -97,6 +127,7 @@ public class FunctionView extends UIWindowComponent {
                 viewModelCopyFactory.copyTo(original, viewModel);
             }
 
+            viewModel.functionTypeProperty().removeListener(this.onTypeChangedListener);
             this.diagramViewModel = null;
             stage.close();
         });
@@ -104,6 +135,7 @@ public class FunctionView extends UIWindowComponent {
 
         var buttonCancel = new Button("Cancel");
         buttonCancel.setOnMouseClicked(mouseEvent -> {
+            viewModel.functionTypeProperty().removeListener(this.onTypeChangedListener);
             this.diagramViewModel = null;
             stage.close();
         });
@@ -119,6 +151,13 @@ public class FunctionView extends UIWindowComponent {
         vbox.getChildren().add(buttonsPanel);
 
         stage.setScene(new Scene(vbox));
+    }
+
+    private void onTypeChangedListener(ObservableValue<? extends FunctionType> observableValue, FunctionType oldValue, FunctionType newValue) {
+        if (newValue != null) {
+            choiceBoxReturnType.setItems(possibleReturnsTypes.get(newValue));
+            choiceBoxReturnType.getSelectionModel().select(possibleReturnsTypes.get(newValue).get(0));
+        }
     }
 
 }
