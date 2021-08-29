@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ArcMultiplicityType;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -37,14 +38,14 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
     }
 
     private void createView() {
-        isFlushingLabel = new Label("Flushing:");
-        isFlushingCheckBox = new CheckBox();
-        addRow(isFlushingLabel, isFlushingCheckBox);
-
         arcMultiplicityTypeLabel = new Label("Multiplicity type:");
         var arcMultiplicityTypes = FXCollections.observableArrayList(ArcMultiplicityType.values());
         arcMultiplicityTypeChoiceBox = new ChoiceBox<>(arcMultiplicityTypes);
         addRow(arcMultiplicityTypeLabel, arcMultiplicityTypeChoiceBox);
+
+        isFlushingLabel = new Label("Flushing:");
+        isFlushingCheckBox = new CheckBox();
+        addRow(isFlushingLabel, isFlushingCheckBox);
     }
 
     private void onIsFlushingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -82,6 +83,14 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
 
         getViewModel().multiplicityTypeProperty().addListener(this.onMultiplicityTypeChangedListener);
         onMultiplicityTypeChangedListener(null, null, getViewModel().getMultiplicityType());
+
+        if (getViewModel().getFromViewModel() instanceof PlaceViewModel) {
+            if (!gridPane.getChildren().contains(isFlushingLabel)) {
+                gridPane.addRow(gridPane.getRowCount(), isFlushingLabel, isFlushingCheckBox);
+            }
+        } else {
+            gridPane.getChildren().removeAll(isFlushingLabel, isFlushingCheckBox);
+        }
 
         bindSelectedSubEditor(getViewModel().getMultiplicityType());
     }
