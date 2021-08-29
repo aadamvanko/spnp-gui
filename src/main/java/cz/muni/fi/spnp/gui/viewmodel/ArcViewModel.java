@@ -3,6 +3,8 @@ package cz.muni.fi.spnp.gui.viewmodel;
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,13 +20,10 @@ public abstract class ArcViewModel extends ElementViewModel {
     private final ObservableList<DragPointViewModel> dragPoints;
     private final BooleanProperty isFlushing = new SimpleBooleanProperty(false);
 
-    public ArcViewModel() {
-        nameProperty().set("unnamedArcViewModel");
-        fromViewModel = null;
-        toViewModel = null;
-        dragPoints = FXCollections.observableArrayList();
+    private final ChangeListener<String> onFromPlaceNameChangedListener;
 
-        addNameListener();
+    public ArcViewModel() {
+        this("unnamedArcViewModel", null, null, FXCollections.observableArrayList());
     }
 
     public ArcViewModel(String name, ConnectableViewModel fromViewModel, ConnectableViewModel toViewModel, List<DragPointViewModel> dragPoints) {
@@ -42,16 +41,32 @@ public abstract class ArcViewModel extends ElementViewModel {
         this.toViewModel = toViewModel;
         this.dragPoints = FXCollections.observableArrayList(dragPoints);
 
-        addNameListener();
+        this.onFromPlaceNameChangedListener = this::onFromPlaceNameChangedListener;
+
+        addFlushFunctionChangeListener();
     }
 
-    private void addNameListener() {
-        nameProperty().addListener((observable, oldName, newName) -> {
+    private void onFromPlaceNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+        fromViewModel.nameProperty().addListener((observable, oldName, newName) -> {
             if (isFlushing()) {
-                getMultiplicityFunction().bodyProperty().set(ViewModelUtils.createFlushFunctionBody(getName()));
+                getMultiplicityFunction().bodyProperty().set(ViewModelUtils.createFlushFunctionBody(newName));
                 System.out.println("new body " + getMultiplicityFunction().getBody());
             }
         });
+    }
+
+    private void addFlushFunctionChangeListener() {
+        if (fromViewModel == null) {
+            return;
+        }
+        fromViewModel.nameProperty().addListener(this.onFromPlaceNameChangedListener);
+    }
+
+    public void removeFlushFunctionChangeListener() {
+        if (fromViewModel == null) {
+            return;
+        }
+        fromViewModel.nameProperty().removeListener(this.onFromPlaceNameChangedListener);
     }
 
     @Override
@@ -100,7 +115,9 @@ public abstract class ArcViewModel extends ElementViewModel {
     }
 
     public void setFromViewModel(ConnectableViewModel fromViewModel) {
+        removeFlushFunctionChangeListener();
         this.fromViewModel = fromViewModel;
+        addFlushFunctionChangeListener();
     }
 
     public ConnectableViewModel getToViewModel() {

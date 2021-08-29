@@ -53,7 +53,7 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
             getViewModel().multiplicityTypeProperty().set(ArcMultiplicityType.Function);
             var flushFunction = getViewModel().getMultiplicityFunction();
             if (oldValue != null && oldValue == false) {
-                flushFunction = diagramViewModel.createFlushFunction(getViewModel().getName());
+                flushFunction = diagramViewModel.createFlushFunction(getViewModel().getFromViewModel().getName());
             }
             getViewModel().multiplicityFunctionProperty().set(flushFunction);
         } else {
@@ -84,14 +84,12 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         getViewModel().multiplicityTypeProperty().addListener(this.onMultiplicityTypeChangedListener);
         onMultiplicityTypeChangedListener(null, null, getViewModel().getMultiplicityType());
 
+        gridPane.getChildren().removeAll(isFlushingLabel, isFlushingCheckBox);
         if (getViewModel().getFromViewModel() instanceof PlaceViewModel) {
-            if (!gridPane.getChildren().contains(isFlushingLabel)) {
-                gridPane.addRow(gridPane.getRowCount(), isFlushingLabel, isFlushingCheckBox);
-            }
-        } else {
-            gridPane.getChildren().removeAll(isFlushingLabel, isFlushingCheckBox);
+            gridPane.addRow(gridPane.getRowCount(), isFlushingLabel, isFlushingCheckBox);
         }
 
+        unbindSelectedSubEditor();
         bindSelectedSubEditor(getViewModel().getMultiplicityType());
     }
 
@@ -105,6 +103,8 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         getViewModel().multiplicityTypeProperty().removeListener(this.onMultiplicityTypeChangedListener);
 
         unbindSelectedSubEditor();
+
+        gridPane.getChildren().removeAll(isFlushingLabel, isFlushingCheckBox);
 
         super.unbindViewModel();
     }

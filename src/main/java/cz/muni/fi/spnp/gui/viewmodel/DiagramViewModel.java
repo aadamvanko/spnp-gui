@@ -108,14 +108,14 @@ public class DiagramViewModel extends DisplayableViewModel {
                 .anyMatch(functionViewModel -> functionViewModel.getName().equals(functionName));
     }
 
-    public FunctionViewModel createFlushFunction(String arcName) {
+    public FunctionViewModel createFlushFunction(String fromPlaceName) {
         int id = 0;
         var flushFunction = new FunctionViewModel(createFlushFunctionName(id),
                 FunctionType.ArcCardinality,
-                ViewModelUtils.createFlushFunctionBody(arcName),
+                ViewModelUtils.createFlushFunctionBody(fromPlaceName),
                 FunctionReturnType.INT,
                 false,
-                true);
+                false);
         while (functions.contains(flushFunction)) {
             id++;
             flushFunction.nameProperty().set(createFlushFunctionName(id));
@@ -171,6 +171,7 @@ public class DiagramViewModel extends DisplayableViewModel {
             return false;
         }).collect(Collectors.toList());
         for (var arc : arcsToRemove) {
+            ((ArcViewModel) arc).removeFlushFunctionChangeListener();
             elements.remove(arc);
         }
     }

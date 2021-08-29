@@ -68,10 +68,15 @@ public class MouseOperationContextMenu extends MouseOperation {
     private void onDeleteHandler(ActionEvent actionEvent) {
         var diagramViewModel = graphView.getDiagramViewModel();
 
-        // celar selection first, because removing from elements causes unbind and null pointer exception
+        // clear selection first, because removing from elements causes unbind and null pointer exception
         var selectedCopy = new ArrayList<>(diagramViewModel.getSelected());
         diagramViewModel.resetSelection();
 
+        selectedCopy.forEach(elementViewModel -> {
+            if (elementViewModel instanceof ArcViewModel) {
+                ((ArcViewModel) elementViewModel).removeFlushFunctionChangeListener();
+            }
+        });
         diagramViewModel.getElements().removeAll(selectedCopy);
         selectedCopy.stream()
                 .filter(elementViewModel -> elementViewModel instanceof DragPointViewModel)
