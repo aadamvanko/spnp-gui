@@ -89,6 +89,7 @@ public class FunctionView extends UIWindowComponent {
         VBox.setVgrow(textAreaDefinition, Priority.ALWAYS);
         textAreaDefinition.setPromptText("Definition:");
         textAreaDefinition.textProperty().bindBidirectional(viewModel.bodyProperty());
+        textAreaDefinition.setEditable(viewModel.isVisible());
 
         var buttonsPanel = new HBox();
         buttonsPanel.setSpacing(5);
