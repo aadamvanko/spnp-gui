@@ -7,8 +7,10 @@ import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -16,34 +18,28 @@ import javafx.scene.layout.VBox;
 public class FunctionsView extends UIWindowComponent {
 
     private final ViewModelCopyFactory viewModelCopyFactory;
-    private final ListView<FunctionViewModel> listViewNames;
+    private final TableView<FunctionViewModel> tableView;
     private final TextArea textAreaBody;
     private DiagramViewModel diagramViewModel;
 
     public FunctionsView() {
         this.viewModelCopyFactory = new ViewModelCopyFactory();
 
-        listViewNames = new ListView<>();
-        listViewNames.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        listViewNames.setPlaceholder(new Label("No functions to show"));
-        listViewNames.setCellFactory(param -> new ListCell<>() {
-            @Override
-            protected void updateItem(FunctionViewModel item, boolean empty) {
-                super.updateItem(item, empty);
+        this.tableView = new TableView<>();
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        VBox.setVgrow(tableView, Priority.ALWAYS);
 
-                if (empty || item == null || item.nameProperty() == null) {
-                    setText(null);
-                } else {
-                    setText(String.format("%s - %s", item.nameProperty().get(), item.functionTypeProperty().get()));
-                }
-            }
-        });
+        addColumn("Name", "name");
+        addColumn("Type", "functionType");
+        addColumn("Return Type", "returnType");
 
         textAreaBody = new TextArea();
         HBox.setHgrow(textAreaBody, Priority.ALWAYS);
+        VBox.setVgrow(textAreaBody, Priority.ALWAYS);
         textAreaBody.setEditable(false);
 
-        listViewNames.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+        tableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue == null) {
                 textAreaBody.setText("");
             } else {
@@ -52,8 +48,9 @@ public class FunctionsView extends UIWindowComponent {
         });
 
         var splitPane = new SplitPane();
+        splitPane.setOrientation(Orientation.VERTICAL);
         VBox.setVgrow(splitPane, Priority.ALWAYS);
-        splitPane.getItems().add(listViewNames);
+        splitPane.getItems().add(tableView);
         splitPane.getItems().add(textAreaBody);
         splitPane.setDividerPositions(0.3);
 
@@ -70,7 +67,7 @@ public class FunctionsView extends UIWindowComponent {
 
         var buttonEdit = new Button("Edit");
         buttonEdit.setOnMouseClicked(mouseEvent -> {
-            var selectedFunction = listViewNames.getSelectionModel().getSelectedItem();
+            var selectedFunction = tableView.getSelectionModel().getSelectedItem();
             if (selectedFunction == null) {
                 return;
             }
@@ -84,7 +81,7 @@ public class FunctionsView extends UIWindowComponent {
 
         var buttonDelete = new Button("Delete");
         buttonDelete.setOnMouseClicked(mouseEvent -> {
-            var selectedItem = listViewNames.getSelectionModel().getSelectedItem();
+            var selectedItem = tableView.getSelectionModel().getSelectedItem();
             if (selectedItem == null) {
                 return;
             }
@@ -106,20 +103,27 @@ public class FunctionsView extends UIWindowComponent {
         vbox.getChildren().add(splitPane);
         vbox.getChildren().add(buttonsPanel);
         stage.setTitle("Functions");
+        stage.setWidth(700);
         stage.setScene(new Scene(vbox));
     }
 
     public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
         this.diagramViewModel = diagramViewModel;
-        listViewNames.setItems(diagramViewModel.getFunctions());
+        tableView.setItems(diagramViewModel.getFunctions());
         if (!diagramViewModel.getFunctions().isEmpty()) {
-            listViewNames.getSelectionModel().select(0);
+            tableView.getSelectionModel().select(0);
         }
     }
 
     public void unbindDiagramViewModel() {
         this.diagramViewModel = null;
-        listViewNames.setItems(FXCollections.emptyObservableList());
+        tableView.setItems(FXCollections.emptyObservableList());
+    }
+
+    private void addColumn(String name, String propertyName) {
+        TableColumn<FunctionViewModel, String> column = new TableColumn<>(name);
+        column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        tableView.getColumns().add(column);
     }
 
 }
