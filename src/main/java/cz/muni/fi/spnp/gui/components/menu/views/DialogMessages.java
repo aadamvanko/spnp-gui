@@ -27,7 +27,7 @@ public final class DialogMessages {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setContentText(message);
-        alert.showAndWait();
+        alert.show();
     }
 
 }

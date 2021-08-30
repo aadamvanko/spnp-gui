@@ -1,18 +1,26 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
+import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
-public class ConnectablePropertiesEditor extends ElementPropertiesEditor {
+public abstract class ConnectablePropertiesEditor extends ElementPropertiesEditor {
 
     protected final Label positionXLabel;
     protected final IntegerTextField positionXTextField;
     protected final Label positionYLabel;
     protected final IntegerTextField positionYTextField;
+
+    private String oldName;
+    private StringProperty oldNameProperty;
+    private DiagramViewModel oldDiagramViewModel;
 
     public ConnectablePropertiesEditor() {
         positionXLabel = new Label("Position X:");
@@ -22,6 +30,26 @@ public class ConnectablePropertiesEditor extends ElementPropertiesEditor {
 
         addRow(positionXLabel, positionXTextField.getTextField());
         addRow(positionYLabel, positionYTextField.getTextField());
+
+        nameTextField.focusedProperty().addListener(this::onNameTextFieldFocusChangedListener);
+    }
+
+    private void onNameTextFieldFocusChangedListener(Observable observable, Boolean oldValue, Boolean newValue) {
+        if (!newValue) {
+            if (oldDiagramViewModel.isElementNameClassDuplicit(nameTextField.getText(), getElementClassForDuplicity())) {
+                DialogMessages.showError("This name is already used!");
+                oldNameProperty.set(oldName);
+            }
+        }
+    }
+
+    protected abstract Class<?> getElementClassForDuplicity();
+
+    @Override
+    public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
+        super.bindDiagramViewModel(diagramViewModel);
+
+        oldDiagramViewModel = diagramViewModel;
     }
 
     public void bindViewModel(ElementViewModel viewModel) {
@@ -30,6 +58,9 @@ public class ConnectablePropertiesEditor extends ElementPropertiesEditor {
         StringConverter<Number> converter = new NumberStringConverter();
         Bindings.bindBidirectional(positionXTextField.getTextField().textProperty(), getViewModel().positionXProperty(), converter);
         Bindings.bindBidirectional(positionYTextField.getTextField().textProperty(), getViewModel().positionYProperty(), converter);
+
+        oldName = viewModel.getName();
+        oldNameProperty = viewModel.nameProperty();
     }
 
     public void unbindViewModel() {

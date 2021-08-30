@@ -15,8 +15,12 @@ public class PlacePropertiesEditor extends ConnectablePropertiesEditor {
 
         numberOfTokensLabel = new Label("Tokens:");
         numberOfTokensTextField = new TextField();
-
         addRow(numberOfTokensLabel, numberOfTokensTextField);
+    }
+
+    @Override
+    protected Class<?> getElementClassForDuplicity() {
+        return PlaceViewModel.class;
     }
 
     @Override

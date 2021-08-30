@@ -283,4 +283,12 @@ public class DiagramViewModel extends DisplayableViewModel {
                 .findAny()
                 .orElse(null);
     }
+
+    public boolean isElementNameClassDuplicit(String name, Class<?> elementClass) {
+        return elements.stream()
+                .filter(elementViewModel -> elementViewModel.getName().equals(name))
+                .filter(elementViewModel -> elementClass.isInstance(elementViewModel))
+                .count() >= 2;
+    }
+
 }

@@ -36,6 +36,11 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
         this.onFunctionsChangedListener = this::onFunctionsChangedListener;
     }
 
+    @Override
+    protected Class<?> getElementClassForDuplicity() {
+        return TransitionViewModel.class;
+    }
+
     private void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
         var guardFunctions = diagramViewModel.getFunctions().stream()
                 .filter(functionViewModel -> functionViewModel.getFunctionType() == FunctionType.Guard)
