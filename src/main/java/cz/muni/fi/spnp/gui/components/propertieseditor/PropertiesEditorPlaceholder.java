@@ -21,6 +21,11 @@ public class PropertiesEditorPlaceholder extends ElementPropertiesEditor {
     }
 
     @Override
+    protected Class<?> getElementClassForDuplicity() {
+        return null;
+    }
+
+    @Override
     public Node getRoot() {
         return vbox;
     }

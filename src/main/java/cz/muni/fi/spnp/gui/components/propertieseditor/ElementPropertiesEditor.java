@@ -1,8 +1,11 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
 import cz.muni.fi.spnp.gui.components.UIComponent;
+import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import javafx.beans.Observable;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -20,6 +23,10 @@ public abstract class ElementPropertiesEditor implements UIComponent {
     protected ElementViewModel viewModel;
     protected DiagramViewModel diagramViewModel;
 
+    private String oldName;
+    private StringProperty oldNameProperty;
+    private DiagramViewModel oldDiagramViewModel;
+
     public ElementPropertiesEditor() {
         gridPane = new GridPane();
         gridPane.setHgap(5);
@@ -31,7 +38,20 @@ public abstract class ElementPropertiesEditor implements UIComponent {
         GridPane.setHgrow(nameTextField, Priority.SOMETIMES);
 
         addRow(nameLabel, nameTextField);
+
+        nameTextField.focusedProperty().addListener(this::onNameTextFieldFocusChangedListener);
     }
+
+    private void onNameTextFieldFocusChangedListener(Observable observable, Boolean oldValue, Boolean newValue) {
+        if (!newValue) {
+            if (oldDiagramViewModel.isElementNameClassDuplicit(nameTextField.getText(), getElementClassForDuplicity())) {
+                DialogMessages.showError("This name is already used!");
+                oldNameProperty.set(oldName);
+            }
+        }
+    }
+
+    protected abstract Class<?> getElementClassForDuplicity();
 
     protected void addRow(Node left, Node right) {
         if (right != nameTextField) {
@@ -44,9 +64,10 @@ public abstract class ElementPropertiesEditor implements UIComponent {
         gridPane.addRow(gridPane.getRowCount(), left, right);
     }
 
-
     public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
         this.diagramViewModel = diagramViewModel;
+
+        oldDiagramViewModel = diagramViewModel;
     }
 
     public void unbindDiagramViewModel() {
@@ -56,6 +77,9 @@ public abstract class ElementPropertiesEditor implements UIComponent {
     public void bindViewModel(ElementViewModel viewModel) {
         this.viewModel = viewModel;
         nameTextField.textProperty().bindBidirectional(viewModel.nameProperty());
+
+        oldName = viewModel.getName();
+        oldNameProperty = viewModel.nameProperty();
     }
 
     public void unbindViewModel() {

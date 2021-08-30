@@ -37,6 +37,11 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
         subEditors.put(ArcMultiplicityType.Function, new FunctionalMultiplicitySubEditor());
     }
 
+    @Override
+    protected Class<?> getElementClassForDuplicity() {
+        return ArcViewModel.class;
+    }
+
     private void createView() {
         arcMultiplicityTypeLabel = new Label("Multiplicity type:");
         var arcMultiplicityTypes = FXCollections.observableArrayList(ArcMultiplicityType.values());
