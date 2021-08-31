@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 import static cz.muni.fi.spnp.gui.storing.OldFormatUtils.NULL_VALUE;
 
-public class DiagramConverter {
+public class ViewModelToOldFormatConverter {
 
     public Submodel convert(DiagramViewModel diagram) {
         var submodel = new Submodel();

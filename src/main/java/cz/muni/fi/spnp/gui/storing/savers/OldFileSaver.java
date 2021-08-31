@@ -16,11 +16,11 @@ import static cz.muni.fi.spnp.gui.storing.OldFormatUtils.NULL_VALUE;
 public class OldFileSaver {
 
     private final ProjectConverter projectConverter;
-    private final DiagramConverter diagramConverter;
+    private final ViewModelToOldFormatConverter viewModelToOldFormatConverter;
 
     public OldFileSaver() {
         this.projectConverter = new ProjectConverter();
-        this.diagramConverter = new DiagramConverter();
+        this.viewModelToOldFormatConverter = new ViewModelToOldFormatConverter();
     }
 
     public void saveProject(String directoryPath, ProjectViewModel project) {
@@ -60,7 +60,7 @@ public class OldFileSaver {
     }
 
     private void saveSubmodel(DiagramViewModel diagramViewModel, BufferedWriter bufferedWriter) {
-        var submodel = diagramConverter.convert(diagramViewModel);
+        var submodel = viewModelToOldFormatConverter.convert(diagramViewModel);
         writeln(bufferedWriter, "Type: SRN Model");
         writeln(bufferedWriter, "");
         writeIncludes(submodel, bufferedWriter);

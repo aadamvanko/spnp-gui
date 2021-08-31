@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 
 import static cz.muni.fi.spnp.gui.storing.OldFormatUtils.NULL_VALUE;
 
-public class SubmodelConverter {
+public class OldFormatModelToViewModelConverter {
 
     public DiagramViewModel convert(Submodel submodel, ProjectViewModel projectViewModel) {
         var includes = convertIncludes(submodel.includes);

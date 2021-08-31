@@ -12,11 +12,11 @@ import java.util.Map.Entry;
 
 public class OldFileLoader {
 
-    private final SubmodelConverter submodelConverter;
+    private final OldFormatModelToViewModelConverter oldFormatModelToViewModelConverter;
     private final OldProjectConverter oldProjectConverter;
 
     public OldFileLoader() {
-        this.submodelConverter = new SubmodelConverter();
+        this.oldFormatModelToViewModelConverter = new OldFormatModelToViewModelConverter();
         this.oldProjectConverter = new OldProjectConverter();
     }
 
@@ -34,7 +34,7 @@ public class OldFileLoader {
             var submodelFilepath = Path.of(projectFolder.toString(), submodelFilename);
             var submodel = loadSubmodel(submodelFilepath);
             submodel.name = submodelName;
-            var diagram = submodelConverter.convert(submodel, project);
+            var diagram = oldFormatModelToViewModelConverter.convert(submodel, project);
             project.getDiagrams().add(diagram);
         }
         return project;
