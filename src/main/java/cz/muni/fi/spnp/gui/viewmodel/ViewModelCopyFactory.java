@@ -174,6 +174,8 @@ public class ViewModelCopyFactory {
     private void copyTo(TimedTransitionViewModel copy, TimedTransitionViewModel timedTransitionViewModel) {
         copyTo(copy, (TransitionViewModel) timedTransitionViewModel);
         copy.setTransitionDistribution(createCopy(timedTransitionViewModel.getTransitionDistribution()));
+        copy.policyProperty().set(timedTransitionViewModel.getPolicy());
+        copy.affectedProperty().set(timedTransitionViewModel.getAffected());
     }
 
     public TimedTransitionViewModel createCopy(TimedTransitionViewModel timedTransitionViewModel) {

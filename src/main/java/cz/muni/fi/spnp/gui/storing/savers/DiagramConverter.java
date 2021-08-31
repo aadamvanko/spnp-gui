@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.storing.savers;
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
+import cz.muni.fi.spnp.core.transformators.spnp.elements.PolicyAffectedType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
@@ -259,13 +260,21 @@ Textwidth: 0
         oldTimed.value3Transition = getValue(timed.getTransitionDistribution(), 3);
         oldTimed.label = createLabel(timed);
         oldTimed.guard = nameOrNull(timed.getGuardFunction());
-        oldTimed.policy = "Preemptive repeat different"; // TODO not supported yet
-        oldTimed.affected = "Preemptive repeat different"; // TODO not supported yet
+        oldTimed.policy = convertPolicyAffectedType(timed.getPolicy());
+        oldTimed.affected = convertPolicyAffectedType(timed.getAffected());
         oldTimed.priority = String.valueOf(timed.priorityProperty().get());
         oldTimed.choiceInput = convertDistributionType(timed.getTransitionDistribution().distributionTypeProperty().get());
         oldTimed.distribution = convertTimedDistributionType(timed.getTransitionDistribution().getEnumType());
 
         return oldTimed;
+    }
+
+    private String convertPolicyAffectedType(PolicyAffectedType policyAffectedType) {
+        var typeToString = new HashMap<PolicyAffectedType, String>();
+        typeToString.put(PolicyAffectedType.PreemptiveRepeatDifferent, "Preemptive repeat different");
+        typeToString.put(PolicyAffectedType.PreemptiveRepeatIdentical, "Preemptive repeat identical");
+        typeToString.put(PolicyAffectedType.PreemptiveResume, "Preemptive resume");
+        return typeToString.get(policyAffectedType);
     }
 
     private String convertTimedDistributionType(TimedDistributionType timedDistributionType) {

@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
+import cz.muni.fi.spnp.core.transformators.spnp.elements.PolicyAffectedType;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
@@ -23,6 +24,10 @@ import java.util.Map;
 public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor {
 
     private final Map<TransitionDistributionType, TransitionDistributionSubEditor> subEditors;
+    private Label policyLabel;
+    private ChoiceBox<PolicyAffectedType> policyChoiceBox;
+    private Label affectedLabel;
+    private ChoiceBox<PolicyAffectedType> affectedChoiceBox;
     private Label distributionTypeLabel;
     private ChoiceBox<TransitionDistributionType> distributionTypeChoiceBox;
     private Label transitionDistributionTypeLabel;
@@ -42,6 +47,14 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
     }
 
     private void createView() {
+        policyLabel = new Label("Policy:");
+        policyChoiceBox = new ChoiceBox<>(FXCollections.observableArrayList(PolicyAffectedType.values()));
+        addRow(policyLabel, policyChoiceBox);
+
+        affectedLabel = new Label("Affected:");
+        affectedChoiceBox = new ChoiceBox<>(FXCollections.observableArrayList(PolicyAffectedType.values()));
+        addRow(affectedLabel, affectedChoiceBox);
+
         transitionDistributionTypeLabel = new Label("Transition distribution type:");
         transitionDistributionTypeChoiceBox = new ChoiceBox<>(FXCollections.observableArrayList(TimedDistributionType.values()));
         addRow(transitionDistributionTypeLabel, transitionDistributionTypeChoiceBox);
@@ -146,6 +159,8 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
     public void bindViewModel(ElementViewModel viewModel) {
         super.bindViewModel(viewModel);
 
+        policyChoiceBox.valueProperty().bindBidirectional(getViewModel().policyProperty());
+        affectedChoiceBox.valueProperty().bindBidirectional(getViewModel().affectedProperty());
         distributionTypeChoiceBox.getSelectionModel().select(getViewModel().getTransitionDistribution().distributionTypeProperty().get());
         transitionDistributionTypeChoiceBox.getSelectionModel().select(getViewModel().getTransitionDistribution().getEnumType());
         bindSelectedSubEditor();
@@ -154,6 +169,8 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
     @Override
     public void unbindViewModel() {
         unbindSelectedSubEditor();
+        policyChoiceBox.valueProperty().unbindBidirectional(getViewModel().policyProperty());
+        affectedChoiceBox.valueProperty().unbindBidirectional(getViewModel().affectedProperty());
 
         super.unbindViewModel();
     }

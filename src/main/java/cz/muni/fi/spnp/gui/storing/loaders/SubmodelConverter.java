@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.storing.loaders;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
+import cz.muni.fi.spnp.core.transformators.spnp.elements.PolicyAffectedType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
@@ -172,7 +173,21 @@ public class SubmodelConverter {
         timed.priorityProperty().set(convertPriority(oldTimed.priority));
         timed.guardFunctionProperty().set(findFunctionViewModel(functions, oldTimed.guard));
         timed.setTransitionDistribution(createTransitionDistribution(convertDistributionType(oldTimed.distribution), oldTimed, places, functions));
+        timed.policyProperty().set(convertPolicyAffectedType(oldTimed.policy));
+        timed.affectedProperty().set(convertPolicyAffectedType(oldTimed.affected));
         return timed;
+    }
+
+    private PolicyAffectedType convertPolicyAffectedType(String policyAffectedType) {
+        var stringToType = new HashMap<String, PolicyAffectedType>();
+        stringToType.put("Preemptive", PolicyAffectedType.PreemptiveRepeatDifferent); // old GUI bug maybe
+        stringToType.put("Preemptive repeat different", PolicyAffectedType.PreemptiveRepeatDifferent);
+        stringToType.put("Preemptive repeat identical", PolicyAffectedType.PreemptiveRepeatIdentical);
+        stringToType.put("Preemptive resume", PolicyAffectedType.PreemptiveResume);
+        if (!stringToType.containsKey(policyAffectedType)) {
+            throw new AssertionError("Unknown policy/affected type " + policyAffectedType);
+        }
+        return stringToType.get(policyAffectedType);
     }
 
     private TransitionDistributionViewModel createTransitionDistribution(TimedDistributionType timedDistributionType, TimedTransitionOldFormat oldTimed, List<PlaceViewModel> places, List<FunctionViewModel> functions) {
