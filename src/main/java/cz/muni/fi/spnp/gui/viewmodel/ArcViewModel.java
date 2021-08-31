@@ -9,9 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 public abstract class ArcViewModel extends ElementViewModel {
 
+    private Callable<Void> removeStraightLinesCallback;
     private final ObjectProperty<ArcMultiplicityType> multiplicityType = new SimpleObjectProperty<>(ArcMultiplicityType.Constant);
     private final StringProperty multiplicity = new SimpleStringProperty("1");
     private final ObjectProperty<FunctionViewModel> multiplicityFunction = new SimpleObjectProperty<>();
@@ -76,6 +78,14 @@ public abstract class ArcViewModel extends ElementViewModel {
         if (getMultiplicityFunction() == removedFunction) {
             multiplicityFunctionProperty().set(null);
         }
+    }
+
+    public Callable<Void> getRemoveStraightLinesCallback() {
+        return removeStraightLinesCallback;
+    }
+
+    public void setRemoveStraightLinesCallback(Callable<Void> removeStraightLinesCallback) {
+        this.removeStraightLinesCallback = removeStraightLinesCallback;
     }
 
     public ArcDirection getArcDirection() {

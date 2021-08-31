@@ -80,8 +80,17 @@ public class MouseOperationContextMenu extends MouseOperation {
         diagramViewModel.getElements().removeAll(selectedCopy);
         selectedCopy.stream()
                 .filter(elementViewModel -> elementViewModel instanceof DragPointViewModel)
-                .forEach(dragPointViewModel -> ViewModelUtils.onlyElements(ArcViewModel.class, diagramViewModel.getElements())
-                        .forEach(arcViewModel -> arcViewModel.getDragPoints().remove(dragPointViewModel)));
+                .forEach(dragPointViewModel -> {
+                    var arcs = ViewModelUtils.onlyElements(ArcViewModel.class, diagramViewModel.getElements());
+                    arcs.forEach(arcViewModel -> {
+                        arcViewModel.getDragPoints().remove(dragPointViewModel);
+                        try {
+                            arcViewModel.getRemoveStraightLinesCallback().call();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                });
         diagramViewModel.removeDisconnectedArcs();
     }
 

@@ -187,6 +187,10 @@ public abstract class ArcView extends GraphElementView {
         getViewModel().multiplicityProperty().addListener(this.onMultiplicityChangedListener);
         getViewModel().multiplicityTypeProperty().addListener(this.onMultiplicityTypeChangedListener);
         getViewModel().isFlushingProperty().addListener(this.onIsFlushingChangedListener);
+        getViewModel().setRemoveStraightLinesCallback(() -> {
+            this.removeStraightConnections();
+            return null;
+        });
 
         onMultiplicityChangedListener(null, null, getViewModel().getMultiplicity());
         onMultiplicityTypeChangedListener(null, null, getViewModel().getMultiplicityType());
@@ -203,6 +207,7 @@ public abstract class ArcView extends GraphElementView {
         getViewModel().multiplicityProperty().removeListener(this.onMultiplicityChangedListener);
         getViewModel().multiplicityTypeProperty().removeListener(this.onMultiplicityTypeChangedListener);
         getViewModel().isFlushingProperty().removeListener(this.onIsFlushingChangedListener);
+        getViewModel().setRemoveStraightLinesCallback(null);
 
         super.unbindViewModel();
     }
