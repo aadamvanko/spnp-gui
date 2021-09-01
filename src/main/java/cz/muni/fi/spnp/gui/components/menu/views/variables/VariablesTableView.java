@@ -6,33 +6,32 @@ import cz.muni.fi.spnp.gui.components.menu.views.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.VariableViewModel;
 
-public class VariablesView extends GeneralItemsTableView<VariableViewModel> {
+public class VariablesTableView extends GeneralItemsTableView<VariableViewModel> {
 
-    public VariablesView(Model model) {
-        super(model, "Variables", "variable");
+    public VariablesTableView(Model model) {
+        super(model);
 
         addColumn("Name", "name");
         addColumn("Kind", "kind");
         addColumn("Type", "type");
         addColumn("Value", "value");
-
-        stage.setWidth(600);
     }
 
     @Override
-    protected VariableViewModel createViewModel() {
+    public VariableViewModel createViewModel() {
         return new VariableViewModel();
     }
 
     @Override
-    protected GeneralItemView<VariableViewModel> createItemViewAdd(VariableViewModel variableViewModel) {
+    public GeneralItemView<VariableViewModel> createItemViewAdd(VariableViewModel variableViewModel) {
         return new VariableView(model, variableViewModel, null, ItemViewMode.ADD);
     }
 
     @Override
-    protected GeneralItemView<VariableViewModel> createItemViewEdit(VariableViewModel variableViewModel) {
+    public GeneralItemView<VariableViewModel> createItemViewEdit(VariableViewModel variableViewModel) {
         var copy = viewModelCopyFactory.createCopy(variableViewModel);
         return new VariableView(model, copy, variableViewModel, ItemViewMode.EDIT);
     }
 
 }
+

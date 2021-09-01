@@ -24,4 +24,6 @@ module cz.muni.fi {
     opens cz.muni.fi.spnp.gui.viewmodel to java.base;
     opens cz.muni.fi.spnp.gui.components.propertieseditor to javafx.fxml;
     opens cz.muni.fi.spnp.gui.components.menu.views.functions to javafx.base;
+    exports cz.muni.fi.spnp.gui.components.menu.views.general;
+    opens cz.muni.fi.spnp.gui.components.menu.views.general to java.base;
 }

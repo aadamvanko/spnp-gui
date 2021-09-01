@@ -5,30 +5,29 @@ import cz.muni.fi.spnp.gui.components.menu.views.general.GeneralItemsTableView;
 import cz.muni.fi.spnp.gui.components.menu.views.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.model.Model;
 
-public class DefinesView extends GeneralItemsTableView<DefineViewModel> {
+public class DefinesTableView extends GeneralItemsTableView<DefineViewModel> {
 
-    public DefinesView(Model model) {
-        super(model, "Defines", "define");
+    public DefinesTableView(Model model) {
+        super(model);
 
         addColumn("Name", "name");
         addColumn("Expression", "expression");
     }
 
     @Override
-    protected DefineViewModel createViewModel() {
+    public DefineViewModel createViewModel() {
         return new DefineViewModel();
     }
 
     @Override
-    protected GeneralItemView<DefineViewModel> createItemViewAdd(DefineViewModel defineViewModel) {
+    public GeneralItemView<DefineViewModel> createItemViewAdd(DefineViewModel defineViewModel) {
         return new DefineView(model, defineViewModel, null, ItemViewMode.ADD);
     }
 
     @Override
-    protected GeneralItemView<DefineViewModel> createItemViewEdit(DefineViewModel defineViewModel) {
+    public GeneralItemView<DefineViewModel> createItemViewEdit(DefineViewModel defineViewModel) {
         var copy = viewModelCopyFactory.createCopy(defineViewModel);
         return new DefineView(model, copy, defineViewModel, ItemViewMode.EDIT);
     }
 
 }
-

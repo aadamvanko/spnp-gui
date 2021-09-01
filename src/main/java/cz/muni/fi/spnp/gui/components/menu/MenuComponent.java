@@ -1,14 +1,14 @@
 package cz.muni.fi.spnp.gui.components.menu;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
-import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesView;
+import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.views.diagrams.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
-import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludesView;
+import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludesTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.views.preferences.PreferencesView;
 import cz.muni.fi.spnp.gui.components.menu.views.projects.NewProjectView;
-import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParametersView;
-import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesView;
+import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParametersTableViewWindow;
+import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesTableViewWindow;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.storing.savers.OldFileSaver;
@@ -28,13 +28,13 @@ import javafx.stage.FileChooser;
 public class MenuComponent extends ApplicationComponent {
 
     private final MenuBar menuBar;
-    private final DefinesView definesView;
+    private final DefinesTableViewWindow definesWindowView;
     private final MenuItem menuItemViewIncludes;
-    private final IncludesView includesView;
+    private final IncludesTableViewWindow includesTableViewWindow;
     private final MenuItem menuItemViewDefines;
-    private final VariablesView variablesView;
+    private final VariablesTableViewWindow variablesWindowView;
     private final MenuItem menuItemViewVariables;
-    private final InputParametersView inputParametersView;
+    private final InputParametersTableViewWindow inputParametersTableViewWindow;
     private final MenuItem menuItemViewInputParameters;
     private final FunctionsView functionsView;
     private final MenuItem menuItemViewFunctions;
@@ -91,28 +91,28 @@ public class MenuComponent extends ApplicationComponent {
 
         Menu menuView = new Menu("View");
 
-        includesView = new IncludesView(model);
+        includesTableViewWindow = new IncludesTableViewWindow(model);
         menuItemViewIncludes = new MenuItem("Includes");
         menuItemViewIncludes.disableProperty().bind(model.selectedDiagramProperty().isNull());
-        menuItemViewIncludes.setOnAction(actionEvent -> includesView.getStage().showAndWait());
+        menuItemViewIncludes.setOnAction(actionEvent -> includesTableViewWindow.getStage().showAndWait());
         menuView.getItems().add(menuItemViewIncludes);
 
-        definesView = new DefinesView(model);
+        definesWindowView = new DefinesTableViewWindow(model);
         menuItemViewDefines = new MenuItem("Defines");
         menuItemViewDefines.disableProperty().bind(model.selectedDiagramProperty().isNull());
-        menuItemViewDefines.setOnAction(actionEvent -> definesView.getStage().showAndWait());
+        menuItemViewDefines.setOnAction(actionEvent -> definesWindowView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewDefines);
 
-        variablesView = new VariablesView(model);
+        variablesWindowView = new VariablesTableViewWindow(model);
         menuItemViewVariables = new MenuItem("Variables");
         menuItemViewVariables.disableProperty().bind(model.selectedDiagramProperty().isNull());
-        menuItemViewVariables.setOnAction(actionEvent -> variablesView.getStage().showAndWait());
+        menuItemViewVariables.setOnAction(actionEvent -> variablesWindowView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewVariables);
 
-        inputParametersView = new InputParametersView(model);
+        inputParametersTableViewWindow = new InputParametersTableViewWindow(model);
         menuItemViewInputParameters = new MenuItem("Input Parameters");
         menuItemViewInputParameters.disableProperty().bind(model.selectedDiagramProperty().isNull());
-        menuItemViewInputParameters.setOnAction(actionEvent -> inputParametersView.getStage().showAndWait());
+        menuItemViewInputParameters.setOnAction(actionEvent -> inputParametersTableViewWindow.getStage().showAndWait());
         menuView.getItems().add(menuItemViewInputParameters);
 
         functionsView = new FunctionsView();
@@ -167,18 +167,18 @@ public class MenuComponent extends ApplicationComponent {
 
     private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
         if (newDiagram == null) {
-            includesView.bindSourceCollection(FXCollections.emptyObservableList());
-            definesView.bindSourceCollection(FXCollections.emptyObservableList());
-            variablesView.bindSourceCollection(FXCollections.emptyObservableList());
-            inputParametersView.bindSourceCollection(FXCollections.emptyObservableList());
+            includesTableViewWindow.bindSourceCollection(FXCollections.emptyObservableList());
+            definesWindowView.bindSourceCollection(FXCollections.emptyObservableList());
+            variablesWindowView.bindSourceCollection(FXCollections.emptyObservableList());
+            inputParametersTableViewWindow.bindSourceCollection(FXCollections.emptyObservableList());
             functionsView.unbindDiagramViewModel();
             return;
         }
 
-        includesView.bindSourceCollection(newDiagram.getIncludes());
-        definesView.bindSourceCollection(newDiagram.getDefines());
-        variablesView.bindSourceCollection(newDiagram.getVariables());
-        inputParametersView.bindSourceCollection(newDiagram.getInputParameters());
+        includesTableViewWindow.bindSourceCollection(newDiagram.getIncludes());
+        definesWindowView.bindSourceCollection(newDiagram.getDefines());
+        variablesWindowView.bindSourceCollection(newDiagram.getVariables());
+        inputParametersTableViewWindow.bindSourceCollection(newDiagram.getInputParameters());
         functionsView.bindDiagramViewModel(newDiagram);
     }
 
