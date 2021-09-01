@@ -49,27 +49,35 @@ public class ElementMapper {
         currentId = 0;
     }
 
-    public Place mapPlace(PlaceViewModel placeViewModel) {
-        var place = new SPNPStandardPlace(
-                getId(),
-                placeViewModel.getName(),
-                placeViewModel.getNumberOfTokens()
-        );
-        placesMapping.put(placeViewModel, place);
-        return place;
+    public Place mapPlace(PlaceViewModel placeViewModel) throws MappingException {
+        try {
+            var place = new SPNPStandardPlace(
+                    getId(),
+                    placeViewModel.getName(),
+                    placeViewModel.getNumberOfTokens()
+            );
+            placesMapping.put(placeViewModel, place);
+            return place;
+        } catch (IllegalArgumentException | IllegalStateException exception) {
+            throw new MappingException(placeViewModel.getName(), exception);
+        }
     }
 
-    public Transition mapTransition(TransitionViewModel transitionViewModel) {
+    public Transition mapTransition(TransitionViewModel transitionViewModel) throws MappingException {
         Transition transition = null;
-        if (transitionViewModel instanceof ImmediateTransitionViewModel) {
-            transition = mapImmediateTransition((ImmediateTransitionViewModel) transitionViewModel);
-        } else if (transitionViewModel instanceof TimedTransitionViewModel) {
-            transition = mapTimedTransition((TimedTransitionViewModel) transitionViewModel);
-        } else {
-            throw new AssertionError("Unkown transition view model class " + transitionViewModel.getClass());
+        try {
+            if (transitionViewModel instanceof ImmediateTransitionViewModel) {
+                transition = mapImmediateTransition((ImmediateTransitionViewModel) transitionViewModel);
+            } else if (transitionViewModel instanceof TimedTransitionViewModel) {
+                transition = mapTimedTransition((TimedTransitionViewModel) transitionViewModel);
+            } else {
+                throw new AssertionError("Unknown transition view model class " + transitionViewModel.getClass());
+            }
+            transitionsMapping.put(transitionViewModel, transition);
+            return transition;
+        } catch (IllegalArgumentException | IllegalStateException exception) {
+            throw new MappingException(transitionViewModel.getName(), exception);
         }
-        transitionsMapping.put(transitionViewModel, transition);
-        return transition;
     }
 
     public ImmediateTransition mapImmediateTransition(ImmediateTransitionViewModel immediateTransitionViewModel) {
@@ -418,21 +426,24 @@ public class ElementMapper {
         throw new AssertionError("Unknown place dependent four values transition distribution type " + transitionDistributionViewModel.getEnumType());
     }
 
-    public Arc mapArc(ArcViewModel arcViewModel) {
+    public Arc mapArc(ArcViewModel arcViewModel) throws MappingException {
         var from = arcViewModel.getFromViewModel();
         var to = arcViewModel.getToViewModel();
 
-        if (from instanceof TransitionViewModel && to instanceof PlaceViewModel) {
-            var fromTransition = findTransition((TransitionViewModel) from);
-            var toPlace = findPlace((PlaceViewModel) to);
-            return createOutputArc(arcViewModel, toPlace, fromTransition);
-
-        } else if (from instanceof PlaceViewModel && to instanceof TransitionViewModel) {
-            var fromPlace = findPlace((PlaceViewModel) from);
-            var toTransition = findTransition((TransitionViewModel) to);
-            return createInputArc(arcViewModel, fromPlace, toTransition);
-        } else {
-            throw new AssertionError("Arc is incorrectly connected (both ends to the same element type) " + from.getClass() + ", " + to.getClass());
+        try {
+            if (from instanceof TransitionViewModel && to instanceof PlaceViewModel) {
+                var fromTransition = findTransition((TransitionViewModel) from);
+                var toPlace = findPlace((PlaceViewModel) to);
+                return createOutputArc(arcViewModel, toPlace, fromTransition);
+            } else if (from instanceof PlaceViewModel && to instanceof TransitionViewModel) {
+                var fromPlace = findPlace((PlaceViewModel) from);
+                var toTransition = findTransition((TransitionViewModel) to);
+                return createInputArc(arcViewModel, fromPlace, toTransition);
+            } else {
+                throw new AssertionError("Arc is incorrectly connected (both ends to the same element type) " + from.getClass() + ", " + to.getClass());
+            }
+        } catch (IllegalArgumentException | IllegalStateException exception) {
+            throw new MappingException(arcViewModel.getName(), exception);
         }
     }
 

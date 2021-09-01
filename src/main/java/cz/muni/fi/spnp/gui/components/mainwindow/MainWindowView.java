@@ -17,6 +17,7 @@ import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
 import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
@@ -52,9 +53,9 @@ public class MainWindowView {
 
         createView();
 
-        var project1 = new ProjectViewModel();
-        project1.nameProperty().set("mock_project1");
-        model.getProjects().add(project1);
+        var mock_project1 = new ProjectViewModel();
+        mock_project1.nameProperty().set("mock_project1");
+        model.getProjects().add(mock_project1);
 
         var functions = new ArrayList<FunctionViewModel>();
         functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID, false, true));
@@ -92,6 +93,7 @@ public class MainWindowView {
 
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1,
                 List.of(new DragPointViewModel(200, 50), new DragPointViewModel(250, 75)));
+        standardArc1.multiplicityTypeProperty().set(ArcMultiplicityType.Function);
         var standardArc2 = new StandardArcViewModel("standard2", timedTransition1, place2, Collections.emptyList());
 
         var immediateTransition1 = new ImmediateTransitionViewModel();
@@ -143,13 +145,13 @@ public class MainWindowView {
         inputParameters.add(new InputParameterViewModel("input_param_1_int", VariableDataType.INT, "Enter int value for input param"));
         inputParameters.add(new InputParameterViewModel("input_param_1_double", VariableDataType.DOUBLE, "Enter double value for input param"));
 
-        var diagram1 = new DiagramViewModel(project1, elements, includes, defines, variables, inputParameters, functions);
+        var diagram1 = new DiagramViewModel(mock_project1, elements, includes, defines, variables, inputParameters, functions);
         diagram1.nameProperty().set("mock_diagram1");
-        project1.getDiagrams().add(diagram1);
+        mock_project1.getDiagrams().add(diagram1);
 
-        var diagram2 = new DiagramViewModel(project1);
+        var diagram2 = new DiagramViewModel(mock_project1);
         diagram2.nameProperty().set("mock_diagram2");
-        project1.getDiagrams().add(diagram2);
+        mock_project1.getDiagrams().add(diagram2);
 
         var d2_place1 = new PlaceViewModel();
         d2_place1.positionXProperty().set(30);
@@ -157,12 +159,12 @@ public class MainWindowView {
         diagram2.getElements().add(d2_place1);
 
         var diagramMapper = new DiagramMapper(diagram1);
-        var petriNet = diagramMapper.createPetriNet();
-        var spnpCode = diagramMapper.createSPNPCode();
-        var spnpOptions = diagramMapper.createSPNPOptions();
+//        var petriNet = diagramMapper.createPetriNet();
+//        var spnpCode = diagramMapper.createSPNPCode();
+//        var spnpOptions = diagramMapper.createSPNPOptions();
 
-//        var oldFileLoader = new OldFileLoader();
-//        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");
+        var oldFileLoader = new OldFileLoader();
+        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P0.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P2.rgl");
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P3.rgl"); // expressions in timed transition values
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\P5.rgl"); // expressions in timed transition values
@@ -173,8 +175,12 @@ public class MainWindowView {
 //        var project1x = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\test\\definesTestProject.rgl");
 //        var oldFileSaver = new OldFileSaver();
 //        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
-//        model.getProjects().add(project1x);
+        model.getProjects().add(project1x);
 
+//        var oldFileSaver = new OldFileSaver();
+//        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\saved", mock_project1);
+//        var mock_project1_loaded = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\saved\\mock_project1.rgl");
+//        model.getProjects().add(mock_project1_loaded);
 //        var definesTestProject = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\all_things.rgl");
 //        var oldFileSaver = new OldFileSaver();
 //        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\saved", definesTestProject);

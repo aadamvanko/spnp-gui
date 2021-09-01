@@ -11,6 +11,8 @@ import cz.muni.fi.spnp.gui.viewmodel.ViewModelUtils;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DiagramMapper {
 
@@ -37,17 +39,35 @@ public class DiagramMapper {
         elementMapper = new ElementMapper(functionMapper.getFunctionsMapping());
     }
 
-    public PetriNet createPetriNet() {
+    public PetriNet createPetriNet() throws MappingException {
         if (petriNet != null) {
             return petriNet;
         }
 
         petriNet = new PetriNet();
         diagramViewModel.getFunctions().forEach(function -> petriNet.addFunction(functionMapper.map(function)));
-        ViewModelUtils.onlyElements(PlaceViewModel.class, diagramViewModel.getElements()).forEach(place -> petriNet.addPlace(elementMapper.mapPlace(place)));
-        ViewModelUtils.onlyElements(TransitionViewModel.class, diagramViewModel.getElements()).forEach(transition -> petriNet.addTransition(elementMapper.mapTransition(transition)));
-        ViewModelUtils.onlyElements(ArcViewModel.class, diagramViewModel.getElements()).forEach(arc -> petriNet.addArc(elementMapper.mapArc(arc)));
+        addMappedPlaces(ViewModelUtils.onlyElements(PlaceViewModel.class, diagramViewModel.getElements()).collect(Collectors.toList()));
+        addMappedTransitions(ViewModelUtils.onlyElements(TransitionViewModel.class, diagramViewModel.getElements()).collect(Collectors.toList()));
+        addMappedArcs(ViewModelUtils.onlyElements(ArcViewModel.class, diagramViewModel.getElements()).collect(Collectors.toList()));
         return petriNet;
+    }
+
+    private void addMappedPlaces(List<PlaceViewModel> places) throws MappingException {
+        for (var placeViewModel : places) {
+            petriNet.addPlace(elementMapper.mapPlace(placeViewModel));
+        }
+    }
+
+    private void addMappedTransitions(List<TransitionViewModel> transitions) throws MappingException {
+        for (var transitionViewModel : transitions) {
+            petriNet.addTransition(elementMapper.mapTransition(transitionViewModel));
+        }
+    }
+
+    private void addMappedArcs(List<ArcViewModel> arcs) throws MappingException {
+        for (var arcViewModel : arcs) {
+            petriNet.addArc(elementMapper.mapArc(arcViewModel));
+        }
     }
 
     public SPNPCode createSPNPCode() {
