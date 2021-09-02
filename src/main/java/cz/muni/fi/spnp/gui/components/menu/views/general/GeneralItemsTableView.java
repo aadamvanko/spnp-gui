@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Priority;
@@ -25,6 +26,27 @@ public abstract class GeneralItemsTableView<TViewModel> {
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         VBox.setVgrow(tableView, Priority.ALWAYS);
+
+        tableView.setRowFactory(tv -> {
+            TableRow<TViewModel> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2) {
+                    if (row.isEmpty()) {
+                        var itemView = createItemViewAdd(createViewModel());
+                        itemView.setSourceCollection(sourceCollection);
+                        itemView.getStage().setTitle("Add row");
+                        itemView.getStage().showAndWait();
+                    } else {
+                        TViewModel rowItem = row.getItem();
+                        var itemView = createItemViewEdit(rowItem);
+                        itemView.setSourceCollection(sourceCollection);
+                        itemView.getStage().setTitle("Edit row");
+                        itemView.getStage().showAndWait();
+                    }
+                }
+            });
+            return row;
+        });
     }
 
     public void bindSourceCollection(ObservableList<TViewModel> sourceCollection) {
