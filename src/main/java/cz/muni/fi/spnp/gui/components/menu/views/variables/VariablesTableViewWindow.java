@@ -6,7 +6,7 @@ import cz.muni.fi.spnp.gui.model.Model;
 public class VariablesTableViewWindow extends GeneralItemsTableViewWindow {
 
     public VariablesTableViewWindow(Model model) {
-        super(model, "Variables", "variable", new VariablesTableView(model));
+        super(model, "Variables", new VariablesTableView(model));
 
         createView();
     }

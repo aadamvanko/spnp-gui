@@ -7,7 +7,7 @@ import cz.muni.fi.spnp.gui.viewmodel.InputParameterViewModel;
 public class InputParametersTableViewWindow extends GeneralItemsTableViewWindow<InputParameterViewModel> {
 
     public InputParametersTableViewWindow(Model model) {
-        super(model, "Input Parameters", "input parameter", new InputParametersTableView(model));
+        super(model, "Input Parameters", new InputParametersTableView(model));
 
         createView();
     }
