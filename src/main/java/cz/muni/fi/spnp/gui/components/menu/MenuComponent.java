@@ -21,7 +21,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
@@ -48,28 +47,29 @@ public class MenuComponent extends ApplicationComponent {
 
         menuBar = new MenuBar();
 
-        Menu menuFile = new Menu("File");
+        Menu menuProject = new Menu("Project");
 
         var menuItemOpenProject = new MenuItem("Open project");
         menuItemOpenProject.setOnAction(this::onOpenProjectClickedHandler);
-        menuFile.getItems().add(menuItemOpenProject);
+        menuProject.getItems().add(menuItemOpenProject);
 
         newProjectView = new NewProjectView(model);
         menuItemNewProject = new MenuItem("New Project");
         menuItemNewProject.setOnAction(actionEvent -> newProjectView.getStage().showAndWait());
-        menuFile.getItems().add(menuItemNewProject);
+        menuProject.getItems().add(menuItemNewProject);
 
         var menuItemSaveProject = new MenuItem("Save project");
         menuItemSaveProject.setOnAction(this::onSaveProjectClickedHandler);
         menuItemSaveProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
-        menuFile.getItems().add(menuItemSaveProject);
+        menuProject.getItems().add(menuItemSaveProject);
 
         var menuItemCloseProject = new MenuItem("Close project");
         menuItemCloseProject.setOnAction(this::onCloseProjectClickedHandler);
         menuItemCloseProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
-        menuFile.getItems().add(menuItemCloseProject);
+        menuProject.getItems().add(menuItemCloseProject);
+        menuBar.getMenus().add(menuProject);
 
-        menuFile.getItems().add(new SeparatorMenuItem());
+        var menuDiagram = new Menu("Diagram");
 
         newDiagramView = new NewDiagramView(model);
         menuItemNewDiagram = new MenuItem("New Diagram");
@@ -77,14 +77,8 @@ public class MenuComponent extends ApplicationComponent {
         menuItemNewDiagram.setOnAction(actionEvent -> {
             newDiagramView.getStage().showAndWait();
         });
-        menuFile.getItems().add(menuItemNewDiagram);
-        menuFile.getItems().add(new SeparatorMenuItem());
-
-        var preferencesView = new PreferencesView(model);
-        var menuItemPreferences = new MenuItem("Preferences");
-        menuItemPreferences.setOnAction(actionEvent -> preferencesView.getStage().showAndWait());
-        menuFile.getItems().add(menuItemPreferences);
-        menuBar.getMenus().add(menuFile);
+        menuDiagram.getItems().add(menuItemNewDiagram);
+        menuBar.getMenus().add(menuDiagram);
 
         Menu menuEdit = new Menu("Edit");
         menuBar.getMenus().add(menuEdit);
@@ -120,11 +114,15 @@ public class MenuComponent extends ApplicationComponent {
         menuItemViewFunctions.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewFunctions.setOnAction(actionEvent -> functionsView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewFunctions);
-
         menuBar.getMenus().add(menuView);
 
-        Menu menuTools = new Menu("Tools");
-        menuBar.getMenus().add(menuTools);
+        var menuSimulation = new Menu("Simulation");
+
+        var preferencesView = new PreferencesView(model);
+        var menuItemPreferences = new MenuItem("Preferences");
+        menuItemPreferences.setOnAction(actionEvent -> preferencesView.getStage().showAndWait());
+        menuSimulation.getItems().add(menuItemPreferences);
+        menuBar.getMenus().add(menuSimulation);
 
         Menu menuHelp = new Menu("Help");
         menuBar.getMenus().add(menuHelp);
