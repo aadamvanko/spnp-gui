@@ -18,7 +18,6 @@ public abstract class GeneralItemsTableViewCollapsable<TViewModel> extends ViewC
 
     private void createView() {
         root.setContent(generalItemsTableView.getTableView());
-        root.setExpanded(false);
     }
 
     public void bindSourceCollection(ObservableList<TViewModel> sourceCollection) {

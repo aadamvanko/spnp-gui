@@ -28,6 +28,8 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionVie
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.singlevalue.ConstantTransitionDistributionViewModel;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -44,6 +46,9 @@ public class MainWindowView {
     private final Model model;
 
     private Pane pane;
+    private final ChangeListener<DiagramViewMode> onViewModeChangedListener;
+    private VBox leftVBox;
+
     private MenuComponent menuComponent;
     private ProjectsComponent projectsComponent;
     private QuickActionsComponent quickActionsComponent;
@@ -58,11 +63,14 @@ public class MainWindowView {
     private DefinesCollapsableView definesCollapsableView;
     private VariablesCollapsableView variablesCollapsableView;
     private InputParametersCollapsableView inputParametersCollapsableView;
+    private VBox rightVBox;
 
     public MainWindowView(Model model) {
         this.model = model;
 
         createView();
+
+        this.onViewModeChangedListener = this::onViewModeChangedListener;
 
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChangedListener);
 
@@ -232,6 +240,10 @@ public class MainWindowView {
     }
 
     private void onSelectedDiagramChangedListener(Observable observable, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
+        if (oldDiagram != null) {
+            oldDiagram.viewModeProperty().removeListener(this.onViewModeChangedListener);
+        }
+
         if (newDiagram == null) {
             includesCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
             definesCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
@@ -244,6 +256,30 @@ public class MainWindowView {
         definesCollapsableView.bindSourceCollection(newDiagram.getDefines());
         variablesCollapsableView.bindSourceCollection(newDiagram.getVariables());
         inputParametersCollapsableView.bindSourceCollection(newDiagram.getInputParameters());
+
+        newDiagram.viewModeProperty().addListener(this.onViewModeChangedListener);
+        onViewModeChangedListener(null, null, newDiagram.getViewMode());
+    }
+
+    private void onViewModeChangedListener(ObservableValue<? extends DiagramViewMode> observableValue, DiagramViewMode oldValue, DiagramViewMode newValue) {
+        leftVBox.getChildren().remove(elementsOutlineView.getRoot());
+        leftVBox.getChildren().remove(functionsCategoriesComponent.getRoot());
+
+        rightVBox.getChildren().clear();
+
+        if (newValue == DiagramViewMode.CODE) {
+            leftVBox.getChildren().add(functionsCategoriesComponent.getRoot());
+
+            rightVBox.getChildren().add(includesCollapsableView.getRoot());
+            rightVBox.getChildren().add(definesCollapsableView.getRoot());
+            rightVBox.getChildren().add(variablesCollapsableView.getRoot());
+            rightVBox.getChildren().add(inputParametersCollapsableView.getRoot());
+        } else {
+            leftVBox.getChildren().add(elementsOutlineView.getRoot());
+
+            rightVBox.getChildren().add(propertiesComponent.getRoot());
+            rightVBox.getChildren().add(functionsCategoriesComponent.getRoot());
+        }
     }
 
     private Node createCenterPanel() {
@@ -260,28 +296,28 @@ public class MainWindowView {
     }
 
     private Node createRightPanel() {
-        var vbox = new VBox();
+        rightVBox = new VBox();
 
         propertiesComponent = new PropertiesComponent(model);
-        vbox.getChildren().add(propertiesComponent.getRoot());
+        rightVBox.getChildren().add(propertiesComponent.getRoot());
 
         functionsCategoriesComponent = new FunctionsCategoriesComponent(model);
-        vbox.getChildren().add(functionsCategoriesComponent.getRoot());
+        rightVBox.getChildren().add(functionsCategoriesComponent.getRoot());
 
         includesCollapsableView = new IncludesCollapsableView(model);
-        vbox.getChildren().add(includesCollapsableView.getRoot());
+        rightVBox.getChildren().add(includesCollapsableView.getRoot());
 
         definesCollapsableView = new DefinesCollapsableView(model);
-        vbox.getChildren().add(definesCollapsableView.getRoot());
+        rightVBox.getChildren().add(definesCollapsableView.getRoot());
 
         variablesCollapsableView = new VariablesCollapsableView(model);
-        vbox.getChildren().add(variablesCollapsableView.getRoot());
+        rightVBox.getChildren().add(variablesCollapsableView.getRoot());
 
         inputParametersCollapsableView = new InputParametersCollapsableView(model);
-        vbox.getChildren().add(inputParametersCollapsableView.getRoot());
+        rightVBox.getChildren().add(inputParametersCollapsableView.getRoot());
 
-        vbox.setPrefWidth(350);
-        return vbox;
+        rightVBox.setPrefWidth(350);
+        return rightVBox;
     }
 
     private Node createBottomPanel() {
@@ -290,14 +326,15 @@ public class MainWindowView {
     }
 
     private Node createLeftPanel() {
-        var vbox = new VBox();
+        leftVBox = new VBox();
 
         projectsComponent = new ProjectsComponent(model);
-        vbox.getChildren().add(projectsComponent.getRoot());
+        leftVBox.getChildren().add(projectsComponent.getRoot());
 
         elementsOutlineView = new DiagramOutlineComponent(model);
-        vbox.getChildren().add(elementsOutlineView.getRoot());
-        return vbox;
+        leftVBox.getChildren().add(elementsOutlineView.getRoot());
+
+        return leftVBox;
     }
 
     private Node createTopPanel() {
