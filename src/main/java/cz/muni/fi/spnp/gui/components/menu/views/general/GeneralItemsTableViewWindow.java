@@ -20,7 +20,7 @@ public abstract class GeneralItemsTableViewWindow<TViewModel> extends UIWindowCo
     protected Button buttonDelete;
     protected Button buttonExit;
 
-    public GeneralItemsTableViewWindow(Model model, String title, String entityName, GeneralItemsTableView<TViewModel> generalItemsTableView) {
+    public GeneralItemsTableViewWindow(Model model, String title, GeneralItemsTableView<TViewModel> generalItemsTableView) {
         this.model = model;
         this.viewModelCopyFactory = new ViewModelCopyFactory();
         this.generalItemsTableView = generalItemsTableView;
@@ -38,10 +38,7 @@ public abstract class GeneralItemsTableViewWindow<TViewModel> extends UIWindowCo
         buttonsHbox.getChildren().add(buttonDelete);
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
-            var itemView = generalItemsTableView.createItemViewAdd(generalItemsTableView.createViewModel());
-            itemView.setSourceCollection(generalItemsTableView.getSourceCollection());
-            itemView.getStage().setTitle("Add " + entityName);
-            itemView.getStage().showAndWait();
+            generalItemsTableView.showAddRowView();
         });
 
         buttonEdit.setOnMouseClicked(mouseEvent -> {
@@ -49,11 +46,7 @@ public abstract class GeneralItemsTableViewWindow<TViewModel> extends UIWindowCo
             if (selectedItem == null) {
                 return;
             }
-
-            var itemView = generalItemsTableView.createItemViewEdit(selectedItem);
-            itemView.setSourceCollection(generalItemsTableView.getSourceCollection());
-            itemView.getStage().setTitle("Edit " + entityName);
-            itemView.getStage().showAndWait();
+            generalItemsTableView.showEditRowView(selectedItem);
         });
 
         buttonDelete.setOnMouseClicked(mouseEvent -> {

@@ -8,7 +8,7 @@ import cz.muni.fi.spnp.gui.model.Model;
 public class IncludesTableView extends GeneralItemsTableView<IncludeViewModel> {
 
     public IncludesTableView(Model model) {
-        super(model);
+        super(model, "include");
 
         addColumn("Path", "path");
     }

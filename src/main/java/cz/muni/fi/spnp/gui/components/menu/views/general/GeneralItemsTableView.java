@@ -3,23 +3,24 @@ package cz.muni.fi.spnp.gui.components.menu.views.general;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.collections.ObservableList;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public abstract class GeneralItemsTableView<TViewModel> {
 
     protected final Model model;
+    protected final String entityName;
     protected final ViewModelCopyFactory viewModelCopyFactory;
     protected final TableView<TViewModel> tableView;
     protected ObservableList<TViewModel> sourceCollection;
 
-    public GeneralItemsTableView(Model model) {
+    public GeneralItemsTableView(Model model, String entityName) {
         this.model = model;
+        this.entityName = entityName;
         this.viewModelCopyFactory = new ViewModelCopyFactory();
         this.tableView = new TableView<>();
 
@@ -27,26 +28,45 @@ public abstract class GeneralItemsTableView<TViewModel> {
         tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         VBox.setVgrow(tableView, Priority.ALWAYS);
 
+
+        var placeholderLabel = new Label("No content in table");
+        var placeholderVBox = new VBox(placeholderLabel);
+        placeholderVBox.setAlignment(Pos.CENTER);
+        placeholderVBox.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2 && mouseEvent.getButton() == MouseButton.PRIMARY) {
+                showAddRowView();
+            }
+        });
+        tableView.setPlaceholder(placeholderVBox);
+
         tableView.setRowFactory(tv -> {
             TableRow<TViewModel> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2) {
+            row.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getClickCount() == 2 && mouseEvent.getButton() == MouseButton.PRIMARY) {
                     if (row.isEmpty()) {
-                        var itemView = createItemViewAdd(createViewModel());
-                        itemView.setSourceCollection(sourceCollection);
-                        itemView.getStage().setTitle("Add row");
-                        itemView.getStage().showAndWait();
+                        showAddRowView();
                     } else {
                         TViewModel rowItem = row.getItem();
-                        var itemView = createItemViewEdit(rowItem);
-                        itemView.setSourceCollection(sourceCollection);
-                        itemView.getStage().setTitle("Edit row");
-                        itemView.getStage().showAndWait();
+                        showEditRowView(rowItem);
                     }
                 }
             });
             return row;
         });
+    }
+
+    public void showAddRowView() {
+        var itemView = createItemViewAdd(createViewModel());
+        itemView.setSourceCollection(sourceCollection);
+        itemView.getStage().setTitle("Add " + entityName);
+        itemView.getStage().showAndWait();
+    }
+
+    public void showEditRowView(TViewModel item) {
+        var itemView = createItemViewEdit(item);
+        itemView.setSourceCollection(sourceCollection);
+        itemView.getStage().setTitle("Edit " + entityName);
+        itemView.getStage().showAndWait();
     }
 
     public void bindSourceCollection(ObservableList<TViewModel> sourceCollection) {

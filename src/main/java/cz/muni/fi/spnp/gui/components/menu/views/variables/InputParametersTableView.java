@@ -9,7 +9,7 @@ import cz.muni.fi.spnp.gui.viewmodel.InputParameterViewModel;
 public class InputParametersTableView extends GeneralItemsTableView<InputParameterViewModel> {
 
     public InputParametersTableView(Model model) {
-        super(model);
+        super(model, "input parameter");
 
         addColumn("Name", "name");
         addColumn("Type", "type");

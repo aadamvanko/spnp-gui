@@ -8,7 +8,7 @@ import cz.muni.fi.spnp.gui.model.Model;
 public class DefinesTableView extends GeneralItemsTableView<DefineViewModel> {
 
     public DefinesTableView(Model model) {
-        super(model);
+        super(model, "define");
 
         addColumn("Name", "name");
         addColumn("Expression", "expression");

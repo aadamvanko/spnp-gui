@@ -9,7 +9,7 @@ import cz.muni.fi.spnp.gui.viewmodel.VariableViewModel;
 public class VariablesTableView extends GeneralItemsTableView<VariableViewModel> {
 
     public VariablesTableView(Model model) {
-        super(model);
+        super(model, "variable");
 
         addColumn("Name", "name");
         addColumn("Kind", "kind");

@@ -52,7 +52,7 @@ public class MainWindowView {
     private MenuComponent menuComponent;
     private ProjectsComponent projectsComponent;
     private QuickActionsComponent quickActionsComponent;
-    private DiagramOutlineComponent elementsOutlineView;
+    private DiagramOutlineComponent diagramOutlineComponent;
     private FunctionsCategoriesComponent functionsCategoriesComponent;
     private StatusBarComponent statusBarComponent;
     private ToolbarComponent toolbarComponent;
@@ -262,7 +262,7 @@ public class MainWindowView {
     }
 
     private void onViewModeChangedListener(ObservableValue<? extends DiagramViewMode> observableValue, DiagramViewMode oldValue, DiagramViewMode newValue) {
-        leftVBox.getChildren().remove(elementsOutlineView.getRoot());
+        leftVBox.getChildren().remove(diagramOutlineComponent.getRoot());
         leftVBox.getChildren().remove(functionsCategoriesComponent.getRoot());
 
         rightVBox.getChildren().clear();
@@ -275,7 +275,7 @@ public class MainWindowView {
             rightVBox.getChildren().add(variablesCollapsableView.getRoot());
             rightVBox.getChildren().add(inputParametersCollapsableView.getRoot());
         } else {
-            leftVBox.getChildren().add(elementsOutlineView.getRoot());
+            leftVBox.getChildren().add(diagramOutlineComponent.getRoot());
 
             rightVBox.getChildren().add(propertiesComponent.getRoot());
             rightVBox.getChildren().add(functionsCategoriesComponent.getRoot());
@@ -331,8 +331,8 @@ public class MainWindowView {
         projectsComponent = new ProjectsComponent(model);
         leftVBox.getChildren().add(projectsComponent.getRoot());
 
-        elementsOutlineView = new DiagramOutlineComponent(model);
-        leftVBox.getChildren().add(elementsOutlineView.getRoot());
+        diagramOutlineComponent = new DiagramOutlineComponent(model);
+        leftVBox.getChildren().add(diagramOutlineComponent.getRoot());
 
         return leftVBox;
     }
