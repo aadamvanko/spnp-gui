@@ -1,23 +1,20 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
-import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.model.ClipboardOperationType;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 
-public class OperationCutElements implements GraphElementsOperation {
+public class OperationCutElements extends GraphElementsOperationBase implements GraphElementsOperation {
 
-    private final GraphView graphView;
-
-    public OperationCutElements(GraphView graphView) {
-        this.graphView = graphView;
+    public OperationCutElements(Model model, DiagramViewModel diagramViewModel) {
+        super(model, diagramViewModel);
     }
 
     @Override
     public void execute() {
-        var diagramViewModel = graphView.getDiagramViewModel();
         var selectedWithoutDragPoints = filterOutDragPoints(diagramViewModel.getSelected());
-        var model = graphView.getModel();
         model.getClipboardElements().clear();
         model.getClipboardElements().addAll(selectedWithoutDragPoints);
         model.setClipboardOperationType(ClipboardOperationType.CUT);
@@ -30,9 +27,8 @@ public class OperationCutElements implements GraphElementsOperation {
     private boolean isDisconnectedArc(ElementViewModel elementViewModel) {
         if (elementViewModel instanceof ArcViewModel) {
             var arcViewModel = (ArcViewModel) elementViewModel;
-            var diagram = graphView.getDiagramViewModel();
-            var containsFrom = diagram.getElements().contains(arcViewModel.getFromViewModel());
-            var containsTo = diagram.getElements().contains(arcViewModel.getToViewModel());
+            var containsFrom = diagramViewModel.getElements().contains(arcViewModel.getFromViewModel());
+            var containsTo = diagramViewModel.getElements().contains(arcViewModel.getToViewModel());
             var containsExactlyOne = (containsFrom && !containsTo) || (!containsFrom && containsTo);
             return containsExactlyOne;
         }

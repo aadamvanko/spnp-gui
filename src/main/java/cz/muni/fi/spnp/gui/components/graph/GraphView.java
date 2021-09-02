@@ -167,13 +167,13 @@ public class GraphView implements UIComponent {
     private void onKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.isControlDown()) {
             if (keyEvent.getCode() == KeyCode.C && !selectedViews.isEmpty()) {
-                new OperationCopyElements(this).execute();
+                new OperationCopyElements(model, diagramViewModel).execute();
             } else if (keyEvent.getCode() == KeyCode.X && !selectedViews.isEmpty()) {
-                new OperationCutElements(this).execute();
+                new OperationCutElements(model, diagramViewModel).execute();
             } else if (keyEvent.getCode() == KeyCode.V && !model.getClipboardElements().isEmpty()) {
-                new OperationPasteElements(this).execute();
+                new OperationPasteElements(model, diagramViewModel).execute();
             } else if (keyEvent.getCode() == KeyCode.A) {
-                new OperationSelectAll(this).execute();
+                new OperationSelectAll(model, diagramViewModel).execute();
             }
         }
     }

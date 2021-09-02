@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
+import cz.muni.fi.spnp.gui.components.graph.operations.*;
 import cz.muni.fi.spnp.gui.components.menu.views.defines.DefinesTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.views.diagrams.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionsView;
@@ -81,6 +82,17 @@ public class MenuComponent extends ApplicationComponent {
         menuBar.getMenus().add(menuDiagram);
 
         Menu menuEdit = new Menu("Edit");
+        var menuItemSelectAll = new MenuItem("Select all");
+        menuItemSelectAll.setOnAction(actionEvent -> new OperationSelectAll(model, model.selectedDiagramProperty().get()).execute());
+        var menuItemPaste = new MenuItem("Paste");
+        menuItemPaste.setOnAction(actionEvent -> new OperationPasteElements(model, model.selectedDiagramProperty().get()).execute());
+        var menuItemCopy = new MenuItem("Copy");
+        menuItemCopy.setOnAction(actionEvent -> new OperationCopyElements(model, model.selectedDiagramProperty().get()).execute());
+        var menuItemCut = new MenuItem("Cut");
+        menuItemCut.setOnAction(actionEvent -> new OperationCutElements(model, model.selectedDiagramProperty().get()).execute());
+        var menuItemDelete = new MenuItem("Delete");
+        menuItemDelete.setOnAction(actionEvent -> new OperationDeleteElements(model, model.selectedDiagramProperty().get()).execute());
+        menuEdit.getItems().addAll(menuItemSelectAll, menuItemPaste, menuItemCopy, menuItemCut, menuItemDelete);
         menuBar.getMenus().add(menuEdit);
 
         Menu menuView = new Menu("View");

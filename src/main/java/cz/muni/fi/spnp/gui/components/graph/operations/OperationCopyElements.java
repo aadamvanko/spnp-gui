@@ -1,20 +1,18 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
-import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.model.ClipboardOperationType;
+import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 
-public class OperationCopyElements implements GraphElementsOperation {
+public class OperationCopyElements extends GraphElementsOperationBase implements GraphElementsOperation {
 
-    private final GraphView graphView;
-
-    public OperationCopyElements(GraphView graphView) {
-        this.graphView = graphView;
+    public OperationCopyElements(Model model, DiagramViewModel diagramViewModel) {
+        super(model, diagramViewModel);
     }
 
     @Override
     public void execute() {
-        var selectedWithoutDragPoints = filterOutDragPoints(graphView.getDiagramViewModel().getSelected());
-        var model = graphView.getModel();
+        var selectedWithoutDragPoints = filterOutDragPoints(diagramViewModel.getSelected());
         model.getClipboardElements().clear();
         model.getClipboardElements().addAll(createViewModelsCopies(selectedWithoutDragPoints));
         model.setClipboardOperationType(ClipboardOperationType.COPY);

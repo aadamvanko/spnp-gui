@@ -1,35 +1,32 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
-import cz.muni.fi.spnp.gui.components.graph.GraphView;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 
 import java.util.List;
 
-public class OperationPasteElements implements GraphElementsOperation {
+public class OperationPasteElements extends GraphElementsOperationBase implements GraphElementsOperation {
 
-    private final GraphView graphView;
-
-    public OperationPasteElements(GraphView graphView) {
-        this.graphView = graphView;
+    public OperationPasteElements(Model model, DiagramViewModel diagramViewModel) {
+        super(model, diagramViewModel);
     }
 
     @Override
     public void execute() {
-        var model = graphView.getModel();
         switch (model.getClipboardOperationType()) {
             case COPY:
                 var newCopies = createViewModelsCopies(model.getClipboardElements());
-                renameIfNeeded(graphView.getDiagramViewModel(), newCopies);
+                renameIfNeeded(diagramViewModel, newCopies);
                 offsetElements(newCopies);
-                graphView.getDiagramViewModel().getElements().addAll(newCopies);
-                graphView.getDiagramViewModel().select(ViewModelUtils.includeDragPoints(newCopies));
+                diagramViewModel.getElements().addAll(newCopies);
+                diagramViewModel.select(ViewModelUtils.includeDragPoints(newCopies));
                 break;
 
             case CUT:
-                renameIfNeeded(graphView.getDiagramViewModel(), model.getClipboardElements());
+                renameIfNeeded(diagramViewModel, model.getClipboardElements());
                 offsetElements(model.getClipboardElements());
-                graphView.getDiagramViewModel().getElements().addAll(model.getClipboardElements());
-                graphView.getDiagramViewModel().select(ViewModelUtils.includeDragPoints(model.getClipboardElements()));
+                diagramViewModel.getElements().addAll(model.getClipboardElements());
+                diagramViewModel.select(ViewModelUtils.includeDragPoints(model.getClipboardElements()));
                 model.getClipboardElements().clear();
                 break;
         }
@@ -67,14 +64,11 @@ public class OperationPasteElements implements GraphElementsOperation {
     }
 
     private String getSuffixWord() {
-        var model = graphView.getModel();
         switch (model.getClipboardOperationType()) {
             case COPY:
                 return "copy";
-
             case CUT:
                 return "moved";
-
             default:
                 throw new AssertionError("Unsupported clipboard operation type " + model.getClipboardOperationType());
         }
