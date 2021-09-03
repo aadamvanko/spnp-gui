@@ -75,9 +75,7 @@ public class MenuComponent extends ApplicationComponent {
         newDiagramView = new NewDiagramView(model);
         menuItemNewDiagram = new MenuItem("New Diagram");
         menuItemNewDiagram.setDisable(true);
-        menuItemNewDiagram.setOnAction(actionEvent -> {
-            newDiagramView.getStage().showAndWait();
-        });
+        menuItemNewDiagram.setOnAction(actionEvent -> newDiagramView.getStage().showAndWait());
         menuDiagram.getItems().add(menuItemNewDiagram);
         menuBar.getMenus().add(menuDiagram);
 
@@ -137,6 +135,10 @@ public class MenuComponent extends ApplicationComponent {
         menuBar.getMenus().add(menuSimulation);
 
         Menu menuHelp = new Menu("Help");
+        var aboutWindow = new AboutWindow();
+        var menuItemAbout = new MenuItem("About");
+        menuItemAbout.setOnAction(actionEvent -> aboutWindow.getStage().showAndWait());
+        menuHelp.getItems().add(menuItemAbout);
         menuBar.getMenus().add(menuHelp);
 
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
