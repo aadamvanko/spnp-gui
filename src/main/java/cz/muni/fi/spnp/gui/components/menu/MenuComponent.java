@@ -48,7 +48,7 @@ public class MenuComponent extends ApplicationComponent {
 
         menuBar = new MenuBar();
 
-        Menu menuProject = new Menu("Project");
+        Menu menuProject = new Menu("_Project");
 
         var menuItemOpenProject = new MenuItem("Open project");
         menuItemOpenProject.setOnAction(this::onOpenProjectClickedHandler);
@@ -70,7 +70,7 @@ public class MenuComponent extends ApplicationComponent {
         menuProject.getItems().add(menuItemCloseProject);
         menuBar.getMenus().add(menuProject);
 
-        var menuDiagram = new Menu("Diagram");
+        var menuDiagram = new Menu("_Diagram");
 
         newDiagramView = new NewDiagramView(model);
         menuItemNewDiagram = new MenuItem("New Diagram");
@@ -79,7 +79,7 @@ public class MenuComponent extends ApplicationComponent {
         menuDiagram.getItems().add(menuItemNewDiagram);
         menuBar.getMenus().add(menuDiagram);
 
-        Menu menuEdit = new Menu("Edit");
+        Menu menuEdit = new Menu("_Edit");
         var menuItemSelectAll = new MenuItem("Select all");
         menuItemSelectAll.setOnAction(actionEvent -> new OperationSelectAll(model, model.selectedDiagramProperty().get()).execute());
         var menuItemPaste = new MenuItem("Paste");
@@ -93,7 +93,7 @@ public class MenuComponent extends ApplicationComponent {
         menuEdit.getItems().addAll(menuItemSelectAll, menuItemPaste, menuItemCopy, menuItemCut, menuItemDelete);
         menuBar.getMenus().add(menuEdit);
 
-        Menu menuView = new Menu("View");
+        Menu menuView = new Menu("_View");
 
         includesTableViewWindow = new IncludesTableViewWindow(model);
         menuItemViewIncludes = new MenuItem("Includes");
@@ -126,7 +126,7 @@ public class MenuComponent extends ApplicationComponent {
         menuView.getItems().add(menuItemViewFunctions);
         menuBar.getMenus().add(menuView);
 
-        var menuSimulation = new Menu("Simulation");
+        var menuSimulation = new Menu("_Simulation");
 
         var preferencesView = new PreferencesView(model);
         var menuItemPreferences = new MenuItem("Preferences");
@@ -134,7 +134,7 @@ public class MenuComponent extends ApplicationComponent {
         menuSimulation.getItems().add(menuItemPreferences);
         menuBar.getMenus().add(menuSimulation);
 
-        Menu menuHelp = new Menu("Help");
+        Menu menuHelp = new Menu("_Help");
         var aboutWindow = new AboutWindow();
         var menuItemAbout = new MenuItem("About");
         menuItemAbout.setOnAction(actionEvent -> aboutWindow.getStage().showAndWait());
