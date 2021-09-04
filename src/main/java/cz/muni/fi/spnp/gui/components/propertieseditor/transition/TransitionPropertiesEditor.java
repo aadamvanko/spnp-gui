@@ -7,6 +7,7 @@ import cz.muni.fi.spnp.gui.components.propertieseditor.FunctionViewModelStringCo
 import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionOrientation;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -23,15 +24,22 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
     private final Label guardFunctionLabel;
     private final ChoiceBox<FunctionViewModel> guardFunctionChoiceBox;
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
+    private final Label orientationLabel;
+    private final ChoiceBox<TransitionOrientation> orientationChoiceBox;
 
     public TransitionPropertiesEditor() {
         priorityLabel = new Label("Priority:");
         priorityTextField = new IntegerTextField();
+        addRow(priorityLabel, priorityTextField.getTextField());
+
         guardFunctionLabel = new Label("Guard function:");
         guardFunctionChoiceBox = new ChoiceBox<>();
-
-        addRow(priorityLabel, priorityTextField.getTextField());
         addRow(guardFunctionLabel, guardFunctionChoiceBox);
+
+        orientationLabel = new Label("Orientation:");
+        orientationChoiceBox = new ChoiceBox<TransitionOrientation>();
+        orientationChoiceBox.setItems(FXCollections.observableArrayList(TransitionOrientation.values()));
+        addRow(orientationLabel, orientationChoiceBox);
 
         this.onFunctionsChangedListener = this::onFunctionsChangedListener;
     }
@@ -75,6 +83,7 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
         priorityTextField.getTextField().textProperty().bindBidirectional(transitionViewModel.priorityProperty().asObject(), new IntegerStringConverter());
         guardFunctionChoiceBox.valueProperty().bindBidirectional(transitionViewModel.guardFunctionProperty());
         guardFunctionChoiceBox.getSelectionModel().select(transitionViewModel.getGuardFunction());
+        orientationChoiceBox.valueProperty().bindBidirectional(transitionViewModel.orientationProperty());
     }
 
     @Override
@@ -82,6 +91,7 @@ public abstract class TransitionPropertiesEditor extends ConnectablePropertiesEd
         TransitionViewModel transitionViewModel = (TransitionViewModel) viewModel;
         priorityTextField.getTextField().textProperty().unbindBidirectional(transitionViewModel.priorityProperty().asObject());
         guardFunctionChoiceBox.valueProperty().unbindBidirectional(transitionViewModel.guardFunctionProperty());
+        orientationChoiceBox.valueProperty().unbindBidirectional(transitionViewModel.orientationProperty());
 
         super.unbindViewModel();
     }

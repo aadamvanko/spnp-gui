@@ -3,7 +3,10 @@ package cz.muni.fi.spnp.gui.components.graph.elements.transition;
 import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.Intersections;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionOrientation;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,12 +26,30 @@ public abstract class TransitionView extends ConnectableGraphElementView {
     private VBox container;
     protected Rectangle rectangle;
 
+    private final ChangeListener<TransitionOrientation> onOrientationChangedListener;
+
     public TransitionView(GraphView graphView, TransitionViewModel transitionViewModel) {
         super(graphView, transitionViewModel);
+
+        this.onOrientationChangedListener = this::onOrientationChangedListener;
 
         createView();
         bindViewModel();
     }
+
+    private void onOrientationChangedListener(ObservableValue<? extends TransitionOrientation> observableValue, TransitionOrientation oldValue, TransitionOrientation newValue) {
+        if (newValue == TransitionOrientation.Vertical) {
+            rectangle.setHeight(getRectangleDefaultHeight());
+            rectangle.setWidth(getRectangleDefaultWidth());
+        } else {
+            rectangle.setHeight(getRectangleDefaultWidth());
+            rectangle.setWidth(getRectangleDefaultHeight());
+        }
+    }
+
+    protected abstract double getRectangleDefaultWidth();
+
+    protected abstract double getRectangleDefaultHeight();
 
     @Override
     public TransitionViewModel getViewModel() {
@@ -67,6 +88,9 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
         container.translateXProperty().bind(getViewModel().positionXProperty());
         container.translateYProperty().bind(getViewModel().positionYProperty());
+
+        getViewModel().orientationProperty().addListener(this.onOrientationChangedListener);
+        onOrientationChangedListener(null, null, getViewModel().getOrientation());
     }
 
     @Override
@@ -75,6 +99,8 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
         container.translateXProperty().unbind();
         container.translateYProperty().unbind();
+
+        getViewModel().orientationProperty().removeListener(this.onOrientationChangedListener);
 
         super.unbindViewModel();
     }
