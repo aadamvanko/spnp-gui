@@ -12,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -31,6 +33,7 @@ public class ToolbarComponent extends ApplicationComponent {
     private final ToggleButton showCodeButton;
     private final Slider zoomSlider;
     private final Label labelActualZoom;
+    private final SegmentedButton graphCodeButton;
     private final Button generateCodeButton;
 
     private final ChangeListener<DiagramViewModel> onSelectedDiagramChangedListener;
@@ -113,13 +116,14 @@ public class ToolbarComponent extends ApplicationComponent {
         showCodeButton.setOnMouseClicked(this::onShowCodeButtonClicked);
         showCodeButton.setPrefHeight(48);
 
-        var graphCodeButton = new SegmentedButton();
+        graphCodeButton = new SegmentedButton();
         graphCodeButton.getButtons().addAll(showGraphButton, showCodeButton);
 
-        generateCodeButton = new Button("GEN");
+        generateCodeButton = new Button();
         generateCodeButton.setOnAction(this::onGenerateCodeButtonClicked);
         generateCodeButton.setPrefWidth(48);
         generateCodeButton.setPrefHeight(48);
+        generateCodeButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("refresh_32.png"))));
 
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(new ZoomOutButton(this::onZoomOutButtonClicked).getRoot());
@@ -159,9 +163,14 @@ public class ToolbarComponent extends ApplicationComponent {
 
     private void onViewModeChangedListener(ObservableValue<? extends DiagramViewMode> observableValue, DiagramViewMode oldValue, DiagramViewMode newValue) {
         if (newValue == DiagramViewMode.GRAPH) {
+            toolBar.getItems().forEach(item -> item.setDisable(false));
             showGraphButton.setSelected(true);
+            generateCodeButton.setDisable(true);
         } else {
+            toolBar.getItems().forEach(item -> item.setDisable(true));
+            graphCodeButton.setDisable(false);
             showCodeButton.setSelected(true);
+            generateCodeButton.setDisable(false);
         }
     }
 
