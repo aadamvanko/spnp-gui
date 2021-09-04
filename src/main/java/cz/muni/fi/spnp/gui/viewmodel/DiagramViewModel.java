@@ -33,6 +33,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final BooleanProperty gridSnapping;
     private final ObjectProperty<DiagramViewMode> viewMode;
     private final ObservableList<ElementViewModel> selected;
+    private final BooleanProperty needsCodeRefresh;
 
     public DiagramViewModel(ProjectViewModel projectViewModel) {
         this(projectViewModel,
@@ -65,6 +66,7 @@ public class DiagramViewModel extends DisplayableViewModel {
         gridSnapping = new SimpleBooleanProperty(true);
         viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
         selected = FXCollections.observableArrayList();
+        needsCodeRefresh = new SimpleBooleanProperty(false);
 
         this.elements.addListener(this::onElementsChangedListener);
         this.functions.addListener(this::onFunctionsChangedListener);
@@ -218,6 +220,14 @@ public class DiagramViewModel extends DisplayableViewModel {
 
     public ProjectViewModel getProject() {
         return projectViewModel;
+    }
+
+    public boolean needsCodeRefresh() {
+        return needsCodeRefresh.get();
+    }
+
+    public BooleanProperty needsCodeRefreshProperty() {
+        return needsCodeRefresh;
     }
 
     public ObservableList<IncludeViewModel> getIncludes() {

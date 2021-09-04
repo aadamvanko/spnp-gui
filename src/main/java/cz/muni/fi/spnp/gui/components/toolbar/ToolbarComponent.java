@@ -8,6 +8,7 @@ import cz.muni.fi.spnp.gui.viewmodel.DiagramViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -30,6 +31,7 @@ public class ToolbarComponent extends ApplicationComponent {
     private final ToggleButton showCodeButton;
     private final Slider zoomSlider;
     private final Label labelActualZoom;
+    private final Button generateCodeButton;
 
     private final ChangeListener<DiagramViewModel> onSelectedDiagramChangedListener;
     private final ChangeListener<? super Number> onZoomLevelChangedListener;
@@ -114,6 +116,11 @@ public class ToolbarComponent extends ApplicationComponent {
         var graphCodeButton = new SegmentedButton();
         graphCodeButton.getButtons().addAll(showGraphButton, showCodeButton);
 
+        generateCodeButton = new Button("GEN");
+        generateCodeButton.setOnAction(this::onGenerateCodeButtonClicked);
+        generateCodeButton.setPrefWidth(48);
+        generateCodeButton.setPrefHeight(48);
+
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(new ZoomOutButton(this::onZoomOutButtonClicked).getRoot());
         toolBar.getItems().add(zoomVBox);
@@ -122,10 +129,16 @@ public class ToolbarComponent extends ApplicationComponent {
         toolBar.getItems().add(toggleGridButton.getRoot());
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(graphCodeButton);
+        toolBar.getItems().add(new Separator(Orientation.VERTICAL));
+        toolBar.getItems().add(generateCodeButton);
 
         onCursorModeChangedListener(null, null, model.getCursorMode());
 
         toolBar.disableProperty().bind(model.selectedDiagramProperty().isNull());
+    }
+
+    private void onGenerateCodeButtonClicked(ActionEvent actionEvent) {
+        diagramViewModel.needsCodeRefreshProperty().set(true);
     }
 
     private void onShowGraphButtonClicked(MouseEvent mouseEvent) {

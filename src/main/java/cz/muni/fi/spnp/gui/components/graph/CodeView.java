@@ -12,11 +12,16 @@ import javafx.scene.control.TextArea;
 public class CodeView implements UIComponent {
 
     private DiagramViewModel diagramViewModel;
-    private final TextArea textArea;
+    private TextArea textArea;
 
     public CodeView(DiagramViewModel diagramViewModel) {
         this.diagramViewModel = diagramViewModel;
-        this.textArea = new TextArea("text comes here");
+
+        createView();
+    }
+
+    private void createView() {
+        textArea = new TextArea("text comes here");
         textArea.setEditable(false);
     }
 
@@ -26,6 +31,8 @@ public class CodeView implements UIComponent {
     }
 
     public void prepare() {
+        diagramViewModel.needsCodeRefreshProperty().set(false);
+
         var diagramMapper = new DiagramMapper(diagramViewModel);
         PetriNet petriNet = null;
         try {
