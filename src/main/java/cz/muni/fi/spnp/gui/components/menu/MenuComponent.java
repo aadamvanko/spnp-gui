@@ -126,7 +126,7 @@ public class MenuComponent extends ApplicationComponent {
         menuView.getItems().add(menuItemViewFunctions);
         menuBar.getMenus().add(menuView);
 
-        var menuSimulation = new Menu("_Simulation");
+        var menuSimulation = new Menu("_Analysis");
 
         var preferencesView = new PreferencesView(model);
         var menuItemPreferences = new MenuItem("Preferences");
