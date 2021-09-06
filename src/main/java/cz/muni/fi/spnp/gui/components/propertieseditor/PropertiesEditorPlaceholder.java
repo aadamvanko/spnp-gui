@@ -1,12 +1,10 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 
 public class PropertiesEditorPlaceholder extends ElementPropertiesEditor {
 
@@ -16,8 +14,6 @@ public class PropertiesEditorPlaceholder extends ElementPropertiesEditor {
         vbox = new VBox();
         vbox.getChildren().add(new Label("No element to edit."));
         vbox.setAlignment(Pos.CENTER);
-        vbox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-        vbox.setBorder(new Border(new BorderStroke(Color.LIGHTGREY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     }
 
     @Override

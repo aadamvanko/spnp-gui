@@ -16,7 +16,6 @@ import cz.muni.fi.spnp.gui.components.menu.views.variables.InputParametersCollap
 import cz.muni.fi.spnp.gui.components.menu.views.variables.VariablesCollapsableView;
 import cz.muni.fi.spnp.gui.components.projects.ProjectsComponent;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesComponent;
-import cz.muni.fi.spnp.gui.components.quickactions.QuickActionsComponent;
 import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
 import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
@@ -51,7 +50,6 @@ public class MainWindowView {
 
     private MenuComponent menuComponent;
     private ProjectsComponent projectsComponent;
-    private QuickActionsComponent quickActionsComponent;
     private DiagramOutlineComponent diagramOutlineComponent;
     private FunctionsCategoriesComponent functionsCategoriesComponent;
     private StatusBarComponent statusBarComponent;
@@ -339,11 +337,10 @@ public class MainWindowView {
 
     private Node createTopPanel() {
         VBox vbox = new VBox();
+
         menuComponent = new MenuComponent(model);
         vbox.getChildren().add(menuComponent.getRoot());
 
-        quickActionsComponent = new QuickActionsComponent(model);
-        vbox.getChildren().add(quickActionsComponent.getRoot());
         return vbox;
     }
 
