@@ -9,10 +9,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
-import cz.muni.fi.spnp.gui.components.graph.operations.OperationCopyElements;
-import cz.muni.fi.spnp.gui.components.graph.operations.OperationCutElements;
-import cz.muni.fi.spnp.gui.components.graph.operations.OperationPasteElements;
-import cz.muni.fi.spnp.gui.components.graph.operations.OperationSelectAll;
+import cz.muni.fi.spnp.gui.components.graph.operations.*;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import javafx.beans.value.ChangeListener;
@@ -175,6 +172,8 @@ public class GraphView implements UIComponent {
             } else if (keyEvent.getCode() == KeyCode.A) {
                 new OperationSelectAll(model, diagramViewModel).execute();
             }
+        } else if (keyEvent.getCode() == KeyCode.DELETE) {
+            new OperationDeleteElements(model, diagramViewModel).execute();
         }
     }
 
