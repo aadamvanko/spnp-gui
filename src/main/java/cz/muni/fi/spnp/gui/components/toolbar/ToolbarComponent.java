@@ -109,10 +109,10 @@ public class ToolbarComponent extends ApplicationComponent {
 
         toggleGridButton = new ToggleGridButton(this::onToggleGridButtonClicked);
 
-        showGraphButton = new ToggleButton("graph");
+        showGraphButton = new ToggleButton("Graph");
         showGraphButton.setOnAction(this::onShowGraphButtonClicked);
         showGraphButton.setPrefHeight(48);
-        showCodeButton = new ToggleButton("code");
+        showCodeButton = new ToggleButton("Code");
         showCodeButton.setOnAction(this::onShowCodeButtonClicked);
         showCodeButton.setPrefHeight(48);
 
