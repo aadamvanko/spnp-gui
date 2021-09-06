@@ -13,7 +13,7 @@ public class OperationPasteElements extends GraphElementsOperationBase implement
 
     @Override
     public void execute() {
-        switch (model.getClipboardOperationType()) {
+        switch (model.getClipboard().getOperationType()) {
             case COPY:
                 var newCopies = createViewModelsCopies(model.getClipboardElements());
                 renameIfNeeded(diagramViewModel, newCopies);
@@ -64,13 +64,13 @@ public class OperationPasteElements extends GraphElementsOperationBase implement
     }
 
     private String getSuffixWord() {
-        switch (model.getClipboardOperationType()) {
+        switch (model.getClipboard().getOperationType()) {
             case COPY:
                 return "copy";
             case CUT:
                 return "moved";
             default:
-                throw new AssertionError("Unsupported clipboard operation type " + model.getClipboardOperationType());
+                throw new AssertionError("Unsupported clipboard operation type " + model.getClipboard().getOperationType());
         }
     }
 

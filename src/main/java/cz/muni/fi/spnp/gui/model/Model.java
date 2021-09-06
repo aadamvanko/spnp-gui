@@ -12,15 +12,13 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
     private final ObservableList<ProjectViewModel> projects;
     private final ObjectProperty<DiagramViewModel> selectedDiagram;
 
-    private final List<ElementViewModel> clipboardElements;
-    private ClipboardOperationType clipboardOperationType;
+    private final Clipboard clipboard;
     private final ObjectProperty<CursorMode> cursorMode;
     private final ObjectProperty<GraphElementType> createElementType;
 
@@ -31,25 +29,22 @@ public class Model {
     public Model() {
         projects = FXCollections.observableArrayList();
         selectedDiagram = new SimpleObjectProperty<>();
+
+        clipboard = new Clipboard();
         cursorMode = new SimpleObjectProperty<>(CursorMode.VIEW);
         createElementType = new SimpleObjectProperty<>(GraphElementType.PLACE);
-        clipboardElements = new ArrayList<>();
 
         pathSPNP = new SimpleStringProperty("C:\\Spnp-Gui");
         pathSPNPExamples = new SimpleStringProperty("C:\\Spnp-Gui\\Examples-Official");
         pathPlotsLibrary = new SimpleStringProperty("C:\\Spnp-Gui\\GRAPH_examples");
     }
 
-    public ClipboardOperationType getClipboardOperationType() {
-        return clipboardOperationType;
-    }
-
-    public void setClipboardOperationType(ClipboardOperationType clipboardOperationType) {
-        this.clipboardOperationType = clipboardOperationType;
+    public Clipboard getClipboard() {
+        return clipboard;
     }
 
     public List<ElementViewModel> getClipboardElements() {
-        return clipboardElements;
+        return clipboard.getElements();
     }
 
     public CursorMode getCursorMode() {

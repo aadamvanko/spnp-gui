@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
-import cz.muni.fi.spnp.gui.model.ClipboardOperationType;
+import cz.muni.fi.spnp.gui.model.Clipboard;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
@@ -17,7 +17,7 @@ public class OperationCutElements extends GraphElementsOperationBase implements 
         var selectedWithoutDragPoints = filterOutDragPoints(diagramViewModel.getSelected());
         model.getClipboardElements().clear();
         model.getClipboardElements().addAll(selectedWithoutDragPoints);
-        model.setClipboardOperationType(ClipboardOperationType.CUT);
+        model.getClipboard().setOperationType(Clipboard.OperationType.CUT);
 
         diagramViewModel.getSelected().removeAll(selectedWithoutDragPoints);
         diagramViewModel.getElements().removeAll(selectedWithoutDragPoints);
