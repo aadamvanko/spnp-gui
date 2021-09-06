@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -86,8 +87,15 @@ public class NewDiagramView extends UIWindowComponent {
         vbox.setPadding(new Insets(5));
         vbox.setSpacing(5);
 
+        var scene = new Scene(vbox);
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                stage.close();
+            }
+        });
+
         stage.setTitle("New Diagram");
-        stage.setScene(new Scene(vbox));
+        stage.setScene(scene);
         stage.setMinWidth(250);
         stage.setResizable(false);
     }

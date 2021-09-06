@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -70,6 +71,13 @@ public abstract class GeneralItemsTableViewWindow<TViewModel> extends UIWindowCo
         vbox.setSpacing(5);
 
         var scene = new Scene(vbox);
+
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                stage.close();
+            }
+        });
+
         stage.setTitle(title);
         stage.setScene(scene);
     }
