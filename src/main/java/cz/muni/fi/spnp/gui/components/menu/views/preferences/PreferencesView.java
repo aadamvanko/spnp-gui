@@ -4,12 +4,12 @@ import cz.muni.fi.spnp.gui.ModelSaver;
 import cz.muni.fi.spnp.gui.components.menu.views.UIWindowComponent;
 import cz.muni.fi.spnp.gui.model.Model;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -37,27 +37,27 @@ public class PreferencesView extends UIWindowComponent {
         pathSPNPLabel = new Label("Path of the interface directory:");
         pathSPNPTextField = new TextField();
         pathSPNPTextField.setEditable(false);
-        pathSPNPTextField.setOnMouseClicked(this::onPathSPNPTextFieldClickedHandler);
+        pathSPNPTextField.setOnAction(this::onPathSPNPTextFieldClickedHandler);
 
         pathSPNPExamplesLabel = new Label("Directory for the SPNP examples:");
         pathSPNPExamplesTextField = new TextField();
         pathSPNPExamplesTextField.setEditable(false);
-        pathSPNPExamplesTextField.setOnMouseClicked(this::onPathExamplesTextFieldClickedHandler);
+        pathSPNPExamplesTextField.setOnAction(this::onPathExamplesTextFieldClickedHandler);
 
         pathPlotsLibraryLabel = new Label("Directory for the plots library:");
         pathPlotsLibraryTextField = new TextField();
         pathPlotsLibraryTextField.setEditable(false);
-        pathPlotsLibraryTextField.setOnMouseClicked(this::onPlotsLibraryTextFieldClickedHandler);
+        pathPlotsLibraryTextField.setOnAction(this::onPlotsLibraryTextFieldClickedHandler);
 
         var okButton = new Button("Ok");
         HBox.setHgrow(okButton, Priority.ALWAYS);
         okButton.setMaxWidth(Double.MAX_VALUE);
-        okButton.setOnMouseClicked(this::onOkButtonClickedHandler);
+        okButton.setOnAction(this::onOkButtonClickedHandler);
 
         var saveButton = new Button("Save");
         HBox.setHgrow(saveButton, Priority.ALWAYS);
         saveButton.setMaxWidth(Double.MAX_VALUE);
-        saveButton.setOnMouseClicked(this::onSaveButtonClickedHandler);
+        saveButton.setOnAction(this::onSaveButtonClickedHandler);
 
         var buttonsHbox = new HBox(okButton, saveButton);
         buttonsHbox.setSpacing(5);
@@ -79,15 +79,15 @@ public class PreferencesView extends UIWindowComponent {
         stage.setResizable(false);
     }
 
-    private void onPathSPNPTextFieldClickedHandler(MouseEvent mouseEvent) {
+    private void onPathSPNPTextFieldClickedHandler(ActionEvent actionEvent) {
         chooseDirectory(model.pathSPNPProperty());
     }
 
-    private void onPathExamplesTextFieldClickedHandler(MouseEvent mouseEvent) {
+    private void onPathExamplesTextFieldClickedHandler(ActionEvent actionEvent) {
         chooseDirectory(model.pathSPNPExamplesProperty());
     }
 
-    private void onPlotsLibraryTextFieldClickedHandler(MouseEvent mouseEvent) {
+    private void onPlotsLibraryTextFieldClickedHandler(ActionEvent actionEvent) {
         chooseDirectory(model.pathPlotsLibraryProperty());
     }
 
@@ -99,11 +99,11 @@ public class PreferencesView extends UIWindowComponent {
         }
     }
 
-    private void onOkButtonClickedHandler(MouseEvent mouseEvent) {
+    private void onOkButtonClickedHandler(ActionEvent actionEvent) {
         stage.close();
     }
 
-    private void onSaveButtonClickedHandler(MouseEvent mouseEvent) {
+    private void onSaveButtonClickedHandler(ActionEvent actionEvent) {
         var modelSaver = new ModelSaver();
         modelSaver.savePathsSPNP(model);
     }

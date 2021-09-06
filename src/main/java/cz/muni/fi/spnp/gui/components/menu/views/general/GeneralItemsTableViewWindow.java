@@ -37,11 +37,11 @@ public abstract class GeneralItemsTableViewWindow<TViewModel> extends UIWindowCo
         buttonDelete = new Button("Delete");
         buttonsHbox.getChildren().add(buttonDelete);
 
-        buttonAdd.setOnMouseClicked(mouseEvent -> {
+        buttonAdd.setOnAction(actionEvent -> {
             generalItemsTableView.showAddRowView();
         });
 
-        buttonEdit.setOnMouseClicked(mouseEvent -> {
+        buttonEdit.setOnAction(actionEvent -> {
             var selectedItem = generalItemsTableView.getTableView().getSelectionModel().getSelectedItem();
             if (selectedItem == null) {
                 return;
@@ -49,7 +49,7 @@ public abstract class GeneralItemsTableViewWindow<TViewModel> extends UIWindowCo
             generalItemsTableView.showEditRowView(selectedItem);
         });
 
-        buttonDelete.setOnMouseClicked(mouseEvent -> {
+        buttonDelete.setOnAction(actionEvent -> {
             var selectedItem = generalItemsTableView.getTableView().getSelectionModel().getSelectedItem();
             if (selectedItem == null) {
                 return;
@@ -58,7 +58,7 @@ public abstract class GeneralItemsTableViewWindow<TViewModel> extends UIWindowCo
         });
 
         buttonExit = new Button("Exit");
-        buttonExit.setOnMouseClicked(mouseEvent -> {
+        buttonExit.setOnAction(actionEvent -> {
             stage.close();
         });
         buttonsHbox.getChildren().add(buttonExit);

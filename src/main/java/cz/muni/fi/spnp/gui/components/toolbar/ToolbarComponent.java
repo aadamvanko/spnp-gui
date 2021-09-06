@@ -101,7 +101,7 @@ public class ToolbarComponent extends ApplicationComponent {
         var gridZoomDetails = new GridPane();
         labelActualZoom = new Label("Actual: 100%");
         var buttonDefaultZoom = new Button("100%");
-        buttonDefaultZoom.setOnMouseClicked(this::onDefaultZoomClicked);
+        buttonDefaultZoom.setOnAction(this::onDefaultZoomClicked);
         gridZoomDetails.addRow(0, buttonDefaultZoom, labelActualZoom);
         gridZoomDetails.setHgap(10);
         var zoomVBox = new VBox(zoomSlider, gridZoomDetails);
@@ -110,10 +110,10 @@ public class ToolbarComponent extends ApplicationComponent {
         toggleGridButton = new ToggleGridButton(this::onToggleGridButtonClicked);
 
         showGraphButton = new ToggleButton("graph");
-        showGraphButton.setOnMouseClicked(this::onShowGraphButtonClicked);
+        showGraphButton.setOnAction(this::onShowGraphButtonClicked);
         showGraphButton.setPrefHeight(48);
         showCodeButton = new ToggleButton("code");
-        showCodeButton.setOnMouseClicked(this::onShowCodeButtonClicked);
+        showCodeButton.setOnAction(this::onShowCodeButtonClicked);
         showCodeButton.setPrefHeight(48);
 
         graphCodeButton = new SegmentedButton();
@@ -145,7 +145,7 @@ public class ToolbarComponent extends ApplicationComponent {
         diagramViewModel.needsCodeRefreshProperty().set(true);
     }
 
-    private void onShowGraphButtonClicked(MouseEvent mouseEvent) {
+    private void onShowGraphButtonClicked(ActionEvent actionEvent) {
         if (diagramViewModel == null) {
             return;
         }
@@ -153,7 +153,7 @@ public class ToolbarComponent extends ApplicationComponent {
         showGraphButton.setSelected(true);
     }
 
-    private void onShowCodeButtonClicked(MouseEvent mouseEvent) {
+    private void onShowCodeButtonClicked(ActionEvent actionEvent) {
         if (diagramViewModel == null) {
             return;
         }
@@ -178,7 +178,7 @@ public class ToolbarComponent extends ApplicationComponent {
         toggleGridButton.getRoot().setSelected(newValue);
     }
 
-    private void onDefaultZoomClicked(MouseEvent mouseEvent) {
+    private void onDefaultZoomClicked(ActionEvent actionEvent) {
         if (diagramViewModel == null) {
             return;
         }

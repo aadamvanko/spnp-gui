@@ -34,7 +34,7 @@ public class NewProjectView extends UIWindowComponent {
 
         var buttonsPanel = new HBox();
         var buttonCreate = new Button("Create");
-        buttonCreate.setOnMouseClicked(mouseEvent -> {
+        buttonCreate.setOnAction(actionEvent -> {
             var name = textFieldName.getText();
             if (name.isBlank()) {
                 DialogMessages.showError("Project name cannot be blank.");
@@ -53,7 +53,7 @@ public class NewProjectView extends UIWindowComponent {
         });
         buttonsPanel.getChildren().add(buttonCreate);
         var buttonCancel = new Button("Cancel");
-        buttonCancel.setOnMouseClicked(mouseEvent -> {
+        buttonCancel.setOnAction(actionEvent -> {
             stage.close();
         });
         buttonsPanel.getChildren().add(buttonCancel);

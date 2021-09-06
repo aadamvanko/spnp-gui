@@ -58,7 +58,7 @@ public class FunctionsView extends UIWindowComponent {
         buttonsPanel.setSpacing(5);
 
         var buttonAdd = new Button("Add");
-        buttonAdd.setOnMouseClicked(mouseEvent -> {
+        buttonAdd.setOnAction(actionEvent -> {
             var functionView = new FunctionView(diagramViewModel, new FunctionViewModel(), null, ItemViewMode.ADD);
             functionView.getStage().setTitle("Add Function");
             functionView.getStage().showAndWait();
@@ -66,7 +66,7 @@ public class FunctionsView extends UIWindowComponent {
         buttonsPanel.getChildren().add(buttonAdd);
 
         var buttonEdit = new Button("Edit");
-        buttonEdit.setOnMouseClicked(mouseEvent -> {
+        buttonEdit.setOnAction(actionEvent -> {
             var selectedFunction = tableView.getSelectionModel().getSelectedItem();
             if (selectedFunction == null) {
                 return;
@@ -80,7 +80,7 @@ public class FunctionsView extends UIWindowComponent {
         buttonsPanel.getChildren().add(buttonEdit);
 
         var buttonDelete = new Button("Delete");
-        buttonDelete.setOnMouseClicked(mouseEvent -> {
+        buttonDelete.setOnAction(actionEvent -> {
             var selectedItem = tableView.getSelectionModel().getSelectedItem();
             if (selectedItem == null) {
                 return;
@@ -94,7 +94,7 @@ public class FunctionsView extends UIWindowComponent {
         buttonsPanel.getChildren().add(buttonDelete);
 
         var buttonExit = new Button("Exit");
-        buttonExit.setOnMouseClicked(mouseEvent -> stage.close());
+        buttonExit.setOnAction(actionEvent -> stage.close());
         buttonsPanel.getChildren().add(buttonExit);
 
         var vbox = new VBox();

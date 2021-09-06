@@ -54,7 +54,7 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
         buttonOk = new Button("Ok");
         buttonsPanel.getChildren().add(buttonOk);
 
-        buttonOk.setOnMouseClicked(mouseEvent -> {
+        buttonOk.setOnAction(actionEvent -> {
             if (!isValidViewModel()) {
                 return;
             }
@@ -91,7 +91,7 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
         buttonCancel = new Button("Cancel");
         buttonsPanel.getChildren().add(buttonCancel);
 
-        buttonCancel.setOnMouseClicked(mouseEvent -> {
+        buttonCancel.setOnAction(actionEvent -> {
             sourceCollection = null;
             unbindProperties();
             stage.close();

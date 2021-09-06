@@ -94,7 +94,7 @@ public class FunctionView extends UIWindowComponent {
         var buttonsPanel = new HBox();
         buttonsPanel.setSpacing(5);
         var buttonOk = new Button("Ok");
-        buttonOk.setOnMouseClicked(mouseEvent -> {
+        buttonOk.setOnAction(actionEvent -> {
             var forbiddenNames = Set.of("options", "net");
             if (viewModel.getName().isBlank()) {
                 DialogMessages.showError("Field name cannot be blank!");
@@ -135,7 +135,7 @@ public class FunctionView extends UIWindowComponent {
         buttonsPanel.getChildren().add(buttonOk);
 
         var buttonCancel = new Button("Cancel");
-        buttonCancel.setOnMouseClicked(mouseEvent -> {
+        buttonCancel.setOnAction(actionEvent -> {
             viewModel.functionTypeProperty().removeListener(this.onTypeChangedListener);
             this.diagramViewModel = null;
             stage.close();
