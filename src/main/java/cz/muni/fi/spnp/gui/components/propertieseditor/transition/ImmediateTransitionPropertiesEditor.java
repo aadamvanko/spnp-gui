@@ -44,7 +44,7 @@ public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEdi
         }
 
         unbindSelectedSubEditor();
-        if (oldType != newType && oldTransitionProbability != null && oldTransitionProbability == getViewModel().getTransitionProbability()) {
+        if (oldType != null && oldType != newType && oldTransitionProbability != null && oldTransitionProbability == getViewModel().getTransitionProbability()) {
             getViewModel().setTransitionProbability(createNewProbabilityViewModel(newType));
         }
         bindSelectedSubEditor(newType);

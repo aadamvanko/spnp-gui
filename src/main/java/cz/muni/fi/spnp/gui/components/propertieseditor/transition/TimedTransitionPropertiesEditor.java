@@ -136,7 +136,7 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
         }
 
         unbindSelectedSubEditor();
-        if (oldType != newType && transitionDistributionViewModel != null && transitionDistributionViewModel == getViewModel().getTransitionDistribution()) {
+        if (oldType != null && oldType != newType && transitionDistributionViewModel != null && transitionDistributionViewModel == getViewModel().getTransitionDistribution()) {
             getViewModel().setTransitionDistribution(createTransitionDistribution(newType, getViewModel().getTransitionDistribution().getEnumType()));
         }
         bindSelectedSubEditor();
@@ -149,7 +149,7 @@ public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor 
         }
 
         unbindSelectedSubEditor();
-        if (oldType != newType && transitionDistributionViewModel != null && transitionDistributionViewModel == getViewModel().getTransitionDistribution()) {
+        if (oldType != null && oldType != newType && transitionDistributionViewModel != null && transitionDistributionViewModel == getViewModel().getTransitionDistribution()) {
             getViewModel().setTransitionDistribution(createTransitionDistribution(getViewModel().getTransitionDistribution().distributionTypeProperty().get(), newType));
         }
         bindSelectedSubEditor();
