@@ -53,7 +53,7 @@ public class FunctionsView extends UIWindowComponent {
         VBox.setVgrow(splitPane, Priority.ALWAYS);
         splitPane.getItems().add(tableView);
         splitPane.getItems().add(textAreaBody);
-        splitPane.setDividerPositions(0.3);
+        splitPane.setDividerPositions(0.6);
 
         var buttonsPanel = new HBox();
         buttonsPanel.setSpacing(5);
@@ -88,6 +88,10 @@ public class FunctionsView extends UIWindowComponent {
             }
             if (selectedItem.isRequired()) {
                 DialogMessages.showError("Cannot delete predefined function, only edit it!");
+                return;
+            }
+            if (!selectedItem.isVisible()) {
+                DialogMessages.showError("Cannot delete generated function!");
                 return;
             }
             diagramViewModel.getFunctions().remove(selectedItem);
