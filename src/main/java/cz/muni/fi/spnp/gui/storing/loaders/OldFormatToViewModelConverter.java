@@ -13,6 +13,7 @@ import cz.muni.fi.spnp.gui.storing.OldFormatUtils;
 import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionOrientation;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
@@ -33,7 +34,7 @@ import java.util.stream.Stream;
 
 import static cz.muni.fi.spnp.gui.storing.OldFormatUtils.NULL_VALUE;
 
-public class OldFormatModelToViewModelConverter {
+public class OldFormatToViewModelConverter {
 
     public DiagramViewModel convert(Submodel submodel, ProjectViewModel projectViewModel) {
         var includes = convertIncludes(submodel.includes);
@@ -162,6 +163,7 @@ public class OldFormatModelToViewModelConverter {
         immediate.priorityProperty().set(oldImmediate.valueTransition);
         immediate.guardFunctionProperty().set(findFunctionViewModel(functions, oldImmediate.guard));
         immediate.setTransitionProbability(convertImmediateProbability(oldImmediate, places, functions));
+        immediate.orientationProperty().set(convertOrientation(oldImmediate.orientation));
         return immediate;
     }
 
@@ -175,7 +177,15 @@ public class OldFormatModelToViewModelConverter {
         timed.setTransitionDistribution(createTransitionDistribution(convertDistributionType(oldTimed.distribution), oldTimed, places, functions));
         timed.policyProperty().set(convertPolicyAffectedType(oldTimed.policy));
         timed.affectedProperty().set(convertPolicyAffectedType(oldTimed.affected));
+        timed.orientationProperty().set(convertOrientation(oldTimed.orientation));
         return timed;
+    }
+
+    private TransitionOrientation convertOrientation(String orientation) {
+        var stringToOrientation = new HashMap<String, TransitionOrientation>();
+        stringToOrientation.put("Vertical", TransitionOrientation.Vertical);
+        stringToOrientation.put("Horizontal", TransitionOrientation.Horizontal);
+        return stringToOrientation.get(orientation);
     }
 
     private PolicyAffectedType convertPolicyAffectedType(String policyAffectedType) {

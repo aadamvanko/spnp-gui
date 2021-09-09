@@ -11,6 +11,7 @@ import cz.muni.fi.spnp.gui.storing.OldFormatUtils;
 import cz.muni.fi.spnp.gui.storing.oldmodels.*;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionOrientation;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
@@ -239,6 +240,7 @@ Textwidth: 0
         oldImmediate.placeDependent = convertPlaceDependentProbability(immediate.getTransitionProbability());
         oldImmediate.valueTransition = immediate.priorityProperty().get();
         oldImmediate.label = createLabel(immediate);
+        oldImmediate.orientation = convertOrientation(immediate.getOrientation());
         return oldImmediate;
     }
 
@@ -265,8 +267,15 @@ Textwidth: 0
         oldTimed.priority = String.valueOf(timed.priorityProperty().get());
         oldTimed.choiceInput = convertDistributionType(timed.getTransitionDistribution().distributionTypeProperty().get());
         oldTimed.distribution = convertTimedDistributionType(timed.getTransitionDistribution().getEnumType());
-
+        oldTimed.orientation = convertOrientation(timed.getOrientation());
         return oldTimed;
+    }
+
+    private String convertOrientation(TransitionOrientation orientation) {
+        var orientationToString = new HashMap<TransitionOrientation, String>();
+        orientationToString.put(TransitionOrientation.Vertical, "Vertical");
+        orientationToString.put(TransitionOrientation.Horizontal, "Horizontal");
+        return orientationToString.get(orientation);
     }
 
     private String convertPolicyAffectedType(PolicyAffectedType policyAffectedType) {

@@ -21,7 +21,9 @@ import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
+import cz.muni.fi.spnp.gui.storing.savers.OldFileSaver;
 import cz.muni.fi.spnp.gui.viewmodel.*;
+import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionOrientation;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
@@ -119,6 +121,7 @@ public class MainWindowView {
         timedTransition2.priorityProperty().set(1);
         var constantDistribution2 = new ConstantTransitionDistributionViewModel(function_dist);
         timedTransition2.setTransitionDistribution(constantDistribution2);
+        timedTransition2.orientationProperty().set(TransitionOrientation.Horizontal);
 
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1,
                 List.of(new DragPointViewModel(200, 50), new DragPointViewModel(250, 75)));
@@ -209,10 +212,10 @@ public class MainWindowView {
 //        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\test\\project1_saved.rgl", project1x);
         model.getProjects().add(project1x);
 
-//        var oldFileSaver = new OldFileSaver();
-//        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\saved", mock_project1);
-//        var mock_project1_loaded = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\saved\\mock_project1.rgl");
-//        model.getProjects().add(mock_project1_loaded);
+        var oldFileSaver = new OldFileSaver();
+        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\saved", mock_project1);
+        var mock_project1_loaded = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\saved\\mock_project1.rgl");
+        model.getProjects().add(mock_project1_loaded);
 //        var definesTestProject = oldFileLoader.loadProject("C:\\Spnp-Gui\\Examples-Official\\all_things.rgl");
 //        var oldFileSaver = new OldFileSaver();
 //        oldFileSaver.saveProject("C:\\Spnp-Gui\\Examples-Official\\saved", definesTestProject);

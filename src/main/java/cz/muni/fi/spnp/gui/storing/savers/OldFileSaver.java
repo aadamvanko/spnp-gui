@@ -233,6 +233,7 @@ Textwidth: 0
         writelnPair(bufferedWriter, "Value Transition", String.valueOf(oldImmediate.valueTransition));
         writeln(bufferedWriter, "Transition label:");
         writeLabel(bufferedWriter, oldImmediate.label);
+        writelnPair(bufferedWriter, "Orientation", oldImmediate.orientation);
     }
 
     private void writeTimedTransition(TimedTransitionOldFormat oldTimed, BufferedWriter bufferedWriter) {
@@ -276,6 +277,7 @@ Textwidth: 0
         writelnPair(bufferedWriter, "Priority", oldTimed.priority);
         writelnPair(bufferedWriter, "Choice Input", oldTimed.choiceInput);
         writelnPair(bufferedWriter, "Distribution", oldTimed.distribution);
+        writelnPair(bufferedWriter, "Orientation", oldTimed.orientation);
     }
 
     private void writeArc(ArcOldFormat oldArc, BufferedWriter bufferedWriter) {

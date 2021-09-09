@@ -12,11 +12,11 @@ import java.util.Map.Entry;
 
 public class OldFileLoader {
 
-    private final OldFormatModelToViewModelConverter oldFormatModelToViewModelConverter;
+    private final OldFormatToViewModelConverter oldFormatToViewModelConverter;
     private final OldProjectConverter oldProjectConverter;
 
     public OldFileLoader() {
-        this.oldFormatModelToViewModelConverter = new OldFormatModelToViewModelConverter();
+        this.oldFormatToViewModelConverter = new OldFormatToViewModelConverter();
         this.oldProjectConverter = new OldProjectConverter();
     }
 
@@ -34,7 +34,7 @@ public class OldFileLoader {
             var submodelFilepath = Path.of(projectFolder.toString(), submodelFilename);
             var submodel = loadSubmodel(submodelFilepath);
             submodel.name = submodelName;
-            var diagram = oldFormatModelToViewModelConverter.convert(submodel, project);
+            var diagram = oldFormatToViewModelConverter.convert(submodel, project);
             project.getDiagrams().add(diagram);
         }
         return project;
@@ -162,6 +162,7 @@ public class OldFileLoader {
         immediate.placeDependent = extractValue(bufferedReader);
         immediate.valueTransition = extractInt(bufferedReader);
         immediate.label = readLabel(bufferedReader);
+        immediate.orientation = tryExtractOrientation(bufferedReader);
         return immediate;
     }
 
@@ -186,7 +187,16 @@ public class OldFileLoader {
         timed.priority = extractValue(bufferedReader);
         timed.choiceInput = extractValue(bufferedReader);
         timed.distribution = extractValue(bufferedReader);
+        timed.orientation = tryExtractOrientation(bufferedReader);
         return timed;
+    }
+
+    private String tryExtractOrientation(BufferedReader bufferedReader) {
+        var line = readLine(bufferedReader);
+        if (line.isBlank()) {
+            return "Vertical";
+        }
+        return extractValue(line);
     }
 
     private void readTransitionDimensionsAndXY(BufferedReader bufferedReader, TransitionOldFormat timed) {
