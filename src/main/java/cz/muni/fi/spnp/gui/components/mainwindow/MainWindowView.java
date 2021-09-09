@@ -80,8 +80,10 @@ public class MainWindowView {
         functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID, false, true));
         functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID, false, true));
         functions.add(new FunctionViewModel("function_prob_1", FunctionType.Probability, "return 0.4;", FunctionReturnType.DOUBLE, false, true));
-        functions.add(new FunctionViewModel("function_arc_card", FunctionType.ArcCardinality, "return 5;", FunctionReturnType.INT, false, true));
-        functions.add(new FunctionViewModel("function_dist", FunctionType.Distribution, "return 0.7;", FunctionReturnType.DOUBLE, false, true));
+        var function_arc_card = new FunctionViewModel("function_arc_card", FunctionType.ArcCardinality, "return 5;", FunctionReturnType.INT, false, true);
+        functions.add(function_arc_card);
+        var function_dist = new FunctionViewModel("function_dist", FunctionType.Distribution, "return 0.7;", FunctionReturnType.DOUBLE, false, true);
+        functions.add(function_dist);
 
         var place1 = new PlaceViewModel();
         place1.nameProperty().set("place1");
@@ -113,6 +115,7 @@ public class MainWindowView {
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1,
                 List.of(new DragPointViewModel(200, 50), new DragPointViewModel(250, 75)));
         standardArc1.multiplicityTypeProperty().set(ArcMultiplicityType.Function);
+        standardArc1.multiplicityFunctionProperty().set(function_arc_card);
         var standardArc2 = new StandardArcViewModel("standard2", timedTransition1, place2, Collections.emptyList());
 
         var immediateTransition1 = new ImmediateTransitionViewModel();

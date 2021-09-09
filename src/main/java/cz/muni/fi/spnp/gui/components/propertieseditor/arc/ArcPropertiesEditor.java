@@ -62,7 +62,9 @@ public class ArcPropertiesEditor extends ElementPropertiesEditor {
             }
             getViewModel().multiplicityFunctionProperty().set(flushFunction);
         } else {
-            diagramViewModel.getFunctions().remove(getViewModel().getMultiplicityFunction());
+            if (oldValue != null && oldValue) {
+                diagramViewModel.getFunctions().remove(getViewModel().getMultiplicityFunction());
+            }
         }
     }
 
