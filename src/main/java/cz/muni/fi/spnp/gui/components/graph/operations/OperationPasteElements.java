@@ -1,11 +1,12 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
+import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 
 import java.util.List;
 
-public class OperationPasteElements extends GraphElementsOperationBase implements GraphElementsOperation {
+public class OperationPasteElements extends GraphElementsOperationBase {
 
     public OperationPasteElements(Model model, DiagramViewModel diagramViewModel) {
         super(model, diagramViewModel);
@@ -16,14 +17,16 @@ public class OperationPasteElements extends GraphElementsOperationBase implement
         switch (model.getClipboard().getOperationType()) {
             case COPY:
                 var newCopies = createViewModelsCopies(model.getClipboardElements());
-                renameIfNeeded(diagramViewModel, newCopies);
+                renameElementsIfNeeded(diagramViewModel, newCopies);
                 offsetElements(newCopies);
                 diagramViewModel.getElements().addAll(newCopies);
                 diagramViewModel.select(ViewModelUtils.includeDragPoints(newCopies));
                 break;
 
             case CUT:
-                renameIfNeeded(diagramViewModel, model.getClipboardElements());
+                renameFunctionsIfNeeded(diagramViewModel, model.getClipboardFunctions());
+                diagramViewModel.getFunctions().addAll(model.getClipboardFunctions());
+                renameElementsIfNeeded(diagramViewModel, model.getClipboardElements());
                 offsetElements(model.getClipboardElements());
                 diagramViewModel.getElements().addAll(model.getClipboardElements());
                 diagramViewModel.select(ViewModelUtils.includeDragPoints(model.getClipboardElements()));
@@ -51,7 +54,18 @@ public class OperationPasteElements extends GraphElementsOperationBase implement
         }
     }
 
-    private void renameIfNeeded(DiagramViewModel diagramViewModel, List<ElementViewModel> newCopies) {
+    private void renameFunctionsIfNeeded(DiagramViewModel diagramViewModel, List<FunctionViewModel> clipboardFunctions) {
+        for (var clipboardFunction : clipboardFunctions) {
+            int id = 2;
+            var oldName = clipboardFunction.getName();
+            while (diagramViewModel.getFunctionByName(clipboardFunction.getName()) != null) {
+                clipboardFunction.nameProperty().set(oldName + id);
+                id++;
+            }
+        }
+    }
+
+    private void renameElementsIfNeeded(DiagramViewModel diagramViewModel, List<ElementViewModel> newCopies) {
         for (var copy : newCopies) {
             int id = 1;
             var oldName = copy.getName();

@@ -4,7 +4,7 @@ import cz.muni.fi.spnp.gui.model.Clipboard;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 
-public class OperationCopyElements extends GraphElementsOperationBase implements GraphElementsOperation {
+public class OperationCopyElements extends GraphElementsOperationBase {
 
     public OperationCopyElements(Model model, DiagramViewModel diagramViewModel) {
         super(model, diagramViewModel);

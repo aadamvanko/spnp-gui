@@ -6,7 +6,7 @@ import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 
-public class OperationCutElements extends GraphElementsOperationBase implements GraphElementsOperation {
+public class OperationCutElements extends GraphElementsOperationBase {
 
     public OperationCutElements(Model model, DiagramViewModel diagramViewModel) {
         super(model, diagramViewModel);
@@ -16,7 +16,10 @@ public class OperationCutElements extends GraphElementsOperationBase implements 
     public void execute() {
         var selectedWithoutDragPoints = filterOutDragPoints(diagramViewModel.getSelected());
         model.getClipboardElements().clear();
+        removeUncutPlaceReferences(selectedWithoutDragPoints);
         model.getClipboardElements().addAll(selectedWithoutDragPoints);
+        model.getClipboard().getFunctions().clear();
+        model.getClipboard().getFunctions().addAll(redirectFunctionReferences(selectedWithoutDragPoints, diagramViewModel));
         model.getClipboard().setOperationType(Clipboard.OperationType.CUT);
 
         diagramViewModel.getSelected().removeAll(selectedWithoutDragPoints);
@@ -34,4 +37,5 @@ public class OperationCutElements extends GraphElementsOperationBase implements 
         }
         return false;
     }
+
 }

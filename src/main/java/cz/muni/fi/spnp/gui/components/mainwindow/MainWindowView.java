@@ -112,6 +112,14 @@ public class MainWindowView {
         constantDistribution.valueProperty().set("0.59");
         timedTransition1.setTransitionDistribution(constantDistribution);
 
+        var timedTransition2 = new TimedTransitionViewModel();
+        timedTransition2.nameProperty().set("timed2");
+        timedTransition2.positionXProperty().set(300);
+        timedTransition2.positionYProperty().set(50);
+        timedTransition2.priorityProperty().set(1);
+        var constantDistribution2 = new ConstantTransitionDistributionViewModel(function_dist);
+        timedTransition2.setTransitionDistribution(constantDistribution2);
+
         var standardArc1 = new StandardArcViewModel("standard1", place1, timedTransition1,
                 List.of(new DragPointViewModel(200, 50), new DragPointViewModel(250, 75)));
         standardArc1.multiplicityTypeProperty().set(ArcMultiplicityType.Function);
@@ -146,7 +154,7 @@ public class MainWindowView {
         place4.positionYProperty().set(500);
         place4.numberOfTokensProperty().set("4");
 
-        var elements = Arrays.asList(place1, place2, place3, timedTransition1, standardArc1, standardArc2, immediateTransition1, immediateTransition2, inhibitorArc1, place4);
+        var elements = Arrays.asList(place1, place2, place3, timedTransition1, timedTransition2, standardArc1, standardArc2, immediateTransition1, immediateTransition2, inhibitorArc1, place4);
 
         var includes = new ArrayList<IncludeViewModel>();
         includes.add(new IncludeViewModel("<stdio.h>"));
@@ -170,14 +178,17 @@ public class MainWindowView {
         diagram1.nameProperty().set("mock_diagram1");
         mock_project1.getDiagrams().add(diagram1);
 
-        var diagram2 = new DiagramViewModel(mock_project1);
-        diagram2.nameProperty().set("mock_diagram2");
-        mock_project1.getDiagrams().add(diagram2);
+        var mock_diagram2 = new DiagramViewModel(mock_project1);
+        mock_diagram2.nameProperty().set("mock_diagram2");
+        mock_project1.getDiagrams().add(mock_diagram2);
 
         var d2_place1 = new PlaceViewModel();
         d2_place1.positionXProperty().set(30);
         d2_place1.positionYProperty().set(30);
-        diagram2.getElements().add(d2_place1);
+        mock_diagram2.getElements().add(d2_place1);
+
+        mock_diagram2.getFunctions().add(new FunctionViewModel("function_dist", FunctionType.Distribution, "return 0.7; // original",
+                FunctionReturnType.DOUBLE, false, true));
 
         var diagramMapper = new DiagramMapper(diagram1);
 //        var petriNet = diagramMapper.createPetriNet();

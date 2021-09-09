@@ -136,7 +136,7 @@ public class DiagramViewModel extends DisplayableViewModel {
         return functions.stream()
                 .filter(functionViewModel -> functionViewModel.getName().equals(functionName))
                 .findAny()
-                .get();
+                .orElse(null);
     }
 
     private List<FunctionViewModel> predefinedFunctions() {
