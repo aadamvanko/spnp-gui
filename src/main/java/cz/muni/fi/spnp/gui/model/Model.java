@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.model;
 
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;

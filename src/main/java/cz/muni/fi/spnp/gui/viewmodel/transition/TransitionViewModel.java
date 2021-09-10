@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition;
 
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleIntegerProperty;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import javafx.beans.property.IntegerProperty;

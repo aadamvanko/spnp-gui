@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
 import cz.muni.fi.spnp.gui.components.UIComponent;
-import cz.muni.fi.spnp.gui.components.menu.views.DialogMessages;
+import cz.muni.fi.spnp.gui.components.menu.view.DialogMessages;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.beans.Observable;

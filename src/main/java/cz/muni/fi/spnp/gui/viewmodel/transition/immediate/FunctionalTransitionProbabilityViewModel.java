@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.immediate;
 
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

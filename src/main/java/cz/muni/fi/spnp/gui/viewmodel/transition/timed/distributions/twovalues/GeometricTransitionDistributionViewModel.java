@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues;
 
 import cz.muni.fi.spnp.core.models.places.StandardPlace;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TimedDistributionType;
 

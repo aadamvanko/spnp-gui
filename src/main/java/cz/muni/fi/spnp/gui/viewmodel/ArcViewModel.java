@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.mappers;
 
 import cz.muni.fi.spnp.core.transformators.spnp.code.Include;
-import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.includes.IncludeViewModel;
 
 public class IncludeMapper {
 

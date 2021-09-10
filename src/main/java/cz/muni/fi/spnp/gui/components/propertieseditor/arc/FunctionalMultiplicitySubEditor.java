@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.arc;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.FunctionViewModelStringConverter;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;

@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.model;
 
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
-import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionReturnType;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
-import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.defines.DefineViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionReturnType;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleIntegerProperty;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import javafx.beans.property.*;

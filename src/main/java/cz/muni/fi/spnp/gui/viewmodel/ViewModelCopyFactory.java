@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
-import cz.muni.fi.spnp.gui.components.menu.views.defines.DefineViewModel;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
-import cz.muni.fi.spnp.gui.components.menu.views.includes.IncludeViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.defines.DefineViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.includes.IncludeViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;

@@ -2,8 +2,8 @@ package cz.muni.fi.spnp.gui.components.functions;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.TreeViewContainer;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionCategoryViewModel;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionCategoryViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;

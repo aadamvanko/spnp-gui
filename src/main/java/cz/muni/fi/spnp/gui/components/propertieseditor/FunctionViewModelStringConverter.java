@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.util.StringConverter;
 

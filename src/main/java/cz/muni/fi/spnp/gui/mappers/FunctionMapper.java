@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.mappers;
 
 import cz.muni.fi.spnp.core.transformators.spnp.code.FunctionSPNP;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.ConnectablePropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.FunctionViewModelStringConverter;
 import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;

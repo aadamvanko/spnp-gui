@@ -18,7 +18,7 @@ import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPInhibitorArc;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPStandardArc;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPStandardPlace;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPTimedTransition;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.StandardArcViewModel;

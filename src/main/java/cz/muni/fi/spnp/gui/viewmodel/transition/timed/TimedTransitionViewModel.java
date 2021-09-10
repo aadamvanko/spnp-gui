@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.viewmodel.transition.timed;
 
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.PolicyAffectedType;
-import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionViewModel;
