@@ -84,14 +84,19 @@ public class MenuComponent extends ApplicationComponent {
 
         Menu menuEdit = new Menu("_Edit");
         var menuItemSelectAll = new MenuItem("Select all");
+        menuItemSelectAll.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN));
         menuItemSelectAll.setOnAction(actionEvent -> new OperationSelectAll(model, model.selectedDiagramProperty().get()).execute());
         var menuItemPaste = new MenuItem("Paste");
+        menuItemPaste.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN));
         menuItemPaste.setOnAction(actionEvent -> new OperationPasteElements(model, model.selectedDiagramProperty().get()).execute());
         var menuItemCopy = new MenuItem("Copy");
+        menuItemCopy.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));
         menuItemCopy.setOnAction(actionEvent -> new OperationCopyElements(model, model.selectedDiagramProperty().get()).execute());
         var menuItemCut = new MenuItem("Cut");
+        menuItemCut.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN));
         menuItemCut.setOnAction(actionEvent -> new OperationCutElements(model, model.selectedDiagramProperty().get()).execute());
         var menuItemDelete = new MenuItem("Delete");
+        menuItemDelete.setAccelerator(new KeyCodeCombination(KeyCode.DELETE));
         menuItemDelete.setOnAction(actionEvent -> new OperationDeleteElements(model, model.selectedDiagramProperty().get()).execute());
         menuEdit.getItems().addAll(menuItemSelectAll, menuItemPaste, menuItemCopy, menuItemCut, menuItemDelete);
         menuBar.getMenus().add(menuEdit);

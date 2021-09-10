@@ -9,7 +9,6 @@ import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
-import cz.muni.fi.spnp.gui.components.graph.operations.*;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import javafx.beans.value.ChangeListener;
@@ -19,7 +18,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.input.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -85,7 +86,6 @@ public class GraphView implements UIComponent {
         gridBackgroundPane.setOnMouseDragged(this::onMouseDragged);
         gridBackgroundPane.setOnMouseReleased(this::onMouseReleased);
 
-        zoomableScrollPane.setOnKeyReleased(this::onKeyReleased);
         zoomableScrollPane.getZoomGroup().setOnScroll(this::onScrollZoomHandler);
         zoomableScrollPane.firstRenderingProperty().addListener(this::firstRenderingFinished);
 
@@ -159,22 +159,6 @@ public class GraphView implements UIComponent {
         diagramViewModel.gridSnappingProperty().removeListener(this.onGridSnappingChangedListener);
 
         diagramViewModel = null;
-    }
-
-    private void onKeyReleased(KeyEvent keyEvent) {
-        if (keyEvent.isControlDown()) {
-            if (keyEvent.getCode() == KeyCode.C && !selectedViews.isEmpty()) {
-                new OperationCopyElements(model, diagramViewModel).execute();
-            } else if (keyEvent.getCode() == KeyCode.X && !selectedViews.isEmpty()) {
-                new OperationCutElements(model, diagramViewModel).execute();
-            } else if (keyEvent.getCode() == KeyCode.V && !model.getClipboardElements().isEmpty()) {
-                new OperationPasteElements(model, diagramViewModel).execute();
-            } else if (keyEvent.getCode() == KeyCode.A) {
-                new OperationSelectAll(model, diagramViewModel).execute();
-            }
-        } else if (keyEvent.getCode() == KeyCode.DELETE) {
-            new OperationDeleteElements(model, diagramViewModel).execute();
-        }
     }
 
     public Model getModel() {
