@@ -1,9 +1,11 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.model.Clipboard;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 
+import java.util.Collection;
 import java.util.List;
 
 public class OperationPasteElements extends GraphElementsOperationBase {
@@ -17,6 +19,12 @@ public class OperationPasteElements extends GraphElementsOperationBase {
         switch (model.getClipboard().getOperationType()) {
             case COPY:
                 var newCopies = createViewModelsCopies(model.getClipboardElements());
+                removeUncutPlaceReferences(newCopies);
+                var functionsCopies = redirectFunctionReferences(newCopies, diagramViewModel, Clipboard.OperationType.COPY);
+
+                renameFunctionsIfNeeded(diagramViewModel, functionsCopies);
+                diagramViewModel.getFunctions().addAll(functionsCopies);
+
                 renameElementsIfNeeded(diagramViewModel, newCopies);
                 offsetElements(newCopies);
                 diagramViewModel.getElements().addAll(newCopies);
@@ -54,7 +62,7 @@ public class OperationPasteElements extends GraphElementsOperationBase {
         }
     }
 
-    private void renameFunctionsIfNeeded(DiagramViewModel diagramViewModel, List<FunctionViewModel> clipboardFunctions) {
+    private void renameFunctionsIfNeeded(DiagramViewModel diagramViewModel, Collection<FunctionViewModel> clipboardFunctions) {
         for (var clipboardFunction : clipboardFunctions) {
             int id = 2;
             var oldName = clipboardFunction.getName();

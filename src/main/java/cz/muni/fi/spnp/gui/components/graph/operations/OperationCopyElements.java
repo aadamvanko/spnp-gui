@@ -13,8 +13,12 @@ public class OperationCopyElements extends GraphElementsOperationBase {
     @Override
     public void execute() {
         var selectedWithoutDragPoints = filterOutDragPoints(diagramViewModel.getSelected());
+        removeUncutPlaceReferences(selectedWithoutDragPoints);
+
         model.getClipboardElements().clear();
         model.getClipboardElements().addAll(createViewModelsCopies(selectedWithoutDragPoints));
+        model.getClipboard().getFunctions().clear();
+        model.getClipboard().getFunctions().addAll(redirectFunctionReferences(selectedWithoutDragPoints, diagramViewModel, Clipboard.OperationType.COPY));
         model.getClipboard().setOperationType(Clipboard.OperationType.COPY);
     }
 

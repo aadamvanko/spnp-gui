@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph.operations;
 
 import cz.muni.fi.spnp.gui.components.menu.views.functions.FunctionViewModel;
+import cz.muni.fi.spnp.gui.model.Clipboard;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
@@ -62,7 +63,8 @@ public abstract class GraphElementsOperationBase implements GraphElementsOperati
         }
     }
 
-    protected Collection<FunctionViewModel> redirectFunctionReferences(List<ElementViewModel> elements, DiagramViewModel sourceDiagram) {
+    protected Collection<FunctionViewModel> redirectFunctionReferences(List<ElementViewModel> elements, DiagramViewModel sourceDiagram,
+                                                                       Clipboard.OperationType operationType) {
         var functionsMapping = new HashMap<FunctionViewModel, FunctionViewModel>();
         var elementsFunctions = new ArrayList<FunctionViewModel>();
 
@@ -70,8 +72,17 @@ public abstract class GraphElementsOperationBase implements GraphElementsOperati
             if (element instanceof ArcViewModel) {
                 var arcViewModel = (ArcViewModel) element;
                 if (arcViewModel.isFlushing()) {
-                    elementsFunctions.add(arcViewModel.getMultiplicityFunction());
-                    sourceDiagram.getFunctions().remove(arcViewModel.getMultiplicityFunction());
+                    if (operationType == Clipboard.OperationType.CUT) {
+                        var multiplicityFunction = arcViewModel.getMultiplicityFunction();
+                        elementsFunctions.add(multiplicityFunction);
+                        sourceDiagram.getFunctions().remove(multiplicityFunction); // this removes also all function references in elements
+                        arcViewModel.multiplicityFunctionProperty().set(multiplicityFunction); // thus, we need to set it again
+                    } else if (operationType == Clipboard.OperationType.COPY) {
+                        var viewModelCopyFactory = new ViewModelCopyFactory();
+                        var multiplicityFunctionCopy = viewModelCopyFactory.createCopy(arcViewModel.getMultiplicityFunction());
+                        elementsFunctions.add(multiplicityFunctionCopy);
+                        arcViewModel.multiplicityFunctionProperty().set(multiplicityFunctionCopy);
+                    }
                 } else {
                     arcViewModel.multiplicityFunctionProperty().set(getOrCopy(functionsMapping, arcViewModel.getMultiplicityFunction()));
                 }
