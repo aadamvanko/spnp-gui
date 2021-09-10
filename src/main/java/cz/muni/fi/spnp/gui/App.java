@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.mainwindow.MainWindowView;
 import cz.muni.fi.spnp.gui.model.Model;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class App extends Application {
         scene = new Scene(mainWindowView.getRoot(), 1600, 800);
         stage.setScene(scene);
         stage.setTitle("SPNP Editor");
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("icon.png")));
         stage.show();
     }
 
