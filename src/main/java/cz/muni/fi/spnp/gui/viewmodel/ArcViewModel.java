@@ -41,12 +41,10 @@ public abstract class ArcViewModel extends ElementViewModel {
     }
 
     private void onFromPlaceNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-        fromViewModel.nameProperty().addListener((observable, oldName, newName) -> {
-            if (isFlushing()) {
-                getMultiplicityFunction().bodyProperty().set(ViewModelUtils.createFlushFunctionBody(newName));
-                System.out.println("new body " + getMultiplicityFunction().getBody());
-            }
-        });
+        if (isFlushing()) {
+            getMultiplicityFunction().bodyProperty().set(ViewModelUtils.createFlushFunctionBody(newValue));
+            System.out.println("new body " + getMultiplicityFunction().getBody());
+        }
     }
 
     private void addFlushFunctionChangeListener() {
