@@ -162,7 +162,6 @@ public class OldFileLoader {
         immediate.placeDependent = extractValue(bufferedReader);
         immediate.valueTransition = extractInt(bufferedReader);
         immediate.label = readLabel(bufferedReader);
-        immediate.orientation = tryExtractOrientation(bufferedReader);
         return immediate;
     }
 
@@ -187,27 +186,18 @@ public class OldFileLoader {
         timed.priority = extractValue(bufferedReader);
         timed.choiceInput = extractValue(bufferedReader);
         timed.distribution = extractValue(bufferedReader);
-        timed.orientation = tryExtractOrientation(bufferedReader);
         return timed;
     }
 
-    private String tryExtractOrientation(BufferedReader bufferedReader) {
-        var line = readLine(bufferedReader);
-        if (line.isBlank()) {
-            return "Vertical";
-        }
-        return extractValue(line);
-    }
-
-    private void readTransitionDimensionsAndXY(BufferedReader bufferedReader, TransitionOldFormat timed) {
+    private void readTransitionDimensionsAndXY(BufferedReader bufferedReader, TransitionOldFormat oldTransition) {
         var line = readLine(bufferedReader);
         var pair = toPair(line);
         if (pair.getKey().equals("Width")) {
-            timed.width = Integer.parseInt(pair.getValue());
-            timed.height = extractInt(bufferedReader);
-            timed.xy = extractXY(bufferedReader);
+            oldTransition.width = Integer.parseInt(pair.getValue());
+            oldTransition.height = extractInt(bufferedReader);
+            oldTransition.xy = extractXY(bufferedReader);
         } else {
-            timed.xy = extractXY(pair.getValue());
+            oldTransition.xy = extractXY(pair.getValue());
         }
     }
 

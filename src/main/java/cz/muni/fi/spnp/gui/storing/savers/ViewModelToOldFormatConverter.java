@@ -214,10 +214,27 @@ Textwidth: 0
                 .collect(Collectors.toList());
     }
 
-    private void convertDimensionsAndXY(TransitionOldFormat oldTransition, TransitionViewModel transition) {
-        // TODO fixed values generated as default from old gui
-        oldTransition.width = 5;
-        oldTransition.height = 32;
+    private void convertDimensionsImmediate(ImmediateTransitionOldFormat oldImmediate, ImmediateTransitionViewModel immediate) {
+        if (immediate.getOrientation() == TransitionOrientation.Vertical) {
+            oldImmediate.width = 5;
+            oldImmediate.height = 32;
+        } else {
+            oldImmediate.width = 32;
+            oldImmediate.height = 5;
+        }
+    }
+
+    private void convertDimensionsTimed(TimedTransitionOldFormat oldTimed, TimedTransitionViewModel timed) {
+        if (timed.getOrientation() == TransitionOrientation.Vertical) {
+            oldTimed.width = 14;
+            oldTimed.height = 32;
+        } else {
+            oldTimed.width = 32;
+            oldTimed.height = 14;
+        }
+    }
+
+    private void convertXY(TransitionOldFormat oldTransition, TransitionViewModel transition) {
         oldTransition.xy = new XY();
         oldTransition.xy.x = (int) transition.positionXProperty().get();
         oldTransition.xy.y = (int) transition.positionYProperty().get();
@@ -228,7 +245,8 @@ Textwidth: 0
 
         var oldImmediate = new ImmediateTransitionOldFormat();
         oldImmediate.name = immediate.getName();
-        convertDimensionsAndXY(oldImmediate, immediate);
+        convertDimensionsImmediate(oldImmediate, immediate);
+        convertXY(oldImmediate, immediate);
         oldImmediate.guard = nameOrNull(immediate.getGuardFunction());
         oldImmediate.probability = convertProbability(immediate.getTransitionProbability());
         oldImmediate.choiceInput = convertImmediateProbabilityToString(immediate.getTransitionProbability().getEnumType());
@@ -249,7 +267,8 @@ Textwidth: 0
 
         var oldTimed = new TimedTransitionOldFormat();
         oldTimed.name = timed.getName();
-        convertDimensionsAndXY(oldTimed, timed);
+        convertDimensionsTimed(oldTimed, timed);
+        convertXY(oldTimed, timed);
         oldTimed.numberOfConnectedObjects = outputArcs.size();
         oldTimed.arcReferences = convertArcsToReferences(outputArcs);
         oldTimed.vInputArc = getArcsNames(findInputArcs(timed, arcs));

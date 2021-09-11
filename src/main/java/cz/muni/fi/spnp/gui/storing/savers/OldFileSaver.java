@@ -220,6 +220,7 @@ Textwidth: 0
 //
         writeln(bufferedWriter, "Immediate:");
         writelnPair(bufferedWriter, "Name", oldImmediate.name);
+        writeDimensions(bufferedWriter, oldImmediate);
         writeXY(bufferedWriter, oldImmediate.xy);
         writelnPair(bufferedWriter, "Guard", oldImmediate.guard);
         writelnPair(bufferedWriter, "Probability", oldImmediate.probability);
@@ -233,7 +234,6 @@ Textwidth: 0
         writelnPair(bufferedWriter, "Value Transition", String.valueOf(oldImmediate.valueTransition));
         writeln(bufferedWriter, "Transition label:");
         writeLabel(bufferedWriter, oldImmediate.label);
-        writelnPair(bufferedWriter, "Orientation", oldImmediate.orientation);
     }
 
     private void writeTimedTransition(TimedTransitionOldFormat oldTimed, BufferedWriter bufferedWriter) {
@@ -258,6 +258,7 @@ Textwidth: 0
 //        timed.distribution = extractValue(bufferedReader);
         writeln(bufferedWriter, "Timed:");
         writelnPair(bufferedWriter, "Name", oldTimed.name);
+        writeDimensions(bufferedWriter, oldTimed);
         writeXY(bufferedWriter, oldTimed.xy);
         writelnPair(bufferedWriter, "Number of connected objects", String.valueOf(oldTimed.numberOfConnectedObjects));
         writeArcReferences(bufferedWriter, oldTimed.arcReferences);
@@ -277,7 +278,11 @@ Textwidth: 0
         writelnPair(bufferedWriter, "Priority", oldTimed.priority);
         writelnPair(bufferedWriter, "Choice Input", oldTimed.choiceInput);
         writelnPair(bufferedWriter, "Distribution", oldTimed.distribution);
-        writelnPair(bufferedWriter, "Orientation", oldTimed.orientation);
+    }
+
+    private void writeDimensions(BufferedWriter bufferedWriter, TransitionOldFormat oldTransition) {
+        writelnPair(bufferedWriter, "Width", String.valueOf(oldTransition.width));
+        writelnPair(bufferedWriter, "Height", String.valueOf(oldTransition.height));
     }
 
     private void writeArc(ArcOldFormat oldArc, BufferedWriter bufferedWriter) {

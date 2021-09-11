@@ -163,7 +163,7 @@ public class OldFormatToViewModelConverter {
         immediate.priorityProperty().set(oldImmediate.valueTransition);
         immediate.guardFunctionProperty().set(findFunctionViewModel(functions, oldImmediate.guard));
         immediate.setTransitionProbability(convertImmediateProbability(oldImmediate, places, functions));
-        immediate.orientationProperty().set(convertOrientation(oldImmediate.orientation));
+        immediate.orientationProperty().set(convertOrientation(oldImmediate));
         return immediate;
     }
 
@@ -177,15 +177,16 @@ public class OldFormatToViewModelConverter {
         timed.setTransitionDistribution(createTransitionDistribution(convertDistributionType(oldTimed.distribution), oldTimed, places, functions));
         timed.policyProperty().set(convertPolicyAffectedType(oldTimed.policy));
         timed.affectedProperty().set(convertPolicyAffectedType(oldTimed.affected));
-        timed.orientationProperty().set(convertOrientation(oldTimed.orientation));
+        timed.orientationProperty().set(convertOrientation(oldTimed));
         return timed;
     }
 
-    private TransitionOrientation convertOrientation(String orientation) {
-        var stringToOrientation = new HashMap<String, TransitionOrientation>();
-        stringToOrientation.put("Vertical", TransitionOrientation.Vertical);
-        stringToOrientation.put("Horizontal", TransitionOrientation.Horizontal);
-        return stringToOrientation.get(orientation);
+    private TransitionOrientation convertOrientation(TransitionOldFormat transitionOldFormat) {
+        if (transitionOldFormat.width > transitionOldFormat.height) {
+            return TransitionOrientation.Horizontal;
+        } else {
+            return TransitionOrientation.Vertical;
+        }
     }
 
     private PolicyAffectedType convertPolicyAffectedType(String policyAffectedType) {
