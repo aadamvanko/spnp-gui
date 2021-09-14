@@ -44,7 +44,7 @@ public abstract class ElementPropertiesEditor implements UIComponent {
 
     private void onNameTextFieldFocusChangedListener(Observable observable, Boolean oldValue, Boolean newValue) {
         if (!newValue) {
-            if (oldDiagramViewModel.isElementNameClassDuplicit(nameTextField.getText(), getElementClassForDuplicity())) {
+            if (oldDiagramViewModel.isElementNameClassDuplicate(nameTextField.getText(), getElementClassForDuplicity())) {
                 DialogMessages.showError("This name is already used!");
                 oldNameProperty.set(oldName);
             }

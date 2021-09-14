@@ -133,10 +133,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     }
 
     public FunctionViewModel getFunctionByName(String functionName) {
-        return functions.stream()
-                .filter(functionViewModel -> functionViewModel.getName().equals(functionName))
-                .findAny()
-                .orElse(null);
+        return ViewModelUtils.findFunctionByName(functions, functionName);
     }
 
     private List<FunctionViewModel> predefinedFunctions() {
@@ -251,15 +248,23 @@ public class DiagramViewModel extends DisplayableViewModel {
     }
 
     public List<PlaceViewModel> getPlaces() {
-        return elements.stream()
-                .filter(elementViewModel -> elementViewModel instanceof PlaceViewModel)
-                .map(elementViewModel -> (PlaceViewModel) elementViewModel)
-                .collect(Collectors.toList());
+        return ViewModelUtils.onlyElements(PlaceViewModel.class, elements).collect(Collectors.toList());
     }
 
     public PlaceViewModel getPlaceByName(String placeName) {
         return getPlaces().stream()
                 .filter(placeViewModel -> placeViewModel.getName().equals(placeName))
+                .findAny()
+                .get();
+    }
+
+    public List<TransitionViewModel> getTransitions() {
+        return ViewModelUtils.onlyElements(TransitionViewModel.class, elements).collect(Collectors.toList());
+    }
+
+    public TransitionViewModel getTransitionByName(String name) {
+        return getTransitions().stream()
+                .filter(transitionViewModel -> transitionViewModel.getName().equals(name))
                 .findAny()
                 .get();
     }
@@ -294,11 +299,10 @@ public class DiagramViewModel extends DisplayableViewModel {
                 .orElse(null);
     }
 
-    public boolean isElementNameClassDuplicit(String name, Class<?> elementClass) {
+    public boolean isElementNameClassDuplicate(String name, Class<?> elementClass) {
         return elements.stream()
                 .filter(elementViewModel -> elementViewModel.getName().equals(name))
                 .filter(elementViewModel -> elementClass.isInstance(elementViewModel))
                 .count() >= 2;
     }
-
 }

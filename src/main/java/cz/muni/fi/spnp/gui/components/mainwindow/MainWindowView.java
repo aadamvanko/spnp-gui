@@ -86,6 +86,7 @@ public class MainWindowView {
         functions.add(function_arc_card);
         var function_dist = new FunctionViewModel("function_dist", FunctionType.Distribution, "return 0.7;", FunctionReturnType.DOUBLE, false, true);
         functions.add(function_dist);
+        functions.add(new FunctionViewModel("function_reward", FunctionType.Reward, "return 0.5;", FunctionReturnType.DOUBLE, false, true));
 
         var place1 = new PlaceViewModel();
         place1.nameProperty().set("place1");
@@ -224,6 +225,7 @@ public class MainWindowView {
 //        model.getProjects().add(project1AllTransitions);
 
         model.selectedDiagramProperty().set(diagram1);
+        model.selectedDiagramProperty().set(project1x.getDiagrams().get(0));
     }
 
     private void createView() {

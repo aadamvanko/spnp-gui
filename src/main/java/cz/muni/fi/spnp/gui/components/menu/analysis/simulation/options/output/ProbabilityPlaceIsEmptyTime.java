@@ -1,0 +1,23 @@
+package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
+
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
+import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+
+public class ProbabilityPlaceIsEmptyTime extends OutputOptionTime {
+
+    public ProbabilityPlaceIsEmptyTime() {
+        super("Probability that the given place is empty at time t");
+
+        initPlace();
+    }
+
+    @Override
+    public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
+        super.addToResult(result, diagramViewModel);
+
+        addProbabilityPlaceIsEmpty(result, diagramViewModel, getPlace());
+
+        tryAddingClosingBracket(result);
+    }
+
+}

@@ -1,5 +1,7 @@
 package cz.muni.fi.spnp.gui.viewmodel;
 
+import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,6 +25,13 @@ public final class ViewModelUtils {
                 .filter(viewModel -> viewModel instanceof ArcViewModel)
                 .map(viewModel -> (ArcViewModel) viewModel)
                 .flatMap(arcViewModel -> arcViewModel.getDragPoints().stream());
+    }
+
+    public static FunctionViewModel findFunctionByName(List<FunctionViewModel> functions, String functionName) {
+        return functions.stream()
+                .filter(functionViewModel -> functionViewModel.getName().equals(functionName))
+                .findAny()
+                .orElse(null);
     }
 
     public static String createFlushFunctionBody(String placeName) {
