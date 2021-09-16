@@ -9,6 +9,7 @@ import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.FunctionViewModelStringConverter;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PlaceViewModelStringConverter;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.VariableViewModel;
@@ -28,6 +29,7 @@ import static java.lang.Double.MAX_VALUE;
 
 public class OutputOptionsView extends UIWindowComponent {
 
+    private final Model model;
     private final DiagramViewModel diagramViewModel;
     private ListView<OutputOptionViewModel> listViewOptions;
     private ListView<OutputOptionViewModel> listViewSelected;
@@ -48,7 +50,8 @@ public class OutputOptionsView extends UIWindowComponent {
     private Label labelFunction;
     private ChoiceBox<FunctionViewModel> choiceBoxFunction;
 
-    public OutputOptionsView(DiagramViewModel diagramViewModel) {
+    public OutputOptionsView(Model model, DiagramViewModel diagramViewModel) {
+        this.model = model;
         this.diagramViewModel = diagramViewModel;
 
         createView();
@@ -123,13 +126,14 @@ public class OutputOptionsView extends UIWindowComponent {
         buttonAdd.setOnAction(this::onButtonAddHandler);
         buttonDelete = new Button("Delete from selected");
         buttonDelete.setOnAction(this::onButtonDeleteHandler);
-        var buttonNextStep = new Button("Next step");
+        var buttonContinueToOptions = new Button("Continue to options");
+        buttonContinueToOptions.setOnAction(this::onButtonContinueToOptionsHandler);
         var spacer = new Pane();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         var buttonClose = new Button("Close");
         buttonClose.setOnAction(this::onButtonCloseHandler);
 
-        var buttonsPane = new HBox(buttonAdd, buttonDelete, buttonNextStep, spacer, buttonClose);
+        var buttonsPane = new HBox(buttonAdd, buttonDelete, buttonContinueToOptions, spacer, buttonClose);
         buttonsPane.setSpacing(5);
 
         var vbox = new VBox(splitPane, propertiesPane, buttonsPane);
@@ -225,6 +229,16 @@ public class OutputOptionsView extends UIWindowComponent {
         if (listViewSelected.getItems().isEmpty()) {
             changeOptionViewModel(null);
         }
+    }
+
+    private void onButtonContinueToOptionsHandler(ActionEvent actionEvent) {
+        unbindOptionViewModel();
+        model.getOutputOptions().clear();
+        model.getOutputOptions().addAll(listViewSelected.getItems());
+        stage.close();
+
+        var optionsView = new OptionsView(model, diagramViewModel);
+        optionsView.getStage().showAndWait();
     }
 
     private void onButtonCloseHandler(ActionEvent actionEvent) {

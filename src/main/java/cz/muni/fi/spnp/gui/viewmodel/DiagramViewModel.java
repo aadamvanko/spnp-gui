@@ -305,4 +305,5 @@ public class DiagramViewModel extends DisplayableViewModel {
                 .filter(elementViewModel -> elementClass.isInstance(elementViewModel))
                 .count() >= 2;
     }
+
 }

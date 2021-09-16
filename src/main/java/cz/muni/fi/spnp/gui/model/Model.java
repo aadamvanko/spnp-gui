@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.model;
 
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output.OutputOptionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
@@ -13,9 +16,11 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
+
     private final ObservableList<ProjectViewModel> projects;
     private final ObjectProperty<DiagramViewModel> selectedDiagram;
 
@@ -26,6 +31,10 @@ public class Model {
     private final StringProperty pathSPNP;
     private final StringProperty pathSPNPExamples;
     private final StringProperty pathPlotsLibrary;
+
+    private final List<OutputOptionViewModel> outputOptions;
+    private final SimulationOptionsViewModel simulationOptions;
+    private final AnalysisOptionsViewModel analysisOptions;
 
     public Model() {
         projects = FXCollections.observableArrayList();
@@ -38,6 +47,10 @@ public class Model {
         pathSPNP = new SimpleStringProperty("C:\\Spnp-Gui");
         pathSPNPExamples = new SimpleStringProperty("C:\\Spnp-Gui\\Examples-Official");
         pathPlotsLibrary = new SimpleStringProperty("C:\\Spnp-Gui\\GRAPH_examples");
+
+        outputOptions = new ArrayList<>();
+        simulationOptions = new SimulationOptionsViewModel();
+        analysisOptions = new AnalysisOptionsViewModel();
     }
 
     public Clipboard getClipboard() {
@@ -113,4 +126,17 @@ public class Model {
         }
         return null;
     }
+
+    public List<OutputOptionViewModel> getOutputOptions() {
+        return outputOptions;
+    }
+
+    public SimulationOptionsViewModel getSimulationOptions() {
+        return simulationOptions;
+    }
+
+    public AnalysisOptionsViewModel getAnalysisOptions() {
+        return analysisOptions;
+    }
+
 }
