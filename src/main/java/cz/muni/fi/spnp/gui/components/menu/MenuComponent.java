@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu;
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.graph.operations.*;
 import cz.muni.fi.spnp.gui.components.menu.analysis.PreferencesView;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsView;
 import cz.muni.fi.spnp.gui.components.menu.diagram.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.help.AboutWindow;
 import cz.muni.fi.spnp.gui.components.menu.project.NewProjectView;
@@ -146,7 +147,13 @@ public class MenuComponent extends ApplicationComponent {
         var menuItemPreferences = new MenuItem("Preferences");
         menuItemPreferences.setOnAction(actionEvent -> preferencesView.getStage().showAndWait());
         menuSimulation.getItems().add(menuItemPreferences);
+
+        var menuItemRun = new MenuItem("Run");
+        menuItemRun.setOnAction(actionEvent -> new OutputOptionsView(model, model.selectedDiagramProperty().get()).getStage().showAndWait());
+        menuItemRun.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuSimulation.getItems().add(menuItemRun);
         menuBar.getMenus().add(menuSimulation);
+
 
         Menu menuHelp = new Menu("_Help");
         var aboutWindow = new AboutWindow();
