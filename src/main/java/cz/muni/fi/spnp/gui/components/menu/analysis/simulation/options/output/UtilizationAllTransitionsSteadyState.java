@@ -12,6 +12,11 @@ public class UtilizationAllTransitionsSteadyState extends OutputOptionSteadyStat
     }
 
     @Override
+    public OutputOptionViewModel cleanCopy() {
+        return new UtilizationAllTransitionsSteadyState();
+    }
+
+    @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 

@@ -10,6 +10,11 @@ public class ProbabilityAllPlacesAreEmptySteadyState extends OutputOptionSteadyS
     }
 
     @Override
+    public OutputOptionViewModel cleanCopy() {
+        return new ProbabilityAllPlacesAreEmptySteadyState();
+    }
+
+    @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 

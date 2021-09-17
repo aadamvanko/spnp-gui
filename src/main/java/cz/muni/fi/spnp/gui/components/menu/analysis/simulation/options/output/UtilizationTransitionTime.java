@@ -12,6 +12,11 @@ public class UtilizationTransitionTime extends OutputOptionTime {
     }
 
     @Override
+    public OutputOptionViewModel cleanCopy() {
+        return new UtilizationTransitionTime();
+    }
+
+    @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 

@@ -140,7 +140,7 @@ public class OutputOptionsView extends UIWindowComponent {
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(5));
 
-        stage.setTitle("Simulation");
+        stage.setTitle("Output Options");
         stage.setScene(new Scene(vbox));
         stage.setWidth(800);
         stage.setHeight(750);
@@ -205,7 +205,7 @@ public class OutputOptionsView extends UIWindowComponent {
             return;
         }
 
-        var copy = new EmptyOutputOption();
+        var copy = optionViewModel.cleanCopy();
         optionViewModel.copyTo(copy);
         listViewSelected.getItems().add(copy);
         optionViewModel.reset();
@@ -238,7 +238,7 @@ public class OutputOptionsView extends UIWindowComponent {
         stage.close();
 
         var optionsView = new OptionsView(model, diagramViewModel);
-        optionsView.getStage().showAndWait();
+        optionsView.getStage().show();
     }
 
     private void onButtonCloseHandler(ActionEvent actionEvent) {

@@ -10,6 +10,11 @@ public class ExpectedNumberOfTokensAllPlacesTime extends OutputOptionTime {
     }
 
     @Override
+    public OutputOptionViewModel cleanCopy() {
+        return new ExpectedNumberOfTokensAllPlacesTime();
+    }
+
+    @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 

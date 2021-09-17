@@ -13,6 +13,11 @@ public class ExpectedNumberOfTokensPlaceSteadyState extends OutputOptionSteadySt
 
 
     @Override
+    public OutputOptionViewModel cleanCopy() {
+        return new ExpectedNumberOfTokensPlaceSteadyState();
+    }
+
+    @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 

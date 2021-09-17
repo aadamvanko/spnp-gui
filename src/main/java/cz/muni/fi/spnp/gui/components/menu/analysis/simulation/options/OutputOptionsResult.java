@@ -13,6 +13,7 @@ public class OutputOptionsResult {
     public OutputOptionsResult() {
         this.functions = new ArrayList<>();
         this.lines = new ArrayList<>();
+        lines.add("// Output options");
     }
 
 }

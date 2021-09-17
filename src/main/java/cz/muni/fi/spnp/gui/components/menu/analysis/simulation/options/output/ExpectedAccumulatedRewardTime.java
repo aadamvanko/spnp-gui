@@ -12,6 +12,11 @@ public class ExpectedAccumulatedRewardTime extends OutputOptionTime {
     }
 
     @Override
+    public OutputOptionViewModel cleanCopy() {
+        return new ExpectedAccumulatedRewardTime();
+    }
+
+    @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 

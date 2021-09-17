@@ -12,6 +12,11 @@ public class ValueOfVariable extends OutputOptionViewModel {
     }
 
     @Override
+    public OutputOptionViewModel cleanCopy() {
+        return new ValueOfVariable();
+    }
+
+    @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         result.lines.add(String.format("pr_value(\"Value of the variable %s\", (double) %s);", getVariable().getName(), getVariable().getName()));
     }

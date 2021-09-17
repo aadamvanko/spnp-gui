@@ -47,6 +47,8 @@ public abstract class OutputOptionViewModel {
         function = new SimpleObjectProperty<>();
     }
 
+    public abstract OutputOptionViewModel cleanCopy();
+
     public void copyTo(OutputOptionViewModel copy) {
         copy.title.set(getTitle());
         if (time != null) copy.time = new SimpleStringProperty(getTime());
@@ -163,5 +165,4 @@ public abstract class OutputOptionViewModel {
     public String toString() {
         return title.get();
     }
-
 }

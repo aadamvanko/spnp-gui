@@ -12,6 +12,11 @@ public class ExpectedRewardRateSteadyState extends OutputOptionSteadyState {
     }
 
     @Override
+    public OutputOptionViewModel cleanCopy() {
+        return new ExpectedRewardRateSteadyState();
+    }
+
+    @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 
