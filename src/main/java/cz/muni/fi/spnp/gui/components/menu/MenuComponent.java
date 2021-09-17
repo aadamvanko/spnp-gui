@@ -120,8 +120,8 @@ public class MenuComponent extends ApplicationComponent {
         menuView.getItems().add(menuItemViewDefines);
 
         variablesWindowView = new VariablesTableViewWindow(model);
-        menuItemViewVariables = new MenuItem("Va_riables");
-        menuItemViewVariables.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN));
+        menuItemViewVariables = new MenuItem("Varia_bles");
+        menuItemViewVariables.setAccelerator(new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN));
         menuItemViewVariables.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewVariables.setOnAction(actionEvent -> variablesWindowView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewVariables);
@@ -148,8 +148,9 @@ public class MenuComponent extends ApplicationComponent {
         menuItemPreferences.setOnAction(actionEvent -> preferencesView.getStage().showAndWait());
         menuSimulation.getItems().add(menuItemPreferences);
 
-        var menuItemRun = new MenuItem("Run");
+        var menuItemRun = new MenuItem("_Run");
         menuItemRun.setOnAction(actionEvent -> new OutputOptionsView(model, model.selectedDiagramProperty().get()).getStage().showAndWait());
+        menuItemRun.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN));
         menuItemRun.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuSimulation.getItems().add(menuItemRun);
         menuBar.getMenus().add(menuSimulation);
