@@ -35,7 +35,7 @@ public abstract class OutputOptionTime extends OutputOptionViewModel {
     }
 
     private boolean isTimeLoop() {
-        return StringUtils.countMatches(getTime(), ",") == 3;
+        return StringUtils.countMatches(getTime(), ",") == 2;
     }
 
     protected void addExpectedNumberOfTokensPlace(OutputOptionsResult result, DiagramViewModel diagramViewModel, PlaceViewModel placeViewModel) {
