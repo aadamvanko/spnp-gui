@@ -89,7 +89,7 @@ public class CodePreviewView extends UIWindowComponent {
         var outputOptionsResult = new OutputOptionsResult();
         model.getOutputOptions().forEach(outputOption -> {
             outputOption.addToResult(outputOptionsResult, diagramViewModel);
-            outputOptionsResult.lines.add(System.lineSeparator());
+            outputOptionsResult.lines.add("");
         });
         var outputOptionsCode = String.join(System.lineSeparator(), outputOptionsResult.lines);
         acFinal.bodyProperty().set(acFinal.getBody() + System.lineSeparator() + outputOptionsCode);
