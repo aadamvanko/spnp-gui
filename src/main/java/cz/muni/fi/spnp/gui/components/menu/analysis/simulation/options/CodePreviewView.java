@@ -94,6 +94,8 @@ public class CodePreviewView extends UIWindowComponent {
         var outputOptionsCode = String.join(System.lineSeparator(), outputOptionsResult.lines);
         acFinal.bodyProperty().set(acFinal.getBody() + System.lineSeparator() + outputOptionsCode);
 
+        diagramViewModel.getFunctions().addAll(outputOptionsResult.functions);
+
         var diagramMapper = new DiagramMapper(model, diagramViewModel);
         PetriNet petriNet = null;
         try {
@@ -114,6 +116,7 @@ public class CodePreviewView extends UIWindowComponent {
         buttonRun.setDisable(false);
 
         acFinal.bodyProperty().set(acFinalCopy.getBody());
+        diagramViewModel.getFunctions().removeAll(outputOptionsResult.functions);
     }
 
     private void onButtonSaveCodeHandler(ActionEvent actionEvent) {
