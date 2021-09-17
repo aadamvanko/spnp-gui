@@ -194,7 +194,7 @@ public class MainWindowView {
         mock_diagram2.getFunctions().add(new FunctionViewModel("function_dist", FunctionType.Distribution, "return 0.7; // original",
                 FunctionReturnType.DOUBLE, false, true));
 
-        var diagramMapper = new DiagramMapper(diagram1);
+        var diagramMapper = new DiagramMapper(model, diagram1);
 //        var petriNet = diagramMapper.createPetriNet();
 //        var spnpCode = diagramMapper.createSPNPCode();
 //        var spnpOptions = diagramMapper.createSPNPOptions();

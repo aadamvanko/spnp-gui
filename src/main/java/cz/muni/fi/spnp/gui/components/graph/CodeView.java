@@ -5,16 +5,19 @@ import cz.muni.fi.spnp.core.transformators.spnp.SPNPTransformator;
 import cz.muni.fi.spnp.gui.components.UIComponent;
 import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.mappers.MappingException;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 
 public class CodeView implements UIComponent {
 
+    private final Model model;
     private DiagramViewModel diagramViewModel;
     private TextArea textArea;
 
-    public CodeView(DiagramViewModel diagramViewModel) {
+    public CodeView(Model model, DiagramViewModel diagramViewModel) {
+        this.model = model;
         this.diagramViewModel = diagramViewModel;
 
         createView();
@@ -33,7 +36,7 @@ public class CodeView implements UIComponent {
     public void prepare() {
         diagramViewModel.needsCodeRefreshProperty().set(false);
 
-        var diagramMapper = new DiagramMapper(diagramViewModel);
+        var diagramMapper = new DiagramMapper(model, diagramViewModel);
         PetriNet petriNet = null;
         try {
             petriNet = diagramMapper.createPetriNet();

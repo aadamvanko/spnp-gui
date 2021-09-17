@@ -18,7 +18,7 @@ public class DiagramView {
         this.onNeedsCodeRefreshChangeListener = this::onNeedsCodeRefreshChangeListener;
 
         this.graphView = new GraphView(model, diagramViewModel);
-        this.codeView = new CodeView(diagramViewModel);
+        this.codeView = new CodeView(model, diagramViewModel);
 
         diagramViewModel.needsCodeRefreshProperty().addListener(this.onNeedsCodeRefreshChangeListener);
     }

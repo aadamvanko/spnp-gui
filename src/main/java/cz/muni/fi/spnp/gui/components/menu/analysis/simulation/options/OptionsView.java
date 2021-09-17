@@ -25,8 +25,10 @@ public class OptionsView extends UIWindowComponent {
 
     private final Model model;
     private final DiagramViewModel diagramViewModel;
+
     private final SimulationOptionsViewModel simulationOptionsViewModel;
     private final AnalysisOptionsViewModel analysisOptionsViewModel;
+
     private GridPane gridPaneSimulation;
     private Label label_IOP_SIM_RUNS;
     private IntegerTextField textField_IOP_SIM_RUNS;
@@ -42,6 +44,7 @@ public class OptionsView extends UIWindowComponent {
     private DoubleTextField textField_FOP_SIM_LENGTH;
     private DoubleTextField textField_FOP_SIM_CONFIDENCE;
     private DoubleTextField textField_FOP_SIM_ERROR;
+
     private GridPane gridPaneNumericAnalysis;
     private ChoiceBox<ConstantValue> choiceBox_IOP_MC;
     private ChoiceBox<ConstantValue> choiceBox_IOP_SSMETHOD;
@@ -52,17 +55,17 @@ public class OptionsView extends UIWindowComponent {
     private ChoiceBox<ConstantValue> choiceBox_IOP_SENSITIVTY;
     private IntegerTextField textField_IOP_ITERATIONS;
     private DoubleTextField textField_FOP_PRECISION;
+
     private Pane mainPane;
 
     public OptionsView(Model model, DiagramViewModel diagramViewModel) {
         this.model = model;
         this.diagramViewModel = diagramViewModel;
 
-        createView();
-
         simulationOptionsViewModel = model.getSimulationOptions();
         analysisOptionsViewModel = model.getAnalysisOptions();
 
+        createView();
         bindViewModels();
     }
 
@@ -165,8 +168,14 @@ public class OptionsView extends UIWindowComponent {
         stage.setScene(scene);
         stage.setTitle("Options");
         stage.setResizable(false);
+        stage.setWidth(322);
+        stage.setHeight(519);
 
-        radioButtonSimulation.setSelected(true);
+        if (simulationOptionsViewModel.getIOP_SIMULATION() == VAL_YES) {
+            radioButtonSimulation.setSelected(true);
+        } else {
+            radioButtonNumericAnalysis.setSelected(true);
+        }
     }
 
     private void onButtonPreviewAndRunHandler(ActionEvent actionEvent) {
@@ -174,7 +183,7 @@ public class OptionsView extends UIWindowComponent {
         stage.close();
 
         var codePreviewView = new CodePreviewView(model, diagramViewModel);
-        codePreviewView.getStage().showAndWait();
+        codePreviewView.getStage().show();
     }
 
     private void onButtonCloseHandler(ActionEvent actionEvent) {
@@ -234,20 +243,21 @@ public class OptionsView extends UIWindowComponent {
         textField_FOP_PRECISION.getTextField().textProperty().unbindBidirectional(analysisOptionsViewModel.FOP_PRECISIONProperty().asObject());
     }
 
-    private void onNumericAnalysisSelectedHandler(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-        mainPane.getChildren().clear();
-
-        if (newValue) {
-            mainPane.getChildren().add(gridPaneNumericAnalysis);
-        }
-    }
-
-
     private void onSimulationSelectedHandler(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
         mainPane.getChildren().clear();
 
         if (newValue) {
             mainPane.getChildren().add(gridPaneSimulation);
+            simulationOptionsViewModel.IOP_SIMULATIONProperty().set(VAL_YES);
+        }
+    }
+
+    private void onNumericAnalysisSelectedHandler(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        mainPane.getChildren().clear();
+
+        if (newValue) {
+            mainPane.getChildren().add(gridPaneNumericAnalysis);
+            simulationOptionsViewModel.IOP_SIMULATIONProperty().set(VAL_NO);
         }
     }
 

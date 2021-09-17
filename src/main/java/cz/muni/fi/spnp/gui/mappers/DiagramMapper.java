@@ -3,19 +3,26 @@ package cz.muni.fi.spnp.gui.mappers;
 import cz.muni.fi.spnp.core.models.PetriNet;
 import cz.muni.fi.spnp.core.transformators.spnp.code.FunctionSPNP;
 import cz.muni.fi.spnp.core.transformators.spnp.code.SPNPCode;
-import cz.muni.fi.spnp.core.transformators.spnp.options.SPNPOptions;
+import cz.muni.fi.spnp.core.transformators.spnp.options.*;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationOptionsViewModel;
+import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ViewModelUtils;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static cz.muni.fi.spnp.core.transformators.spnp.options.OptionKey.*;
+
 public class DiagramMapper {
 
+    private final Model model;
     private final DiagramViewModel diagramViewModel;
     private final IncludeMapper includeMapper;
     private final DefineMapper defineMapper;
@@ -28,7 +35,8 @@ public class DiagramMapper {
     private SPNPCode spnpCode;
     private SPNPOptions spnpOptions;
 
-    public DiagramMapper(DiagramViewModel diagramViewModel) {
+    public DiagramMapper(Model model, DiagramViewModel diagramViewModel) {
+        this.model = model;
         this.diagramViewModel = diagramViewModel;
 
         includeMapper = new IncludeMapper();
@@ -97,10 +105,49 @@ public class DiagramMapper {
 
         spnpOptions = new SPNPOptions(new HashSet<>(), new HashSet<>());
 
-        // TODO options
+        if (model.getSimulationOptions().getIOP_SIMULATION() == ConstantValue.VAL_NO) {
+            spnpOptions.getOptions().add(new ConstantTypeOption(IOP_SIMULATION, ConstantValue.VAL_NO));
+            spnpOptions.getOptions().addAll(mapAnalysisOptions(model.getAnalysisOptions()));
+        } else {
+            spnpOptions.getOptions().addAll(mapSimulationOptions(model.getSimulationOptions()));
+        }
 
         diagramViewModel.getInputParameters().forEach(inputParameter -> spnpOptions.getInputParameters().add(inputParameterMapper.map(inputParameter)));
 
         return spnpOptions;
     }
+
+    private Collection<? extends Option> mapSimulationOptions(SimulationOptionsViewModel simulationOptions) {
+        return List.of(
+                new ConstantTypeOption(IOP_SIMULATION, simulationOptions.getIOP_SIMULATION()),
+                new IntegerTypeOption(IOP_SIM_RUNS, simulationOptions.getIOP_SIM_RUNS()),
+                new ConstantTypeOption(IOP_SIM_RUNMETHOD, simulationOptions.getIOP_SIM_RUNMETHOD()),
+                new IntegerTypeOption(IOP_SIM_SEED, simulationOptions.getIOP_SIM_SEED()),
+                new ConstantTypeOption(IOP_SIM_CUMULATIVE, simulationOptions.getIOP_SIM_CUMULATIVE()),
+                new ConstantTypeOption(IOP_SIM_STD_REPORT, simulationOptions.getIOP_SIM_STD_REPORT()),
+                new IntegerTypeOption(IOP_SPLIT_LEVEL_DOWN, simulationOptions.getIOP_SPLIT_LEVEL_DOWN()),
+                new ConstantTypeOption(IOP_SPLIT_PRESIM, simulationOptions.getIOP_SPLIT_PRESIM()),
+                new IntegerTypeOption(IOP_SPLIT_NUMBER, simulationOptions.getIOP_SPLIT_NUMBER()),
+                new ConstantTypeOption(IOP_SPLIT_RESTART_FINISH, simulationOptions.getIOP_SPLIT_RESTART_FINISH()),
+                new IntegerTypeOption(IOP_SPLIT_PRESIM_RUNS, simulationOptions.getIOP_SPLIT_PRESIM_RUNS()),
+                new DoubleTypeOption(FOP_SIM_LENGTH, simulationOptions.getFOP_SIM_LENGTH()),
+                new DoubleTypeOption(FOP_SIM_CONFIDENCE, simulationOptions.getFOP_SIM_CONFIDENCE()),
+                new DoubleTypeOption(FOP_SIM_ERROR, simulationOptions.getFOP_SIM_ERROR())
+        );
+    }
+
+    private Collection<? extends Option> mapAnalysisOptions(AnalysisOptionsViewModel analysisOptions) {
+        return List.of(
+                new ConstantTypeOption(IOP_MC, analysisOptions.getIOP_MC()),
+                new ConstantTypeOption(IOP_SSMETHOD, analysisOptions.getIOP_SSMETHOD()),
+                new ConstantTypeOption(IOP_SSDETECT, analysisOptions.getIOP_SSDETECT()),
+                new DoubleTypeOption(FOP_SSPRES, analysisOptions.getFOP_SSPRES()),
+                new ConstantTypeOption(IOP_TSMETHOD, analysisOptions.getIOP_TSMETHOD()),
+                new ConstantTypeOption(IOP_CUMULATIVE, analysisOptions.getIOP_CUMULATIVE()),
+                new ConstantTypeOption(IOP_SENSITIVITY, analysisOptions.getIOP_SENSITIVITY()),
+                new IntegerTypeOption(IOP_ITERATIONS, analysisOptions.getIOP_ITERATIONS()),
+                new DoubleTypeOption(FOP_PRECISION, analysisOptions.getFOP_PRECISION())
+        );
+    }
+
 }
