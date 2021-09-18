@@ -157,6 +157,7 @@ public class ViewModelCopyFactory {
         copyTo(copy, (ConnectableViewModel) transitionViewModel);
         copy.priorityProperty().set(transitionViewModel.getPriority());
         copy.guardFunctionProperty().set(transitionViewModel.getGuardFunction());
+        copy.orientationProperty().set(transitionViewModel.getOrientation());
     }
 
     private void copyTo(ImmediateTransitionViewModel copy, ImmediateTransitionViewModel immediateTransitionViewModel) {
