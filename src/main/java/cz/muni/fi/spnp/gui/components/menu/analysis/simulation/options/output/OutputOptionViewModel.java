@@ -97,20 +97,20 @@ public abstract class OutputOptionViewModel {
         var oldName = outFunc.getName();
         outFunc.nameProperty().set(oldName + id);
         while (diagramViewModel.getFunctionByName(outFunc.getName()) != null ||
-                ViewModelUtils.findFunctionByName(result.functions, outFunc.getName()) != null) {
+                ViewModelUtils.findFunctionByName(result.getFunctions(), outFunc.getName()) != null) {
             id++;
             outFunc.nameProperty().set(oldName + id);
         }
-        result.functions.add(outFunc);
+        result.getFunctions().add(outFunc);
         return outFunc;
     }
 
     protected void addSolve(OutputOptionsResult result) {
-        result.lines.add("solve(INFINITY);");
+        result.getLines().add("solve(INFINITY);");
     }
 
     protected void addSolve(OutputOptionsResult result, String time) {
-        result.lines.add(String.format("solve((double) %s);", time));
+        result.getLines().add(String.format("solve((double) %s);", time));
     }
 
     public String getTitle() {

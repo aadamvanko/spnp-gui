@@ -20,7 +20,7 @@ public class ExpectedRewardRateTime extends OutputOptionTime {
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 
-        result.lines.add(String.format("pr_expected(\"Expected reward rate of %s\", %s);", getFunction().getName(), getFunction().getName()));
+        result.getLines().add(String.format("pr_expected(\"Expected reward rate of %s\", %s);", getFunction().getName(), getFunction().getName()));
 
         tryAddingClosingBracket(result);
     }

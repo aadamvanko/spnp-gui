@@ -8,8 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 public abstract class OutputOptionTime extends OutputOptionViewModel {
 
-    private static final String LOOP_TIME_VARIABLE = "loop_time";
-
     public OutputOptionTime(String title) {
         super(title);
 
@@ -19,10 +17,11 @@ public abstract class OutputOptionTime extends OutputOptionViewModel {
     @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         if (isTimeLoop()) {
+            var loopVariableName = result.getLoopTimeVariableName();
             var loopValues = getTime().split(",");
-            result.lines.add(String.format("for (%s = %s; %s < %s; %s += %s) {",
-                    LOOP_TIME_VARIABLE, loopValues[0], LOOP_TIME_VARIABLE, loopValues[1], LOOP_TIME_VARIABLE, loopValues[2]));
-            result.lines.add(String.format("%ssolve(%s);", createIndentation(), LOOP_TIME_VARIABLE));
+            result.getLines().add(String.format("for (%s = %s; %s < %s; %s += %s) {",
+                    loopVariableName, loopValues[0], loopVariableName, loopValues[1], loopVariableName, loopValues[2]));
+            result.getLines().add(String.format("%ssolve(%s);", createIndentation(), loopVariableName));
         } else {
             addSolve(result, getTime());
         }
@@ -30,7 +29,7 @@ public abstract class OutputOptionTime extends OutputOptionViewModel {
 
     protected void tryAddingClosingBracket(OutputOptionsResult result) {
         if (isTimeLoop()) {
-            result.lines.add("}");
+            result.getLines().add("}");
         }
     }
 
@@ -48,25 +47,25 @@ public abstract class OutputOptionTime extends OutputOptionViewModel {
 
     protected void addExpectedNumberOfTokensPlace(OutputOptionsResult result, DiagramViewModel diagramViewModel, PlaceViewModel placeViewModel) {
         var outFunc = addPlaceTokensFunction(result, diagramViewModel, placeViewModel);
-        result.lines.add(String.format("%spr_expected(\"Expected # of tokens of the place %s\", %s);",
+        result.getLines().add(String.format("%spr_expected(\"Expected # of tokens of the place %s\", %s);",
                 createIndentation(), placeViewModel.getName(), outFunc.getName()));
     }
 
     protected void addThroughputTransition(OutputOptionsResult result, DiagramViewModel diagramViewModel, TransitionViewModel transition) {
         var outFunc = addTransitionRateFunction(result, diagramViewModel, transition);
-        result.lines.add(String.format("%spr_expected(\"Throughput of the transition %s\", %s);",
+        result.getLines().add(String.format("%spr_expected(\"Throughput of the transition %s\", %s);",
                 createIndentation(), transition.getName(), outFunc.getName()));
     }
 
     protected void addUtilizationTransition(OutputOptionsResult result, DiagramViewModel diagramViewModel, TransitionViewModel transition) {
         var outFunc = addTransitionEnabledFunction(result, diagramViewModel, transition);
-        result.lines.add(String.format("%spr_expected(\"Utilization for the transition %s\", %s);",
+        result.getLines().add(String.format("%spr_expected(\"Utilization for the transition %s\", %s);",
                 createIndentation(), transition.getName(), outFunc.getName()));
     }
 
     protected void addProbabilityPlaceIsEmpty(OutputOptionsResult result, DiagramViewModel diagramViewModel, PlaceViewModel placeViewModel) {
         var outFunc = addPlaceIsEmptyFunction(result, diagramViewModel, placeViewModel);
-        result.lines.add(String.format("%spr_expected(\"Probability that the place %s is empty\", %s);",
+        result.getLines().add(String.format("%spr_expected(\"Probability that the place %s is empty\", %s);",
                 createIndentation(), placeViewModel.getName(), outFunc.getName()));
     }
 

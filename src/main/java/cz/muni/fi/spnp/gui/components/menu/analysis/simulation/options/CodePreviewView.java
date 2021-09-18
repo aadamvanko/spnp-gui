@@ -86,15 +86,16 @@ public class CodePreviewView extends UIWindowComponent {
         var acFinal = diagramViewModel.getFunctionByName("ac_final");
         var viewModelCopyFactory = new ViewModelCopyFactory();
         var acFinalCopy = viewModelCopyFactory.createCopy(acFinal);
-        var outputOptionsResult = new OutputOptionsResult();
+        var outputOptionsResult = new OutputOptionsResult(findViableLoopTimeVariableName(diagramViewModel));
         model.getOutputOptions().forEach(outputOption -> {
             outputOption.addToResult(outputOptionsResult, diagramViewModel);
-            outputOptionsResult.lines.add("");
+            outputOptionsResult.getLines().add("");
         });
-        var outputOptionsCode = String.join(System.lineSeparator(), outputOptionsResult.lines);
-        acFinal.bodyProperty().set(acFinal.getBody() + System.lineSeparator() + outputOptionsCode);
+        var outputOptionsCode = String.join(System.lineSeparator(), outputOptionsResult.getLines());
+        acFinal.bodyProperty().set(loopVariableDefinition(outputOptionsResult) + System.lineSeparator()
+                + acFinal.getBody() + System.lineSeparator() + outputOptionsCode);
 
-        diagramViewModel.getFunctions().addAll(outputOptionsResult.functions);
+        diagramViewModel.getFunctions().addAll(outputOptionsResult.getFunctions());
 
         var diagramMapper = new DiagramMapper(model, diagramViewModel);
         PetriNet petriNet = null;
@@ -116,7 +117,30 @@ public class CodePreviewView extends UIWindowComponent {
         buttonRun.setDisable(false);
 
         acFinal.bodyProperty().set(acFinalCopy.getBody());
-        diagramViewModel.getFunctions().removeAll(outputOptionsResult.functions);
+        diagramViewModel.getFunctions().removeAll(outputOptionsResult.getFunctions());
+    }
+
+    private String loopVariableDefinition(OutputOptionsResult outputOptionsResult) {
+        return String.format("double %s;", outputOptionsResult.getLoopTimeVariableName());
+    }
+
+    private String findViableLoopTimeVariableName(DiagramViewModel diagramViewModel) {
+        var name = "loop_time";
+        var id = 0;
+        var variableName = name;
+        while (codeContainsName(diagramViewModel, name)) {
+            variableName = name + id;
+        }
+        return variableName;
+    }
+
+    private boolean codeContainsName(DiagramViewModel diagramViewModel, String variableName) {
+        if (diagramViewModel.getVariableByName(variableName) != null) {
+            return true;
+        }
+
+        var acFinal = diagramViewModel.getFunctionByName("ac_final");
+        return acFinal.getBody().contains(variableName);
     }
 
     private void onButtonSaveCodeHandler(ActionEvent actionEvent) {

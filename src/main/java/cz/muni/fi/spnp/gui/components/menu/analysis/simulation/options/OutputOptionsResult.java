@@ -7,13 +7,28 @@ import java.util.List;
 
 public class OutputOptionsResult {
 
-    public List<FunctionViewModel> functions;
-    public List<String> lines;
+    private final String loopTimeVariableName;
+    private final List<FunctionViewModel> functions;
+    private final List<String> lines;
 
-    public OutputOptionsResult() {
+    public OutputOptionsResult(String loopTimeVariableName) {
+        this.loopTimeVariableName = loopTimeVariableName;
+
         this.functions = new ArrayList<>();
         this.lines = new ArrayList<>();
         lines.add("// Output options");
+    }
+
+    public String getLoopTimeVariableName() {
+        return loopTimeVariableName;
+    }
+
+    public List<FunctionViewModel> getFunctions() {
+        return functions;
+    }
+
+    public List<String> getLines() {
+        return lines;
     }
 
 }

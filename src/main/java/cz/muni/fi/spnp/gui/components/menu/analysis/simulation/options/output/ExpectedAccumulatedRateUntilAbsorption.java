@@ -19,7 +19,7 @@ public class ExpectedAccumulatedRateUntilAbsorption extends OutputOptionViewMode
     @Override
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         addSolve(result);
-        result.lines.add(String.format("pr_cum_expected(\"Expected accumulated reward until absorption using %s\", %s);",
+        result.getLines().add(String.format("pr_cum_expected(\"Expected accumulated reward until absorption using %s\", %s);",
                 getFunction().getName(), getFunction().getName()));
     }
 

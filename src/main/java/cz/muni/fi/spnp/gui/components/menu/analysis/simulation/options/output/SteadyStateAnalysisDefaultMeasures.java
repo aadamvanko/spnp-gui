@@ -18,7 +18,7 @@ public class SteadyStateAnalysisDefaultMeasures extends OutputOptionSteadyState 
     public void addToResult(OutputOptionsResult result, DiagramViewModel diagramViewModel) {
         super.addToResult(result, diagramViewModel);
 
-        result.lines.add("pr_std_average();");
+        result.getLines().add("pr_std_average();");
     }
 
 }

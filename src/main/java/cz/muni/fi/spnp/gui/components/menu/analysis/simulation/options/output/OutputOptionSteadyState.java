@@ -18,23 +18,23 @@ public abstract class OutputOptionSteadyState extends OutputOptionViewModel {
 
     protected void addExpectedNumberOfTokensPlace(OutputOptionsResult result, DiagramViewModel diagramViewModel, PlaceViewModel placeViewModel) {
         var outFunc = addPlaceTokensFunction(result, diagramViewModel, placeViewModel);
-        result.lines.add(String.format("pr_expected(\"Expected # of tokens of the place %s in steady-state\", %s);", placeViewModel.getName(), outFunc.getName()));
+        result.getLines().add(String.format("pr_expected(\"Expected # of tokens of the place %s in steady-state\", %s);", placeViewModel.getName(), outFunc.getName()));
     }
 
     protected void addThroughputTransition(OutputOptionsResult result, DiagramViewModel diagramViewModel, TransitionViewModel transition) {
         var outFunc = addTransitionRateFunction(result, diagramViewModel, transition);
-        result.lines.add(String.format("pr_expected(\"Throughput of the transition %s in steady-state\", %s);", transition.getName(), outFunc.getName()));
+        result.getLines().add(String.format("pr_expected(\"Throughput of the transition %s in steady-state\", %s);", transition.getName(), outFunc.getName()));
     }
 
 
     protected void addUtilizationTransition(OutputOptionsResult result, DiagramViewModel diagramViewModel, TransitionViewModel transition) {
         var outFunc = addTransitionEnabledFunction(result, diagramViewModel, transition);
-        result.lines.add(String.format("pr_expected(\"Utilization for the transition %s in steady-state\", %s);", transition.getName(), outFunc.getName()));
+        result.getLines().add(String.format("pr_expected(\"Utilization for the transition %s in steady-state\", %s);", transition.getName(), outFunc.getName()));
     }
 
     protected void addProbabilityPlaceIsEmpty(OutputOptionsResult result, DiagramViewModel diagramViewModel, PlaceViewModel place) {
         var outFunc = addPlaceIsEmptyFunction(result, diagramViewModel, place);
-        result.lines.add(String.format("pr_expected(\"Probability that the place %s is empty in steady-state\", %s); ", place.getName(), outFunc.getName()));
+        result.getLines().add(String.format("pr_expected(\"Probability that the place %s is empty in steady-state\", %s); ", place.getName(), outFunc.getName()));
     }
 
 }
