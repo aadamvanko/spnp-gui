@@ -235,6 +235,13 @@ public class DiagramViewModel extends DisplayableViewModel {
         return defines;
     }
 
+    public DefineViewModel getDefineByName(String defineName) {
+        return defines.stream()
+                .filter(defineViewModel -> defineViewModel.getName().equals(defineName))
+                .findAny()
+                .orElse(null);
+    }
+
     public ObservableList<VariableViewModel> getVariables() {
         return variables;
     }

@@ -139,6 +139,18 @@ public class CodePreviewView extends UIWindowComponent {
             return true;
         }
 
+        if (diagramViewModel.getDefineByName(variableName) != null) {
+            return true;
+        }
+
+        if (diagramViewModel.getInputParameterByName(variableName) != null) {
+            return true;
+        }
+
+        if (diagramViewModel.getFunctionByName(variableName) != null) {
+            return true;
+        }
+
         var acFinal = diagramViewModel.getFunctionByName("ac_final");
         return acFinal.getBody().contains(variableName);
     }
