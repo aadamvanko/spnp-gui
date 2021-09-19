@@ -36,6 +36,8 @@ public class Model {
     private final SimulationOptionsViewModel simulationOptions;
     private final AnalysisOptionsViewModel analysisOptions;
 
+    private final StringProperty outputContent;
+
     public Model() {
         projects = FXCollections.observableArrayList();
         selectedDiagram = new SimpleObjectProperty<>();
@@ -44,13 +46,15 @@ public class Model {
         cursorMode = new SimpleObjectProperty<>(CursorMode.VIEW);
         createElementType = new SimpleObjectProperty<>(GraphElementType.PLACE);
 
-        pathSPNP = new SimpleStringProperty("C:\\Spnp-Gui");
-        pathSPNPExamples = new SimpleStringProperty("C:\\Spnp-Gui\\Examples-Official");
+        pathSPNP = new SimpleStringProperty("C:\\Spnp-Gui\\spnp");
+        pathSPNPExamples = new SimpleStringProperty("C:\\Spnp-Gui\\spnp\\example");
         pathPlotsLibrary = new SimpleStringProperty("C:\\Spnp-Gui\\GRAPH_examples");
 
         outputOptions = new ArrayList<>();
         simulationOptions = new SimulationOptionsViewModel();
         analysisOptions = new AnalysisOptionsViewModel();
+
+        outputContent = new SimpleStringProperty("");
     }
 
     public Clipboard getClipboard() {
@@ -139,4 +143,11 @@ public class Model {
         return analysisOptions;
     }
 
+    public String getOutputContent() {
+        return outputContent.get();
+    }
+
+    public StringProperty outputContentProperty() {
+        return outputContent;
+    }
 }

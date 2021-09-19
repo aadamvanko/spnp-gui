@@ -20,8 +20,14 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class CodePreviewView extends UIWindowComponent {
+
+    private static final String OUTPUTS_TEMP_FOLDER = "outputs_temp";
+    private static final String DIAGRAM_CSPL_TEMP_FILE = "diagram_temp_cspl";
+    private static final String RUN_SPNP_SCRIPT_FILE = "run_spnp_script";
 
     private final Model model;
     private final DiagramViewModel diagramViewModel;
@@ -175,6 +181,47 @@ public class CodePreviewView extends UIWindowComponent {
 
     private void onButtonRunHandler(ActionEvent actionEvent) {
         System.out.println("running");
+        prepareOutputsTempFolder();
+        prepareCSPLFile();
+        prepareRunSPNPScript();
+        try {
+            buttonRun.setDisable(true);
+            buttonRun.setText("Running...");
+            var result = Processes.run("cmd.exe", "/c", RUN_SPNP_SCRIPT_FILE);
+            model.outputContentProperty().set("");
+            model.outputContentProperty().set(result);
+            stage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void prepareOutputsTempFolder() {
+        new File(OUTPUTS_TEMP_FOLDER).mkdirs();
+    }
+
+    private void prepareCSPLFile() {
+        try {
+            Files.writeString(Path.of(OUTPUTS_TEMP_FOLDER, String.format("%s.c", DIAGRAM_CSPL_TEMP_FILE)), textArea.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void prepareRunSPNPScript() {
+        var lines = new ArrayList<String>();
+        lines.add(String.format("SET SPNP_DIRECTORY=%s", model.getPathSPNP()));
+        lines.add("PATH=%SPNP_DIRECTORY%\\bin;%PATH%");
+        lines.add(String.format("cd %s", OUTPUTS_TEMP_FOLDER));
+        lines.add(String.format("spnp %s", DIAGRAM_CSPL_TEMP_FILE));
+        var scriptCode = String.join(System.lineSeparator(), lines);
+
+        var runSPNPScriptFilename = String.format("%s.bat", RUN_SPNP_SCRIPT_FILE);
+        try {
+            Files.writeString(Path.of(runSPNPScriptFilename), scriptCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void onButtonCloseHandler(ActionEvent actionEvent) {
