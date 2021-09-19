@@ -42,6 +42,11 @@ public class NewProjectView extends UIWindowComponent {
                 return;
             }
 
+            if (name.chars().anyMatch(Character::isWhitespace)) {
+                DialogMessages.showError("Project name cannot contain whitespace characters.");
+                return;
+            }
+
             if (model.projectExists(name)) {
                 DialogMessages.showError("Project with given name already exists.");
                 return;

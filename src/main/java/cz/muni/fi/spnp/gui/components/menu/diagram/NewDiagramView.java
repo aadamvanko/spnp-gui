@@ -64,6 +64,11 @@ public class NewDiagramView extends UIWindowComponent {
                 return;
             }
 
+            if (name.chars().anyMatch(Character::isWhitespace)) {
+                DialogMessages.showError("Diagram name cannot contain whitespace characters.");
+                return;
+            }
+
             var project = choiceBoxProject.getSelectionModel().getSelectedItem();
             if (project.diagramExists(name)) {
                 DialogMessages.showError("Diagram with given name already exists.");
