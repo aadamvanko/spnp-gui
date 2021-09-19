@@ -38,7 +38,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     public DiagramViewModel(ProjectViewModel projectViewModel) {
         this(projectViewModel,
                 FXCollections.observableArrayList(),
-                FXCollections.observableArrayList(),
+                FXCollections.observableArrayList(new IncludeViewModel("\"user.h\"")),
                 FXCollections.observableArrayList(),
                 FXCollections.observableArrayList(),
                 FXCollections.observableArrayList(),
