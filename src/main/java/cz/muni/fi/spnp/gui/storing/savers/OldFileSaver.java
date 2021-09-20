@@ -142,25 +142,6 @@ public class OldFileSaver {
         }
     }
 
-    /*
-    Place:
-Name: P0
-Token: 0
-Fluid: false
-X, Y: 164,164
-Number of connected objects: 2
-Dest: T0
-Arc:arc0
-Dest: t0
-Arc:arc1
-vInputArc: null
-vOutputArc: [arc0, arc1]
-Place label:
-X, Y: 173,196
-Width, Height: 20,20
-Textwidth: 0
-    */
-
     private void writePlace(PlaceOldFormat oldPlace, BufferedWriter bufferedWriter) {
         writeln(bufferedWriter, "Place:");
         writelnPair(bufferedWriter, "Name", oldPlace.name);
@@ -214,20 +195,6 @@ Textwidth: 0
     }
 
     private void writeImmediateTransition(ImmediateTransitionOldFormat oldImmediate, BufferedWriter bufferedWriter) {
-//        oldImmediate.name = extractValue(bufferedReader);
-//        readTransitionDimensionsAndXY(bufferedReader, oldImmediate);
-//        oldImmediate.guard = extractValue(bufferedReader);
-//        oldImmediate.probability = extractValue(bufferedReader);
-//        oldImmediate.choiceInput = extractValue(bufferedReader);
-//        oldImmediate.numberOfConnectedObjects = extractInt(bufferedReader);
-//        oldImmediate.arcReferences = readArcReferences(bufferedReader, oldImmediate.numberOfConnectedObjects);
-//        oldImmediate.vInputArc = extractArcsNames(bufferedReader);
-//        oldImmediate.vOutputArc = extractArcsNames(bufferedReader);
-//        oldImmediate.typeTransition = extractValue(bufferedReader);
-//        oldImmediate.placeDependent = extractValue(bufferedReader);
-//        oldImmediate.valueTransition = extractInt(bufferedReader);
-//        oldImmediate.label = readLabel(bufferedReader);
-//
         writeln(bufferedWriter, "Immediate:");
         writelnPair(bufferedWriter, "Name", oldImmediate.name);
         writeDimensions(bufferedWriter, oldImmediate);
@@ -247,25 +214,6 @@ Textwidth: 0
     }
 
     private void writeTimedTransition(TimedTransitionOldFormat oldTimed, BufferedWriter bufferedWriter) {
-//        timed.name = extractValue(bufferedReader);
-//        readTransitionDimensionsAndXY(bufferedReader, timed);
-//        timed.numberOfConnectedObjects = extractInt(bufferedReader);
-//        timed.arcReferences = readArcReferences(bufferedReader, timed.numberOfConnectedObjects);
-//        timed.vInputArc = extractArcsNames(bufferedReader);
-//        timed.vOutputArc = extractArcsNames(bufferedReader);
-//        timed.typeTransition = extractValue(bufferedReader);
-//        timed.placeDependent = extractValue(bufferedReader);
-//        timed.valueTransition = extractValue(bufferedReader);
-//        timed.value1Transition = extractValue(bufferedReader);
-//        timed.value2Transition = extractValue(bufferedReader);
-//        timed.value3Transition = extractValue(bufferedReader);
-//        timed.label = readLabel(bufferedReader);
-//        timed.guard = extractValue(bufferedReader);
-//        timed.policy = extractValue(bufferedReader);
-//        timed.affected = extractValue(bufferedReader);
-//        timed.priority = extractValue(bufferedReader);
-//        timed.choiceInput = extractValue(bufferedReader);
-//        timed.distribution = extractValue(bufferedReader);
         writeln(bufferedWriter, "Timed:");
         writelnPair(bufferedWriter, "Name", oldTimed.name);
         writeDimensions(bufferedWriter, oldTimed);
@@ -296,17 +244,6 @@ Textwidth: 0
     }
 
     private void writeArc(ArcOldFormat oldArc, BufferedWriter bufferedWriter) {
-//        public TwoXY twoXY;
-//        public String type;
-//        public String multiplicity;
-//        public String src;
-//        public String dest;
-//        public List<XY> points;
-//        public boolean isFluid;
-//        public String choiceInput;
-//        public Circles circles;
-//        public String typeIO;
-//
         writeln(bufferedWriter, "Arc:");
         writelnPair(bufferedWriter, "Name", oldArc.name);
         writeTwoXY(bufferedWriter, oldArc.twoXY);
