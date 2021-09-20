@@ -58,7 +58,6 @@ public abstract class ArcView extends GraphElementView {
 
     private void onIsFlushingChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
         if (newValue) {
-            System.out.println("flushing is on");
             multiplicityFlushing.setVisible(true);
             multiplicityText.setVisible(false);
         } else {
@@ -138,7 +137,6 @@ public abstract class ArcView extends GraphElementView {
 
     private Line createLine(Point2D start, Point2D end) {
         Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY());
-//        System.out.println(line);
         line.setStrokeWidth(LINE_WIDTH);
         registerMouseHandlers(line);
         line.setSmooth(true);
@@ -154,7 +152,6 @@ public abstract class ArcView extends GraphElementView {
             Point2D mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
             Line sourceLine = (Line) mouseEvent.getSource();
             getViewModel().getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
-            System.out.println("last added drag point view " + lastAddedDragPointView);
             lastAddedDragPointView.onMousePressedHandler(mouseEvent);
         }
     }
@@ -225,36 +222,29 @@ public abstract class ArcView extends GraphElementView {
 
         Line line = createLine(dragPointViewModel.getPositionX(), dragPointViewModel.getPositionY(), sourceLine.getEndX(), sourceLine.getEndY());
         lines.add(index + 1, line);
-//        System.out.println(lines);
         groupLines.getChildren().add(line);
 
         sourceLine.setEndX(dragPointViewModel.getPositionX());
         sourceLine.setEndY(dragPointViewModel.getPositionY());
-//        System.out.println(lines);
 
         lastAddedDragPointView = new DragPointView(graphView, this, dragPointViewModel);
         if (getViewModel().isHighlighted()) {
             lastAddedDragPointView.getViewModel().highlightedProperty().set(true);
         }
 
-        System.out.println("adding drag point");
         groupSymbols.getChildren().add(lastAddedDragPointView.getMiddleLayerContainer());
         lastAddedDragPointView.addedToParent();
         lastAddedDragPointView.setGraphView(graphView);
-        System.out.println("arc drag point graph view " + graphView);
         dragPointViews.add(index, lastAddedDragPointView);
     }
 
     public void onDragPointMovedHandler(DragPointView dragPointView) {
         int index = dragPointViews.indexOf(dragPointView);
-//        System.out.println("drag point index " + index);
         Line lineTo = lines.get(index);
-//        System.out.println("lineTo " + lineTo);
         var center = dragPointView.getCenterPosition();
         lineTo.setEndX(center.getX());
         lineTo.setEndY(center.getY());
         Line lineFrom = lines.get(index + 1);
-//        System.out.println("lineFrom " + lineFrom);
         lineFrom.setStartX(center.getX());
         lineFrom.setStartY(center.getY());
 
@@ -404,7 +394,6 @@ public abstract class ArcView extends GraphElementView {
         int abY = aY - bY;
         int cdX = cX - dX;
         int cdY = cY - dY;
-//        System.out.println(abX * cdY - cdX * abY);
         return abX * cdY - cdX * abY;
     }
 

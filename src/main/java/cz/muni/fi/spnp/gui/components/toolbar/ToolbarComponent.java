@@ -95,7 +95,6 @@ public class ToolbarComponent extends ApplicationComponent {
             var newValueInt = newVal.intValue();
             newValueInt = newValueInt / 10 * 10;
             zoomSlider.setValue(newValueInt);
-            System.out.println(zoomSlider.getValue());
         });
 
         var gridZoomDetails = new GridPane();
@@ -233,7 +232,6 @@ public class ToolbarComponent extends ApplicationComponent {
 
     private void toggleIfNeeded(MouseEvent mouseEvent) {
         ToggleButton source = (ToggleButton) mouseEvent.getSource();
-        System.out.println(mouseEvent);
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             source.setSelected(false);
         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
@@ -269,7 +267,6 @@ public class ToolbarComponent extends ApplicationComponent {
     private void switchCreateMode(MouseEvent mouseEvent, GraphElementType graphElementType) {
         toggleIfNeeded(mouseEvent);
         ToggleButton source = (ToggleButton) mouseEvent.getSource();
-        System.out.println("source isSelected " + source.isSelected());
         model.createElementTypeProperty().set(graphElementType);
         if (source.isSelected()) {
             model.cursorModeProperty().set(CursorMode.CREATE_MULTIPLE);

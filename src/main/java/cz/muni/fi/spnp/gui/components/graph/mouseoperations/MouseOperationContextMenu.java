@@ -34,12 +34,9 @@ public class MouseOperationContextMenu extends MouseOperation {
         cutItem.setOnAction(this::onCutHandler);
         MenuItem deleteItem = new MenuItem("Delete");
         deleteItem.setOnAction(this::onDeleteHandler);
-//        SeparatorMenuItem separator = new SeparatorMenuItem();
-//        MenuItem propertiesItem = new MenuItem("Properties");
-//        propertiesItem.setOnAction(this::onPropertiesHandler);
 
         contextMenu = new ContextMenu();
-        contextMenu.getItems().addAll(selectAllItem, pasteItem, copyItem, cutItem, deleteItem/*, separator, propertiesItem*/);
+        contextMenu.getItems().addAll(selectAllItem, pasteItem, copyItem, cutItem, deleteItem);
     }
 
     private void onSelectAllHandler(ActionEvent actionEvent) {
@@ -60,11 +57,6 @@ public class MouseOperationContextMenu extends MouseOperation {
 
     private void onDeleteHandler(ActionEvent actionEvent) {
         new OperationDeleteElements(graphView.getModel(), graphView.getDiagramViewModel()).execute();
-    }
-
-    private void onPropertiesHandler(ActionEvent actionEvent) {
-        // TODO select/focus properties component
-        System.out.println("missing code handler");
     }
 
     @Override

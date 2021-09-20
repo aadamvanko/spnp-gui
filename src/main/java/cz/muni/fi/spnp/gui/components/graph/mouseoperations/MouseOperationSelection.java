@@ -21,8 +21,6 @@ public class MouseOperationSelection extends MouseOperation {
     public MouseOperationSelection(GraphView graphView) {
         super(graphView);
         rectangleSelection = graphView.getRectangleSelection();
-
-        System.out.println("selection operation created");
     }
 
     @Override
@@ -34,7 +32,6 @@ public class MouseOperationSelection extends MouseOperation {
         rectangleSelection.setVisible(true);
         rectangleSelection.setTranslateX(mouseEvent.getX());
         rectangleSelection.setTranslateY(mouseEvent.getY());
-//        System.out.println(rectangleSelection.getTranslateX() + " - " + rectangleSelection.getTranslateY());
     }
 
     @Override
@@ -64,8 +61,6 @@ public class MouseOperationSelection extends MouseOperation {
         for (var element : graphView.getGraphElementViews()) {
             if (element instanceof MouseSelectable) {
                 MouseSelectable mouseSelectable = (MouseSelectable) element;
-//            System.out.println(mouseSelectable);
-//            System.out.println(mouseSelectable.getShapeCenter());
                 if (rectangleSelection.getBoundsInParent().contains(mouseSelectable.getShapeCenter())) {
                     element.getViewModel().highlightedProperty().set(true);
                     selected.add(element);

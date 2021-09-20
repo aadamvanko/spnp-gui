@@ -239,7 +239,6 @@ public class GraphView implements UIComponent {
     }
 
     private void onMousePressed(MouseEvent mouseEvent) {
-        System.out.println("canvas mouse pressed");
         finishMouseOperation();
 
         initialMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
@@ -281,7 +280,6 @@ public class GraphView implements UIComponent {
     }
 
     private void onMouseDragged(MouseEvent mouseEvent) {
-//        System.out.println("canvas mouse dragged");
         if (mouseOperation == null) {
             return;
         }
@@ -289,8 +287,6 @@ public class GraphView implements UIComponent {
     }
 
     private void onMouseReleased(MouseEvent mouseEvent) {
-        System.out.println("canvas mouse released");
-
         if (mouseOperation == null) {
             diagramViewModel.resetSelection();
             return;

@@ -13,5 +13,4 @@ public interface VisualElement {
     void addedToParent();
 
     void removedFromParent();
-
 }

@@ -17,7 +17,6 @@ public abstract class MouseOperationCreate extends MouseOperation {
             var suffix = String.format("_%d", id);
             elementViewModel.nameProperty().set(oldName + suffix);
             id++;
-            System.out.println(elementViewModel);
         }
     }
 

@@ -247,7 +247,6 @@ public class OutputOptionsView extends UIWindowComponent {
 
     private void onOptionsSelectedItemChangedListener(ObservableValue<? extends OutputOptionViewModel> observableValue,
                                                       OutputOptionViewModel oldValue, OutputOptionViewModel newValue) {
-        System.out.println(newValue);
         changeOptionViewModel(newValue);
         buttonAdd.setDisable(false);
         buttonDelete.setDisable(true);
@@ -255,7 +254,6 @@ public class OutputOptionsView extends UIWindowComponent {
 
     private void onSelectedSelectedItemChangedListener(ObservableValue<? extends OutputOptionViewModel> observableValue,
                                                        OutputOptionViewModel oldValue, OutputOptionViewModel newValue) {
-        System.out.println(newValue);
         changeOptionViewModel(newValue);
         buttonAdd.setDisable(true);
         buttonDelete.setDisable(false);

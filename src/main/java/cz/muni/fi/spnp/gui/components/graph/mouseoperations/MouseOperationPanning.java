@@ -22,8 +22,6 @@ public class MouseOperationPanning extends MouseOperation {
     public MouseOperationPanning(GraphView graphView) {
         super(graphView);
 
-        System.out.println("panning operation created");
-
         zoomableScrollPane = graphView.getZoomableScrollPane();
     }
 
@@ -31,7 +29,6 @@ public class MouseOperationPanning extends MouseOperation {
     public void mousePressedHandler(GraphElementView graphElementView, MouseEvent mouseEvent) {
         oldCursor = zoomableScrollPane.getScene().getCursor();
         zoomableScrollPane.getScene().setCursor(Cursor.MOVE);
-        System.out.println(zoomableScrollPane.getHmin() + " " + zoomableScrollPane.getHmax() + " " + zoomableScrollPane.getHvalue());
         oldMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
     }
 

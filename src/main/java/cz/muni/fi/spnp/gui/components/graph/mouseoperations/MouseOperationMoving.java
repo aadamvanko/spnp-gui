@@ -14,7 +14,6 @@ public class MouseOperationMoving extends MouseOperation {
 
     public MouseOperationMoving(GraphView graphView) {
         super(graphView);
-        System.out.println("moving operation created");
     }
 
     @Override

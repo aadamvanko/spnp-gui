@@ -42,14 +42,12 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
     public void onMouseDraggedHandler(MouseEvent mouseEvent) {
         super.onMouseDraggedHandler(mouseEvent);
         updateArcs();
-//        System.out.println("Connectable graph element dragged");
     }
 
     @Override
     public void onMouseReleasedHandler(MouseEvent mouseEvent) {
         super.onMouseReleasedHandler(mouseEvent);
         removeStraightLinesFromArcs();
-        System.out.println("Connectable graph element released");
     }
 
     private void removeStraightLinesFromArcs() {
