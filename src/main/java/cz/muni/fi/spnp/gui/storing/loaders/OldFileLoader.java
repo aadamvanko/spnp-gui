@@ -22,6 +22,10 @@ public class OldFileLoader {
 
     public ProjectViewModel loadProject(String projectFilepath) {
         var oldProject = loadOldFormatProject(projectFilepath);
+        if (oldProject == null) {
+            return null;
+        }
+
         var projectViewModel = loadProject(projectFilepath, oldProject);
         return projectViewModel;
     }
@@ -373,9 +377,10 @@ public class OldFileLoader {
                     project.submodelsNames.add(entry.getValue());
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception exception) {
             System.err.println(String.format("Could not load project %s in old format due to error:", projectFilepath));
-            e.printStackTrace();
+            exception.printStackTrace();
+            return null;
         }
         return project;
     }

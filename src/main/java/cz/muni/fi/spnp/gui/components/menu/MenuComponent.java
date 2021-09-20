@@ -174,7 +174,10 @@ public class MenuComponent extends ApplicationComponent {
         var file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if (file != null) {
             var oldFileLoader = new OldFileLoader();
-            model.getProjects().add(oldFileLoader.loadProject(file.getAbsolutePath()));
+            var loadedProject = oldFileLoader.loadProject(file.getAbsolutePath());
+            if (loadedProject != null) {
+                model.getProjects().add(loadedProject);
+            }
         }
     }
 
