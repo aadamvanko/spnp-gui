@@ -13,7 +13,7 @@ public class ModelLoader extends ModelFileOperation {
 
     public void loadSPNPPaths(Model model) {
         if (!Files.exists(Path.of(SETTINGS_FILENAME))) {
-            System.out.println("Settings file does not exist.");
+            System.out.println("Settings file does not exist. Using default settings.");
             return;
         }
 
