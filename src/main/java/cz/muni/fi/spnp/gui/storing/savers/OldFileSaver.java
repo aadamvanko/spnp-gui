@@ -35,8 +35,9 @@ public class OldFileSaver {
             var oldProject = projectConverter.convert(project);
             writeProjectInfo(oldProject, bufferedWriter);
             writeSubmodelsNames(oldProject, bufferedWriter);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            System.err.println(String.format("Could not save project %s in old format due to error:", projectFile));
+            exception.printStackTrace();
         }
     }
 
@@ -53,14 +54,23 @@ public class OldFileSaver {
             var diagramFile = Path.of(directory.toString(), String.format("%s_%s.srn", project.getName(), diagram.getName()));
             try (var bufferedWriter = Files.newBufferedWriter(diagramFile)) {
                 saveSubmodel(diagram, bufferedWriter);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception exception) {
+                System.err.println(String.format("Could not save diagram %s in old format due to error:", diagramFile));
+                exception.printStackTrace();
             }
         }
     }
 
     private void saveSubmodel(DiagramViewModel diagramViewModel, BufferedWriter bufferedWriter) {
-        var submodel = viewModelToOldFormatConverter.convert(diagramViewModel);
+        Submodel submodel;
+        try {
+            submodel = viewModelToOldFormatConverter.convert(diagramViewModel);
+        } catch (Exception exception) {
+            System.err.println(String.format("Could not save diagram %s in old format due to error when converting to old format:",
+                    diagramViewModel.getName()));
+            exception.printStackTrace();
+            return;
+        }
         writeln(bufferedWriter, "Type: SRN Model");
         writeln(bufferedWriter, "");
         writeIncludes(submodel, bufferedWriter);

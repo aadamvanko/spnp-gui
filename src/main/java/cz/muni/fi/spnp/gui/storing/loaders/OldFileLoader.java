@@ -33,9 +33,18 @@ public class OldFileLoader {
             var submodelFilename = String.format("%s_%s.srn", oldProject.modelName, submodelName);
             var submodelFilepath = Path.of(projectFolder.toString(), submodelFilename);
             var submodel = loadSubmodel(submodelFilepath);
+            if (submodel == null) {
+                continue;
+            }
+
             submodel.name = submodelName;
-            var diagram = oldFormatToViewModelConverter.convert(submodel, project);
-            project.getDiagrams().add(diagram);
+            try {
+                var diagram = oldFormatToViewModelConverter.convert(submodel, project);
+                project.getDiagrams().add(diagram);
+            } catch (Exception exception) {
+                System.err.println(String.format("Could not load submodel %s in old format due to error when converting to view model:", submodelFilepath));
+                exception.printStackTrace();
+            }
         }
         return project;
     }
@@ -69,8 +78,10 @@ public class OldFileLoader {
                     addUserPromptText(submodel.variables, extractValue(line));
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            System.err.println(String.format("Could not load submodel %s in old format due to error:", submodelFilepath));
+            exception.printStackTrace();
+            return null;
         }
         return submodel;
     }
@@ -363,6 +374,7 @@ public class OldFileLoader {
                 }
             }
         } catch (IOException e) {
+            System.err.println(String.format("Could not load project %s in old format due to error:", projectFilepath));
             e.printStackTrace();
         }
         return project;
