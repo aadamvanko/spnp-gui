@@ -180,7 +180,7 @@ public class CodePreviewView extends UIWindowComponent {
     }
 
     private void onButtonRunHandler(ActionEvent actionEvent) {
-        System.out.println("running");
+        System.out.print("running");
         prepareOutputsTempFolder();
         prepareCSPLFile();
         prepareRunSPNPScript();
@@ -188,8 +188,7 @@ public class CodePreviewView extends UIWindowComponent {
             buttonRun.setDisable(true);
             buttonRun.setText("Running...");
             var result = Processes.run("cmd.exe", "/c", RUN_SPNP_SCRIPT_FILE);
-            model.outputContentProperty().set("");
-            model.outputContentProperty().set(result);
+            System.out.println(result);
             stage.close();
         } catch (IOException e) {
             e.printStackTrace();

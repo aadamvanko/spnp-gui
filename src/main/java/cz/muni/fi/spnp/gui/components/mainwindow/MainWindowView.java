@@ -37,6 +37,7 @@ import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.*;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,6 +70,11 @@ public class MainWindowView {
         this.model = model;
 
         createView();
+
+        var textAreaOutputStream = new TextAreaOutputStream(statusBarComponent.getTextArea());
+        var printStream = new PrintStream(textAreaOutputStream, true);
+        System.setOut(printStream);
+        System.setErr(printStream);
 
         this.onViewModeChangedListener = this::onViewModeChangedListener;
 

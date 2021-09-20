@@ -36,8 +36,6 @@ public class Model {
     private final SimulationOptionsViewModel simulationOptions;
     private final AnalysisOptionsViewModel analysisOptions;
 
-    private final StringProperty outputContent;
-
     public Model() {
         projects = FXCollections.observableArrayList();
         selectedDiagram = new SimpleObjectProperty<>();
@@ -53,8 +51,6 @@ public class Model {
         outputOptions = new ArrayList<>();
         simulationOptions = new SimulationOptionsViewModel();
         analysisOptions = new AnalysisOptionsViewModel();
-
-        outputContent = new SimpleStringProperty("");
     }
 
     public Clipboard getClipboard() {
@@ -143,11 +139,4 @@ public class Model {
         return analysisOptions;
     }
 
-    public String getOutputContent() {
-        return outputContent.get();
-    }
-
-    public StringProperty outputContentProperty() {
-        return outputContent;
-    }
 }
