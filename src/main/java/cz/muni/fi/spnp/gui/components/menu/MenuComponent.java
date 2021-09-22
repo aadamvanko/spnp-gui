@@ -153,6 +153,15 @@ public class MenuComponent extends ApplicationComponent {
         menuItemRun.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN));
         menuItemRun.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuSimulation.getItems().add(menuItemRun);
+
+        var menuItemStop = new MenuItem("_Stop");
+        menuItemStop.setOnAction(actionEvent -> {
+            System.out.println("Stopping simulation/analysis...");
+            model.stopRunningSimulationTask();
+        });
+        menuItemStop.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+        menuItemStop.disableProperty().bind(model.runningSimulationTaskProperty().isNull());
+        menuSimulation.getItems().add(menuItemStop);
         menuBar.getMenus().add(menuSimulation);
 
 

@@ -180,19 +180,13 @@ public class CodePreviewView extends UIWindowComponent {
     }
 
     private void onButtonRunHandler(ActionEvent actionEvent) {
-        System.out.print("running");
+        System.out.println("Running simulation/analysis...");
         prepareOutputsTempFolder();
         prepareCSPLFile();
         prepareRunSPNPScript();
-        try {
-            buttonRun.setDisable(true);
-            buttonRun.setText("Running...");
-            var result = Processes.run("cmd.exe", "/c", RUN_SPNP_SCRIPT_FILE);
-            System.out.println(result);
-            stage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stage.close();
+
+        model.runSimulationTask(new SimulationTask("cmd.exe", "/c", RUN_SPNP_SCRIPT_FILE));
     }
 
     private void prepareOutputsTempFolder() {
@@ -209,9 +203,10 @@ public class CodePreviewView extends UIWindowComponent {
 
     private void prepareRunSPNPScript() {
         var lines = new ArrayList<String>();
+        lines.add("@ECHO OFF");
         lines.add(String.format("SET SPNP_DIRECTORY=%s", model.getPathSPNP()));
         lines.add("PATH=%SPNP_DIRECTORY%\\bin;%PATH%");
-        lines.add(String.format("cd %s", OUTPUTS_TEMP_FOLDER));
+        lines.add(String.format("CD %s", OUTPUTS_TEMP_FOLDER));
         lines.add(String.format("spnp %s", DIAGRAM_CSPL_TEMP_FILE));
         var scriptCode = String.join(System.lineSeparator(), lines);
 

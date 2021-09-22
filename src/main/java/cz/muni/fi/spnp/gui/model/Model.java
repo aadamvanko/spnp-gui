@@ -15,9 +15,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Model {
 
@@ -36,6 +39,9 @@ public class Model {
     private final SimulationOptionsViewModel simulationOptions;
     private final AnalysisOptionsViewModel analysisOptions;
 
+    private final ExecutorService executorService;
+    private final ObjectProperty<Task<Void>> runningSimulationTask;
+
     public Model() {
         projects = FXCollections.observableArrayList();
         selectedDiagram = new SimpleObjectProperty<>();
@@ -51,6 +57,9 @@ public class Model {
         outputOptions = new ArrayList<>();
         simulationOptions = new SimulationOptionsViewModel();
         analysisOptions = new AnalysisOptionsViewModel();
+
+        executorService = Executors.newSingleThreadExecutor();
+        runningSimulationTask = new SimpleObjectProperty<>();
     }
 
     public Clipboard getClipboard() {
@@ -137,6 +146,28 @@ public class Model {
 
     public AnalysisOptionsViewModel getAnalysisOptions() {
         return analysisOptions;
+    }
+
+    public Task<Void> getRunningSimulationTask() {
+        return runningSimulationTask.get();
+    }
+
+    public ObjectProperty<Task<Void>> runningSimulationTaskProperty() {
+        return runningSimulationTask;
+    }
+
+    public void runSimulationTask(Task<Void> task) {
+        runningSimulationTask.set(task);
+        executorService.execute(task);
+    }
+
+    public void stopRunningSimulationTask() {
+        getRunningSimulationTask().cancel(true);
+        runningSimulationTask.set(null);
+    }
+
+    public void cleanUp() {
+        executorService.shutdownNow();
     }
 
 }
