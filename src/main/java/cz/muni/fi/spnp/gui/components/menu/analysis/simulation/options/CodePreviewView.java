@@ -193,7 +193,7 @@ public class CodePreviewView extends UIWindowComponent {
         prepareRunSPNPScript();
         stage.close();
 
-        model.runSimulationTask(new SimulationTask("cmd.exe", "/c", RUN_SPNP_SCRIPT_FILE));
+        model.runSimulationTask(new SimulationTask(model, "cmd.exe", "/c", RUN_SPNP_SCRIPT_FILE));
     }
 
     private void prepareOutputsTempFolder() {

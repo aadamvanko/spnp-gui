@@ -162,12 +162,18 @@ public class Model {
     }
 
     public void stopRunningSimulationTask() {
-        getRunningSimulationTask().cancel(true);
-        runningSimulationTask.set(null);
+        if (getRunningSimulationTask() != null) {
+            getRunningSimulationTask().cancel(true);
+            runningSimulationTask.set(null);
+        }
     }
 
     public void cleanUp() {
         executorService.shutdownNow();
+    }
+
+    public void clearSimulationRunningTask() {
+        runningSimulationTask.set(null);
     }
 
 }

@@ -1,5 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
+import cz.muni.fi.spnp.gui.model.Model;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import java.io.BufferedReader;
@@ -7,12 +9,14 @@ import java.io.InputStreamReader;
 
 public class SimulationTask extends Task<Void> {
 
+    private final Model model;
     private final StringBuilder stringBuilder;
     private final String[] command;
     private Process process;
     private boolean isProcessDestroyed;
 
-    public SimulationTask(String... command) {
+    public SimulationTask(Model model, String... command) {
+        this.model = model;
         this.stringBuilder = new StringBuilder();
         this.command = command;
     }
@@ -58,6 +62,7 @@ public class SimulationTask extends Task<Void> {
         try {
             Process processTaskkill = processBuilder.start();
             isProcessDestroyed = true;
+            Platform.runLater(model::clearSimulationRunningTask);
         } catch (Exception e) {
             System.err.println("Error during killing of the old simulation/analysis:");
             e.printStackTrace();
