@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -92,9 +93,7 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
         buttonsPanel.getChildren().add(buttonCancel);
 
         buttonCancel.setOnAction(actionEvent -> {
-            sourceCollection = null;
-            unbindProperties();
-            stage.close();
+            closeWindow();
         });
 
         var vbox = new VBox();
@@ -104,9 +103,21 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
         vbox.setSpacing(5);
 
         var scene = new Scene(vbox);
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                closeWindow();
+            }
+        });
+
         stage.setScene(scene);
         stage.setMinWidth(300);
         stage.setResizable(false);
+    }
+
+    private void closeWindow() {
+        sourceCollection = null;
+        unbindProperties();
+        stage.close();
     }
 
     private void unbindProperties() {

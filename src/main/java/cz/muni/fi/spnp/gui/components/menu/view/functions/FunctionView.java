@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 public class FunctionView extends UIWindowComponent {
 
+    private FunctionViewModel functionViewModel;
     private final ViewModelCopyFactory viewModelCopyFactory;
     private DiagramViewModel diagramViewModel;
     private final Map<FunctionType, ObservableList<FunctionReturnType>> possibleReturnsTypes;
@@ -36,6 +38,7 @@ public class FunctionView extends UIWindowComponent {
     public FunctionView(DiagramViewModel diagramViewModel, FunctionViewModel viewModel, FunctionViewModel original, ItemViewMode itemViewMode) {
         this.viewModelCopyFactory = new ViewModelCopyFactory();
         this.diagramViewModel = diagramViewModel;
+        this.functionViewModel = viewModel;
         this.onTypeChangedListener = this::onTypeChangedListener;
 
         possibleReturnsTypes = new HashMap<>();
@@ -141,9 +144,7 @@ public class FunctionView extends UIWindowComponent {
 
         var buttonCancel = new Button("Cancel");
         buttonCancel.setOnAction(actionEvent -> {
-            viewModel.functionTypeProperty().removeListener(this.onTypeChangedListener);
-            this.diagramViewModel = null;
-            stage.close();
+            closeWindow();
         });
         buttonsPanel.getChildren().add(buttonCancel);
 
@@ -156,7 +157,21 @@ public class FunctionView extends UIWindowComponent {
         vbox.getChildren().add(textAreaDefinition);
         vbox.getChildren().add(buttonsPanel);
 
-        stage.setScene(new Scene(vbox));
+        var scene = new Scene(vbox);
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                closeWindow();
+            }
+        });
+
+        stage.setScene(scene);
+    }
+
+    private void closeWindow() {
+        this.functionViewModel.functionTypeProperty().removeListener(this.onTypeChangedListener);
+        this.functionViewModel = null;
+        this.diagramViewModel = null;
+        stage.close();
     }
 
     private void onTypeChangedListener(ObservableValue<? extends FunctionType> observableValue, FunctionType oldValue, FunctionType newValue) {

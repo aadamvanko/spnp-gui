@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
 public class AboutWindow extends UIWindowComponent {
@@ -32,7 +33,14 @@ public class AboutWindow extends UIWindowComponent {
         vBox.setPadding(new Insets(5));
         vBox.setSpacing(5);
         vBox.setAlignment(Pos.CENTER);
+
         var scene = new Scene(vBox, 400, 175);
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                stage.close();
+            }
+        });
+
         stage.setScene(scene);
         stage.setTitle("About");
         stage.setResizable(false);

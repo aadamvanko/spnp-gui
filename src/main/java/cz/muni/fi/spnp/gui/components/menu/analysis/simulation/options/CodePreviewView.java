@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
@@ -76,6 +77,12 @@ public class CodePreviewView extends UIWindowComponent {
         borderPane.setBottom(buttonsPane);
 
         var scene = new Scene(borderPane);
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                stage.close();
+            }
+        });
+
         stage.setScene(scene);
         stage.setTitle("Code preview");
         stage.setWidth(1000);

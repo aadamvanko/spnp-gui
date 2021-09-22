@@ -21,6 +21,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 
 import java.util.stream.Collectors;
@@ -140,8 +141,15 @@ public class OutputOptionsView extends UIWindowComponent {
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(5));
 
+        var scene = new Scene(vbox);
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                stage.close();
+            }
+        });
+
         stage.setTitle("Output Options");
-        stage.setScene(new Scene(vbox));
+        stage.setScene(scene);
         stage.setWidth(800);
         stage.setHeight(750);
 

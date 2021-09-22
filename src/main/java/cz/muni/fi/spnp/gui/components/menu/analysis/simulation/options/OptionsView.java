@@ -15,6 +15,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -165,6 +166,12 @@ public class OptionsView extends UIWindowComponent {
         borderPane.setPadding(new Insets(5));
 
         var scene = new Scene(borderPane);
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                stage.close();
+            }
+        });
+
         stage.setScene(scene);
         stage.setTitle("Options");
         stage.setResizable(false);

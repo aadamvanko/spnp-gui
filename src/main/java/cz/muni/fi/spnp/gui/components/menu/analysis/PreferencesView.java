@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -74,8 +75,16 @@ public class PreferencesView extends UIWindowComponent {
         vbox.getChildren().add(pathPlotsLibraryLabel);
         vbox.getChildren().add(pathPlotsLibraryTextField);
         vbox.getChildren().add(buttonsHbox);
+
+        var scene = new Scene(vbox);
+        scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                stage.close();
+            }
+        });
+
         stage.setTitle("Preferences");
-        stage.setScene(new Scene(vbox));
+        stage.setScene(scene);
         stage.setResizable(false);
     }
 
