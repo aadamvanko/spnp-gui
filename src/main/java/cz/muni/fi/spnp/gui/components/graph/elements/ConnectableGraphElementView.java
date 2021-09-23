@@ -5,6 +5,8 @@ import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Connectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
@@ -14,16 +16,41 @@ import java.util.List;
 public abstract class ConnectableGraphElementView extends GraphElementView implements Connectable, MouseSelectable {
 
     private final List<ArcView> arcs;
+    private final ChangeListener<? super String> onNameChangedListener;
 
     public ConnectableGraphElementView(GraphView graphView, ConnectableViewModel connectableViewModel) {
         super(graphView, connectableViewModel);
 
         arcs = new ArrayList<>();
+        this.onNameChangedListener = this::onNameChangedListener;
     }
 
     @Override
     public ConnectableViewModel getViewModel() {
         return (ConnectableViewModel) viewModel;
+    }
+
+    private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+        graphView.processLayoutChange();
+        if (graphView.getDiagramViewModel().isGridSnapping()) {
+            snapToGrid();
+        } else {
+            updateArcs();
+        }
+    }
+
+    @Override
+    protected void bindViewModel() {
+        super.bindViewModel();
+
+        getViewModel().nameProperty().addListener(this.onNameChangedListener);
+    }
+
+    @Override
+    public void unbindViewModel() {
+        getViewModel().nameProperty().removeListener(this.onNameChangedListener);
+
+        super.unbindViewModel();
     }
 
     public void addArc(ArcView arcView) {
@@ -63,4 +90,5 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
         connectableViewModel.positionXProperty().set(newPos.getX());
         connectableViewModel.positionYProperty().set(newPos.getY());
     }
+
 }
