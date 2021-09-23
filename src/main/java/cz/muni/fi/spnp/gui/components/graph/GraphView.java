@@ -11,6 +11,7 @@ import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -176,8 +177,10 @@ public class GraphView implements UIComponent {
             }
         }
 
-        onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
-        adjustCanvasSize();
+        Platform.runLater(() -> {
+            onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
+            adjustCanvasSize();
+        });
     }
 
     private void onSelectedChangedListener(ListChangeListener.Change<? extends ElementViewModel> selectedChange) {
@@ -478,4 +481,9 @@ public class GraphView implements UIComponent {
     public Node getRoot() {
         return zoomableScrollPane;
     }
+
+    public boolean isGridSnapping() {
+        return diagramViewModel.isGridSnapping();
+    }
+
 }
