@@ -8,13 +8,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.transform.Scale;
 
 public class ZoomableScrollPane extends ScrollPane {
+
     private final Group zoomGroup;
     private final Scale scaleTransform;
     private final double delta = 0.1;
     private double scaleValue = 1.0;
     private final BooleanProperty firstRendering;
+    private final VoidFunction layoutChangedHandler;
+    private boolean shouldCallLayoutChangedHandler;
 
-    public ZoomableScrollPane(Node content) {
+    public ZoomableScrollPane(Node content, VoidFunction layoutChangedHandler) {
+        this.layoutChangedHandler = layoutChangedHandler;
+
         Group contentGroup = new Group();
         zoomGroup = new Group();
         contentGroup.getChildren().add(zoomGroup);
@@ -90,5 +95,18 @@ public class ZoomableScrollPane extends ScrollPane {
         if (!getFirstRendering()) {
             firstRenderingProperty().set(true);
         }
+
+        if (shouldCallLayoutChangedHandler) {
+            layoutChangedHandler.call();
+        }
     }
+
+    public boolean isShouldCallLayoutChangedHandler() {
+        return shouldCallLayoutChangedHandler;
+    }
+
+    public void setShouldCallLayoutChangedHandler(boolean shouldCallLayoutChangedHandler) {
+        this.shouldCallLayoutChangedHandler = shouldCallLayoutChangedHandler;
+    }
+
 }

@@ -11,7 +11,6 @@ import cz.muni.fi.spnp.gui.components.graph.interfaces.Movable;
 import cz.muni.fi.spnp.gui.components.graph.mouseoperations.*;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -27,7 +26,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,19 +65,15 @@ public class GraphView implements UIComponent {
         gridBackgroundPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1.0))));
         gridBackgroundPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         gridBackgroundPane.getChildren().addAll(layerBottom, layerMiddle, layerTop);
-        zoomableScrollPane = new ZoomableScrollPane(gridBackgroundPane);
+        zoomableScrollPane = new ZoomableScrollPane(gridBackgroundPane, this::onLayoutChangedHandler);
 
         graphElementViews = new ArrayList<>();
         selectedViews = new ArrayList<>();
 
         rectangleSelection = new Rectangle();
-//        rectangleSelection.setWidth(100);
-//        rectangleSelection.setHeight(50);
         rectangleSelection.setStroke(Color.PURPLE);
-//        rectangleSelection.setStrokeWidth(1);
         rectangleSelection.getStrokeDashArray().addAll(5.0);
         rectangleSelection.setFill(Color.TRANSPARENT);
-//        rectangleSelection.setFill(Color.color(0.8, 0.0, 1.0, 0.05));
         rectangleSelection.setVisible(true);
         layerTop.getChildren().add(rectangleSelection);
 
@@ -96,6 +90,13 @@ public class GraphView implements UIComponent {
         this.onGridSnappingChangedListener = this::onGridSnappingChangedListener;
 
         bindDiagramViewModel(diagramViewModel);
+    }
+
+    private Void onLayoutChangedHandler() {
+        zoomableScrollPane.setShouldCallLayoutChangedHandler(false);
+        onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
+        adjustCanvasSize();
+        return null;
     }
 
     private void firstRenderingFinished(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -176,11 +177,7 @@ public class GraphView implements UIComponent {
                 addGraphElementView(addedElementViewModel);
             }
         }
-
-        Platform.runLater(() -> {
-            onGridSnappingChangedListener(null, null, diagramViewModel.isGridSnapping());
-            adjustCanvasSize();
-        });
+        zoomableScrollPane.setShouldCallLayoutChangedHandler(true);
     }
 
     private void onSelectedChangedListener(ListChangeListener.Change<? extends ElementViewModel> selectedChange) {
@@ -359,37 +356,8 @@ public class GraphView implements UIComponent {
         mouseOperation = null;
     }
 
-    private void selectViewModels(List<ElementViewModel> selectedViewModels) {
-        resetSelection();
-        var selectedViews = selectedViewModels.stream().map(this::findElementViewByModel).collect(Collectors.toList());
-        var selectedDragPoints = selectedViews.stream()
-                .filter(graphElementView -> graphElementView instanceof ArcView)
-                .map(graphElementView -> ((ArcView) graphElementView).getDragPointViews())
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-        selectedViews.addAll(selectedDragPoints);
-//        selectedViews.forEach(GraphElementView::enableHighlight);
-        select(selectedViews);
-    }
-
-    private void select(GraphElementView graphElementView) {
-        resetSelection();
-//        graphElementView.enableHighlight();
-        selectedViews.add(graphElementView);
-    }
-
-    private void select(List<GraphElementView> selectedElements) {
-        resetSelection();
-        this.selectedViews = selectedElements;
-    }
-
     public DiagramViewModel getDiagramViewModel() {
         return diagramViewModel;
-    }
-
-    private void resetSelection() {
-//        selectedViews.forEach(GraphElementView::disableHighlight);
-        selectedViews.clear();
     }
 
     public GridBackgroundPane getGridPane() {
@@ -482,8 +450,8 @@ public class GraphView implements UIComponent {
         return zoomableScrollPane;
     }
 
-    public boolean isGridSnapping() {
-        return diagramViewModel.isGridSnapping();
+    public void processLayoutChange() {
+        zoomableScrollPane.setShouldCallLayoutChangedHandler(true);
     }
 
 }
