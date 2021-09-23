@@ -1,7 +1,6 @@
 package cz.muni.fi.spnp.gui;
 
 import cz.muni.fi.spnp.gui.components.mainwindow.MainWindowView;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.CodePreviewView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output.ExpectedNumberOfTokensAllPlacesSteadyState;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output.ExpectedNumberOfTokensAllPlacesTime;
 import cz.muni.fi.spnp.gui.model.Model;
@@ -9,6 +8,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -29,6 +29,13 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setTitle("SPNP Editor");
         stage.getIcons().add(new Image(App.class.getResourceAsStream("icon.png")));
+        stage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
+            var confirmationWindowExit = new ConfirmationWindowExit();
+            confirmationWindowExit.getStage().showAndWait();
+            if (!confirmationWindowExit.shouldExit()) {
+                event.consume();
+            }
+        });
         stage.show();
     }
 
