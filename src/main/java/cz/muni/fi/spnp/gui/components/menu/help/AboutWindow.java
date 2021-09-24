@@ -24,7 +24,7 @@ public class AboutWindow extends UIWindowComponent {
         text += "License: The 3-Clause BSD License";
         var label = new Label(text);
 
-        var buttonOk = new Button("Ok");
+        var buttonOk = new Button("OK");
         buttonOk.setOnAction(actionEvent -> stage.close());
         buttonOk.setAlignment(Pos.CENTER);
 

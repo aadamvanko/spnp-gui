@@ -52,7 +52,7 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
 
         var buttonsPanel = new HBox();
         buttonsPanel.setSpacing(5);
-        buttonOk = new Button("Ok");
+        buttonOk = new Button("OK");
         buttonsPanel.getChildren().add(buttonOk);
 
         buttonOk.setOnAction(actionEvent -> {

@@ -101,7 +101,7 @@ public class FunctionView extends UIWindowComponent {
 
         var buttonsPanel = new HBox();
         buttonsPanel.setSpacing(5);
-        var buttonOk = new Button("Ok");
+        var buttonOk = new Button("OK");
         buttonOk.setOnAction(actionEvent -> {
             var forbiddenNames = Set.of("options", "net");
             if (viewModel.getName().isBlank()) {

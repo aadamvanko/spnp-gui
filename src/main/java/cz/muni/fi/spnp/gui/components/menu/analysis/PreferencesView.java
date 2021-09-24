@@ -50,7 +50,7 @@ public class PreferencesView extends UIWindowComponent {
         pathPlotsLibraryTextField.setEditable(false);
         pathPlotsLibraryTextField.setOnAction(this::onPlotsLibraryTextFieldClickedHandler);
 
-        var okButton = new Button("Ok");
+        var okButton = new Button("OK");
         HBox.setHgrow(okButton, Priority.ALWAYS);
         okButton.setMaxWidth(Double.MAX_VALUE);
         okButton.setOnAction(this::onOkButtonClickedHandler);
