@@ -1,12 +1,12 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.place;
 
-import cz.muni.fi.spnp.gui.components.propertieseditor.ConnectablePropertiesEditor;
+import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class PlacePropertiesEditor extends ConnectablePropertiesEditor {
+public class PlacePropertiesEditor extends ElementPropertiesEditor {
 
     private final Label numberOfTokensLabel;
     private final TextField numberOfTokensTextField;
