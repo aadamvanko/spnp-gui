@@ -10,12 +10,14 @@ import java.io.InputStreamReader;
 public class SimulationTask extends Task<Void> {
 
     private final Model model;
+    private final StringBuilder stringBuilder;
     private final String[] command;
     private Process process;
     private boolean isProcessDestroyed;
 
     public SimulationTask(Model model, String... command) {
         this.model = model;
+        this.stringBuilder = new StringBuilder();
         this.command = command;
     }
 
@@ -38,7 +40,10 @@ public class SimulationTask extends Task<Void> {
                 String line = in.readLine();
                 if (line == null)
                     break;
-                System.out.println(line);
+                stringBuilder.append(line);
+                if (!line.isEmpty()) {
+                    stringBuilder.append(System.lineSeparator());
+                }
             }
         } catch (Exception e) {
             System.err.println("Simulation/Analysis has failed due to the error:");
@@ -68,6 +73,7 @@ public class SimulationTask extends Task<Void> {
     protected void succeeded() {
         super.succeeded();
 
+        System.out.println(stringBuilder);
         System.out.println("Simulation/Analysis has finished.");
         destroyProcess();
     }
