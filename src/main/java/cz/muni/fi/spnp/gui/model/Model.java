@@ -3,6 +3,8 @@ package cz.muni.fi.spnp.gui.model;
 import cz.muni.fi.spnp.gui.components.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.MiscellaneousOptionsViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationOptionsViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output.OutputOptionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
@@ -38,6 +40,8 @@ public class Model {
     private final List<OutputOptionViewModel> outputOptions;
     private final SimulationOptionsViewModel simulationOptions;
     private final AnalysisOptionsViewModel analysisOptions;
+    private final IntermediateOptionsViewModel intermediateOptions;
+    private final MiscellaneousOptionsViewModel miscellaneousOptions;
 
     private final ExecutorService executorService;
     private final ObjectProperty<Task<Void>> runningSimulationTask;
@@ -57,6 +61,8 @@ public class Model {
         outputOptions = new ArrayList<>();
         simulationOptions = new SimulationOptionsViewModel();
         analysisOptions = new AnalysisOptionsViewModel();
+        intermediateOptions = new IntermediateOptionsViewModel();
+        miscellaneousOptions = new MiscellaneousOptionsViewModel();
 
         executorService = Executors.newSingleThreadExecutor();
         runningSimulationTask = new SimpleObjectProperty<>();
@@ -146,6 +152,14 @@ public class Model {
 
     public AnalysisOptionsViewModel getAnalysisOptions() {
         return analysisOptions;
+    }
+
+    public IntermediateOptionsViewModel getIntermediateOptions() {
+        return intermediateOptions;
+    }
+
+    public MiscellaneousOptionsViewModel getMiscellaneousOptions() {
+        return miscellaneousOptions;
     }
 
     public Task<Void> getRunningSimulationTask() {

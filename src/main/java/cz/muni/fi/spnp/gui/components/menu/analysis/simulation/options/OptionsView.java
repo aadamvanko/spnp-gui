@@ -31,7 +31,6 @@ public class OptionsView extends UIWindowComponent {
     private final AnalysisOptionsViewModel analysisOptionsViewModel;
 
     private GridPane gridPaneSimulation;
-    private Label label_IOP_SIM_RUNS;
     private IntegerTextField textField_IOP_SIM_RUNS;
     private ChoiceBox<ConstantValue> choiceBox_IOP_SIM_RUNMETHOD;
     private IntegerTextField textField_IOP_SIM_SEED;
@@ -145,7 +144,7 @@ public class OptionsView extends UIWindowComponent {
         textField_FOP_PRECISION = new DoubleTextField();
         addRow(gridPaneNumericAnalysis, new Label("FOP_PRECISION"), textField_FOP_PRECISION.getTextField());
 
-        var buttonPreviewAndRun = new Button("Preview and run");
+        var buttonPreviewAndRun = new Button("Continue");
         buttonPreviewAndRun.setOnAction(this::onButtonPreviewAndRunHandler);
         var paneSpacer = new Pane();
         HBox.setHgrow(paneSpacer, Priority.ALWAYS);
@@ -189,8 +188,8 @@ public class OptionsView extends UIWindowComponent {
         unbindViewModels();
         stage.close();
 
-        var codePreviewView = new CodePreviewView(model, diagramViewModel);
-        codePreviewView.getStage().show();
+        var intermediateAndMiscellaneousOptionsView = new IntermediateAndMiscellaneousOptionsView(model, diagramViewModel);
+        intermediateAndMiscellaneousOptionsView.getStage().show();
     }
 
     private void onButtonCloseHandler(ActionEvent actionEvent) {

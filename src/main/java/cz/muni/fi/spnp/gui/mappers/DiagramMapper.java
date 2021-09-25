@@ -5,6 +5,8 @@ import cz.muni.fi.spnp.core.transformators.spnp.code.FunctionSPNP;
 import cz.muni.fi.spnp.core.transformators.spnp.code.SPNPCode;
 import cz.muni.fi.spnp.core.transformators.spnp.options.*;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.MiscellaneousOptionsViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationOptionsViewModel;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
@@ -111,6 +113,8 @@ public class DiagramMapper {
         } else {
             spnpOptions.getOptions().addAll(mapSimulationOptions(model.getSimulationOptions()));
         }
+        spnpOptions.getOptions().addAll(mapIntermediateOptions(model.getIntermediateOptions()));
+        spnpOptions.getOptions().addAll(mapMiscellaneousOptions(model.getMiscellaneousOptions()));
 
         diagramViewModel.getInputParameters().forEach(inputParameter -> spnpOptions.getInputParameters().add(inputParameterMapper.map(inputParameter)));
 
@@ -147,6 +151,37 @@ public class DiagramMapper {
                 new ConstantTypeOption(IOP_SENSITIVITY, analysisOptions.getIOP_SENSITIVITY()),
                 new IntegerTypeOption(IOP_ITERATIONS, analysisOptions.getIOP_ITERATIONS()),
                 new DoubleTypeOption(FOP_PRECISION, analysisOptions.getFOP_PRECISION())
+        );
+    }
+
+    private Collection<? extends Option> mapIntermediateOptions(IntermediateOptionsViewModel intermediateOptions) {
+        return List.of(
+                new ConstantTypeOption(IOP_PR_RSET, intermediateOptions.getIOP_PR_RSET()),
+                new ConstantTypeOption(IOP_PR_RGRAPH, intermediateOptions.getIOP_PR_RGRAPH()),
+                new ConstantTypeOption(IOP_PR_MARK_ORDER, intermediateOptions.getIOP_PR_MARK_ORDER()),
+                new ConstantTypeOption(IOP_PR_MERG_MARK, intermediateOptions.getIOP_PR_MERG_MARK()),
+                new ConstantTypeOption(IOP_PR_FULL_MARK, intermediateOptions.getIOP_PR_FULL_MARK()),
+                new ConstantTypeOption(IOP_USENAME, intermediateOptions.getIOP_USENAME()),
+                new ConstantTypeOption(IOP_PR_MC, intermediateOptions.getIOP_PR_MC()),
+                new ConstantTypeOption(IOP_PR_DERMC, intermediateOptions.getIOP_PR_DERMC()),
+                new ConstantTypeOption(IOP_PR_MC_ORDER, intermediateOptions.getIOP_PR_MC_ORDER()),
+                new ConstantTypeOption(IOP_PR_PROB, intermediateOptions.getIOP_PR_PROB()),
+                new ConstantTypeOption(IOP_PR_PROBDTMC, intermediateOptions.getIOP_PR_PROBDTMC()),
+                new ConstantTypeOption(IOP_PR_DOT, intermediateOptions.getIOP_PR_DOT())
+        );
+    }
+
+    private Collection<? extends Option> mapMiscellaneousOptions(MiscellaneousOptionsViewModel miscellaneousOptions) {
+        return List.of(
+                new ConstantTypeOption(IOP_ELIMINATION, miscellaneousOptions.getIOP_ELIMINATION()),
+                new ConstantTypeOption(IOP_OK_ABSMARK, miscellaneousOptions.getIOP_OK_ABSMARK()),
+                new ConstantTypeOption(IOP_OK_VANLOOP, miscellaneousOptions.getIOP_OK_VANLOOP()),
+                new ConstantTypeOption(IOP_OK_TRANS_M0, miscellaneousOptions.getIOP_OK_TRANS_M0()),
+                new ConstantTypeOption(IOP_OK_VAN_M0, miscellaneousOptions.getIOP_OK_VAN_M0()),
+                new DoubleTypeOption(FOP_ABS_RET_M0, miscellaneousOptions.getFOP_ABS_RET_M0()),
+                new ConstantTypeOption(IOP_DEBUG, miscellaneousOptions.getIOP_DEBUG()),
+                new DoubleTypeOption(FOP_FLUID_EPSILON, miscellaneousOptions.getFOP_FLUID_EPSILON()),
+                new DoubleTypeOption(FOP_TIME_EPSILON, miscellaneousOptions.getFOP_TIME_EPSILON())
         );
     }
 
