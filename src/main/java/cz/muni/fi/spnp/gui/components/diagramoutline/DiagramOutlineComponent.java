@@ -7,7 +7,13 @@ import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+
+import java.util.List;
 
 public class DiagramOutlineComponent extends TreeViewContainer<DisplayableViewModel> {
 
@@ -57,6 +63,16 @@ public class DiagramOutlineComponent extends TreeViewContainer<DisplayableViewMo
     protected void addItemToTree(DisplayableViewModel displayableViewModel) {
         var treeItemElement = createItem(displayableViewModel);
         treeItemDiagram.getChildren().add(treeItemElement);
+    }
+
+    @Override
+    protected EventHandler<? super MouseEvent> getOnItemMouseClickHandler() {
+        return mouseEvent -> {
+            var sourceItem = ((TreeCell<DisplayableViewModel>) mouseEvent.getSource()).getItem();
+            if (sourceItem instanceof ElementViewModel && mouseEvent.getButton() == MouseButton.PRIMARY && mouseEvent.getClickCount() == 2) {
+                model.selectedDiagramProperty().get().select(List.of((ElementViewModel) sourceItem));
+            }
+        };
     }
 
 }
