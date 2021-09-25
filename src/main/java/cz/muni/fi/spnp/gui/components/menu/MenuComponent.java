@@ -14,7 +14,6 @@ import cz.muni.fi.spnp.gui.components.menu.view.variables.InputParametersTableVi
 import cz.muni.fi.spnp.gui.components.menu.view.variables.VariablesTableViewWindow;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
-import cz.muni.fi.spnp.gui.storing.savers.OldFileSaver;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
@@ -27,7 +26,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 public class MenuComponent extends ApplicationComponent {
@@ -191,14 +189,9 @@ public class MenuComponent extends ApplicationComponent {
     }
 
     private void onSaveProjectClickedHandler(ActionEvent actionEvent) {
-        var directoryChooser = new DirectoryChooser();
         var project = model.selectedDiagramProperty().get().getProject();
-        directoryChooser.setTitle("Select save directory for project " + project.getName());
-        var file = directoryChooser.showDialog(menuBar.getScene().getWindow());
-        if (file != null) {
-            var oldFileSaver = new OldFileSaver();
-            oldFileSaver.saveProject(file.getPath(), project);
-        }
+        var projectSaver = new ProjectSaver(menuBar.getScene().getWindow(), project);
+        projectSaver.save();
     }
 
     private void onCloseProjectClickedHandler(ActionEvent actionEvent) {

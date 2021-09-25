@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.projects;
 
 import cz.muni.fi.spnp.gui.components.TreeViewContainer;
+import cz.muni.fi.spnp.gui.components.menu.ProjectSaver;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
@@ -37,20 +38,22 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
             if (sourceItem instanceof DiagramViewModel && mouseEvent.getClickCount() == 2) {
                 model.selectedDiagramProperty().set((DiagramViewModel) sourceItem);
             } else if (sourceItem instanceof ProjectViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
-                var projectContextMenu = new ContextMenu();
                 var projectTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
+                var menuItemSaveProject = new MenuItem("Save project");
+                menuItemSaveProject.setOnAction(actionEvent -> {
+                    var projectSaver = new ProjectSaver(treeView.getScene().getWindow(), (ProjectViewModel) sourceItem);
+                    projectSaver.save();
+                });
                 var menuItemCloseProject = new MenuItem("Close project");
                 menuItemCloseProject.setOnAction(actionEvent -> model.getProjects().remove((ProjectViewModel) sourceItem));
-                projectContextMenu.getItems().add(menuItemCloseProject);
+                var projectContextMenu = new ContextMenu(menuItemSaveProject, menuItemCloseProject);
                 projectContextMenu.show(projectTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             } else if (sourceItem instanceof DiagramViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
-                var diagramContextMenu = new ContextMenu();
                 var diagramTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
                 var menuItemDeleteDiagram = new MenuItem("Delete diagram");
-                // TODO remove reference from viewmodelcopyfactory...
                 var diagramViewModel = (DiagramViewModel) sourceItem;
                 menuItemDeleteDiagram.setOnAction(actionEvent -> diagramViewModel.getProject().getDiagrams().remove(diagramViewModel));
-                diagramContextMenu.getItems().add(menuItemDeleteDiagram);
+                var diagramContextMenu = new ContextMenu(menuItemDeleteDiagram);
                 diagramContextMenu.show(diagramTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             }
         };
