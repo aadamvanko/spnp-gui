@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue;
 import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
 import cz.muni.fi.spnp.gui.components.propertieseditor.DoubleTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
+import cz.muni.fi.spnp.gui.components.propertieseditor.MyDoubleStringConverter;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.value.ObservableValue;
@@ -17,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
@@ -208,19 +208,19 @@ public class OptionsView extends UIWindowComponent {
         textField_IOP_SPLIT_NUMBER.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SPLIT_NUMBERProperty().asObject(), new IntegerStringConverter());
         choiceBox_IOP_SPLIT_RESTART_FINISH.valueProperty().bindBidirectional(simulationOptionsViewModel.IOP_SPLIT_RESTART_FINISHProperty());
         textField_IOP_SPLIT_PRESIM_RUNS.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SPLIT_PRESIM_RUNSProperty().asObject(), new IntegerStringConverter());
-        textField_FOP_SIM_LENGTH.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_LENGTHProperty().asObject(), new DoubleStringConverter());
-        textField_FOP_SIM_CONFIDENCE.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_CONFIDENCEProperty().asObject(), new DoubleStringConverter());
-        textField_FOP_SIM_ERROR.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_ERRORProperty().asObject(), new DoubleStringConverter());
+        textField_FOP_SIM_LENGTH.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_LENGTHProperty().asObject(), new MyDoubleStringConverter());
+        textField_FOP_SIM_CONFIDENCE.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_CONFIDENCEProperty().asObject(), new MyDoubleStringConverter());
+        textField_FOP_SIM_ERROR.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_ERRORProperty().asObject(), new MyDoubleStringConverter());
 
         choiceBox_IOP_MC.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_MCProperty());
         choiceBox_IOP_SSMETHOD.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_SSMETHODProperty());
         choiceBox_IOP_SSDETECT.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_SSDETECTProperty());
-        textField_FOP_SSPRES.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.FOP_SSPRESProperty().asObject(), new DoubleStringConverter());
+        textField_FOP_SSPRES.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.FOP_SSPRESProperty().asObject(), new MyDoubleStringConverter());
         choiceBox_IOP_TSMETHOD.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_TSMETHODProperty());
         choiceBox_IOP_CUMULATIVE.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_CUMULATIVEProperty());
         choiceBox_IOP_SENSITIVTY.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_SENSITIVITYProperty());
         textField_IOP_ITERATIONS.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.IOP_ITERATIONSProperty().asObject(), new IntegerStringConverter());
-        textField_FOP_PRECISION.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.FOP_PRECISIONProperty().asObject(), new DoubleStringConverter());
+        textField_FOP_PRECISION.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.FOP_PRECISIONProperty().asObject(), new MyDoubleStringConverter());
     }
 
     private void unbindViewModels() {

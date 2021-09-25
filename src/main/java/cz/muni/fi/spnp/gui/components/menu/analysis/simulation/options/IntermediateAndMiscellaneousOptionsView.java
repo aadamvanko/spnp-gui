@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 import cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue;
 import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
 import cz.muni.fi.spnp.gui.components.propertieseditor.DoubleTextField;
+import cz.muni.fi.spnp.gui.components.propertieseditor.MyDoubleStringConverter;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.collections.FXCollections;
@@ -14,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.util.converter.DoubleStringConverter;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
@@ -189,10 +189,10 @@ public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
         choiceBox_IOP_OK_VANLOOP.valueProperty().bindBidirectional(miscellaneousOptionsViewModel.IOP_OK_VANLOOPProperty());
         choiceBox_IOP_OK_TRANS_M0.valueProperty().bindBidirectional(miscellaneousOptionsViewModel.IOP_OK_TRANS_M0Property());
         choiceBox_IOP_OK_VAN_M0.valueProperty().bindBidirectional(miscellaneousOptionsViewModel.IOP_OK_VAN_M0Property());
-        textField_FOP_ABS_RET_M0.getTextField().textProperty().bindBidirectional(miscellaneousOptionsViewModel.FOP_ABS_RET_M0Property().asObject(), new DoubleStringConverter());
+        textField_FOP_ABS_RET_M0.getTextField().textProperty().bindBidirectional(miscellaneousOptionsViewModel.FOP_ABS_RET_M0Property().asObject(), new MyDoubleStringConverter());
         choiceBox_IOP_DEBUG.valueProperty().bindBidirectional(miscellaneousOptionsViewModel.IOP_DEBUGProperty());
-        textField_FOP_FLUID_EPSILON.getTextField().textProperty().bindBidirectional(miscellaneousOptionsViewModel.FOP_FLUID_EPSILONProperty().asObject(), new DoubleStringConverter());
-        textField_FOP_TIME_EPSILON.getTextField().textProperty().bindBidirectional(miscellaneousOptionsViewModel.FOP_TIME_EPSILONProperty().asObject(), new DoubleStringConverter());
+        textField_FOP_FLUID_EPSILON.getTextField().textProperty().bindBidirectional(miscellaneousOptionsViewModel.FOP_FLUID_EPSILONProperty().asObject(), new MyDoubleStringConverter());
+        textField_FOP_TIME_EPSILON.getTextField().textProperty().bindBidirectional(miscellaneousOptionsViewModel.FOP_TIME_EPSILONProperty().asObject(), new MyDoubleStringConverter());
     }
 
     private void unbindViewModels() {

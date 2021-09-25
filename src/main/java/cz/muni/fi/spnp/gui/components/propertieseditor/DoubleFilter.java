@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class DoubleFilter implements UnaryOperator<TextFormatter.Change> {
 
-    private final static Pattern DIGIT_PATTERN = Pattern.compile("\\d+\\.\\d*|\\d*");
+    private final static Pattern DIGIT_PATTERN = Pattern.compile("-?\\d+(\\.\\d*)?([eE]-?\\d+)?");
 
     @Override
     public TextFormatter.Change apply(TextFormatter.Change change) {

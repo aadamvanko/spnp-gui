@@ -2,7 +2,6 @@ package cz.muni.fi.spnp.gui.components.propertieseditor;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.util.converter.DoubleStringConverter;
 
 public class DoubleTextField {
 
@@ -11,7 +10,7 @@ public class DoubleTextField {
     public DoubleTextField() {
         textField = new TextField();
 
-        TextFormatter<Double> formatter = new TextFormatter<>(new DoubleStringConverter(), 0.0, new DoubleFilter());
+        TextFormatter<Double> formatter = new TextFormatter<>(new MyDoubleStringConverter(), 0.0, new DoubleFilter());
         textField.setTextFormatter(formatter);
     }
 

@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
 import cz.muni.fi.spnp.gui.components.propertieseditor.DoubleTextField;
+import cz.muni.fi.spnp.gui.components.propertieseditor.MyDoubleStringConverter;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PlaceViewModelStringConverter;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
@@ -11,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.util.converter.DoubleStringConverter;
 
 public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
@@ -65,7 +65,7 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
         super.bindViewModel(transitionProbabilityViewModel);
 
         var placeDependentTransitionProbabilityViewModel = (PlaceDependentTransitionProbabilityViewModel) transitionProbabilityViewModel;
-        valueTextField.getTextField().textProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.valueProperty().asObject(), new DoubleStringConverter());
+        valueTextField.getTextField().textProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.valueProperty().asObject(), new MyDoubleStringConverter());
         dependentPlaceChoiceBox.valueProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.dependentPlaceProperty());
     }
 
