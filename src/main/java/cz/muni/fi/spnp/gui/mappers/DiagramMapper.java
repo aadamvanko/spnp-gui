@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.core.models.PetriNet;
 import cz.muni.fi.spnp.core.transformators.spnp.code.FunctionSPNP;
 import cz.muni.fi.spnp.core.transformators.spnp.code.SPNPCode;
 import cz.muni.fi.spnp.core.transformators.spnp.options.*;
+import cz.muni.fi.spnp.core.transformators.spnp.parameters.InputParameter;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateOptionsViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.MiscellaneousOptionsViewModel;
@@ -15,6 +16,7 @@ import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ViewModelUtils;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -105,20 +107,20 @@ public class DiagramMapper {
             return spnpOptions;
         }
 
-        spnpOptions = new SPNPOptions(new HashSet<>(), new HashSet<>());
+        var inputParameters = new HashSet<InputParameter>();
+        diagramViewModel.getInputParameters().forEach(inputParameter -> inputParameters.add(inputParameterMapper.map(inputParameter)));
 
+        var allOptions = new ArrayList<Option>();
         if (model.getSimulationOptions().getIOP_SIMULATION() == ConstantValue.VAL_NO) {
-            spnpOptions.getOptions().add(new ConstantTypeOption(IOP_SIMULATION, ConstantValue.VAL_NO));
-            spnpOptions.getOptions().addAll(mapAnalysisOptions(model.getAnalysisOptions()));
+            allOptions.add(new ConstantTypeOption(IOP_SIMULATION, ConstantValue.VAL_NO));
+            allOptions.addAll(mapAnalysisOptions(model.getAnalysisOptions()));
         } else {
-            spnpOptions.getOptions().addAll(mapSimulationOptions(model.getSimulationOptions()));
+            allOptions.addAll(mapSimulationOptions(model.getSimulationOptions()));
         }
-        spnpOptions.getOptions().addAll(mapIntermediateOptions(model.getIntermediateOptions()));
-        spnpOptions.getOptions().addAll(mapMiscellaneousOptions(model.getMiscellaneousOptions()));
+        allOptions.addAll(mapIntermediateOptions(model.getIntermediateOptions()));
+        allOptions.addAll(mapMiscellaneousOptions(model.getMiscellaneousOptions()));
 
-        diagramViewModel.getInputParameters().forEach(inputParameter -> spnpOptions.getInputParameters().add(inputParameterMapper.map(inputParameter)));
-
-        return spnpOptions;
+        return new SPNPOptions(inputParameters, allOptions);
     }
 
     private Collection<? extends Option> mapSimulationOptions(SimulationOptionsViewModel simulationOptions) {
