@@ -33,20 +33,10 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
 
     private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
         graphView.processLayoutChange();
-        System.out.println("preservedShapeCenter " + getViewModel().getPreservedShapeCenter());
-        System.out.println("shapeCenter " + getShapeCenter());
-        if (graphView.getDiagramViewModel().isGridSnapping()) {
-
-            Platform.runLater(() -> {
-                snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
-                updateArcs();
-            });
-        } else {
-            Platform.runLater(() -> {
-                snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
-                updateArcs();
-            });
-        }
+        Platform.runLater(() -> {
+            snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
+            updateArcs();
+        });
     }
 
     @Override
@@ -58,7 +48,6 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
     @Override
     public void preservePosition() {
         getViewModel().setPreservedShapeCenter(getShapeCenter());
-        System.out.println("preserving");
     }
 
     protected abstract Point2D getContainerPosition();

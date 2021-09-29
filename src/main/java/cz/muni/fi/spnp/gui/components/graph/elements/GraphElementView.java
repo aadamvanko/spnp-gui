@@ -127,18 +127,9 @@ public abstract class GraphElementView implements VisualElement, Movable {
         if (graphView.getDiagramViewModel().isGridSnapping() && grid) {
             var movedCenter = snapPoint.add(moveCenterOffset);
             var newSnapPoint = calculateGridSnapPoint(movedCenter);
-            System.out.println("snapPoint " + snapPoint);
-            System.out.println("newSnapPoint " + newSnapPoint);
             var movedSnapOffset = newSnapPoint.subtract(snapPoint);
-            var a = snapOffset.add(moveCenterOffset);
-            var b = snapOffset.add(movedSnapOffset);
-            var c = moveCenterOffset.add(movedSnapOffset);
-
-            move(b);
-//            move(snapOffset.add(moveCenterOffset));
+            move(snapOffset.add(movedSnapOffset));
         } else {
-            System.out.println("snapOffset " + snapOffset);
-            System.out.println("moveCenterOffset " + moveCenterOffset);
             move(snapOffset.add(moveCenterOffset));
         }
     }
