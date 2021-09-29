@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.model.Clipboard;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.*;
+import javafx.geometry.Point2D;
 
 import java.util.Collection;
 import java.util.List;
@@ -46,12 +47,14 @@ public class OperationPasteElements extends GraphElementsOperationBase {
     private void offsetElements(List<ElementViewModel> elements) {
         final double offsetX = 20;
         final double offsetY = 20;
+        final var offset = new Point2D(offsetX, offsetY);
 
         for (var element : elements) {
             if (element instanceof ConnectableViewModel) {
                 var connectableViewModel = (ConnectableViewModel) element;
                 connectableViewModel.positionXProperty().set(connectableViewModel.getPositionX() + offsetX);
                 connectableViewModel.positionYProperty().set(connectableViewModel.getPositionY() + offsetY);
+                connectableViewModel.getPreservedShapeCenter().add(offset);
             } else if (element instanceof ArcViewModel) {
                 var arcViewModel = (ArcViewModel) element;
                 arcViewModel.getDragPoints().forEach(dragPointViewModel -> {

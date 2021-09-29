@@ -18,6 +18,7 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.NegativeBinomialTransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.threevalues.ThreeValuesTransitionDistributionBaseViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.twovalues.*;
+import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,6 +140,7 @@ public class ViewModelCopyFactory {
         copyTo(copy, (ElementViewModel) connectableViewModel);
         copy.positionXProperty().set(connectableViewModel.getPositionX());
         copy.positionYProperty().set(connectableViewModel.getPositionY());
+        copy.setPreservedShapeCenter(new Point2D(connectableViewModel.getPreservedShapeCenter().getX(), connectableViewModel.getPreservedShapeCenter().getY()));
     }
 
     private void copyTo(PlaceViewModel copy, PlaceViewModel placeViewModel) {

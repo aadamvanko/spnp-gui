@@ -173,7 +173,8 @@ public class PlaceView extends ConnectableGraphElementView {
         updateArcs();
     }
 
-    private Point2D getContainerPosition() {
+    @Override
+    protected Point2D getContainerPosition() {
         return new Point2D(container.getTranslateX(), container.getTranslateY());
     }
 

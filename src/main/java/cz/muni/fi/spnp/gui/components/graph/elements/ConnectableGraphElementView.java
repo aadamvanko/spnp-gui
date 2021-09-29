@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Connectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
@@ -32,12 +33,35 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
 
     private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
         graphView.processLayoutChange();
+        System.out.println("preservedShapeCenter " + getViewModel().getPreservedShapeCenter());
+        System.out.println("shapeCenter " + getShapeCenter());
         if (graphView.getDiagramViewModel().isGridSnapping()) {
-            snapToGrid();
+
+            Platform.runLater(() -> {
+                snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
+                updateArcs();
+            });
         } else {
-            updateArcs();
+            Platform.runLater(() -> {
+                snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
+                updateArcs();
+            });
         }
     }
+
+    @Override
+    public void snapToPreservedPosition() {
+        snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
+        updateArcs();
+    }
+
+    @Override
+    public void preservePosition() {
+        getViewModel().setPreservedShapeCenter(getShapeCenter());
+        System.out.println("preserving");
+    }
+
+    protected abstract Point2D getContainerPosition();
 
     @Override
     protected void bindViewModel() {

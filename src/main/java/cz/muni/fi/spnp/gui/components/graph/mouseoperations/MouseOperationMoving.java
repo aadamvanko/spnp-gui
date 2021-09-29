@@ -35,7 +35,9 @@ public class MouseOperationMoving extends MouseOperation {
 
         var selectedViews = graphView.getSelectedViews();
         if (selectedViews.stream().allMatch(element -> element.canMove(offset))) {
-            selectedViews.forEach(element -> element.move(offset));
+            selectedViews.forEach(element -> {
+                element.move(offset);
+            });
         }
     }
 
@@ -45,6 +47,7 @@ public class MouseOperationMoving extends MouseOperation {
             graphView.getSelectedViews().forEach(Movable::snapToGrid);
         }
 
+        graphView.getSelectedViews().forEach(view -> view.preservePosition());
         graphView.adjustCanvasSize();
     }
 }

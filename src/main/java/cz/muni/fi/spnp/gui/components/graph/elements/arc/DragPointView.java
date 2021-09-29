@@ -104,6 +104,10 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
     }
 
     @Override
+    public void snapToPreservedPosition() {
+    }
+
+    @Override
     public void move(Point2D offset) {
         moveViaTranslate(offset);
         arcView.onDragPointMovedHandler(this);
