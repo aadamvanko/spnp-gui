@@ -38,17 +38,20 @@ public class PreferencesView extends UIWindowComponent {
         pathSPNPLabel = new Label("Path of the interface directory:");
         pathSPNPTextField = new TextField();
         pathSPNPTextField.setEditable(false);
-        pathSPNPTextField.setOnAction(this::onPathSPNPTextFieldClickedHandler);
+        pathSPNPTextField.setOnMouseClicked(mouseEvent -> chooseDirectoryPathSPNP());
+        pathSPNPTextField.setOnKeyPressed(keyEvent -> chooseDirectoryPathSPNP());
 
         pathSPNPExamplesLabel = new Label("Directory for the SPNP examples:");
         pathSPNPExamplesTextField = new TextField();
         pathSPNPExamplesTextField.setEditable(false);
-        pathSPNPExamplesTextField.setOnAction(this::onPathExamplesTextFieldClickedHandler);
+        pathSPNPExamplesTextField.setOnMouseClicked(mouseEvent -> chooseDirectoryPathSPNPExamples());
+        pathSPNPExamplesTextField.setOnKeyPressed(keyEvent -> chooseDirectoryPathSPNPExamples());
 
         pathPlotsLibraryLabel = new Label("Directory for the plots library:");
         pathPlotsLibraryTextField = new TextField();
         pathPlotsLibraryTextField.setEditable(false);
-        pathPlotsLibraryTextField.setOnAction(this::onPlotsLibraryTextFieldClickedHandler);
+        pathPlotsLibraryTextField.setOnMouseClicked(mouseEvent -> chooseDirectoryPathPlotsLibrary());
+        pathPlotsLibraryTextField.setOnKeyPressed(keyEvent -> chooseDirectoryPathPlotsLibrary());
 
         var okButton = new Button("OK");
         HBox.setHgrow(okButton, Priority.ALWAYS);
@@ -88,15 +91,15 @@ public class PreferencesView extends UIWindowComponent {
         stage.setResizable(false);
     }
 
-    private void onPathSPNPTextFieldClickedHandler(ActionEvent actionEvent) {
+    private void chooseDirectoryPathSPNP() {
         chooseDirectory(model.pathSPNPProperty());
     }
 
-    private void onPathExamplesTextFieldClickedHandler(ActionEvent actionEvent) {
+    private void chooseDirectoryPathSPNPExamples() {
         chooseDirectory(model.pathSPNPExamplesProperty());
     }
 
-    private void onPlotsLibraryTextFieldClickedHandler(ActionEvent actionEvent) {
+    private void chooseDirectoryPathPlotsLibrary() {
         chooseDirectory(model.pathPlotsLibraryProperty());
     }
 
