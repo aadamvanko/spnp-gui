@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.graph;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
+import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
@@ -8,6 +9,7 @@ import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
@@ -15,6 +17,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -168,6 +173,27 @@ public class DiagramComponent extends ApplicationComponent {
 
     private boolean isOpened(DiagramViewModel diagramViewModel) {
         return getTabForDiagram(diagramViewModel) != null;
+    }
+
+    public void saveScreenshotCurrentDiagram(File file) {
+        if (file == null) {
+            return;
+        }
+
+        saveScreenshotDiagram(getSelectedDiagramView().getGraphView().getGridPane(), file);
+    }
+
+    public void saveScreenshotCurrentProject() {
+    }
+
+    private void saveScreenshotDiagram(GridBackgroundPane gridBackgroundPane, File file) {
+        var writableImage = gridBackgroundPane.snapshot(null, null);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
+        } catch (IOException e) {
+            System.err.println("Could not save screenshot to file " + file.getAbsolutePath() + " due to error:");
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,10 +1,12 @@
 module cz.muni.fi {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.swing;
     requires spnp.core.models;
     requires spnp.core.transformators;
     requires org.controlsfx.controls;
     requires org.apache.commons.lang3;
+    requires java.desktop;
 
     exports cz.muni.fi.spnp.gui;
     exports cz.muni.fi.spnp.gui.components.graph;

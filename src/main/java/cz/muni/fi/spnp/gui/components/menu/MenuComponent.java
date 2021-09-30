@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
+import cz.muni.fi.spnp.gui.components.graph.DiagramComponent;
 import cz.muni.fi.spnp.gui.components.graph.operations.*;
 import cz.muni.fi.spnp.gui.components.menu.analysis.PreferencesView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsView;
@@ -45,29 +46,32 @@ public class MenuComponent extends ApplicationComponent {
     private final MenuItem menuItemNewProject;
     private final NewDiagramView newDiagramView;
     private final MenuItem menuItemNewDiagram;
+    private final DiagramComponent diagramComponent;
 
-    public MenuComponent(Model model) {
+    public MenuComponent(Model model, DiagramComponent diagramComponent) {
         super(model);
+
+        this.diagramComponent = diagramComponent;
 
         menuBar = new MenuBar();
 
         Menu menuProject = new Menu("_Project");
 
-        var menuItemOpenProject = new MenuItem("Open project");
+        var menuItemOpenProject = new MenuItem("_Open project");
         menuItemOpenProject.setOnAction(this::onOpenProjectClickedHandler);
         menuProject.getItems().add(menuItemOpenProject);
 
         newProjectView = new NewProjectView(model);
-        menuItemNewProject = new MenuItem("New Project");
+        menuItemNewProject = new MenuItem("_New Project");
         menuItemNewProject.setOnAction(actionEvent -> newProjectView.getStage().showAndWait());
         menuProject.getItems().add(menuItemNewProject);
 
-        var menuItemSaveProject = new MenuItem("Save project");
+        var menuItemSaveProject = new MenuItem("_Save project");
         menuItemSaveProject.setOnAction(this::onSaveProjectClickedHandler);
         menuItemSaveProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuProject.getItems().add(menuItemSaveProject);
 
-        var menuItemCloseProject = new MenuItem("Close project");
+        var menuItemCloseProject = new MenuItem("_Close project");
         menuItemCloseProject.setOnAction(this::onCloseProjectClickedHandler);
         menuItemCloseProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuProject.getItems().add(menuItemCloseProject);
@@ -76,26 +80,26 @@ public class MenuComponent extends ApplicationComponent {
         var menuDiagram = new Menu("_Diagram");
 
         newDiagramView = new NewDiagramView(model);
-        menuItemNewDiagram = new MenuItem("New Diagram");
+        menuItemNewDiagram = new MenuItem("_New Diagram");
         menuItemNewDiagram.setDisable(true);
         menuItemNewDiagram.setOnAction(actionEvent -> newDiagramView.getStage().showAndWait());
         menuDiagram.getItems().add(menuItemNewDiagram);
         menuBar.getMenus().add(menuDiagram);
 
         Menu menuEdit = new Menu("_Edit");
-        var menuItemSelectAll = new MenuItem("Select all");
+        var menuItemSelectAll = new MenuItem("_Select all");
         menuItemSelectAll.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN));
         menuItemSelectAll.setOnAction(actionEvent -> new OperationSelectAll(model, model.selectedDiagramProperty().get()).execute());
-        var menuItemPaste = new MenuItem("Paste");
+        var menuItemPaste = new MenuItem("_Paste");
         menuItemPaste.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN));
         menuItemPaste.setOnAction(actionEvent -> new OperationPasteElements(model, model.selectedDiagramProperty().get()).execute());
-        var menuItemCopy = new MenuItem("Copy");
+        var menuItemCopy = new MenuItem("_Copy");
         menuItemCopy.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));
         menuItemCopy.setOnAction(actionEvent -> new OperationCopyElements(model, model.selectedDiagramProperty().get()).execute());
         var menuItemCut = new MenuItem("Cut");
         menuItemCut.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN));
         menuItemCut.setOnAction(actionEvent -> new OperationCutElements(model, model.selectedDiagramProperty().get()).execute());
-        var menuItemDelete = new MenuItem("Delete");
+        var menuItemDelete = new MenuItem("_Delete");
         menuItemDelete.setAccelerator(new KeyCodeCombination(KeyCode.DELETE));
         menuItemDelete.setOnAction(actionEvent -> new OperationDeleteElements(model, model.selectedDiagramProperty().get()).execute());
         menuEdit.getItems().addAll(menuItemSelectAll, menuItemPaste, menuItemCopy, menuItemCut, menuItemDelete);
@@ -142,7 +146,7 @@ public class MenuComponent extends ApplicationComponent {
         var menuSimulation = new Menu("_Analysis");
 
         var preferencesView = new PreferencesView(model);
-        var menuItemPreferences = new MenuItem("Preferences");
+        var menuItemPreferences = new MenuItem("_Preferences");
         menuItemPreferences.setOnAction(actionEvent -> preferencesView.getStage().showAndWait());
         menuSimulation.getItems().add(menuItemPreferences);
 
@@ -162,6 +166,16 @@ public class MenuComponent extends ApplicationComponent {
         menuSimulation.getItems().add(menuItemStop);
         menuBar.getMenus().add(menuSimulation);
 
+        var menuExport = new Menu("E_xport");
+        var menuItemScreenshotDiagram = new MenuItem("_Diagram Screenshot");
+        menuItemScreenshotDiagram.setOnAction(this::onScreenshotDiagramHandler);
+        menuItemScreenshotDiagram.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuExport.getItems().add(menuItemScreenshotDiagram);
+        var menuItemScreenshotProject = new MenuItem("_Project Screenshot");
+        menuItemScreenshotProject.setOnAction(this::onScreenshotProjectHandler);
+        menuItemScreenshotProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuExport.getItems().add(menuItemScreenshotProject);
+        menuBar.getMenus().add(menuExport);
 
         Menu menuHelp = new Menu("_Help");
         var aboutWindow = new AboutWindow();
@@ -172,6 +186,19 @@ public class MenuComponent extends ApplicationComponent {
 
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
         menuItemNewDiagram.disableProperty().bind(Bindings.size(model.getProjects()).isEqualTo(0));
+    }
+
+    private void onScreenshotDiagramHandler(ActionEvent actionEvent) {
+        var fileChooser = new FileChooser();
+        var selectedDiagram = model.selectedDiagramProperty().get();
+        fileChooser.setInitialFileName(String.format("%s_%s.png", selectedDiagram.getProject().getName(), selectedDiagram.getName()));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png"));
+        fileChooser.setTitle("Save screenshot of diagram " + model.selectedDiagramProperty().get().getName());
+        var file = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+        diagramComponent.saveScreenshotCurrentDiagram(file);
+    }
+
+    private void onScreenshotProjectHandler(ActionEvent actionEvent) {
     }
 
     private void onOpenProjectClickedHandler(ActionEvent actionEvent) {

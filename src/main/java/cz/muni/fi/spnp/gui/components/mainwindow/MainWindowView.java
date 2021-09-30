@@ -364,7 +364,7 @@ public class MainWindowView {
     private Node createTopPanel() {
         VBox vbox = new VBox();
 
-        menuComponent = new MenuComponent(model);
+        menuComponent = new MenuComponent(model, diagramComponent);
         vbox.getChildren().add(menuComponent.getRoot());
 
         return vbox;
