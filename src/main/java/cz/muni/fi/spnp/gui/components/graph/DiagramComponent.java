@@ -20,6 +20,7 @@ import javafx.scene.control.TabPane;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -180,7 +181,11 @@ public class DiagramComponent extends ApplicationComponent {
             return;
         }
 
+        var diagram = model.selectedDiagramProperty().get();
+        var selected = new ArrayList(diagram.getSelected());
+        diagram.resetSelection();
         saveScreenshotDiagram(getSelectedDiagramView().getGraphView().getGridPane(), file);
+        diagram.select(selected);
     }
 
     public void saveScreenshotCurrentProject() {
