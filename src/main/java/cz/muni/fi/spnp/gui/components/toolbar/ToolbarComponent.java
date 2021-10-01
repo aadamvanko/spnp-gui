@@ -123,6 +123,7 @@ public class ToolbarComponent extends ApplicationComponent {
         generateCodeButton.setPrefWidth(48);
         generateCodeButton.setPrefHeight(48);
         generateCodeButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("refresh_32.png"))));
+        generateCodeButton.setTooltip(new Tooltip("Generates actual code. Press if the variables, defines, includes or functions have changed without switching between graph and code views."));
 
         toolBar.getItems().add(new Separator(Orientation.VERTICAL));
         toolBar.getItems().add(new ZoomOutButton(this::onZoomOutButtonClicked).getRoot());
