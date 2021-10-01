@@ -51,10 +51,14 @@ public class ElementMapper {
 
     public Place mapPlace(PlaceViewModel placeViewModel) throws MappingException {
         try {
+            var numberOfTokens = placeViewModel.getNumberOfTokens();
+            if (numberOfTokens.equals("")) {
+                numberOfTokens = "0";
+            }
             var place = new SPNPStandardPlace(
                     getId(),
                     placeViewModel.getName(),
-                    placeViewModel.getNumberOfTokens()
+                    numberOfTokens
             );
             placesMapping.put(placeViewModel, place);
             return place;

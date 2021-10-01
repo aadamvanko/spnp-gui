@@ -32,6 +32,10 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
     }
 
     private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+        snapToPointLater();
+    }
+
+    protected void snapToPointLater() {
         graphView.processLayoutChange();
         Platform.runLater(() -> {
             snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);

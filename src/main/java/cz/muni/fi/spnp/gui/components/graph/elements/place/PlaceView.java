@@ -4,6 +4,8 @@ import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -24,17 +26,24 @@ public class PlaceView extends ConnectableGraphElementView {
     private Label nameLabel;
     private VBox container;
 
+    private final ChangeListener<? super String> onTokensChangedListener;
+
     public PlaceView(GraphView graphView, PlaceViewModel placeViewModel) {
         super(graphView, placeViewModel);
 
-        createView();
+        this.onTokensChangedListener = this::onTokensChangedListener;
 
+        createView();
         bindViewModel();
     }
 
     @Override
     public PlaceViewModel getViewModel() {
         return (PlaceViewModel) viewModel;
+    }
+
+    private void onTokensChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+        snapToPointLater();
     }
 
     private void createView() {
@@ -85,6 +94,7 @@ public class PlaceView extends ConnectableGraphElementView {
 
         nameLabel.textProperty().bind(getViewModel().nameProperty());
         tokensCountText.textProperty().bind(getViewModel().numberOfTokensProperty());
+        getViewModel().numberOfTokensProperty().addListener(this.onTokensChangedListener);
 
         container.translateXProperty().bind(getViewModel().positionXProperty());
         container.translateYProperty().bind(getViewModel().positionYProperty());
@@ -94,6 +104,7 @@ public class PlaceView extends ConnectableGraphElementView {
     public void unbindViewModel() {
         nameLabel.textProperty().unbind();
         tokensCountText.textProperty().unbind();
+        getViewModel().numberOfTokensProperty().removeListener(this.onTokensChangedListener);
 
         container.translateXProperty().unbind();
         container.translateYProperty().unbind();
