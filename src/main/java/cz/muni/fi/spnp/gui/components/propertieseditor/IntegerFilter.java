@@ -11,7 +11,15 @@ class IntegerFilter implements UnaryOperator<TextFormatter.Change> {
 
     @Override
     public TextFormatter.Change apply(TextFormatter.Change change) {
-        return DIGIT_PATTERN.matcher(change.getText()).matches() ? change : null;
+        try {
+            Integer.parseInt(change.getControlNewText());
+        } catch (NumberFormatException numberFormatException) {
+            if (!change.getControlNewText().isEmpty()) {
+                return null;
+            }
+        }
+
+        return DIGIT_PATTERN.matcher(change.getControlNewText()).matches() ? change : null;
     }
 
 }
