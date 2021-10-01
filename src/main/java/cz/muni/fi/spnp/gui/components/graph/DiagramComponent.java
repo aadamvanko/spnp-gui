@@ -188,9 +188,6 @@ public class DiagramComponent extends ApplicationComponent {
         diagram.select(selected);
     }
 
-    public void saveScreenshotCurrentProject() {
-    }
-
     private void saveScreenshotDiagram(GridBackgroundPane gridBackgroundPane, File file) {
         var writableImage = gridBackgroundPane.snapshot(null, null);
         try {

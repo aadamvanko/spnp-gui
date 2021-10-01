@@ -96,7 +96,7 @@ public class MenuComponent extends ApplicationComponent {
         var menuItemCopy = new MenuItem("_Copy");
         menuItemCopy.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));
         menuItemCopy.setOnAction(actionEvent -> new OperationCopyElements(model, model.selectedDiagramProperty().get()).execute());
-        var menuItemCut = new MenuItem("Cut");
+        var menuItemCut = new MenuItem("C_ut");
         menuItemCut.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN));
         menuItemCut.setOnAction(actionEvent -> new OperationCutElements(model, model.selectedDiagramProperty().get()).execute());
         var menuItemDelete = new MenuItem("_Delete");
@@ -171,15 +171,11 @@ public class MenuComponent extends ApplicationComponent {
         menuItemScreenshotDiagram.setOnAction(this::onScreenshotDiagramHandler);
         menuItemScreenshotDiagram.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuExport.getItems().add(menuItemScreenshotDiagram);
-        var menuItemScreenshotProject = new MenuItem("_Project Screenshot");
-        menuItemScreenshotProject.setOnAction(this::onScreenshotProjectHandler);
-        menuItemScreenshotProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
-        menuExport.getItems().add(menuItemScreenshotProject);
         menuBar.getMenus().add(menuExport);
 
         Menu menuHelp = new Menu("_Help");
         var aboutWindow = new AboutWindow();
-        var menuItemAbout = new MenuItem("About");
+        var menuItemAbout = new MenuItem("_About");
         menuItemAbout.setOnAction(actionEvent -> aboutWindow.getStage().showAndWait());
         menuHelp.getItems().add(menuItemAbout);
         menuBar.getMenus().add(menuHelp);
@@ -196,9 +192,6 @@ public class MenuComponent extends ApplicationComponent {
         fileChooser.setTitle("Save screenshot of diagram " + model.selectedDiagramProperty().get().getName());
         var file = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
         diagramComponent.saveScreenshotCurrentDiagram(file);
-    }
-
-    private void onScreenshotProjectHandler(ActionEvent actionEvent) {
     }
 
     private void onOpenProjectClickedHandler(ActionEvent actionEvent) {
