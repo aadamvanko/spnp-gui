@@ -133,7 +133,7 @@ public class MenuComponent extends ApplicationComponent {
         menuItemViewInputParameters.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN));
         menuItemViewInputParameters.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewInputParameters.setOnAction(actionEvent -> inputParametersTableViewWindow.getStage().showAndWait());
-        menuView.getItems().add(menuItemViewInputParameters);
+//        menuView.getItems().add(menuItemViewInputParameters);
 
         functionsView = new FunctionsView();
         menuItemViewFunctions = new MenuItem("_Functions");

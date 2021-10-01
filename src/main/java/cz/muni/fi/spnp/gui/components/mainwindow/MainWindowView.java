@@ -297,7 +297,7 @@ public class MainWindowView {
             rightVBox.getChildren().add(includesCollapsableView.getRoot());
             rightVBox.getChildren().add(definesCollapsableView.getRoot());
             rightVBox.getChildren().add(variablesCollapsableView.getRoot());
-            rightVBox.getChildren().add(inputParametersCollapsableView.getRoot());
+//            rightVBox.getChildren().add(inputParametersCollapsableView.getRoot());
         } else {
             leftVBox.getChildren().add(diagramOutlineComponent.getRoot());
 
@@ -338,7 +338,7 @@ public class MainWindowView {
         rightVBox.getChildren().add(variablesCollapsableView.getRoot());
 
         inputParametersCollapsableView = new InputParametersCollapsableView(model);
-        rightVBox.getChildren().add(inputParametersCollapsableView.getRoot());
+//        rightVBox.getChildren().add(inputParametersCollapsableView.getRoot());
 
         rightVBox.setPrefWidth(350);
         return rightVBox;
