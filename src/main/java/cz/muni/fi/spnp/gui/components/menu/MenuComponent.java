@@ -58,16 +58,19 @@ public class MenuComponent extends ApplicationComponent {
         Menu menuProject = new Menu("_Project");
 
         var menuItemOpenProject = new MenuItem("_Open project");
+        menuItemOpenProject.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
         menuItemOpenProject.setOnAction(this::onOpenProjectClickedHandler);
         menuProject.getItems().add(menuItemOpenProject);
 
         newProjectView = new NewProjectView(model);
         menuItemNewProject = new MenuItem("_New Project");
+        menuItemNewProject.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
         menuItemNewProject.setOnAction(actionEvent -> newProjectView.getStage().showAndWait());
         menuProject.getItems().add(menuItemNewProject);
 
         var menuItemSaveProject = new MenuItem("_Save project");
         menuItemSaveProject.setOnAction(this::onSaveProjectClickedHandler);
+        menuItemSaveProject.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
         menuItemSaveProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuProject.getItems().add(menuItemSaveProject);
 
@@ -82,6 +85,7 @@ public class MenuComponent extends ApplicationComponent {
         newDiagramView = new NewDiagramView(model);
         menuItemNewDiagram = new MenuItem("_New Diagram");
         menuItemNewDiagram.setDisable(true);
+        menuItemNewDiagram.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
         menuItemNewDiagram.setOnAction(actionEvent -> newDiagramView.getStage().showAndWait());
         menuDiagram.getItems().add(menuItemNewDiagram);
         menuBar.getMenus().add(menuDiagram);
