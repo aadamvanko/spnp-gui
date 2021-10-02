@@ -127,14 +127,14 @@ public class OutputOptionsView extends UIWindowComponent {
         buttonAdd.setOnAction(this::onButtonAddHandler);
         buttonDelete = new Button("Delete from selected");
         buttonDelete.setOnAction(this::onButtonDeleteHandler);
-        var buttonContinueToOptions = new Button("Continue to options");
-        buttonContinueToOptions.setOnAction(this::onButtonContinueToOptionsHandler);
+        var buttonPreviewAndRun = new Button("Preview and run");
+        buttonPreviewAndRun.setOnAction(this::onButtonPreviewAndRunHandler);
         var spacer = new Pane();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         var buttonClose = new Button("Close");
         buttonClose.setOnAction(this::onButtonCloseHandler);
 
-        var buttonsPane = new HBox(buttonAdd, buttonDelete, buttonContinueToOptions, spacer, buttonClose);
+        var buttonsPane = new HBox(buttonAdd, buttonDelete, buttonPreviewAndRun, spacer, buttonClose);
         buttonsPane.setSpacing(5);
 
         var vbox = new VBox(splitPane, propertiesPane, buttonsPane);
@@ -239,14 +239,14 @@ public class OutputOptionsView extends UIWindowComponent {
         }
     }
 
-    private void onButtonContinueToOptionsHandler(ActionEvent actionEvent) {
+    private void onButtonPreviewAndRunHandler(ActionEvent actionEvent) {
         unbindOptionViewModel();
         model.getOutputOptions().clear();
         model.getOutputOptions().addAll(listViewSelected.getItems());
         stage.close();
 
-        var optionsView = new OptionsView(model, diagramViewModel);
-        optionsView.getStage().show();
+        var codePreviewView = new CodePreviewView(model, diagramViewModel);
+        codePreviewView.getStage().show();
     }
 
     private void onButtonCloseHandler(ActionEvent actionEvent) {

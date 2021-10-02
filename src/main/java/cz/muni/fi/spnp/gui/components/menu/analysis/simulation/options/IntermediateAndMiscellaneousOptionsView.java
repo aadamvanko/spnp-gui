@@ -5,7 +5,6 @@ import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
 import cz.muni.fi.spnp.gui.components.propertieseditor.DoubleTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.MyDoubleStringConverter;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,9 +18,6 @@ import javafx.scene.layout.*;
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
 public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
-
-    private final Model model;
-    private final DiagramViewModel diagramViewModel;
 
     private final IntermediateOptionsViewModel intermediateOptionsViewModel;
     private final MiscellaneousOptionsViewModel miscellaneousOptionsViewModel;
@@ -51,10 +47,7 @@ public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
     private DoubleTextField textField_FOP_FLUID_EPSILON;
     private DoubleTextField textField_FOP_TIME_EPSILON;
 
-    public IntermediateAndMiscellaneousOptionsView(Model model, DiagramViewModel diagramViewModel) {
-        this.model = model;
-        this.diagramViewModel = diagramViewModel;
-
+    public IntermediateAndMiscellaneousOptionsView(Model model) {
         intermediateOptionsViewModel = model.getIntermediateOptions();
         miscellaneousOptionsViewModel = model.getMiscellaneousOptions();
 
@@ -117,14 +110,12 @@ public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
         textField_FOP_TIME_EPSILON = new DoubleTextField();
         addRow(gridPaneMiscellaneous, new Label("FOP_TIME_EPSILON"), textField_FOP_TIME_EPSILON.getTextField());
 
-        var buttonPreviewAndRun = new Button("Preview and run");
-        buttonPreviewAndRun.setOnAction(this::onButtonPreviewAndRunHandler);
         var paneSpacer = new Pane();
         HBox.setHgrow(paneSpacer, Priority.ALWAYS);
         var buttonClose = new Button("Close");
         buttonClose.setOnAction(this::onButtonCloseHandler);
 
-        var buttonsPane = new HBox(buttonPreviewAndRun, paneSpacer, buttonClose);
+        var buttonsPane = new HBox(paneSpacer, buttonClose);
         buttonsPane.setSpacing(5);
         buttonsPane.setPadding(new Insets(5));
 
@@ -155,14 +146,6 @@ public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
         stage.setResizable(false);
         stage.setWidth(322);
         stage.setHeight(519);
-    }
-
-    private void onButtonPreviewAndRunHandler(ActionEvent actionEvent) {
-        unbindViewModels();
-        stage.close();
-
-        var codePreviewView = new CodePreviewView(model, diagramViewModel);
-        codePreviewView.getStage().show();
     }
 
     private void onButtonCloseHandler(ActionEvent actionEvent) {

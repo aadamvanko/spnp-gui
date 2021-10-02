@@ -4,6 +4,8 @@ import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.graph.DiagramComponent;
 import cz.muni.fi.spnp.gui.components.graph.operations.*;
 import cz.muni.fi.spnp.gui.components.menu.analysis.PreferencesView;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateAndMiscellaneousOptionsView;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsView;
 import cz.muni.fi.spnp.gui.components.menu.diagram.NewDiagramView;
 import cz.muni.fi.spnp.gui.components.menu.help.AboutWindow;
@@ -149,10 +151,17 @@ public class MenuComponent extends ApplicationComponent {
 
         var menuSimulation = new Menu("_Analysis");
 
-        var preferencesView = new PreferencesView(model);
-        var menuItemPreferences = new MenuItem("_Preferences");
-        menuItemPreferences.setOnAction(actionEvent -> preferencesView.getStage().showAndWait());
-        menuSimulation.getItems().add(menuItemPreferences);
+        var menuItemSettings = new MenuItem("_Settings");
+        menuItemSettings.setOnAction(actionEvent -> new PreferencesView(model).getStage().showAndWait());
+        menuSimulation.getItems().add(menuItemSettings);
+
+        var menuItemSimulationAnalysisOptions = new MenuItem("Simulation & _Analysis Options");
+        menuItemSimulationAnalysisOptions.setOnAction(actionEvent -> new OptionsView(model).getStage().showAndWait());
+        menuSimulation.getItems().add(menuItemSimulationAnalysisOptions);
+
+        var menuItemIntermediateMiscellaneousOptions = new MenuItem("_Intermediate & Miscellaneous Options");
+        menuItemIntermediateMiscellaneousOptions.setOnAction(actionEvent -> new IntermediateAndMiscellaneousOptionsView(model).getStage().showAndWait());
+        menuSimulation.getItems().add(menuItemIntermediateMiscellaneousOptions);
 
         var menuItemRun = new MenuItem("_Run");
         menuItemRun.setOnAction(actionEvent -> new OutputOptionsView(model, model.selectedDiagramProperty().get()).getStage().showAndWait());

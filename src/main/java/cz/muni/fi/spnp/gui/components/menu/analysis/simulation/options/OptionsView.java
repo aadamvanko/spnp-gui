@@ -6,7 +6,6 @@ import cz.muni.fi.spnp.gui.components.propertieseditor.DoubleTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.MyDoubleStringConverter;
 import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,9 +22,6 @@ import javafx.util.converter.IntegerStringConverter;
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
 public class OptionsView extends UIWindowComponent {
-
-    private final Model model;
-    private final DiagramViewModel diagramViewModel;
 
     private final SimulationOptionsViewModel simulationOptionsViewModel;
     private final AnalysisOptionsViewModel analysisOptionsViewModel;
@@ -58,10 +54,7 @@ public class OptionsView extends UIWindowComponent {
 
     private Pane mainPane;
 
-    public OptionsView(Model model, DiagramViewModel diagramViewModel) {
-        this.model = model;
-        this.diagramViewModel = diagramViewModel;
-
+    public OptionsView(Model model) {
         simulationOptionsViewModel = model.getSimulationOptions();
         analysisOptionsViewModel = model.getAnalysisOptions();
 
@@ -144,14 +137,12 @@ public class OptionsView extends UIWindowComponent {
         textField_FOP_PRECISION = new DoubleTextField();
         addRow(gridPaneNumericAnalysis, new Label("FOP_PRECISION"), textField_FOP_PRECISION.getTextField());
 
-        var buttonPreviewAndRun = new Button("Continue");
-        buttonPreviewAndRun.setOnAction(this::onButtonPreviewAndRunHandler);
         var paneSpacer = new Pane();
         HBox.setHgrow(paneSpacer, Priority.ALWAYS);
         var buttonClose = new Button("Close");
         buttonClose.setOnAction(this::onButtonCloseHandler);
 
-        var buttonsPane = new HBox(buttonPreviewAndRun, paneSpacer, buttonClose);
+        var buttonsPane = new HBox(paneSpacer, buttonClose);
         buttonsPane.setSpacing(5);
         buttonsPane.setPadding(new Insets(5));
 
@@ -182,14 +173,6 @@ public class OptionsView extends UIWindowComponent {
         } else {
             radioButtonNumericAnalysis.setSelected(true);
         }
-    }
-
-    private void onButtonPreviewAndRunHandler(ActionEvent actionEvent) {
-        unbindViewModels();
-        stage.close();
-
-        var intermediateAndMiscellaneousOptionsView = new IntermediateAndMiscellaneousOptionsView(model, diagramViewModel);
-        intermediateAndMiscellaneousOptionsView.getStage().show();
     }
 
     private void onButtonCloseHandler(ActionEvent actionEvent) {
