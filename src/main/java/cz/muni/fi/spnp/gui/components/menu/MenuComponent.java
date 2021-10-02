@@ -164,7 +164,7 @@ public class MenuComponent extends ApplicationComponent {
         menuSimulation.getItems().add(menuItemIntermediateMiscellaneousOptions);
 
         var menuItemRun = new MenuItem("_Run");
-        menuItemRun.setOnAction(actionEvent -> new OutputOptionsView(model, model.selectedDiagramProperty().get()).getStage().showAndWait());
+        menuItemRun.setOnAction(actionEvent -> new OutputOptionsView(model, model.selectedDiagramProperty().get(), false).getStage().showAndWait());
         menuItemRun.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN));
         menuItemRun.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuSimulation.getItems().add(menuItemRun);

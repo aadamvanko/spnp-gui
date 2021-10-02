@@ -51,11 +51,15 @@ public class OutputOptionsView extends UIWindowComponent {
     private Label labelFunction;
     private ChoiceBox<FunctionViewModel> choiceBoxFunction;
 
-    public OutputOptionsView(Model model, DiagramViewModel diagramViewModel) {
+    public OutputOptionsView(Model model, DiagramViewModel diagramViewModel, boolean load) {
         this.model = model;
         this.diagramViewModel = diagramViewModel;
 
         createView();
+
+        if (load) {
+            listViewSelected.getItems().addAll(model.getOutputOptions());
+        }
     }
 
     private void createView() {

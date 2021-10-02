@@ -52,6 +52,9 @@ public class CodePreviewView extends UIWindowComponent {
         HBox.setHgrow(textArea, Priority.ALWAYS);
         VBox.setVgrow(textArea, Priority.ALWAYS);
 
+        var buttonBack = new Button("Back");
+        buttonBack.setOnAction(this::onButtonBackHandler);
+
         var buttonGenerateCode = new Button("Generate code");
         buttonGenerateCode.setOnAction(this::onButtonGenerateCodeHandler);
 
@@ -67,7 +70,7 @@ public class CodePreviewView extends UIWindowComponent {
         var buttonClose = new Button("Close");
         buttonClose.setOnAction(this::onButtonCloseHandler);
 
-        var buttonsPane = new HBox(buttonGenerateCode, buttonSaveCode, buttonRun, paneSpacer, buttonClose);
+        var buttonsPane = new HBox(buttonBack, buttonGenerateCode, buttonSaveCode, buttonRun, paneSpacer, buttonClose);
         buttonsPane.setPadding(new Insets(5));
         buttonsPane.setSpacing(5);
 
@@ -89,6 +92,13 @@ public class CodePreviewView extends UIWindowComponent {
         stage.setHeight(600);
 
         generateCode();
+    }
+
+    private void onButtonBackHandler(ActionEvent actionEvent) {
+        stage.close();
+
+        var outputOptionsView = new OutputOptionsView(model, diagramViewModel, true);
+        outputOptionsView.getStage().show();
     }
 
     private void onButtonGenerateCodeHandler(ActionEvent actionEvent) {
