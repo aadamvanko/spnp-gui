@@ -45,6 +45,7 @@ public abstract class TransitionView extends ConnectableGraphElementView {
             rectangle.setHeight(getRectangleDefaultWidth());
             rectangle.setWidth(getRectangleDefaultHeight());
         }
+        snapToPreservedPosition();
         updateArcs();
         graphView.processLayoutChange();
     }
