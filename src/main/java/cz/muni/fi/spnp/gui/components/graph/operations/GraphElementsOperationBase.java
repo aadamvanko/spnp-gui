@@ -88,6 +88,7 @@ public abstract class GraphElementsOperationBase implements GraphElementsOperati
                 }
             } else if (element instanceof ImmediateTransitionViewModel) {
                 var immediateTransition = (ImmediateTransitionViewModel) element;
+                immediateTransition.guardFunctionProperty().set(getOrCopy(functionsMapping, immediateTransition.getGuardFunction()));
                 if (immediateTransition.getTransitionProbability().getEnumType() == TransitionProbabilityType.Functional) {
                     var functionalProbability = (FunctionalTransitionProbabilityViewModel) immediateTransition.getTransitionProbability();
                     functionalProbability.functionProperty().set(getOrCopy(functionsMapping, functionalProbability.getFunction()));
