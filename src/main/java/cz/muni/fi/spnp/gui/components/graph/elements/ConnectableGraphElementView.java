@@ -36,6 +36,10 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
     }
 
     protected void snapToPointLater() {
+        if (getViewModel().getPreservedShapeCenter() == Point2D.ZERO) {
+            return;
+        }
+
         graphView.processLayoutChange();
         Platform.runLater(() -> {
             snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
@@ -45,6 +49,10 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
 
     @Override
     public void snapToPreservedPosition() {
+        if (getViewModel().getPreservedShapeCenter() == Point2D.ZERO) {
+            return;
+        }
+
         snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
         updateArcs();
     }

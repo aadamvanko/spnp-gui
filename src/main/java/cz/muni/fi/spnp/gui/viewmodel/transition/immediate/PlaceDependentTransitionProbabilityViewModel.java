@@ -7,10 +7,22 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class PlaceDependentTransitionProbabilityViewModel implements TransitionProbabilityViewModel {
+public class PlaceDependentTransitionProbabilityViewModel extends TransitionProbabilityViewModelBase {
 
     private final DoubleProperty value = new MySimpleDoubleProperty(0.0);
     private final ObjectProperty<PlaceViewModel> dependentPlace = new SimpleObjectProperty<>();
+
+    public PlaceDependentTransitionProbabilityViewModel() {
+        value.addListener((observable, oldValue, newValue) -> updateRepresentation());
+        dependentPlace.addListener((observable, oldValue, newValue) -> updateRepresentation());
+        updateRepresentation();
+    }
+
+    @Override
+    protected String generateRepresentation() {
+        var placeName = getDependentPlace() == null ? "null" : getDependentPlace().getName();
+        return String.format("#(%s)%s", placeName, getValue());
+    }
 
     public double getValue() {
         return value.get();

@@ -5,9 +5,20 @@ import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class FunctionalTransitionProbabilityViewModel implements TransitionProbabilityViewModel {
+public class FunctionalTransitionProbabilityViewModel extends TransitionProbabilityViewModelBase {
 
     private final ObjectProperty<FunctionViewModel> function = new SimpleObjectProperty<>();
+
+    public FunctionalTransitionProbabilityViewModel() {
+        function.addListener((observable, oldValue, newValue) -> updateRepresentation());
+        updateRepresentation();
+    }
+
+    @Override
+    protected String generateRepresentation() {
+        var functionName = getFunction() == null ? "null" : getFunction().getName();
+        return String.format("F(%s)", functionName);
+    }
 
     public FunctionViewModel getFunction() {
         return function.get();
