@@ -36,7 +36,6 @@ public class OperationPasteElements extends GraphElementsOperationBase {
                 renameFunctionsIfNeeded(diagramViewModel, model.getClipboardFunctions());
                 diagramViewModel.getFunctions().addAll(model.getClipboardFunctions());
                 renameElementsIfNeeded(diagramViewModel, model.getClipboardElements());
-                offsetElements(model.getClipboardElements());
                 diagramViewModel.getElements().addAll(model.getClipboardElements());
                 diagramViewModel.select(ViewModelUtils.includeDragPoints(model.getClipboardElements()));
                 model.getClipboardElements().clear();
