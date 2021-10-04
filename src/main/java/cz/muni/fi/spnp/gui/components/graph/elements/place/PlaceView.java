@@ -27,14 +27,20 @@ public class PlaceView extends ConnectableGraphElementView {
     private VBox container;
 
     private final ChangeListener<? super String> onTokensChangedListener;
+    private final ChangeListener<? super String> onNameChangedListener;
 
     public PlaceView(GraphView graphView, PlaceViewModel placeViewModel) {
         super(graphView, placeViewModel);
 
         this.onTokensChangedListener = this::onTokensChangedListener;
+        this.onNameChangedListener = this::onNameChangedListener;
 
         createView();
         bindViewModel();
+    }
+
+    private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+        snapToPointLater();
     }
 
     @Override
@@ -93,6 +99,8 @@ public class PlaceView extends ConnectableGraphElementView {
         super.bindViewModel();
 
         nameLabel.textProperty().bind(getViewModel().nameProperty());
+        getViewModel().nameProperty().addListener(this.onNameChangedListener);
+
         tokensCountText.textProperty().bind(getViewModel().numberOfTokensProperty());
         getViewModel().numberOfTokensProperty().addListener(this.onTokensChangedListener);
 
@@ -103,6 +111,8 @@ public class PlaceView extends ConnectableGraphElementView {
     @Override
     public void unbindViewModel() {
         nameLabel.textProperty().unbind();
+        getViewModel().nameProperty().removeListener(this.onNameChangedListener);
+
         tokensCountText.textProperty().unbind();
         getViewModel().numberOfTokensProperty().removeListener(this.onTokensChangedListener);
 

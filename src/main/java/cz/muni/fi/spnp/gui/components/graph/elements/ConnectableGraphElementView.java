@@ -6,33 +6,41 @@ import cz.muni.fi.spnp.gui.components.graph.interfaces.Connectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public abstract class ConnectableGraphElementView extends GraphElementView implements Connectable, MouseSelectable {
 
+    protected final static long UPDATE_DELAY = 50;
+
     private final List<ArcView> arcs;
-    private final ChangeListener<? super String> onNameChangedListener;
+    protected final Timer timer;
 
     public ConnectableGraphElementView(GraphView graphView, ConnectableViewModel connectableViewModel) {
         super(graphView, connectableViewModel);
 
         arcs = new ArrayList<>();
-        this.onNameChangedListener = this::onNameChangedListener;
+        timer = new Timer();
+    }
+
+    protected void executeDelayedUpdate(Runnable runnable) {
+        timer.schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        runnable.run();
+                    }
+                },
+                UPDATE_DELAY);
     }
 
     @Override
     public ConnectableViewModel getViewModel() {
         return (ConnectableViewModel) viewModel;
-    }
-
-    private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-        snapToPointLater();
     }
 
     protected void snapToPointLater() {
@@ -68,12 +76,12 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
     protected void bindViewModel() {
         super.bindViewModel();
 
-        getViewModel().nameProperty().addListener(this.onNameChangedListener);
+        // TODO same for place and transition
     }
 
     @Override
     public void unbindViewModel() {
-        getViewModel().nameProperty().removeListener(this.onNameChangedListener);
+        // TODO same for place and transition
 
         super.unbindViewModel();
     }

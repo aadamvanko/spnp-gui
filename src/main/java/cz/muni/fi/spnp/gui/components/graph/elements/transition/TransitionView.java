@@ -6,38 +6,45 @@ import cz.muni.fi.spnp.gui.components.graph.elements.Intersections;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionOrientation;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.TextAlignment;
 
 
 public abstract class TransitionView extends ConnectableGraphElementView {
 
     private Label nameLabel;
-    private final ChangeListener<FunctionViewModel> onGuardFunctionChangedListener;
+    private final ChangeListener<String> onNameChangedListener;
     protected Label probabilityTypeLabel;
-    private VBox container;
     protected Rectangle rectangle;
+    private Group container;
 
+    private final ChangeListener<FunctionViewModel> onGuardFunctionChangedListener;
     private final ChangeListener<TransitionOrientation> onOrientationChangedListener;
     private Label guardFunctionLabel;
-    private HBox hbox;
+
 
     public TransitionView(GraphView graphView, TransitionViewModel transitionViewModel) {
         super(graphView, transitionViewModel);
 
         this.onOrientationChangedListener = this::onOrientationChangedListener;
         this.onGuardFunctionChangedListener = this::onGuardFunctionChangedListener;
+        this.onNameChangedListener = this::onNameChangedListener;
 
         createView();
+    }
+
+    private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+        executeDelayedUpdate(() -> Platform.runLater(() -> updateNameLabelPosition()));
     }
 
     private void onOrientationChangedListener(ObservableValue<? extends TransitionOrientation> observableValue, TransitionOrientation oldValue, TransitionOrientation newValue) {
@@ -48,7 +55,6 @@ public abstract class TransitionView extends ConnectableGraphElementView {
             rectangle.setHeight(getRectangleDefaultWidth());
             rectangle.setWidth(getRectangleDefaultHeight());
         }
-        snapToPreservedPosition();
         updateArcs();
         graphView.processLayoutChange();
     }
@@ -57,7 +63,29 @@ public abstract class TransitionView extends ConnectableGraphElementView {
         var functionName = newValue == null ? "null" : newValue.getName();
         guardFunctionLabel.setText(String.format("[%s]", functionName));
         updateArcs();
-        snapToPreservedPosition();
+        executeDelayedUpdate(() -> Platform.runLater(() -> updateGuardLabelPosition()));
+    }
+
+    private void updateAllComponents() {
+        System.out.println("updating");
+        updateGuardLabelPosition();
+        updateProbabilityTypeLabelPosition();
+        updateNameLabelPosition();
+    }
+
+    private void updateGuardLabelPosition() {
+        guardFunctionLabel.setLayoutX(rectangle.getLayoutX() - guardFunctionLabel.getWidth());
+        guardFunctionLabel.setLayoutY(rectangle.getLayoutY() - guardFunctionLabel.getHeight());
+    }
+
+    private void updateProbabilityTypeLabelPosition() {
+        probabilityTypeLabel.setLayoutX(rectangle.getLayoutX() + rectangle.getWidth());
+        probabilityTypeLabel.setLayoutY(rectangle.getLayoutY() - probabilityTypeLabel.getHeight());
+    }
+
+    private void updateNameLabelPosition() {
+        nameLabel.setLayoutX(rectangle.getLayoutX() - nameLabel.getWidth());
+        nameLabel.setLayoutY(rectangle.getLayoutY() + rectangle.getHeight());
     }
 
     protected abstract double getRectangleDefaultWidth();
@@ -73,36 +101,24 @@ public abstract class TransitionView extends ConnectableGraphElementView {
         rectangle = new Rectangle();
 
         guardFunctionLabel = new Label("guard");
-        guardFunctionLabel.setPadding(new Insets(0, 5, 5, 0));
         guardFunctionLabel.setMinWidth(Region.USE_PREF_SIZE);
         guardFunctionLabel.setMouseTransparent(true);
         guardFunctionLabel.setStyle("-fx-font-style: italic");
 
         probabilityTypeLabel = new Label("type");
-        probabilityTypeLabel.setPadding(new Insets(0, 0, 5, 5));
         probabilityTypeLabel.setMinWidth(Region.USE_PREF_SIZE);
         probabilityTypeLabel.setMouseTransparent(true);
         probabilityTypeLabel.setStyle("-fx-font-style: italic");
 
-        hbox = new HBox(guardFunctionLabel, rectangle, probabilityTypeLabel);
-
-        nameLabel = new Label("");
-        nameLabel.setText("name name name");
-        nameLabel.setTextAlignment(TextAlignment.CENTER);
+        nameLabel = new Label("name");
         nameLabel.setMinWidth(Region.USE_PREF_SIZE);
-        nameLabel.setAlignment(Pos.CENTER);
+        nameLabel.setMouseTransparent(true);
 
-        container = new VBox();
-        container.getChildren().add(hbox);
-        container.getChildren().add(nameLabel);
-        container.setMaxHeight(0);
-        container.setMaxWidth(0);
-        container.setAlignment(Pos.CENTER);
-        container.setFillWidth(false);
+        container = new Group(guardFunctionLabel, rectangle, probabilityTypeLabel, nameLabel);
 
         if (false) {
             nameLabel.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
-            container.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
+//            container.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
         }
     }
 
@@ -111,6 +127,7 @@ public abstract class TransitionView extends ConnectableGraphElementView {
         super.bindViewModel();
 
         nameLabel.textProperty().bind(viewModel.nameProperty());
+        getViewModel().nameProperty().addListener(this.onNameChangedListener);
         // TODO priority, guard function
 
         container.translateXProperty().bind(getViewModel().positionXProperty());
@@ -126,6 +143,7 @@ public abstract class TransitionView extends ConnectableGraphElementView {
     @Override
     public void unbindViewModel() {
         nameLabel.textProperty().unbind();
+        getViewModel().nameProperty().removeListener(this.onNameChangedListener);
 
         container.translateXProperty().unbind();
         container.translateYProperty().unbind();
@@ -136,7 +154,7 @@ public abstract class TransitionView extends ConnectableGraphElementView {
         super.unbindViewModel();
     }
 
-    public VBox getRoot() {
+    public Group getRoot() {
         return container;
     }
 
@@ -171,8 +189,8 @@ public abstract class TransitionView extends ConnectableGraphElementView {
     }
 
     private Point2D[] getRectangleCorners() {
-        Point2D topLeftCorner = new Point2D(container.getTranslateX() + hbox.getLayoutX() + rectangle.getLayoutX(),
-                container.getTranslateY() + hbox.getLayoutY() + rectangle.getLayoutY());
+        Point2D topLeftCorner = new Point2D(container.getTranslateX() + rectangle.getLayoutX(),
+                container.getTranslateY() + rectangle.getLayoutY());
         Point2D[] corners = new Point2D[4];
         corners[0] = topLeftCorner;
         corners[1] = topLeftCorner.add(new Point2D(rectangle.getWidth(), 0));
@@ -183,8 +201,8 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
     @Override
     public Point2D getShapeCenter() {
-        double x = container.getTranslateX() + hbox.getLayoutX() + rectangle.getLayoutX() + rectangle.getWidth() / 2 - 1;
-        double y = container.getTranslateY() + hbox.getLayoutY() + rectangle.getLayoutY() + rectangle.getHeight() / 2 - 1;
+        double x = container.getTranslateX() + rectangle.getLayoutX() + rectangle.getWidth() / 2 - 1;
+        double y = container.getTranslateY() + rectangle.getLayoutY() + rectangle.getHeight() / 2 - 1;
         return new Point2D(x, y);
     }
 
@@ -243,6 +261,7 @@ public abstract class TransitionView extends ConnectableGraphElementView {
     public void move(Point2D moveOffset) {
         moveViaTranslate(moveOffset);
         updateArcs();
+        updateAllComponents();
     }
 
     @Override
