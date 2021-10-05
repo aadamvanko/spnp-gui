@@ -3,7 +3,6 @@ package cz.muni.fi.spnp.gui.components.graph;
 import cz.muni.fi.spnp.gui.components.UIComponent;
 import cz.muni.fi.spnp.gui.components.graph.canvas.GridBackgroundPane;
 import cz.muni.fi.spnp.gui.components.graph.canvas.ZoomableScrollPane;
-import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementType;
 import cz.muni.fi.spnp.gui.components.graph.elements.GraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
@@ -96,15 +95,7 @@ public class GraphView implements UIComponent {
     private Void onLayoutChangedHandler() {
         zoomableScrollPane.setShouldCallLayoutChangedHandler(false);
         if (diagramViewModel.isGridSnapping()) {
-            graphElementViews.forEach(view -> {
-                if (view.getViewModel().getName().isEmpty()) {
-                    view.snapToPreservedPosition();
-                } else {
-                    view.snapToGrid();
-                }
-            });
-        } else {
-            graphElementViews.forEach(Movable::snapToPreservedPosition);
+            graphElementViews.forEach(Movable::snapToGrid);
         }
         adjustCanvasSize();
         return null;
@@ -247,13 +238,6 @@ public class GraphView implements UIComponent {
         if (newValue) {
             graphElementViews.forEach(Movable::snapToGrid);
         }
-
-        graphElementViews.forEach(graphElementView -> {
-            if (graphElementView instanceof ConnectableGraphElementView) {
-                var connectableGraphElementView = (ConnectableGraphElementView) graphElementView;
-                connectableGraphElementView.preservePosition();
-            }
-        });
     }
 
     private void onMousePressed(MouseEvent mouseEvent) {

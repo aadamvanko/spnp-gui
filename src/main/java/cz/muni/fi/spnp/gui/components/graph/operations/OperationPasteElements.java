@@ -53,7 +53,6 @@ public class OperationPasteElements extends GraphElementsOperationBase {
                 var connectableViewModel = (ConnectableViewModel) element;
                 connectableViewModel.positionXProperty().set(connectableViewModel.getPositionX() + offsetX);
                 connectableViewModel.positionYProperty().set(connectableViewModel.getPositionY() + offsetY);
-                connectableViewModel.setPreservedShapeCenter(connectableViewModel.getPreservedShapeCenter().add(offset));
             } else if (element instanceof ArcViewModel) {
                 var arcViewModel = (ArcViewModel) element;
                 arcViewModel.getDragPoints().forEach(dragPointViewModel -> {

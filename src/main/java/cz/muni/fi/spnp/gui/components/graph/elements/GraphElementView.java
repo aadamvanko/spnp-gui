@@ -107,11 +107,7 @@ public abstract class GraphElementView implements VisualElement, Movable {
     }
 
     protected void snapToGrid(Point2D center, Point2D leftTop) {
-        snapToPoint(center, leftTop, calculateGridSnapPoint(center), true);
-    }
-
-    protected void snapToPoint(Point2D center, Point2D leftTop, Point2D snapPoint, boolean grid) {
-        Point2D snapOffset = snapPoint.subtract(center);
+        Point2D snapOffset = calculateSnapOffset(center);
         Point2D movedCorner = leftTop.add(snapOffset);
         double moveCenterX = 0;
         if (!isValidX(movedCorner.getX())) {
@@ -123,18 +119,10 @@ public abstract class GraphElementView implements VisualElement, Movable {
             moveCenterY = GridBackgroundPane.SPACING_Y;
         }
 
-        Point2D moveCenterOffset = new Point2D(moveCenterX, moveCenterY);
-        if (graphView.getDiagramViewModel().isGridSnapping() && grid) {
-            var movedCenter = snapPoint.add(moveCenterOffset);
-            var newSnapPoint = calculateGridSnapPoint(movedCenter);
-            var movedSnapOffset = newSnapPoint.subtract(snapPoint);
-            move(snapOffset.add(movedSnapOffset));
-        } else {
-            move(snapOffset.add(moveCenterOffset));
-        }
-    }
+        Point2D movedCenter = new Point2D(moveCenterX, moveCenterY);
+        snapOffset = calculateSnapOffset(center.add(movedCenter)).add(movedCenter);
 
-    public void preservePosition() {
+        move(snapOffset);
     }
 
     protected boolean canMove(Point2D center, Point2D leftTop, Point2D offset) {
@@ -155,7 +143,13 @@ public abstract class GraphElementView implements VisualElement, Movable {
         return y > GridBackgroundPane.SPACING_Y * MIN_PADDING_FACTOR;
     }
 
-    private Point2D calculateGridSnapPoint(Point2D point) {
+    protected Point2D calculateSnapOffset(Point2D center) {
+        Point2D snapPoint = calculateSnapPoint(center);
+        Point2D offset = snapPoint.subtract(center);
+        return offset;
+    }
+
+    private Point2D calculateSnapPoint(Point2D point) {
         int columnIndex = (int) (point.getX() / GridBackgroundPane.SPACING_X);
         int rowIndex = (int) (point.getY() / GridBackgroundPane.SPACING_Y);
         int remainderX = (int) point.getX() % GridBackgroundPane.SPACING_X;

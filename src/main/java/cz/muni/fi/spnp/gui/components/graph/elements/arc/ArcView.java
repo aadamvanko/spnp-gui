@@ -355,10 +355,6 @@ public abstract class ArcView extends GraphElementView {
     }
 
     @Override
-    public void snapToPreservedPosition() {
-    }
-
-    @Override
     public void move(Point2D moveOffset) {
     }
 

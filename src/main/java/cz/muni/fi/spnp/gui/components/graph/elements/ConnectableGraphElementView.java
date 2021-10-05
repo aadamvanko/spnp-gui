@@ -5,7 +5,6 @@ import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.Connectable;
 import cz.muni.fi.spnp.gui.components.graph.interfaces.MouseSelectable;
 import cz.muni.fi.spnp.gui.viewmodel.ConnectableViewModel;
-import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
@@ -41,33 +40,6 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
     @Override
     public ConnectableViewModel getViewModel() {
         return (ConnectableViewModel) viewModel;
-    }
-
-    protected void snapToPointLater() {
-        if (getViewModel().getPreservedShapeCenter() == Point2D.ZERO) {
-            return;
-        }
-
-        graphView.processLayoutChange();
-        Platform.runLater(() -> {
-            snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
-            updateArcs();
-        });
-    }
-
-    @Override
-    public void snapToPreservedPosition() {
-        if (getViewModel().getPreservedShapeCenter() == Point2D.ZERO) {
-            return;
-        }
-
-        snapToPoint(getShapeCenter(), getContainerPosition(), getViewModel().getPreservedShapeCenter(), false);
-        updateArcs();
-    }
-
-    @Override
-    public void preservePosition() {
-        getViewModel().setPreservedShapeCenter(getShapeCenter());
     }
 
     protected abstract Point2D getContainerPosition();

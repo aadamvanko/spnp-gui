@@ -4,35 +4,33 @@ import cz.muni.fi.spnp.gui.components.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.graph.elements.arc.ArcView;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextBoundsType;
 
 public class PlaceView extends ConnectableGraphElementView {
 
     private Circle circle;
-    private Text tokensCountText;
-    private StackPane circleStack;
+    private final ChangeListener<? super String> onTokensCountChangedListener;
     private Label nameLabel;
-    private VBox container;
-
-    private final ChangeListener<? super String> onTokensChangedListener;
+    private Label tokensCountLabel;
+    private Group container;
     private final ChangeListener<? super String> onNameChangedListener;
 
     public PlaceView(GraphView graphView, PlaceViewModel placeViewModel) {
         super(graphView, placeViewModel);
 
-        this.onTokensChangedListener = this::onTokensChangedListener;
+        this.onTokensCountChangedListener = this::onTokensCountChangedListener;
         this.onNameChangedListener = this::onNameChangedListener;
 
         createView();
@@ -40,16 +38,26 @@ public class PlaceView extends ConnectableGraphElementView {
     }
 
     private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-        snapToPointLater();
+        executeDelayedUpdate(() -> Platform.runLater(() -> updateNameLabelPosition()));
+    }
+
+    private void onTokensCountChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+        executeDelayedUpdate(() -> Platform.runLater(() -> updateTokensCountLabelPosition()));
+    }
+
+    private void updateNameLabelPosition() {
+        nameLabel.setLayoutX(circle.getLayoutX() - circle.getRadius() - nameLabel.getWidth());
+        nameLabel.setLayoutY(circle.getLayoutY() + circle.getRadius());
+    }
+
+    private void updateTokensCountLabelPosition() {
+        tokensCountLabel.setLayoutX(circle.getCenterX() - tokensCountLabel.getWidth() / 2.0);
+        tokensCountLabel.setLayoutY(circle.getCenterY() - tokensCountLabel.getHeight() / 2.0);
     }
 
     @Override
     public PlaceViewModel getViewModel() {
         return (PlaceViewModel) viewModel;
-    }
-
-    private void onTokensChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-        snapToPointLater();
     }
 
     private void createView() {
@@ -61,36 +69,20 @@ public class PlaceView extends ConnectableGraphElementView {
         circle.setSmooth(true);
         circle.setStrokeType(StrokeType.OUTSIDE);
 
-        tokensCountText = new Text("3");
-        tokensCountText.setBoundsType(TextBoundsType.VISUAL);
-        tokensCountText.setSmooth(true);
-        tokensCountText.textProperty().addListener((observable, oldValue, newValue) -> {
-            tokensCountText.setVisible(!newValue.equals("0"));
+        tokensCountLabel = new Label("3");
+        tokensCountLabel.textProperty().addListener((observable, oldValue, newValue) -> {
+            tokensCountLabel.setVisible(!newValue.equals("0"));
         });
-
-        circleStack = new StackPane();
-        circleStack.getChildren().add(circle);
-        circleStack.getChildren().add(tokensCountText);
-        circleStack.setMaxSize(0, 0);
+        tokensCountLabel.setMouseTransparent(true);
 
         nameLabel = new Label("name");
-//        name.setText("name name name");
-        nameLabel.setTextAlignment(TextAlignment.CENTER);
         nameLabel.setMinWidth(Region.USE_PREF_SIZE);
-//        name.setMaxWidth(Double.MAX_VALUE);
+        nameLabel.setMouseTransparent(true);
 
-        container = new VBox();
-        container.getChildren().add(circleStack);
-        container.getChildren().add(nameLabel);
-        container.setMaxHeight(0);
-        container.setMaxWidth(0);
-        container.setAlignment(Pos.CENTER);
-        container.setFillWidth(false);
+        container = new Group(circle, tokensCountLabel, nameLabel);
 
         if (false) {
-            circleStack.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
             nameLabel.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
-            container.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
         }
     }
 
@@ -101,8 +93,8 @@ public class PlaceView extends ConnectableGraphElementView {
         nameLabel.textProperty().bind(getViewModel().nameProperty());
         getViewModel().nameProperty().addListener(this.onNameChangedListener);
 
-        tokensCountText.textProperty().bind(getViewModel().numberOfTokensProperty());
-        getViewModel().numberOfTokensProperty().addListener(this.onTokensChangedListener);
+        tokensCountLabel.textProperty().bind(getViewModel().numberOfTokensProperty());
+        getViewModel().numberOfTokensProperty().addListener(this.onTokensCountChangedListener);
 
         container.translateXProperty().bind(getViewModel().positionXProperty());
         container.translateYProperty().bind(getViewModel().positionYProperty());
@@ -113,8 +105,8 @@ public class PlaceView extends ConnectableGraphElementView {
         nameLabel.textProperty().unbind();
         getViewModel().nameProperty().removeListener(this.onNameChangedListener);
 
-        tokensCountText.textProperty().unbind();
-        getViewModel().numberOfTokensProperty().removeListener(this.onTokensChangedListener);
+        tokensCountLabel.textProperty().unbind();
+        getViewModel().numberOfTokensProperty().removeListener(this.onTokensCountChangedListener);
 
         container.translateXProperty().unbind();
         container.translateYProperty().unbind();
@@ -124,8 +116,8 @@ public class PlaceView extends ConnectableGraphElementView {
 
     @Override
     public Point2D getShapeCenter() {
-        double x = circle.getLayoutX() + circleStack.getLayoutX() + container.getTranslateX();
-        double y = circle.getLayoutY() + circleStack.getLayoutY() + container.getTranslateY();
+        double x = container.getTranslateX() + circle.getLayoutX();
+        double y = container.getTranslateY() + circle.getLayoutY();
         return new Point2D(x, y);
     }
 
@@ -147,7 +139,7 @@ public class PlaceView extends ConnectableGraphElementView {
         return circle;
     }
 
-    public VBox getRoot() {
+    public Group getRoot() {
         return container;
     }
 
@@ -179,13 +171,13 @@ public class PlaceView extends ConnectableGraphElementView {
     @Override
     public void addedToParent() {
         registerMouseHandlers(circle);
-        registerMouseHandlers(tokensCountText);
+        registerMouseHandlers(tokensCountLabel);
     }
 
     @Override
     public void removedFromParent() {
         unregisterMouseHandlers(circle);
-        unregisterMouseHandlers(tokensCountText);
+        unregisterMouseHandlers(tokensCountLabel);
     }
 
     @Override
@@ -203,6 +195,12 @@ public class PlaceView extends ConnectableGraphElementView {
     public void move(Point2D moveOffset) {
         moveViaTranslate(moveOffset);
         updateArcs();
+        updateAllPositions();
+    }
+
+    private void updateAllPositions() {
+        updateTokensCountLabelPosition();
+        updateNameLabelPosition();
     }
 
     @Override

@@ -6,8 +6,6 @@ public interface Movable {
 
     void snapToGrid();
 
-    void snapToPreservedPosition();
-
     void move(Point2D offset);
 
     boolean canMove(Point2D offset);

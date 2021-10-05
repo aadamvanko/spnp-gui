@@ -47,7 +47,6 @@ public class MouseOperationMoving extends MouseOperation {
             graphView.getSelectedViews().forEach(Movable::snapToGrid);
         }
 
-        graphView.getSelectedViews().forEach(view -> view.preservePosition());
         graphView.adjustCanvasSize();
     }
 }
