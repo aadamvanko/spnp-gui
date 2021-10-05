@@ -23,9 +23,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -49,6 +47,7 @@ public class MenuComponent extends ApplicationComponent {
     private final NewDiagramView newDiagramView;
     private final MenuItem menuItemNewDiagram;
     private final DiagramComponent diagramComponent;
+    private final CheckMenuItem menuItemShowTransitionDetails;
 
     public MenuComponent(Model model, DiagramComponent diagramComponent) {
         super(model);
@@ -149,6 +148,12 @@ public class MenuComponent extends ApplicationComponent {
         menuView.getItems().add(menuItemViewFunctions);
         menuBar.getMenus().add(menuView);
 
+        menuView.getItems().add(new SeparatorMenuItem());
+
+        menuItemShowTransitionDetails = new CheckMenuItem("_Show Transition Details");
+        menuItemShowTransitionDetails.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuView.getItems().add(menuItemShowTransitionDetails);
+
         var menuSimulation = new Menu("_Analysis");
 
         var menuItemSettings = new MenuItem("_Settings");
@@ -238,6 +243,10 @@ public class MenuComponent extends ApplicationComponent {
     }
 
     private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
+        if (oldDiagram != null) {
+            menuItemShowTransitionDetails.selectedProperty().unbindBidirectional(oldDiagram.showTransitionDetailsProperty());
+        }
+
         if (newDiagram == null) {
             includesTableViewWindow.bindSourceCollection(FXCollections.emptyObservableList());
             definesWindowView.bindSourceCollection(FXCollections.emptyObservableList());
@@ -252,6 +261,7 @@ public class MenuComponent extends ApplicationComponent {
         variablesWindowView.bindSourceCollection(newDiagram.getVariables());
         inputParametersTableViewWindow.bindSourceCollection(newDiagram.getInputParameters());
         functionsView.bindDiagramViewModel(newDiagram);
+        menuItemShowTransitionDetails.selectedProperty().bindBidirectional(newDiagram.showTransitionDetailsProperty());
     }
 
 }

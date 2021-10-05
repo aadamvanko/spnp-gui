@@ -6,8 +6,10 @@ import cz.muni.fi.spnp.gui.components.graph.operations.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.MouseEvent;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class MouseOperationContextMenu extends MouseOperation {
     private final ContextMenu contextMenu;
     private final Point2D position;
     private final Node contextNode;
+    private final CheckMenuItem showTransitionDetailsItem;
 
     public MouseOperationContextMenu(GraphView graphView, Node contextNode, Point2D position) {
         super(graphView);
@@ -34,9 +37,13 @@ public class MouseOperationContextMenu extends MouseOperation {
         cutItem.setOnAction(this::onCutHandler);
         MenuItem deleteItem = new MenuItem("Delete");
         deleteItem.setOnAction(this::onDeleteHandler);
+        var separator = new SeparatorMenuItem();
+        showTransitionDetailsItem = new CheckMenuItem("Show Transition Details");
+        showTransitionDetailsItem.setOnAction(this::onShowTransitionDetailsHandler);
+        showTransitionDetailsItem.setSelected(graphView.getModel().selectedDiagramProperty().get().isShowTransitionDetails());
 
         contextMenu = new ContextMenu();
-        contextMenu.getItems().addAll(selectAllItem, pasteItem, copyItem, cutItem, deleteItem);
+        contextMenu.getItems().addAll(selectAllItem, pasteItem, copyItem, cutItem, deleteItem, separator, showTransitionDetailsItem);
     }
 
     private void onSelectAllHandler(ActionEvent actionEvent) {
@@ -57,6 +64,11 @@ public class MouseOperationContextMenu extends MouseOperation {
 
     private void onDeleteHandler(ActionEvent actionEvent) {
         new OperationDeleteElements(graphView.getModel(), graphView.getDiagramViewModel()).execute();
+    }
+
+    private void onShowTransitionDetailsHandler(ActionEvent actionEvent) {
+        var showTransitionDetailsProperty = graphView.getModel().selectedDiagramProperty().get().showTransitionDetailsProperty();
+        showTransitionDetailsProperty.set(!showTransitionDetailsProperty.get());
     }
 
     @Override

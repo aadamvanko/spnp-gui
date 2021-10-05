@@ -34,6 +34,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final ObjectProperty<DiagramViewMode> viewMode;
     private final ObservableList<ElementViewModel> selected;
     private final BooleanProperty needsCodeRefresh;
+    private final BooleanProperty showTransitionDetails;
 
     public DiagramViewModel(ProjectViewModel projectViewModel) {
         this(projectViewModel,
@@ -62,11 +63,12 @@ public class DiagramViewModel extends DisplayableViewModel {
             addFunction(function);
         }
 
-        zoomLevel = new MySimpleIntegerProperty(120);
+        zoomLevel = new MySimpleIntegerProperty(200);
         gridSnapping = new SimpleBooleanProperty(true);
         viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
         selected = FXCollections.observableArrayList();
         needsCodeRefresh = new SimpleBooleanProperty(false);
+        showTransitionDetails = new SimpleBooleanProperty(true);
 
         this.elements.addListener(this::onElementsChangedListener);
         this.functions.addListener(this::onFunctionsChangedListener);
@@ -227,6 +229,14 @@ public class DiagramViewModel extends DisplayableViewModel {
         return needsCodeRefresh;
     }
 
+    public boolean isShowTransitionDetails() {
+        return showTransitionDetails.get();
+    }
+
+    public BooleanProperty showTransitionDetailsProperty() {
+        return showTransitionDetails;
+    }
+
     public ObservableList<IncludeViewModel> getIncludes() {
         return includes;
     }
@@ -309,7 +319,7 @@ public class DiagramViewModel extends DisplayableViewModel {
     public boolean isElementNameClassDuplicate(String name, Class<?> elementClass) {
         return elements.stream()
                 .filter(elementViewModel -> elementViewModel.getName().equals(name))
-                .filter(elementViewModel -> elementClass.isInstance(elementViewModel))
+                .filter(elementClass::isInstance)
                 .count() >= 2;
     }
 

@@ -23,15 +23,15 @@ import javafx.scene.shape.Rectangle;
 public abstract class TransitionView extends ConnectableGraphElementView {
 
     private Label nameLabel;
-    private final ChangeListener<String> onNameChangedListener;
     protected Label probabilityTypeLabel;
     protected Rectangle rectangle;
     private Group container;
 
+    private final ChangeListener<String> onNameChangedListener;
     private final ChangeListener<FunctionViewModel> onGuardFunctionChangedListener;
     private final ChangeListener<TransitionOrientation> onOrientationChangedListener;
+    private final ChangeListener<Boolean> onShowTransitionDetailsChangedListener;
     private Label guardFunctionLabel;
-
 
     public TransitionView(GraphView graphView, TransitionViewModel transitionViewModel) {
         super(graphView, transitionViewModel);
@@ -39,12 +39,18 @@ public abstract class TransitionView extends ConnectableGraphElementView {
         this.onOrientationChangedListener = this::onOrientationChangedListener;
         this.onGuardFunctionChangedListener = this::onGuardFunctionChangedListener;
         this.onNameChangedListener = this::onNameChangedListener;
+        this.onShowTransitionDetailsChangedListener = this::onShowTransitionDetailsChangedListener;
 
         createView();
     }
 
+    private void onShowTransitionDetailsChangedListener(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+        guardFunctionLabel.setVisible(newValue);
+        probabilityTypeLabel.setVisible(newValue);
+    }
+
     private void onNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-        executeDelayedUpdate(() -> Platform.runLater(() -> updateNameLabelPosition()));
+        executeDelayedUpdate(() -> Platform.runLater(this::updateNameLabelPosition));
     }
 
     private void onOrientationChangedListener(ObservableValue<? extends TransitionOrientation> observableValue, TransitionOrientation oldValue, TransitionOrientation newValue) {
@@ -63,7 +69,7 @@ public abstract class TransitionView extends ConnectableGraphElementView {
         var functionName = newValue == null ? "null" : newValue.getName();
         guardFunctionLabel.setText(String.format("[%s]", functionName));
         updateArcs();
-        executeDelayedUpdate(() -> Platform.runLater(() -> updateGuardLabelPosition()));
+        executeDelayedUpdate(() -> Platform.runLater(this::updateGuardLabelPosition));
     }
 
     private void updateAllComponents() {
@@ -127,7 +133,6 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
         nameLabel.textProperty().bind(viewModel.nameProperty());
         getViewModel().nameProperty().addListener(this.onNameChangedListener);
-        // TODO priority, guard function
 
         container.translateXProperty().bind(getViewModel().positionXProperty());
         container.translateYProperty().bind(getViewModel().positionYProperty());
@@ -137,6 +142,9 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
         getViewModel().guardFunctionProperty().addListener(this.onGuardFunctionChangedListener);
         onGuardFunctionChangedListener(null, null, getViewModel().getGuardFunction());
+
+        graphView.getDiagramViewModel().showTransitionDetailsProperty().addListener(this.onShowTransitionDetailsChangedListener);
+        onShowTransitionDetailsChangedListener(null, null, graphView.getDiagramViewModel().isShowTransitionDetails());
     }
 
     @Override
@@ -149,6 +157,8 @@ public abstract class TransitionView extends ConnectableGraphElementView {
 
         getViewModel().orientationProperty().removeListener(this.onOrientationChangedListener);
         getViewModel().guardFunctionProperty().removeListener(this.onGuardFunctionChangedListener);
+
+        graphView.getDiagramViewModel().showTransitionDetailsProperty().removeListener(this.onShowTransitionDetailsChangedListener);
 
         super.unbindViewModel();
     }
