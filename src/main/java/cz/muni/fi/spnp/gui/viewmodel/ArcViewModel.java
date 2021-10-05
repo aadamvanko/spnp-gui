@@ -43,7 +43,6 @@ public abstract class ArcViewModel extends ElementViewModel {
     private void onFromPlaceNameChangedListener(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
         if (isFlushing()) {
             getMultiplicityFunction().bodyProperty().set(ViewModelUtils.createFlushFunctionBody(newValue));
-            System.out.println("new body " + getMultiplicityFunction().getBody());
         }
     }
 

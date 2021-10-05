@@ -63,7 +63,7 @@ public class DiagramViewModel extends DisplayableViewModel {
             addFunction(function);
         }
 
-        zoomLevel = new MySimpleIntegerProperty(200);
+        zoomLevel = new MySimpleIntegerProperty(120);
         gridSnapping = new SimpleBooleanProperty(true);
         viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
         selected = FXCollections.observableArrayList();
@@ -107,11 +107,6 @@ public class DiagramViewModel extends DisplayableViewModel {
         }
     }
 
-    public boolean existsFunctionWithName(String functionName) {
-        return functions.stream()
-                .anyMatch(functionViewModel -> functionViewModel.getName().equals(functionName));
-    }
-
     public FunctionViewModel createFlushFunction(String fromPlaceName) {
         int id = 0;
         var flushFunction = new FunctionViewModel(createFlushFunctionName(id),
@@ -124,8 +119,6 @@ public class DiagramViewModel extends DisplayableViewModel {
             id++;
             flushFunction.nameProperty().set(createFlushFunctionName(id));
         }
-        System.out.println(flushFunction.getName() + " { " + flushFunction.getBody() + " } ");
-        System.out.println("adding flushFunction");
         functions.add(flushFunction);
         return flushFunction;
     }

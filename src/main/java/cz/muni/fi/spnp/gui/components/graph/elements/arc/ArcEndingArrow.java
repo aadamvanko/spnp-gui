@@ -9,7 +9,7 @@ import javafx.scene.shape.Shape;
 
 public class ArcEndingArrow implements ArcEnding {
 
-    public static double LENGTH = 10;
+    public static double LENGTH = 8;
     public static double BASE_WIDTH = 5;
 
     private final Polygon polygon;
