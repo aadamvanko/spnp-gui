@@ -54,7 +54,6 @@ public class ImmediateTransitionView extends TransitionView {
     protected void bindViewModel() {
         super.bindViewModel();
 
-        System.out.println("binding immedaite");
         probabilityTypeLabel.textProperty().bind(getViewModel().getTransitionProbability().representationProperty());
         getViewModel().transitionProbabilityProperty().addListener(this.onProbabilityChangedListener);
     }

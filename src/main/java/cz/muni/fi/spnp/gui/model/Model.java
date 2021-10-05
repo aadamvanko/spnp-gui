@@ -21,6 +21,7 @@ import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,6 +46,7 @@ public class Model {
 
     private final ExecutorService executorService;
     private final ObjectProperty<Task<Void>> runningSimulationTask;
+    private final Timer timer;
 
     public Model() {
         projects = FXCollections.observableArrayList();
@@ -66,6 +68,7 @@ public class Model {
 
         executorService = Executors.newSingleThreadExecutor();
         runningSimulationTask = new SimpleObjectProperty<>();
+        timer = new Timer();
     }
 
     public Clipboard getClipboard() {
@@ -184,10 +187,15 @@ public class Model {
 
     public void cleanUp() {
         executorService.shutdownNow();
+        timer.cancel();
     }
 
     public void clearSimulationRunningTask() {
         runningSimulationTask.set(null);
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 
 }

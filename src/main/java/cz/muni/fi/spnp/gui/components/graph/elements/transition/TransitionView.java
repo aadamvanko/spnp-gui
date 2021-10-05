@@ -67,7 +67,6 @@ public abstract class TransitionView extends ConnectableGraphElementView {
     }
 
     private void updateAllComponents() {
-        System.out.println("updating");
         updateGuardLabelPosition();
         updateProbabilityTypeLabelPosition();
         updateNameLabelPosition();

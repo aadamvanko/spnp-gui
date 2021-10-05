@@ -23,7 +23,7 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
         super(graphView, connectableViewModel);
 
         arcs = new ArrayList<>();
-        timer = new Timer();
+        timer = graphView.getModel().getTimer();
     }
 
     protected void executeDelayedUpdate(Runnable runnable) {
