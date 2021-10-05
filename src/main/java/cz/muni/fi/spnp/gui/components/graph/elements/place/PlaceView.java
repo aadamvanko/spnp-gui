@@ -11,8 +11,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -82,10 +80,6 @@ public class PlaceView extends ConnectableGraphElementView {
         nameLabel.setMouseTransparent(true);
 
         container = new Group(circle, tokensCountLabel, nameLabel);
-
-        if (false) {
-            nameLabel.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
-        }
     }
 
     @Override

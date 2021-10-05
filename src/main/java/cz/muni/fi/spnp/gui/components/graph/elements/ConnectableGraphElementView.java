@@ -44,20 +44,6 @@ public abstract class ConnectableGraphElementView extends GraphElementView imple
 
     protected abstract Point2D getContainerPosition();
 
-    @Override
-    protected void bindViewModel() {
-        super.bindViewModel();
-
-        // TODO same for place and transition
-    }
-
-    @Override
-    public void unbindViewModel() {
-        // TODO same for place and transition
-
-        super.unbindViewModel();
-    }
-
     public void addArc(ArcView arcView) {
         arcs.add(arcView);
     }

@@ -71,7 +71,7 @@ public class FunctionsCategoriesComponent extends TreeViewContainer<FunctionView
     }
 
     private void onFunctionTypeChangedListener(ObservableValue<? extends FunctionType> observableValue, FunctionType oldValue, FunctionType newValue) {
-        System.out.println("changing category in tree item MOCK");
+        System.out.println("You should not see this message from functions categories component! Changing function category must be implemented also here!");
     }
 
     public void onFunctionsChangedListener(ListChangeListener.Change<? extends FunctionViewModel> functionsChange) {
