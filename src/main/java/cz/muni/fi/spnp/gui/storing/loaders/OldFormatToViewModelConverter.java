@@ -4,6 +4,7 @@ import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.PolicyAffectedType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
+import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceView;
 import cz.muni.fi.spnp.gui.components.menu.view.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.view.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionReturnType;
@@ -138,8 +139,8 @@ public class OldFormatToViewModelConverter {
     private ElementViewModel convertPlace(PlaceOldFormat oldPlace) {
         var place = new PlaceViewModel();
         place.nameProperty().set(oldPlace.name);
-        place.positionXProperty().set(oldPlace.xy.x);
-        place.positionYProperty().set(oldPlace.xy.y);
+        place.positionXProperty().set(oldPlace.xy.x + PlaceView.RADIUS);
+        place.positionYProperty().set(oldPlace.xy.y + PlaceView.RADIUS);
         place.numberOfTokensProperty().set(oldPlace.token);
         return place;
     }

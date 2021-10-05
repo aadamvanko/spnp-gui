@@ -20,6 +20,8 @@ import javafx.scene.shape.StrokeType;
 
 public class PlaceView extends ConnectableGraphElementView {
 
+    public static final double RADIUS = 20;
+
     private Circle circle;
     private final ChangeListener<? super String> onTokensCountChangedListener;
     private Label nameLabel;
@@ -62,7 +64,7 @@ public class PlaceView extends ConnectableGraphElementView {
 
     private void createView() {
         circle = new Circle();
-        circle.setRadius(20);
+        circle.setRadius(RADIUS);
         circle.setStrokeWidth(1);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.WHITE);

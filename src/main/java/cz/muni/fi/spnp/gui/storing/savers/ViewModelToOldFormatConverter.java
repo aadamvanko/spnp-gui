@@ -5,6 +5,7 @@ import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.PolicyAffectedType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
+import cz.muni.fi.spnp.gui.components.graph.elements.place.PlaceView;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.storing.OldFormatUtils;
@@ -142,7 +143,9 @@ public class ViewModelToOldFormatConverter {
         var inputArcs = findInputArcs(place, arcs);
         oldPlace.vInputArc = getArcsNames(inputArcs);
         oldPlace.vOutputArc = getArcsNames(outputArcs);
-        oldPlace.xy = createXYFromPosition(place);
+        oldPlace.xy = new XY();
+        oldPlace.xy.x = (int) (place.getPositionX() - PlaceView.RADIUS);
+        oldPlace.xy.y = (int) (place.getPositionY() - PlaceView.RADIUS);
         oldPlace.label = createLabel(place);
         /*
 Place:
