@@ -81,9 +81,12 @@ public class OldFileLoader {
                 } else if (line.startsWith("UserPromptText:")) {
                     addUserPromptText(submodel.variables, extractValue(line));
                 } else if (line.startsWith("Inf:")) {
-                    throw new IllegalStateException("Infinite transitions are currently not supported!");
+                    throw new UnsupportedOperationException("Infinite transitions are currently not supported!");
                 }
             }
+        } catch (UnsupportedOperationException unsupportedOperationException) {
+            System.err.println(String.format("Could not load submodel %s in old format due to error: %s", submodelFilepath, unsupportedOperationException.getMessage()));
+            return null;
         } catch (Exception exception) {
             System.err.println(String.format("Could not load submodel %s in old format due to error:", submodelFilepath));
             exception.printStackTrace();
@@ -156,7 +159,7 @@ public class OldFileLoader {
         place.token = extractValue(bufferedReader);
         place.fluid = extractBoolean(bufferedReader);
         if (place.fluid) {
-            throw new IllegalStateException("Fluid places are currently not supported!");
+            throw new UnsupportedOperationException("Fluid places are currently not supported!");
         }
         place.xy = extractXY(bufferedReader);
         place.numberOfConnectedObjects = extractInt(bufferedReader);
@@ -234,7 +237,7 @@ public class OldFileLoader {
         arc.points = extractArcPoints(bufferedReader);
         arc.isFluid = extractBoolean(bufferedReader);
         if (arc.isFluid) {
-            throw new IllegalStateException("Fluid arcs are currently not supported!");
+            throw new UnsupportedOperationException("Fluid arcs are currently not supported!");
         }
         arc.choiceInput = extractValue(bufferedReader);
         if (arc.type.equals("Regular")) {
