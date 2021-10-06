@@ -8,9 +8,7 @@ import cz.muni.fi.spnp.core.models.transitions.ImmediateTransition;
 import cz.muni.fi.spnp.core.models.transitions.TimedTransition;
 import cz.muni.fi.spnp.core.models.transitions.Transition;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistribution;
-import cz.muni.fi.spnp.core.models.transitions.probabilities.ConstantTransitionProbability;
 import cz.muni.fi.spnp.core.models.transitions.probabilities.FunctionalTransitionProbability;
-import cz.muni.fi.spnp.core.models.transitions.probabilities.PlaceDependentTransitionProbability;
 import cz.muni.fi.spnp.core.models.transitions.probabilities.TransitionProbability;
 import cz.muni.fi.spnp.core.transformators.spnp.code.FunctionSPNP;
 import cz.muni.fi.spnp.core.transformators.spnp.distributions.*;
@@ -18,6 +16,8 @@ import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPInhibitorArc;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPStandardArc;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPStandardPlace;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.SPNPTimedTransition;
+import cz.muni.fi.spnp.core.transformators.spnp.elements.probabilities.SPNPConstantTransitionProbability;
+import cz.muni.fi.spnp.core.transformators.spnp.elements.probabilities.SPNPPlaceDependentTransitionProbability;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
@@ -97,7 +97,7 @@ public class ElementMapper {
     private TransitionProbability convertTransitionProbability(TransitionProbabilityViewModel transitionProbability) {
         if (transitionProbability instanceof ConstantTransitionProbabilityViewModel) {
             var constantTransitionProbabilityViewModel = (ConstantTransitionProbabilityViewModel) transitionProbability;
-            return new ConstantTransitionProbability(
+            return new SPNPConstantTransitionProbability(
                     constantTransitionProbabilityViewModel.getValue()
             );
         } else if (transitionProbability instanceof FunctionalTransitionProbabilityViewModel) {
@@ -107,7 +107,7 @@ public class ElementMapper {
             );
         } else if (transitionProbability instanceof PlaceDependentTransitionProbabilityViewModel) {
             var placeDependentTransitionProbabilityViewModel = (PlaceDependentTransitionProbabilityViewModel) transitionProbability;
-            return new PlaceDependentTransitionProbability(
+            return new SPNPPlaceDependentTransitionProbability(
                     placeDependentTransitionProbabilityViewModel.getValue(),
                     findPlace(placeDependentTransitionProbabilityViewModel.getDependentPlace())
             );

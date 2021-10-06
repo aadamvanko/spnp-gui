@@ -1,15 +1,15 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.immediate;
 
-import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleDoubleProperty;
 import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class PlaceDependentTransitionProbabilityViewModel extends TransitionProbabilityViewModelBase {
 
-    private final DoubleProperty value = new MySimpleDoubleProperty(0.0);
+    private final StringProperty value = new SimpleStringProperty("0.0");
     private final ObjectProperty<PlaceViewModel> dependentPlace = new SimpleObjectProperty<>();
 
     public PlaceDependentTransitionProbabilityViewModel() {
@@ -24,11 +24,11 @@ public class PlaceDependentTransitionProbabilityViewModel extends TransitionProb
         return String.format("#(%s)%s", placeName, getValue());
     }
 
-    public double getValue() {
+    public String getValue() {
         return value.get();
     }
 
-    public DoubleProperty valueProperty() {
+    public StringProperty valueProperty() {
         return value;
     }
 

@@ -1,15 +1,14 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
-import cz.muni.fi.spnp.gui.components.propertieseditor.DoubleTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.MyDoubleStringConverter;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.TransitionProbabilityViewModel;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class ConstantProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
     private Label valueLabel;
-    private DoubleTextField valueTextField;
+    private TextField valueTextField;
 
     public ConstantProbabilityPropertiesSubEditor() {
         createView();
@@ -17,8 +16,8 @@ public class ConstantProbabilityPropertiesSubEditor extends TransitionProbabilit
 
     private void createView() {
         valueLabel = new Label("Value:");
-        valueTextField = new DoubleTextField();
-        addRow(valueLabel, valueTextField.getTextField());
+        valueTextField = new TextField();
+        addRow(valueLabel, valueTextField);
     }
 
     @Override
@@ -26,13 +25,13 @@ public class ConstantProbabilityPropertiesSubEditor extends TransitionProbabilit
         super.bindViewModel(transitionProbabilityViewModel);
 
         var constantTransitionProbabilityViewModel = (ConstantTransitionProbabilityViewModel) transitionProbabilityViewModel;
-        valueTextField.getTextField().textProperty().bindBidirectional(constantTransitionProbabilityViewModel.valueProperty().asObject(), new MyDoubleStringConverter());
+        valueTextField.textProperty().bindBidirectional(constantTransitionProbabilityViewModel.valueProperty());
     }
 
     @Override
     public void unbindViewModel() {
         var constantTransitionProbabilityViewModel = (ConstantTransitionProbabilityViewModel) viewModel;
-        valueTextField.getTextField().textProperty().unbindBidirectional(constantTransitionProbabilityViewModel.valueProperty().asObject());
+        valueTextField.textProperty().unbindBidirectional(constantTransitionProbabilityViewModel.valueProperty());
 
         super.unbindViewModel();
     }

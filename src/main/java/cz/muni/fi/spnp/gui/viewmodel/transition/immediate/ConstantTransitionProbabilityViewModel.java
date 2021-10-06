@@ -1,12 +1,12 @@
 package cz.muni.fi.spnp.gui.viewmodel.transition.immediate;
 
-import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleDoubleProperty;
 import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class ConstantTransitionProbabilityViewModel extends TransitionProbabilityViewModelBase {
 
-    private final DoubleProperty value = new MySimpleDoubleProperty(0.0);
+    private final StringProperty value = new SimpleStringProperty("0.0");
 
     public ConstantTransitionProbabilityViewModel() {
         value.addListener((observable, oldValue, newValue) -> updateRepresentation());
@@ -15,14 +15,14 @@ public class ConstantTransitionProbabilityViewModel extends TransitionProbabilit
 
     @Override
     protected String generateRepresentation() {
-        return String.valueOf(getValue());
+        return getValue();
     }
 
-    public double getValue() {
+    public String getValue() {
         return value.get();
     }
 
-    public DoubleProperty valueProperty() {
+    public StringProperty valueProperty() {
         return value;
     }
 

@@ -429,12 +429,12 @@ public class OldFormatToViewModelConverter {
         switch (oldImmediate.choiceInput) {
             case "Constant value":
                 var constantProbability = new ConstantTransitionProbabilityViewModel();
-                constantProbability.valueProperty().set(parseDoubleOrDefault(oldImmediate.probability, 1));
+                constantProbability.valueProperty().set(oldImmediate.probability);
                 return constantProbability;
 
             case "Place dependent":
                 var placeDependentProbability = new PlaceDependentTransitionProbabilityViewModel();
-                placeDependentProbability.valueProperty().set(parseDoubleOrDefault(oldImmediate.probability, 1));
+                placeDependentProbability.valueProperty().set(oldImmediate.probability);
                 placeDependentProbability.dependentPlaceProperty().set(findPlaceViewModel(places, oldImmediate.placeDependent));
                 return placeDependentProbability;
 

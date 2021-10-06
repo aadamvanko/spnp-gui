@@ -1,7 +1,5 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
-import cz.muni.fi.spnp.gui.components.propertieseditor.DoubleTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.MyDoubleStringConverter;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PlaceViewModelStringConverter;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
@@ -12,12 +10,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
     private final ListChangeListener<? super ElementViewModel> onPlacesChangedListener;
     private Label valueLabel;
-    private DoubleTextField valueTextField;
+    private TextField valueTextField;
     private Label dependentPlaceLabel;
     private ChoiceBox<PlaceViewModel> dependentPlaceChoiceBox;
 
@@ -29,8 +28,8 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
 
     private void createView() {
         valueLabel = new Label("Value:");
-        valueTextField = new DoubleTextField();
-        addRow(valueLabel, valueTextField.getTextField());
+        valueTextField = new TextField();
+        addRow(valueLabel, valueTextField);
 
         dependentPlaceLabel = new Label("Dependent place:");
         dependentPlaceChoiceBox = new ChoiceBox<>();
@@ -65,14 +64,14 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
         super.bindViewModel(transitionProbabilityViewModel);
 
         var placeDependentTransitionProbabilityViewModel = (PlaceDependentTransitionProbabilityViewModel) transitionProbabilityViewModel;
-        valueTextField.getTextField().textProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.valueProperty().asObject(), new MyDoubleStringConverter());
+        valueTextField.textProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.valueProperty());
         dependentPlaceChoiceBox.valueProperty().bindBidirectional(placeDependentTransitionProbabilityViewModel.dependentPlaceProperty());
     }
 
     public void unbindViewModel() {
         var placeDependentTransitionProbabilityViewModel = (PlaceDependentTransitionProbabilityViewModel) viewModel;
 
-        valueTextField.getTextField().textProperty().unbindBidirectional(placeDependentTransitionProbabilityViewModel.valueProperty().asObject());
+        valueTextField.textProperty().unbindBidirectional(placeDependentTransitionProbabilityViewModel.valueProperty());
         dependentPlaceChoiceBox.valueProperty().unbindBidirectional(placeDependentTransitionProbabilityViewModel.dependentPlaceProperty());
 
         super.unbindViewModel();
