@@ -80,6 +80,8 @@ public class OldFileLoader {
                     submodel.variables.add(readVariable(bufferedReader, line));
                 } else if (line.startsWith("UserPromptText:")) {
                     addUserPromptText(submodel.variables, extractValue(line));
+                } else if (line.startsWith("Inf:")) {
+                    throw new IllegalStateException("Infinite transitions are currently not supported!");
                 }
             }
         } catch (Exception exception) {
