@@ -155,6 +155,9 @@ public class OldFileLoader {
         place.name = extractValue(bufferedReader);
         place.token = extractValue(bufferedReader);
         place.fluid = extractBoolean(bufferedReader);
+        if (place.fluid) {
+            throw new IllegalStateException("Fluid places are currently not supported!");
+        }
         place.xy = extractXY(bufferedReader);
         place.numberOfConnectedObjects = extractInt(bufferedReader);
         place.arcReferences = readArcReferences(bufferedReader, place.numberOfConnectedObjects);
