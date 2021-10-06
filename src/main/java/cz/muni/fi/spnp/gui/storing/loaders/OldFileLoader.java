@@ -233,6 +233,9 @@ public class OldFileLoader {
         arc.dest = extractValue(bufferedReader);
         arc.points = extractArcPoints(bufferedReader);
         arc.isFluid = extractBoolean(bufferedReader);
+        if (arc.isFluid) {
+            throw new IllegalStateException("Fluid arcs are currently not supported!");
+        }
         arc.choiceInput = extractValue(bufferedReader);
         if (arc.type.equals("Regular")) {
             arc.typeIO = extractValue(bufferedReader);
