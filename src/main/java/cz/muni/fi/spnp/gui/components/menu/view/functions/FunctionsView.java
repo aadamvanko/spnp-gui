@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -48,6 +49,21 @@ public class FunctionsView extends UIWindowComponent {
             }
         });
 
+        tableView.setRowFactory(tv -> {
+            TableRow<FunctionViewModel> row = new TableRow<>();
+            row.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getClickCount() == 2 && mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    if (row.isEmpty()) {
+                        showAddRowView();
+                    } else {
+                        FunctionViewModel rowItem = row.getItem();
+                        showEditRowView(rowItem);
+                    }
+                }
+            });
+            return row;
+        });
+
         var splitPane = new SplitPane();
         splitPane.setOrientation(Orientation.VERTICAL);
         VBox.setVgrow(splitPane, Priority.ALWAYS);
@@ -60,9 +76,7 @@ public class FunctionsView extends UIWindowComponent {
 
         var buttonAdd = new Button("Add");
         buttonAdd.setOnAction(actionEvent -> {
-            var functionView = new FunctionView(diagramViewModel, new FunctionViewModel(), null, ItemViewMode.ADD);
-            functionView.getStage().setTitle("Add Function");
-            functionView.getStage().showAndWait();
+            showAddRowView();
         });
         buttonsPanel.getChildren().add(buttonAdd);
 
@@ -73,10 +87,7 @@ public class FunctionsView extends UIWindowComponent {
                 return;
             }
 
-            var copy = viewModelCopyFactory.createCopy(selectedFunction);
-            var functionView = new FunctionView(diagramViewModel, copy, selectedFunction, ItemViewMode.EDIT);
-            functionView.getStage().setTitle("Edit Function");
-            functionView.getStage().showAndWait();
+            showEditRowView(selectedFunction);
         });
         buttonsPanel.getChildren().add(buttonEdit);
 
@@ -118,6 +129,19 @@ public class FunctionsView extends UIWindowComponent {
         });
 
         stage.setScene(scene);
+    }
+
+    private void showAddRowView() {
+        var functionView = new FunctionView(diagramViewModel, new FunctionViewModel(), null, ItemViewMode.ADD);
+        functionView.getStage().setTitle("Add Function");
+        functionView.getStage().showAndWait();
+    }
+
+    private void showEditRowView(FunctionViewModel rowItem) {
+        var copy = viewModelCopyFactory.createCopy(rowItem);
+        var functionView = new FunctionView(diagramViewModel, copy, rowItem, ItemViewMode.EDIT);
+        functionView.getStage().setTitle("Edit Function");
+        functionView.getStage().showAndWait();
     }
 
     public void bindDiagramViewModel(DiagramViewModel diagramViewModel) {
