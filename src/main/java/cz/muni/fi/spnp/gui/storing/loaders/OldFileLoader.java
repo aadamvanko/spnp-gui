@@ -175,7 +175,9 @@ public class OldFileLoader {
         immediate.vOutputArc = extractArcsNames(bufferedReader);
         immediate.typeTransition = extractValue(bufferedReader);
         immediate.placeDependent = extractValue(bufferedReader);
-        immediate.valueTransition = extractInt(bufferedReader);
+        immediate.valueTransition = extractIntOrCatch(bufferedReader,
+                String.format("Invalid value for priority (only integer numbers allowed) for immediate transition %s!", immediate.name),
+                0);
         immediate.label = readLabel(bufferedReader);
         return immediate;
     }
@@ -320,6 +322,15 @@ public class OldFileLoader {
         xy.x = Integer.parseInt(tokens[0]);
         xy.y = Integer.parseInt(tokens[1]);
         return xy;
+    }
+
+    private int extractIntOrCatch(BufferedReader bufferedReader, String message, int defaultValue) {
+        try {
+            return extractInt(bufferedReader);
+        } catch (NumberFormatException numberFormatException) {
+            System.out.println(String.format("Error: %s Using default value %s instead!", message, defaultValue));
+            return defaultValue;
+        }
     }
 
     private int extractInt(BufferedReader bufferedReader) {
