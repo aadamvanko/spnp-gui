@@ -51,6 +51,9 @@ public abstract class TransitionView extends ConnectableGraphElementView {
     }
 
     private void onOrientationChangedListener(ObservableValue<? extends TransitionOrientation> observableValue, TransitionOrientation oldValue, TransitionOrientation newValue) {
+        var oldCenter = new Point2D(rectangle.getWidth() / 2.0, rectangle.getHeight() / 2.0);
+        var newCenter = new Point2D(rectangle.getHeight() / 2.0, rectangle.getWidth() / 2.0);
+        var diffCenters = oldCenter.subtract(newCenter);
         if (newValue == TransitionOrientation.Vertical) {
             rectangle.setHeight(getRectangleDefaultHeight());
             rectangle.setWidth(getRectangleDefaultWidth());
@@ -58,6 +61,8 @@ public abstract class TransitionView extends ConnectableGraphElementView {
             rectangle.setHeight(getRectangleDefaultWidth());
             rectangle.setWidth(getRectangleDefaultHeight());
         }
+        moveViaTranslate(diffCenters);
+        snapToGrid();
         updateArcs();
         graphView.processLayoutChange();
     }
