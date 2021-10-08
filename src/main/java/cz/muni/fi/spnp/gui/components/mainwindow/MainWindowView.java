@@ -86,7 +86,7 @@ public class MainWindowView {
         model.getProjects().add(mock_project1);
 
         var functions = new ArrayList<FunctionViewModel>();
-        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "int x = 3;", FunctionReturnType.VOID, false, true));
+        functions.add(new FunctionViewModel("function1", FunctionType.Guard, "return 1;", FunctionReturnType.INT, false, true));
         functions.add(new FunctionViewModel("function2", FunctionType.Generic, "double d = 10;", FunctionReturnType.VOID, false, true));
         functions.add(new FunctionViewModel("function_prob_1", FunctionType.Probability, "return 0.4;", FunctionReturnType.DOUBLE, false, true));
         var function_arc_card = new FunctionViewModel("function_arc_card", FunctionType.ArcCardinality, "return 5;", FunctionReturnType.INT, false, true);
@@ -143,11 +143,12 @@ public class MainWindowView {
         immediateTransition1.positionYProperty().set(200);
         immediateTransition1.priorityProperty().set(1);
         var constantProbability = new ConstantTransitionProbabilityViewModel();
-        constantProbability.valueProperty().set(12.77);
+        constantProbability.valueProperty().set("12.77");
         immediateTransition1.setTransitionProbability(constantProbability);
         immediateTransition1.guardFunctionProperty().set(functions.get(0));
 
         var inhibitorArc1 = new InhibitorArcViewModel("inhibitor1", place3, immediateTransition1, Collections.emptyList());
+        inhibitorArc1.multiplicityProperty().set("k");
 
         var immediateTransition2 = new ImmediateTransitionViewModel();
         immediateTransition2.nameProperty().set("immediate2");
@@ -155,7 +156,7 @@ public class MainWindowView {
         immediateTransition2.positionYProperty().set(300);
         immediateTransition2.priorityProperty().set(1);
         var constantProbability2 = new ConstantTransitionProbabilityViewModel();
-        constantProbability2.valueProperty().set(1.78);
+        constantProbability2.valueProperty().set("1.78");
         immediateTransition2.setTransitionProbability(constantProbability2);
         immediateTransition2.guardFunctionProperty().set(functions.get(0));
 
