@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu;
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
 import cz.muni.fi.spnp.gui.components.graph.DiagramComponent;
 import cz.muni.fi.spnp.gui.components.graph.operations.*;
-import cz.muni.fi.spnp.gui.components.menu.analysis.PreferencesView;
+import cz.muni.fi.spnp.gui.components.menu.analysis.SettingsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateAndMiscellaneousOptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsView;
@@ -157,7 +157,7 @@ public class MenuComponent extends ApplicationComponent {
         var menuSimulation = new Menu("_Analysis");
 
         var menuItemSettings = new MenuItem("_Settings");
-        menuItemSettings.setOnAction(actionEvent -> new PreferencesView(model).getStage().showAndWait());
+        menuItemSettings.setOnAction(actionEvent -> new SettingsView(model).getStage().showAndWait());
         menuSimulation.getItems().add(menuItemSettings);
 
         var menuItemSimulationAnalysisOptions = new MenuItem("Simulation & _Analysis Options");

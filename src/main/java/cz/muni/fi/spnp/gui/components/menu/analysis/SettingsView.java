@@ -16,7 +16,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 
-public class PreferencesView extends UIWindowComponent {
+public class SettingsView extends UIWindowComponent {
 
     private final Model model;
 
@@ -27,7 +27,7 @@ public class PreferencesView extends UIWindowComponent {
     private Label pathPlotsLibraryLabel;
     private TextField pathPlotsLibraryTextField;
 
-    public PreferencesView(Model model) {
+    public SettingsView(Model model) {
         this.model = model;
 
         createView();
@@ -86,7 +86,7 @@ public class PreferencesView extends UIWindowComponent {
             }
         });
 
-        stage.setTitle("Preferences");
+        stage.setTitle("Settings");
         stage.setScene(scene);
         stage.setResizable(false);
     }
