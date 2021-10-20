@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.projects;
 import cz.muni.fi.spnp.gui.components.TreeViewContainer;
 import cz.muni.fi.spnp.gui.components.menu.ProjectSaver;
 import cz.muni.fi.spnp.gui.components.menu.diagram.DiagramDetailsView;
+import cz.muni.fi.spnp.gui.components.menu.project.ProjectDetailsView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
@@ -41,14 +42,17 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
                 model.selectedDiagramProperty().set((DiagramViewModel) sourceItem);
             } else if (sourceItem instanceof ProjectViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
                 var projectTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
+                var projectViewModel = (ProjectViewModel) sourceItem;
+                var menuItemRenameProject = new MenuItem("Rename Project");
+                menuItemRenameProject.setOnAction(actionEvent -> new ProjectDetailsView(model, projectViewModel, ItemViewMode.EDIT).getStage().showAndWait());
                 var menuItemSaveProject = new MenuItem("Save Project");
                 menuItemSaveProject.setOnAction(actionEvent -> {
-                    var projectSaver = new ProjectSaver(treeView.getScene().getWindow(), (ProjectViewModel) sourceItem);
+                    var projectSaver = new ProjectSaver(treeView.getScene().getWindow(), projectViewModel);
                     projectSaver.save();
                 });
                 var menuItemCloseProject = new MenuItem("Close Project");
-                menuItemCloseProject.setOnAction(actionEvent -> model.getProjects().remove((ProjectViewModel) sourceItem));
-                var projectContextMenu = new ContextMenu(menuItemSaveProject, menuItemCloseProject);
+                menuItemCloseProject.setOnAction(actionEvent -> model.getProjects().remove(projectViewModel));
+                var projectContextMenu = new ContextMenu(menuItemRenameProject, menuItemSaveProject, menuItemCloseProject);
                 projectContextMenu.show(projectTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             } else if (sourceItem instanceof DiagramViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
                 var diagramTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();

@@ -127,11 +127,6 @@ public class Model {
         return pathPlotsLibrary;
     }
 
-    public boolean projectExists(String name) {
-        var found = projects.stream().filter(project -> project.nameProperty().get().equals(name));
-        return found.count() > 0;
-    }
-
     public ObservableList<ProjectViewModel> getProjects() {
         return projects;
     }

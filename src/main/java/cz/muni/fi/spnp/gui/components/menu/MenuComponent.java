@@ -9,7 +9,7 @@ import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OptionsVi
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsView;
 import cz.muni.fi.spnp.gui.components.menu.diagram.DiagramDetailsView;
 import cz.muni.fi.spnp.gui.components.menu.help.AboutWindow;
-import cz.muni.fi.spnp.gui.components.menu.project.NewProjectView;
+import cz.muni.fi.spnp.gui.components.menu.project.ProjectDetailsView;
 import cz.muni.fi.spnp.gui.components.menu.view.defines.DefinesTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
@@ -43,7 +43,6 @@ public class MenuComponent extends ApplicationComponent {
     private final MenuItem menuItemViewInputParameters;
     private final FunctionsView functionsView;
     private final MenuItem menuItemViewFunctions;
-    private final NewProjectView newProjectView;
     private final MenuItem menuItemNewProject;
     private final MenuItem menuItemNewDiagram;
     private final DiagramComponent diagramComponent;
@@ -63,11 +62,15 @@ public class MenuComponent extends ApplicationComponent {
         menuItemOpenProject.setOnAction(this::onOpenProjectClickedHandler);
         menuProject.getItems().add(menuItemOpenProject);
 
-        newProjectView = new NewProjectView(model);
         menuItemNewProject = new MenuItem("_New Project");
         menuItemNewProject.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
-        menuItemNewProject.setOnAction(actionEvent -> newProjectView.getStage().showAndWait());
+        menuItemNewProject.setOnAction(actionEvent -> new ProjectDetailsView(model, null, ItemViewMode.ADD).getStage().showAndWait());
         menuProject.getItems().add(menuItemNewProject);
+
+        var menuItemRenameProject = new MenuItem("Rename Project");
+        menuItemRenameProject.setOnAction(actionEvent -> new ProjectDetailsView(model, model.selectedDiagramProperty().get().getProject(), ItemViewMode.EDIT).getStage().showAndWait());
+        menuItemRenameProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuProject.getItems().add(menuItemRenameProject);
 
         var menuItemSaveProject = new MenuItem("_Save Project");
         menuItemSaveProject.setOnAction(this::onSaveProjectClickedHandler);

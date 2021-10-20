@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.components.menu.project;
 
 import cz.muni.fi.spnp.gui.components.menu.view.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.geometry.Insets;
@@ -15,13 +16,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class NewProjectView extends UIWindowComponent {
+public class ProjectDetailsView extends UIWindowComponent {
 
     private final Model model;
+    private final ProjectViewModel projectViewModel;
+    private final ItemViewMode itemViewMode;
 
-    public NewProjectView(Model model) {
+    public ProjectDetailsView(Model model, ProjectViewModel projectViewModel, ItemViewMode itemViewMode) {
         this.model = model;
+        this.projectViewModel = projectViewModel;
+        this.itemViewMode = itemViewMode;
 
+        createView();
+    }
+
+    private void createView() {
         var vbox = new VBox();
         var gridPane = new GridPane();
 
@@ -33,9 +42,13 @@ public class NewProjectView extends UIWindowComponent {
         vbox.getChildren().add(gridPane);
         gridPane.setHgap(5);
 
+        if (itemViewMode == ItemViewMode.EDIT) {
+            textFieldName.setText(projectViewModel.getName());
+        }
+
         var buttonsPanel = new HBox();
-        var buttonCreate = new Button("Create");
-        buttonCreate.setOnAction(actionEvent -> {
+        var buttonOK = new Button("OK");
+        buttonOK.setOnAction(actionEvent -> {
             var name = textFieldName.getText();
             if (name.isBlank()) {
                 DialogMessages.showError("Project name cannot be blank.");
@@ -47,17 +60,17 @@ public class NewProjectView extends UIWindowComponent {
                 return;
             }
 
-            if (model.projectExists(name)) {
-                DialogMessages.showError("Project with given name already exists.");
-                return;
+            if (itemViewMode == ItemViewMode.ADD) {
+                var newProject = new ProjectViewModel();
+                newProject.nameProperty().set(name);
+                model.getProjects().add(newProject);
+            } else if (itemViewMode == ItemViewMode.EDIT) {
+                projectViewModel.nameProperty().set(name);
             }
 
-            var project = new ProjectViewModel();
-            project.nameProperty().set(name);
-            model.getProjects().add(project);
             stage.close();
         });
-        buttonsPanel.getChildren().add(buttonCreate);
+        buttonsPanel.getChildren().add(buttonOK);
         var buttonCancel = new Button("Cancel");
         buttonCancel.setOnAction(actionEvent -> {
             stage.close();
@@ -76,11 +89,12 @@ public class NewProjectView extends UIWindowComponent {
             }
         });
 
+        var titleMode = itemViewMode == ItemViewMode.ADD ? "New" : "Edit";
+        stage.setTitle(titleMode + " Project");
         stage.setTitle("New Project");
         stage.setScene(scene);
         stage.setMinWidth(250);
         stage.setResizable(false);
     }
-
 
 }
