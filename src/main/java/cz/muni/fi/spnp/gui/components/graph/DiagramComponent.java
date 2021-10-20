@@ -90,11 +90,7 @@ public class DiagramComponent extends ApplicationComponent {
         }
         tab.getTabPane().getTabs().remove(tab);
     }
-
-    private String createTabName(DiagramViewModel diagramViewModel) {
-        return String.format("%s/%s", diagramViewModel.getProject().nameProperty().get(), diagramViewModel.nameProperty().get());
-    }
-
+    
     private void createView() {
         tabPane = new TabPane();
         tabPane.setSide(Side.BOTTOM);
@@ -113,7 +109,6 @@ public class DiagramComponent extends ApplicationComponent {
     }
 
     private void createDiagramView(DiagramViewModel diagramViewModel) {
-        var tabName = createTabName(diagramViewModel);
         var diagramView = new DiagramView(model, diagramViewModel);
         var tab = new Tab("tabName", diagramView.getGraphView().getRoot());
         tab.setOnClosed(event -> {

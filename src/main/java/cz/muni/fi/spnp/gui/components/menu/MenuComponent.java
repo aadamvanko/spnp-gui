@@ -58,7 +58,7 @@ public class MenuComponent extends ApplicationComponent {
 
         Menu menuProject = new Menu("_Project");
 
-        var menuItemOpenProject = new MenuItem("_Open project");
+        var menuItemOpenProject = new MenuItem("_Open Project");
         menuItemOpenProject.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
         menuItemOpenProject.setOnAction(this::onOpenProjectClickedHandler);
         menuProject.getItems().add(menuItemOpenProject);
@@ -69,13 +69,13 @@ public class MenuComponent extends ApplicationComponent {
         menuItemNewProject.setOnAction(actionEvent -> newProjectView.getStage().showAndWait());
         menuProject.getItems().add(menuItemNewProject);
 
-        var menuItemSaveProject = new MenuItem("_Save project");
+        var menuItemSaveProject = new MenuItem("_Save Project");
         menuItemSaveProject.setOnAction(this::onSaveProjectClickedHandler);
         menuItemSaveProject.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
         menuItemSaveProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuProject.getItems().add(menuItemSaveProject);
 
-        var menuItemCloseProject = new MenuItem("_Close project");
+        var menuItemCloseProject = new MenuItem("_Close Project");
         menuItemCloseProject.setOnAction(this::onCloseProjectClickedHandler);
         menuItemCloseProject.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuProject.getItems().add(menuItemCloseProject);
@@ -98,7 +98,7 @@ public class MenuComponent extends ApplicationComponent {
         menuBar.getMenus().add(menuDiagram);
 
         Menu menuEdit = new Menu("_Edit");
-        var menuItemSelectAll = new MenuItem("_Select all");
+        var menuItemSelectAll = new MenuItem("_Select All");
         menuItemSelectAll.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN));
         menuItemSelectAll.setOnAction(actionEvent -> new OperationSelectAll(model, model.selectedDiagramProperty().get()).execute());
         var menuItemPaste = new MenuItem("_Paste");

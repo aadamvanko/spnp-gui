@@ -26,7 +26,7 @@ public class MouseOperationContextMenu extends MouseOperation {
         this.contextNode = contextNode;
         this.position = position;
 
-        var selectAllItem = new MenuItem("Select all");
+        var selectAllItem = new MenuItem("Select All");
         selectAllItem.setOnAction(this::onSelectAllHandler);
         var pasteItem = new MenuItem("Paste");
         pasteItem.setOnAction(this::onPasteHandler);
