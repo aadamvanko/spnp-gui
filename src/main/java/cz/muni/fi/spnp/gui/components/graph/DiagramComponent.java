@@ -6,6 +6,7 @@ import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewMode;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -20,6 +21,7 @@ import javafx.scene.control.TabPane;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -113,11 +115,18 @@ public class DiagramComponent extends ApplicationComponent {
     private void createDiagramView(DiagramViewModel diagramViewModel) {
         var tabName = createTabName(diagramViewModel);
         var diagramView = new DiagramView(model, diagramViewModel);
-        var tab = new Tab(tabName, diagramView.getGraphView().getRoot());
+        var tab = new Tab("tabName", diagramView.getGraphView().getRoot());
         tab.setOnClosed(event -> {
             (diagramViews.get(tab)).unbindViewModels();
             diagramViews.remove(tab);
+            tab.textProperty().unbind();
         });
+
+        tab.textProperty().bind(Bindings.createStringBinding(
+                () -> MessageFormat.format("{0}/{1}", diagramViewModel.getProject().getName(), diagramViewModel.getName()),
+                diagramViewModel.getProject().nameProperty(),
+                diagramViewModel.nameProperty())
+        );
 
         diagramViews.put(tab, diagramView);
         tabPane.getTabs().add(tab);

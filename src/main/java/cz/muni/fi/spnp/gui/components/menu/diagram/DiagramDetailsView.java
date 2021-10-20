@@ -3,11 +3,10 @@ package cz.muni.fi.spnp.gui.components.menu.diagram;
 import cz.muni.fi.spnp.gui.components.menu.project.ProjectViewModelStringConverter;
 import cz.muni.fi.spnp.gui.components.menu.view.DialogMessages;
 import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,18 +19,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class NewDiagramView extends UIWindowComponent {
+import java.util.stream.Collectors;
+
+public class DiagramDetailsView extends UIWindowComponent {
 
     private final Model model;
+    private final DiagramViewModel diagramViewModel;
+    private final ItemViewMode itemViewMode;
     private ChoiceBox<ProjectViewModel> choiceBoxProject;
 
-    public NewDiagramView(Model model) {
+    public DiagramDetailsView(Model model, DiagramViewModel diagramViewModel, ItemViewMode itemViewMode) {
         this.model = model;
+        this.diagramViewModel = diagramViewModel;
+        this.itemViewMode = itemViewMode;
 
         createView();
-
-        model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
-        model.getProjects().addListener(this::onProjectsChangedListener);
     }
 
     private void createView() {
@@ -55,9 +57,22 @@ public class NewDiagramView extends UIWindowComponent {
         gridPane.setVgap(5);
         vbox.getChildren().add(gridPane);
 
+        if (itemViewMode == ItemViewMode.ADD) {
+            var selectedDiagram = model.selectedDiagramProperty().get();
+            if (selectedDiagram == null) {
+                choiceBoxProject.getSelectionModel().select(model.getProjects().get(0));
+            } else {
+                choiceBoxProject.getSelectionModel().select(selectedDiagram.getProject());
+            }
+        } else if (itemViewMode == ItemViewMode.EDIT) {
+            textFieldName.setText(diagramViewModel.getName());
+            choiceBoxProject.setDisable(true);
+            choiceBoxProject.getSelectionModel().select(diagramViewModel.getProject());
+        }
+
         var buttonsPanel = new HBox();
-        var buttonCreate = new Button("Create");
-        buttonCreate.setOnAction(actionEvent -> {
+        var buttonOK = new Button("OK");
+        buttonOK.setOnAction(actionEvent -> {
             var name = textFieldName.getText();
             if (name.isBlank()) {
                 DialogMessages.showError("Diagram name cannot be blank.");
@@ -70,18 +85,31 @@ public class NewDiagramView extends UIWindowComponent {
             }
 
             var project = choiceBoxProject.getSelectionModel().getSelectedItem();
-            if (project.diagramExists(name)) {
-                DialogMessages.showError("Diagram with given name already exists.");
-                return;
+            if (itemViewMode == ItemViewMode.ADD) {
+                if (project.diagramExists(name)) {
+                    DialogMessages.showError("Diagram with given name already exists.");
+                    return;
+                }
+                var diagram = new DiagramViewModel(project);
+                diagram.nameProperty().set(name);
+                project.getDiagrams().add(diagram);
+                model.selectedDiagramProperty().set(diagram);
+            } else if (itemViewMode == ItemViewMode.EDIT) {
+                var foundDiagrams = project.getDiagrams().stream()
+                        .filter(d -> d.getName().equals(name))
+                        .collect(Collectors.toList());
+                if (foundDiagrams.size() == 1 && foundDiagrams.get(0) != diagramViewModel) {
+                    if (project.diagramExists(name)) {
+                        DialogMessages.showError("Diagram with given name already exists.");
+                        return;
+                    }
+                }
+                diagramViewModel.nameProperty().set(name);
             }
 
-            var diagram = new DiagramViewModel(project);
-            diagram.nameProperty().set(name);
-            project.getDiagrams().add(diagram);
-            model.selectedDiagramProperty().set(diagram);
             stage.close();
         });
-        buttonsPanel.getChildren().add(buttonCreate);
+        buttonsPanel.getChildren().add(buttonOK);
         var buttonCancel = new Button("Cancel");
         buttonCancel.setOnAction(actionEvent -> {
             stage.close();
@@ -100,30 +128,11 @@ public class NewDiagramView extends UIWindowComponent {
             }
         });
 
-        stage.setTitle("New Diagram");
+        var titleMode = itemViewMode == ItemViewMode.ADD ? "New" : "Edit";
+        stage.setTitle(titleMode + " Diagram");
         stage.setScene(scene);
         stage.setMinWidth(250);
         stage.setResizable(false);
-    }
-
-    private void onSelectedDiagramChanged(ObservableValue<? extends DiagramViewModel> observableValue, DiagramViewModel oldDiagram, DiagramViewModel newDiagram) {
-        if (newDiagram == null) {
-            if (!model.getProjects().isEmpty()) {
-                choiceBoxProject.getSelectionModel().select(model.getProjects().get(0));
-            }
-        } else {
-            choiceBoxProject.getSelectionModel().select(newDiagram.getProject());
-        }
-    }
-
-    private void onProjectsChangedListener(ListChangeListener.Change<? extends ProjectViewModel> projectsChange) {
-        if (model.selectedDiagramProperty().get() == null) {
-            if (model.getProjects().isEmpty()) {
-                choiceBoxProject.getSelectionModel().clearSelection();
-            } else {
-                choiceBoxProject.getSelectionModel().select(model.getProjects().get(0));
-            }
-        }
     }
 
 }

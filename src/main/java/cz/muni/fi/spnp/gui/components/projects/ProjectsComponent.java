@@ -2,6 +2,8 @@ package cz.muni.fi.spnp.gui.components.projects;
 
 import cz.muni.fi.spnp.gui.components.TreeViewContainer;
 import cz.muni.fi.spnp.gui.components.menu.ProjectSaver;
+import cz.muni.fi.spnp.gui.components.menu.diagram.DiagramDetailsView;
+import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.model.Model;
 import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
@@ -39,21 +41,23 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
                 model.selectedDiagramProperty().set((DiagramViewModel) sourceItem);
             } else if (sourceItem instanceof ProjectViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
                 var projectTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
-                var menuItemSaveProject = new MenuItem("Save project");
+                var menuItemSaveProject = new MenuItem("Save Project");
                 menuItemSaveProject.setOnAction(actionEvent -> {
                     var projectSaver = new ProjectSaver(treeView.getScene().getWindow(), (ProjectViewModel) sourceItem);
                     projectSaver.save();
                 });
-                var menuItemCloseProject = new MenuItem("Close project");
+                var menuItemCloseProject = new MenuItem("Close Project");
                 menuItemCloseProject.setOnAction(actionEvent -> model.getProjects().remove((ProjectViewModel) sourceItem));
                 var projectContextMenu = new ContextMenu(menuItemSaveProject, menuItemCloseProject);
                 projectContextMenu.show(projectTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             } else if (sourceItem instanceof DiagramViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
                 var diagramTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
-                var menuItemDeleteDiagram = new MenuItem("Delete diagram");
                 var diagramViewModel = (DiagramViewModel) sourceItem;
+                var menuItemRenameDiagram = new MenuItem("Rename Diagram");
+                menuItemRenameDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, diagramViewModel, ItemViewMode.EDIT).getStage().showAndWait());
+                var menuItemDeleteDiagram = new MenuItem("Delete Diagram");
                 menuItemDeleteDiagram.setOnAction(actionEvent -> diagramViewModel.getProject().getDiagrams().remove(diagramViewModel));
-                var diagramContextMenu = new ContextMenu(menuItemDeleteDiagram);
+                var diagramContextMenu = new ContextMenu(menuItemRenameDiagram, menuItemDeleteDiagram);
                 diagramContextMenu.show(diagramTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             }
         };

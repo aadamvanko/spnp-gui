@@ -7,11 +7,12 @@ import cz.muni.fi.spnp.gui.components.menu.analysis.SettingsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateAndMiscellaneousOptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsView;
-import cz.muni.fi.spnp.gui.components.menu.diagram.NewDiagramView;
+import cz.muni.fi.spnp.gui.components.menu.diagram.DiagramDetailsView;
 import cz.muni.fi.spnp.gui.components.menu.help.AboutWindow;
 import cz.muni.fi.spnp.gui.components.menu.project.NewProjectView;
 import cz.muni.fi.spnp.gui.components.menu.view.defines.DefinesTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionsView;
+import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.components.menu.view.includes.IncludesTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.view.variables.InputParametersTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.view.variables.VariablesTableViewWindow;
@@ -44,7 +45,6 @@ public class MenuComponent extends ApplicationComponent {
     private final MenuItem menuItemViewFunctions;
     private final NewProjectView newProjectView;
     private final MenuItem menuItemNewProject;
-    private final NewDiagramView newDiagramView;
     private final MenuItem menuItemNewDiagram;
     private final DiagramComponent diagramComponent;
     private final CheckMenuItem menuItemShowTransitionDetails;
@@ -83,12 +83,18 @@ public class MenuComponent extends ApplicationComponent {
 
         var menuDiagram = new Menu("_Diagram");
 
-        newDiagramView = new NewDiagramView(model);
-        menuItemNewDiagram = new MenuItem("_New Diagram");
-        menuItemNewDiagram.setDisable(true);
+        menuItemNewDiagram = new MenuItem("New _Diagram");
         menuItemNewDiagram.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
-        menuItemNewDiagram.setOnAction(actionEvent -> newDiagramView.getStage().showAndWait());
+        menuItemNewDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, null, ItemViewMode.ADD).getStage().showAndWait());
+        menuItemNewDiagram.disableProperty().bind(Bindings.size(model.getProjects()).isEqualTo(0));
         menuDiagram.getItems().add(menuItemNewDiagram);
+
+        var menuItemRenameDiagram = new MenuItem("_Rename Diagram");
+        menuItemRenameDiagram.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+        menuItemRenameDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, model.selectedDiagramProperty().get(), ItemViewMode.EDIT).getStage().showAndWait());
+        menuItemRenameDiagram.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuDiagram.getItems().add(menuItemRenameDiagram);
+
         menuBar.getMenus().add(menuDiagram);
 
         Menu menuEdit = new Menu("_Edit");
@@ -199,7 +205,6 @@ public class MenuComponent extends ApplicationComponent {
         menuBar.getMenus().add(menuHelp);
 
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChanged);
-        menuItemNewDiagram.disableProperty().bind(Bindings.size(model.getProjects()).isEqualTo(0));
     }
 
     private void onScreenshotDiagramHandler(ActionEvent actionEvent) {
