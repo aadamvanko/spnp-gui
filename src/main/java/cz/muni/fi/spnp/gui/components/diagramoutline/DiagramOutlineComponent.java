@@ -21,7 +21,7 @@ public class DiagramOutlineComponent extends TreeViewContainer<DisplayableViewMo
     private TreeItem<DisplayableViewModel> treeItemDiagram;
 
     public DiagramOutlineComponent(Model model) {
-        super(model, "Diagram outline");
+        super(model, "Diagram Outline");
 
         createView();
 
