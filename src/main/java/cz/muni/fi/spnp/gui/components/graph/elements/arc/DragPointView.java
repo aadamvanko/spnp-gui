@@ -21,9 +21,9 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
         this.arcView = arcView;
 
         rectangle = new Rectangle();
-        rectangle.setWidth(7);
-        rectangle.setHeight(7);
-        rectangle.setStroke(Color.BLACK);
+        rectangle.setWidth(5);
+        rectangle.setHeight(5);
+        rectangle.setStroke(Color.LIGHTGRAY);
         rectangle.setFill(Color.WHITE);
         setCenterPosition(dragPointViewModel.getPositionX(), dragPointViewModel.getPositionY());
         rectangle.setSmooth(true);

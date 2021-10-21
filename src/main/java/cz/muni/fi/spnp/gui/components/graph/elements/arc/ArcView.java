@@ -22,7 +22,7 @@ import java.util.List;
 
 public abstract class ArcView extends GraphElementView {
 
-    public static int LINE_WIDTH = 4;
+    public static int LINE_WIDTH = 1;
 
     private Group container;
     private Group groupLines;
