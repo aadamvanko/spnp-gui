@@ -261,7 +261,6 @@ Textwidth: 0
         oldImmediate.placeDependent = convertPlaceDependentProbability(immediate.getTransitionProbability());
         oldImmediate.valueTransition = immediate.priorityProperty().get();
         oldImmediate.label = createLabel(immediate);
-        oldImmediate.orientation = convertOrientation(immediate.getOrientation());
         return oldImmediate;
     }
 
@@ -289,7 +288,6 @@ Textwidth: 0
         oldTimed.priority = String.valueOf(timed.priorityProperty().get());
         oldTimed.choiceInput = convertDistributionType(timed.getTransitionDistribution().distributionTypeProperty().get());
         oldTimed.distribution = convertTimedDistributionType(timed.getTransitionDistribution().getEnumType());
-        oldTimed.orientation = convertOrientation(timed.getOrientation());
         return oldTimed;
     }
 

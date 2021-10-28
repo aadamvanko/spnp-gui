@@ -7,5 +7,4 @@ public class TransitionOldFormat extends ConnectableOldFormat {
     public String placeDependent;
     public String guard;
     public String choiceInput;
-    public String orientation; // new field
 }
