@@ -291,13 +291,6 @@ Textwidth: 0
         return oldTimed;
     }
 
-    private String convertOrientation(TransitionOrientation orientation) {
-        var orientationToString = new HashMap<TransitionOrientation, String>();
-        orientationToString.put(TransitionOrientation.Vertical, "Vertical");
-        orientationToString.put(TransitionOrientation.Horizontal, "Horizontal");
-        return orientationToString.get(orientation);
-    }
-
     private String convertPolicyAffectedType(PolicyAffectedType policyAffectedType) {
         var typeToString = new HashMap<PolicyAffectedType, String>();
         typeToString.put(PolicyAffectedType.PreemptiveRepeatDifferent, "Preemptive repeat different");
@@ -532,7 +525,7 @@ Textwidth: 0
         var functionKindToString = new HashMap<FunctionType, String>();
         functionKindToString.put(FunctionType.Other, "spnp"); // TODO change back to SPNP ???
         functionKindToString.put(FunctionType.Guard, "guard");
-        functionKindToString.put(FunctionType.Generic, "global"); // ???
+        // functionKindToString.put(FunctionType.Generic, "global"); // global is unused
         functionKindToString.put(FunctionType.Probability, "probability");
         functionKindToString.put(FunctionType.Generic, "generic");
         functionKindToString.put(FunctionType.Reward, "reward");
