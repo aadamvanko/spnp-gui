@@ -31,6 +31,11 @@ development by anyone interested in this project.
 - right click panning with the mouse
 - zooming via Ctrl + MouseWheel
 
+### Requirements
+
+- Java 15 SE
+- JavaFX 15 (for development)
+
 ### How to run
 
 This application depends on another project https://github.com/aadamvanko/spnp-core, which contains
