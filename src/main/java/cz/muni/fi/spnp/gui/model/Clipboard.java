@@ -15,6 +15,7 @@ public class Clipboard {
     public Clipboard() {
         functions = new ArrayList<>();
         elements = new ArrayList<>();
+        operationType = OperationType.COPY;
     }
 
     public List<FunctionViewModel> getFunctions() {
