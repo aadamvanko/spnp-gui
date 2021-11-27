@@ -142,7 +142,7 @@ public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
         });
 
         stage.setScene(scene);
-        stage.setTitle("Intermediate and Miscellaneous Options");
+        stage.setTitle("Intermediate & Miscellaneous Options");
         stage.setResizable(false);
         stage.setWidth(322);
         stage.setHeight(519);

@@ -163,7 +163,7 @@ public class OptionsView extends UIWindowComponent {
         });
 
         stage.setScene(scene);
-        stage.setTitle("Options");
+        stage.setTitle("Simulation & Analysis Options");
         stage.setResizable(false);
         stage.setWidth(322);
         stage.setHeight(519);
