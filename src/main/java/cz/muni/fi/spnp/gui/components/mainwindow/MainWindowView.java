@@ -274,8 +274,21 @@ public class MainWindowView {
             definesCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
             variablesCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
             inputParametersCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
+
+            includesCollapsableView.getRoot().setDisable(true);
+            definesCollapsableView.getRoot().setDisable(true);
+            variablesCollapsableView.getRoot().setDisable(true);
+            inputParametersCollapsableView.getRoot().setDisable(true);
+            functionsCategoriesComponent.getRoot().setDisable(true);
+
             return;
         }
+
+        includesCollapsableView.getRoot().setDisable(false);
+        definesCollapsableView.getRoot().setDisable(false);
+        variablesCollapsableView.getRoot().setDisable(false);
+        inputParametersCollapsableView.getRoot().setDisable(false);
+        functionsCategoriesComponent.getRoot().setDisable(false);
 
         includesCollapsableView.bindSourceCollection(newDiagram.getIncludes());
         definesCollapsableView.bindSourceCollection(newDiagram.getDefines());
