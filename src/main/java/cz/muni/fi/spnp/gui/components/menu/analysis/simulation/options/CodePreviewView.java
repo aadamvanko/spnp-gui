@@ -87,7 +87,7 @@ public class CodePreviewView extends UIWindowComponent {
         });
 
         stage.setScene(scene);
-        stage.setTitle("Code preview");
+        stage.setTitle("Code Preview");
         stage.setWidth(1000);
         stage.setHeight(600);
 
