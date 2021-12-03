@@ -39,7 +39,7 @@ development by anyone interested in this project.
 ### How to run
 
 This application depends on another project https://github.com/aadamvanko/spnp-core, which contains
-model and transformation code for converting the model to the CSPL (C source code runnable by spnp package). Showcase release can be found here https://github.com/aadamvanko/spnp-gui/releases/tag/v0.2-pre-release-showcase.
+model and transformation code for converting the model to the CSPL (C source code runnable by spnp package). Showcase release can be found here https://github.com/aadamvanko/spnp-gui/releases/tag/v1.0.
 
 Old GUI:
 ![Alt text](screenshots/old_gui.png?raw=true "Old GUI")
