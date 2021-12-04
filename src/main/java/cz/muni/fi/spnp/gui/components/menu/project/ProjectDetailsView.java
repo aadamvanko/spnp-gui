@@ -91,7 +91,6 @@ public class ProjectDetailsView extends UIWindowComponent {
 
         var titleMode = itemViewMode == ItemViewMode.ADD ? "New" : "Edit";
         stage.setTitle(titleMode + " Project");
-        stage.setTitle("New Project");
         stage.setScene(scene);
         stage.setMinWidth(250);
         stage.setResizable(false);
