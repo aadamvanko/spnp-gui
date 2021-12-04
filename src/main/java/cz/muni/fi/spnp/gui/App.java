@@ -27,7 +27,7 @@ public class App extends Application {
 
         var scene = new Scene(mainWindowView.getRoot(), 1600, 800);
         stage.setScene(scene);
-        stage.setTitle("SPNP Editor");
+        stage.setTitle("SPNP GUIv2");
         stage.getIcons().add(new Image(App.class.getResourceAsStream("icon.png")));
         stage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
             var confirmationWindowExit = new ConfirmationWindowExit();
