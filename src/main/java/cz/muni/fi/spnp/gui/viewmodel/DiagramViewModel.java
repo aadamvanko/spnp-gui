@@ -68,7 +68,7 @@ public class DiagramViewModel extends DisplayableViewModel {
         viewMode = new SimpleObjectProperty<>(DiagramViewMode.GRAPH);
         selected = FXCollections.observableArrayList();
         needsCodeRefresh = new SimpleBooleanProperty(false);
-        showTransitionDetails = new SimpleBooleanProperty(true);
+        showTransitionDetails = new SimpleBooleanProperty(false);
 
         this.elements.addListener(this::onElementsChangedListener);
         this.functions.addListener(this::onFunctionsChangedListener);
