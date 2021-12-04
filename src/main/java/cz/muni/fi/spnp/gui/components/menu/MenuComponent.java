@@ -88,13 +88,13 @@ public class MenuComponent extends ApplicationComponent {
 
         menuItemNewDiagram = new MenuItem("New _Diagram");
         menuItemNewDiagram.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
-        menuItemNewDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, null, ItemViewMode.ADD).getStage().showAndWait());
+        menuItemNewDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, null, ItemViewMode.ADD, null).getStage().showAndWait());
         menuItemNewDiagram.disableProperty().bind(Bindings.size(model.getProjects()).isEqualTo(0));
         menuDiagram.getItems().add(menuItemNewDiagram);
 
         var menuItemRenameDiagram = new MenuItem("_Rename Diagram");
         menuItemRenameDiagram.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
-        menuItemRenameDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, model.selectedDiagramProperty().get(), ItemViewMode.EDIT).getStage().showAndWait());
+        menuItemRenameDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, model.selectedDiagramProperty().get(), ItemViewMode.EDIT, null).getStage().showAndWait());
         menuItemRenameDiagram.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuDiagram.getItems().add(menuItemRenameDiagram);
 

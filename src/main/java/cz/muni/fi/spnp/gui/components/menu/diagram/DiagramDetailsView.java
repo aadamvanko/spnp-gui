@@ -26,12 +26,14 @@ public class DiagramDetailsView extends UIWindowComponent {
     private final Model model;
     private final DiagramViewModel diagramViewModel;
     private final ItemViewMode itemViewMode;
+    private final ProjectViewModel projectViewModel;
     private ChoiceBox<ProjectViewModel> choiceBoxProject;
 
-    public DiagramDetailsView(Model model, DiagramViewModel diagramViewModel, ItemViewMode itemViewMode) {
+    public DiagramDetailsView(Model model, DiagramViewModel diagramViewModel, ItemViewMode itemViewMode, ProjectViewModel projectViewModel) {
         this.model = model;
         this.diagramViewModel = diagramViewModel;
         this.itemViewMode = itemViewMode;
+        this.projectViewModel = projectViewModel;
 
         createView();
     }
@@ -59,7 +61,9 @@ public class DiagramDetailsView extends UIWindowComponent {
 
         if (itemViewMode == ItemViewMode.ADD) {
             var selectedDiagram = model.selectedDiagramProperty().get();
-            if (selectedDiagram == null) {
+            if (projectViewModel != null) {
+                choiceBoxProject.getSelectionModel().select(projectViewModel);
+            } else if (selectedDiagram == null) {
                 choiceBoxProject.getSelectionModel().select(model.getProjects().get(0));
             } else {
                 choiceBoxProject.getSelectionModel().select(selectedDiagram.getProject());

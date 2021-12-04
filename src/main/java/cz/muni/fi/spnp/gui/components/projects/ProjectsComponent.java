@@ -43,6 +43,8 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
             } else if (sourceItem instanceof ProjectViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
                 var projectTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
                 var projectViewModel = (ProjectViewModel) sourceItem;
+                var menuItemNewDiagram = new MenuItem("New Diagram");
+                menuItemNewDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, null, ItemViewMode.ADD, projectViewModel).getStage().showAndWait());
                 var menuItemRenameProject = new MenuItem("Rename Project");
                 menuItemRenameProject.setOnAction(actionEvent -> new ProjectDetailsView(model, projectViewModel, ItemViewMode.EDIT).getStage().showAndWait());
                 var menuItemSaveProject = new MenuItem("Save Project");
@@ -52,13 +54,13 @@ public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
                 });
                 var menuItemCloseProject = new MenuItem("Close Project");
                 menuItemCloseProject.setOnAction(actionEvent -> model.getProjects().remove(projectViewModel));
-                var projectContextMenu = new ContextMenu(menuItemRenameProject, menuItemSaveProject, menuItemCloseProject);
+                var projectContextMenu = new ContextMenu(menuItemNewDiagram, new SeparatorMenuItem(), menuItemRenameProject, menuItemSaveProject, menuItemCloseProject);
                 projectContextMenu.show(projectTreeItem.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             } else if (sourceItem instanceof DiagramViewModel && mouseEvent.getButton() == MouseButton.SECONDARY && mouseEvent.getClickCount() == 1) {
                 var diagramTreeItem = (TreeCell<DisplayableViewModel>) mouseEvent.getSource();
                 var diagramViewModel = (DiagramViewModel) sourceItem;
                 var menuItemRenameDiagram = new MenuItem("Rename Diagram");
-                menuItemRenameDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, diagramViewModel, ItemViewMode.EDIT).getStage().showAndWait());
+                menuItemRenameDiagram.setOnAction(actionEvent -> new DiagramDetailsView(model, diagramViewModel, ItemViewMode.EDIT, null).getStage().showAndWait());
                 var menuItemDeleteDiagram = new MenuItem("Delete Diagram");
                 menuItemDeleteDiagram.setOnAction(actionEvent -> diagramViewModel.getProject().getDiagrams().remove(diagramViewModel));
                 var diagramContextMenu = new ContextMenu(menuItemRenameDiagram, menuItemDeleteDiagram);
