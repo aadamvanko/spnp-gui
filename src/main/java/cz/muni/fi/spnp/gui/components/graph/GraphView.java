@@ -115,7 +115,7 @@ public class GraphView implements UIComponent {
 
     private void onScrollZoomHandler(ScrollEvent scrollEvent) {
         if (scrollEvent.isControlDown()) {
-            if (scrollEvent.getDeltaY() < 0) {
+            if (scrollEvent.getDeltaY() > 0) {
                 diagramViewModel.zoomIn();
             } else {
                 diagramViewModel.zoomOut();
