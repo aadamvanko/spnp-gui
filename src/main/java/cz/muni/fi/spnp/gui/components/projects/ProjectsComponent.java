@@ -11,10 +11,7 @@ import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
 import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
