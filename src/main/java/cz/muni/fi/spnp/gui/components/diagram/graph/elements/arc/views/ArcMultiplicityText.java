@@ -66,7 +66,7 @@ public class ArcMultiplicityText implements ArcMultiplicityVisual {
     }
 
     @Override
-    public void unbindViewModel(ArcViewModel unbindViewModel) {
+    public void unbindViewModel() {
         textMultiplicity.textProperty().unbind();
     }
 

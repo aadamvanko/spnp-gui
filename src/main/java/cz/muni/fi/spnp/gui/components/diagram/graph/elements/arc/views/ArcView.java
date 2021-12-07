@@ -198,7 +198,7 @@ public abstract class ArcView extends GraphElementView {
 
     @Override
     public void unbindViewModel() {
-        multiplicityText.unbindViewModel(getViewModel());
+        multiplicityText.unbindViewModel();
 
         getViewModel().getDragPoints().removeListener(this.onDragPointsChangedListener);
         getViewModel().multiplicityProperty().removeListener(this.onMultiplicityChangedListener);
