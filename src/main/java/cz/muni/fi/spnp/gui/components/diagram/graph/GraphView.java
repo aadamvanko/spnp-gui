@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
  */
 public class GraphView implements UIComponent {
 
+    // controls
     private final Group layerBottom;
     private final Group layerMiddle;
     private final Group layerTop;
@@ -53,6 +54,7 @@ public class GraphView implements UIComponent {
 
     private Point2D initialMousePosition;
 
+    // change listeners
     private final ListChangeListener<ElementViewModel> onElementsChangedListener;
     private List<GraphElementView> selectedViews;
     private final ChangeListener<? super Number> onZoomLevelChangedListener;
@@ -83,6 +85,7 @@ public class GraphView implements UIComponent {
         rectangleSelection.setVisible(true);
         layerTop.getChildren().add(rectangleSelection);
 
+        // register mouse events handlers
         gridBackgroundPane.setOnMousePressed(this::onMousePressed);
         gridBackgroundPane.setOnMouseDragged(this::onMouseDragged);
         gridBackgroundPane.setOnMouseReleased(this::onMouseReleased);
@@ -146,6 +149,7 @@ public class GraphView implements UIComponent {
                 .filter(elementViewModel -> elementViewModel instanceof ArcViewModel)
                 .forEach(this::addGraphElementView);
 
+        // add change listeners
         diagramViewModel.getElements().addListener(this.onElementsChangedListener);
 
         diagramViewModel.zoomLevelProperty().addListener(this.onZoomLevelChangedListener);

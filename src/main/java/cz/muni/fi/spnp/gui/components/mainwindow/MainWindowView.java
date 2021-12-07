@@ -37,6 +37,7 @@ public class MainWindowView {
     private final ChangeListener<DiagramViewMode> onViewModeChangedListener;
     private VBox leftVBox;
 
+    // components
     private MenuComponent menuComponent;
     private ProjectsComponent projectsComponent;
     private DiagramOutlineComponent diagramOutlineComponent;
@@ -46,6 +47,7 @@ public class MainWindowView {
     private PropertiesComponent propertiesComponent;
     private DiagramComponent diagramComponent;
 
+    // side panel views for the items
     private IncludesCollapsableView includesCollapsableView;
     private DefinesCollapsableView definesCollapsableView;
     private VariablesCollapsableView variablesCollapsableView;
@@ -57,6 +59,7 @@ public class MainWindowView {
 
         createView();
 
+        // redirect stdout and stderr to the output panel
         var textAreaOutputStream = new BufferedOutputStream(new TextAreaOutputStream(statusBarComponent.getTextArea()));
         var printStream = new PrintStream(textAreaOutputStream, true);
         System.setOut(printStream);
@@ -64,6 +67,7 @@ public class MainWindowView {
 
         this.onViewModeChangedListener = this::onViewModeChangedListener;
 
+        // add handler to the selected diagram property
         model.selectedDiagramProperty().addListener(this::onSelectedDiagramChangedListener);
     }
 
@@ -101,11 +105,13 @@ public class MainWindowView {
         }
 
         if (newDiagram == null) {
+            // unbind previous diagram
             includesCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
             definesCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
             variablesCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
             inputParametersCollapsableView.bindSourceCollection(FXCollections.emptyObservableList());
 
+            // disable views
             includesCollapsableView.getRoot().setDisable(true);
             definesCollapsableView.getRoot().setDisable(true);
             variablesCollapsableView.getRoot().setDisable(true);
@@ -115,12 +121,14 @@ public class MainWindowView {
             return;
         }
 
+        // enable views
         includesCollapsableView.getRoot().setDisable(false);
         definesCollapsableView.getRoot().setDisable(false);
         variablesCollapsableView.getRoot().setDisable(false);
         inputParametersCollapsableView.getRoot().setDisable(false);
         functionsCategoriesComponent.getRoot().setDisable(false);
 
+        // bind new diagram
         includesCollapsableView.bindSourceCollection(newDiagram.getIncludes());
         definesCollapsableView.bindSourceCollection(newDiagram.getDefines());
         variablesCollapsableView.bindSourceCollection(newDiagram.getVariables());
@@ -136,6 +144,7 @@ public class MainWindowView {
 
         rightVBox.getChildren().clear();
 
+        // change the content of the side panels depending on the diagram view mode
         if (newValue == DiagramViewMode.CODE) {
             leftVBox.getChildren().add(functionsCategoriesComponent.getRoot());
 
