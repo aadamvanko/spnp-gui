@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
 import cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue;
-import cz.muni.fi.spnp.gui.components.propertieseditor.MySimpleDoubleProperty;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.MySimpleDoubleProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

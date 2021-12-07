@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.view.general;
 
-import cz.muni.fi.spnp.gui.components.ViewContainer;
-import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.components.common.ViewContainer;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.collections.ObservableList;
 
 public abstract class GeneralItemsTableViewCollapsable<TViewModel> extends ViewContainer {

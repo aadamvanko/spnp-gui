@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.statusbar;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
-import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Group;

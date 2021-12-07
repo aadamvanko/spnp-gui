@@ -1,14 +1,14 @@
 package cz.muni.fi.spnp.gui.components.projects;
 
-import cz.muni.fi.spnp.gui.components.TreeViewContainer;
-import cz.muni.fi.spnp.gui.components.menu.ProjectSaver;
+import cz.muni.fi.spnp.gui.components.common.TreeViewContainer;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.DisplayableViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.menu.diagram.DiagramDetailsView;
 import cz.muni.fi.spnp.gui.components.menu.project.ProjectDetailsView;
+import cz.muni.fi.spnp.gui.components.menu.project.ProjectSaver;
+import cz.muni.fi.spnp.gui.components.menu.project.ProjectViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;

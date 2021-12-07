@@ -1,20 +1,19 @@
 package cz.muni.fi.spnp.gui.components.mainwindow;
 
+import cz.muni.fi.spnp.gui.components.diagram.DiagramComponent;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewMode;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.toolbar.ToolbarComponent;
 import cz.muni.fi.spnp.gui.components.diagramoutline.DiagramOutlineComponent;
 import cz.muni.fi.spnp.gui.components.functions.FunctionsCategoriesComponent;
-import cz.muni.fi.spnp.gui.components.graph.DiagramComponent;
 import cz.muni.fi.spnp.gui.components.menu.MenuComponent;
 import cz.muni.fi.spnp.gui.components.menu.view.defines.DefinesCollapsableView;
 import cz.muni.fi.spnp.gui.components.menu.view.includes.IncludesCollapsableView;
-import cz.muni.fi.spnp.gui.components.menu.view.variables.InputParametersCollapsableView;
-import cz.muni.fi.spnp.gui.components.menu.view.variables.VariablesCollapsableView;
+import cz.muni.fi.spnp.gui.components.menu.view.inputparameters.InputParametersCollapsableView;
+import cz.muni.fi.spnp.gui.components.menu.view.variables.views.VariablesCollapsableView;
 import cz.muni.fi.spnp.gui.components.projects.ProjectsComponent;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesComponent;
 import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;
-import cz.muni.fi.spnp.gui.components.toolbar.ToolbarComponent;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewMode;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

@@ -1,9 +1,11 @@
 package cz.muni.fi.spnp.gui;
 
+import cz.muni.fi.spnp.gui.components.mainwindow.ConfirmationWindowExit;
 import cz.muni.fi.spnp.gui.components.mainwindow.MainWindowView;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.fileoperations.ModelLoader;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output.ExpectedNumberOfTokensAllPlacesSteadyState;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output.ExpectedNumberOfTokensAllPlacesTime;
-import cz.muni.fi.spnp.gui.model.Model;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -37,6 +39,38 @@ public class App extends Application {
             }
         });
         stage.show();
+//
+//        var f = new OutputOptionsView(model, model.selectedDiagramProperty().get());
+//        f.getStage().showAndWait();
+//
+//        var f = new OptionsView(model, model.selectedDiagramProperty().get());
+//        f.getStage().showAndWait();
+//
+        var option1 = new ExpectedNumberOfTokensAllPlacesTime();
+        option1.timeProperty().set("1,2,3");
+        model.getOutputOptions().add(option1);
+        model.getOutputOptions().add(new ExpectedNumberOfTokensAllPlacesSteadyState());
+        model.getOutputOptions().add(new ExpectedNumberOfTokensAllPlacesSteadyState());
+//        var f = new CodePreviewView(model, model.selectedDiagramProperty().get());
+//        f.getStage().showAndWait();
+
+//        var cw = new ConfirmationWindowExit();
+//        cw.getStage().showAndWait();
+//        System.out.println(cw.shouldExit());
+
+//        var v = new OptionsView(model, model.selectedDiagramProperty().get());
+//        v.getStage().show();
+
+//        var simpleDoubleProperty = new MySimpleDoubleProperty(0.001);
+//        simpleDoubleProperty.addListener((observable, oldValue, newValue) -> {
+//            System.out.println("oldValue " + oldValue + " newValue " + newValue);
+//        });
+//        var doubleTextField = new DoubleTextField();
+//        doubleTextField.getTextField().textProperty().bindBidirectional(simpleDoubleProperty.asObject(), new MyDoubleStringConverter());
+//        var scene = new Scene(new VBox(doubleTextField.getTextField()), 500, 200);
+//        stage.setScene(scene);
+//        stage.setTitle("App");
+//        stage.show();
     }
 
     @Override

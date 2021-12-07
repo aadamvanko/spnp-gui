@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.view.general;
 
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelCopyFactory;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;

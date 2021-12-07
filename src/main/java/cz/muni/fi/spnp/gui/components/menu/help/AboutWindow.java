@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.menu.help;
 
-import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

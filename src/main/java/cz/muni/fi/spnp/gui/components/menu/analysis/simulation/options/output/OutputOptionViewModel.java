@@ -1,14 +1,14 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelUtils;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionReturnType;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.VariableViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ViewModelUtils;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

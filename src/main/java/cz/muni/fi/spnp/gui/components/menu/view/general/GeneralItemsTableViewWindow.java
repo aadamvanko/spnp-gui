@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.components.menu.view.general;
 
-import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
+import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelCopyFactory;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

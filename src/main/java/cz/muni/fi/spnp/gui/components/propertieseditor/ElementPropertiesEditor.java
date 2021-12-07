@@ -1,9 +1,9 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
-import cz.muni.fi.spnp.gui.components.UIComponent;
-import cz.muni.fi.spnp.gui.components.menu.view.DialogMessages;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.components.common.DialogMessages;
+import cz.muni.fi.spnp.gui.components.common.UIComponent;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import javafx.beans.Observable;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;

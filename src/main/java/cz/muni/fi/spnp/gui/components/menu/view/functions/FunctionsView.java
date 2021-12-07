@@ -1,10 +1,10 @@
 package cz.muni.fi.spnp.gui.components.menu.view.functions;
 
-import cz.muni.fi.spnp.gui.components.menu.view.DialogMessages;
-import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.common.DialogMessages;
+import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelCopyFactory;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;

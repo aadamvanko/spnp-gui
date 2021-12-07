@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionProbabilityType;
-import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.*;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionProbabilityType;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;

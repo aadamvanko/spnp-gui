@@ -1,10 +1,10 @@
 package cz.muni.fi.spnp.gui.components.diagramoutline;
 
-import cz.muni.fi.spnp.gui.components.TreeViewContainer;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.components.common.TreeViewContainer;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.DisplayableViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;

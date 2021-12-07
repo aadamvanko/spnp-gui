@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.components.menu.view.includes;
 
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
-import cz.muni.fi.spnp.gui.model.Model;
 
 public class IncludeView extends GeneralItemView<IncludeViewModel> {
 

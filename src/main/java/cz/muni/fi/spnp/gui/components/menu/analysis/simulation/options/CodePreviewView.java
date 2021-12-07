@@ -2,12 +2,12 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
 import cz.muni.fi.spnp.core.models.PetriNet;
 import cz.muni.fi.spnp.core.transformators.spnp.SPNPTransformator;
-import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelCopyFactory;
 import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.mappers.MappingException;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

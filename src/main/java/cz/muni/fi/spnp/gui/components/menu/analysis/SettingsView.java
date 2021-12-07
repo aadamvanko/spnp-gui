@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis;
 
-import cz.muni.fi.spnp.gui.ModelSaver;
-import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
-import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.fileoperations.ModelSaver;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;

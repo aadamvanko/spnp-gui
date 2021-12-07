@@ -1,12 +1,12 @@
 package cz.muni.fi.spnp.gui.components.menu.diagram;
 
+import cz.muni.fi.spnp.gui.components.common.DialogMessages;
+import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.menu.project.ProjectViewModel;
 import cz.muni.fi.spnp.gui.components.menu.project.ProjectViewModelStringConverter;
-import cz.muni.fi.spnp.gui.components.menu.view.DialogMessages;
-import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

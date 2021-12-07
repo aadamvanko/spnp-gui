@@ -1,10 +1,10 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.arc;
 
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcMultiplicityType;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;
-import cz.muni.fi.spnp.gui.viewmodel.ArcMultiplicityType;
-import cz.muni.fi.spnp.gui.viewmodel.ArcViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

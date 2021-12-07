@@ -1,10 +1,15 @@
 package cz.muni.fi.spnp.gui.components.diagramoutline;
 
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.DisplayableViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.InhibitorArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.StandardArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.TimedTransitionViewModel;
+import cz.muni.fi.spnp.gui.components.menu.project.ProjectViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionCategoryViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.*;
-import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

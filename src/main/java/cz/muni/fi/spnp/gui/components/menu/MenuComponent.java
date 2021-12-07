@@ -1,8 +1,10 @@
 package cz.muni.fi.spnp.gui.components.menu;
 
 import cz.muni.fi.spnp.gui.components.ApplicationComponent;
-import cz.muni.fi.spnp.gui.components.graph.DiagramComponent;
-import cz.muni.fi.spnp.gui.components.graph.operations.*;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramComponent;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.operations.*;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.menu.analysis.SettingsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateAndMiscellaneousOptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OptionsView;
@@ -10,15 +12,14 @@ import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOpt
 import cz.muni.fi.spnp.gui.components.menu.diagram.DiagramDetailsView;
 import cz.muni.fi.spnp.gui.components.menu.help.AboutWindow;
 import cz.muni.fi.spnp.gui.components.menu.project.ProjectDetailsView;
+import cz.muni.fi.spnp.gui.components.menu.project.ProjectSaver;
 import cz.muni.fi.spnp.gui.components.menu.view.defines.DefinesTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.components.menu.view.includes.IncludesTableViewWindow;
-import cz.muni.fi.spnp.gui.components.menu.view.variables.InputParametersTableViewWindow;
-import cz.muni.fi.spnp.gui.components.menu.view.variables.VariablesTableViewWindow;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.storing.loaders.OldFileLoader;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.inputparameters.InputParametersTableViewWindow;
+import cz.muni.fi.spnp.gui.components.menu.view.variables.views.VariablesTableViewWindow;
+import cz.muni.fi.spnp.gui.storage.oldformat.OldFileLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

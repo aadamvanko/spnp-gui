@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;

@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.mappers;
 import cz.muni.fi.spnp.core.transformators.spnp.parameters.DoubleInputParameter;
 import cz.muni.fi.spnp.core.transformators.spnp.parameters.InputParameter;
 import cz.muni.fi.spnp.core.transformators.spnp.parameters.IntegerInputParameter;
-import cz.muni.fi.spnp.gui.viewmodel.InputParameterViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.inputparameters.InputParameterViewModel;
 
 public class InputParameterMapper {
 

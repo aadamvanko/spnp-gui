@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation;
 
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.VariableViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableViewModel;
 import javafx.util.StringConverter;
 
 public class VariableViewModelStringConverter extends StringConverter<VariableViewModel> {

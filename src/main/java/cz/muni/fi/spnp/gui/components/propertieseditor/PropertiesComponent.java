@@ -1,15 +1,21 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor;
 
-import cz.muni.fi.spnp.gui.components.ViewContainer;
+import cz.muni.fi.spnp.gui.components.common.ViewContainer;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.DragPointViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.InhibitorArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.StandardArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.TimedTransitionViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.propertieseditor.arc.InhibitorArcPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.arc.StandardArcPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.place.PlacePropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.transition.ImmediateTransitionPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.transition.TimedTransitionPropertiesEditor;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.*;
-import cz.muni.fi.spnp.gui.viewmodel.transition.immediate.ImmediateTransitionViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.timed.TimedTransitionViewModel;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

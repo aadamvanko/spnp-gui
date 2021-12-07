@@ -1,9 +1,9 @@
 package cz.muni.fi.spnp.gui.components.menu.view.general;
 
-import cz.muni.fi.spnp.gui.components.menu.view.DialogMessages;
-import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
+import cz.muni.fi.spnp.gui.components.common.DialogMessages;
+import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelCopyFactory;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;

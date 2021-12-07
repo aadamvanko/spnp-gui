@@ -1,11 +1,11 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
 import cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue;
-import cz.muni.fi.spnp.gui.components.menu.view.UIWindowComponent;
-import cz.muni.fi.spnp.gui.components.propertieseditor.DoubleTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.IntegerTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.MyDoubleStringConverter;
-import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.DoubleTextField;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.IntegerTextField;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyDoubleStringConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

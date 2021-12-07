@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.mappers;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.DoubleVariable;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.IntegerVariable;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.Variable;
-import cz.muni.fi.spnp.gui.viewmodel.VariableViewModel;
+import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableViewModel;
 
 public class VariableMapper {
 

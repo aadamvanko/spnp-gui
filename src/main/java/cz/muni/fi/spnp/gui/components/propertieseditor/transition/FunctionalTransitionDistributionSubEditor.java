@@ -1,10 +1,10 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.TransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
-import cz.muni.fi.spnp.gui.components.propertieseditor.FunctionViewModelStringConverter;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.FunctionViewModelStringConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;

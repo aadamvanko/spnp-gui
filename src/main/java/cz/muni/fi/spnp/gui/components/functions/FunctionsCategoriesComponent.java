@@ -1,16 +1,16 @@
 package cz.muni.fi.spnp.gui.components.functions;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
-import cz.muni.fi.spnp.gui.components.TreeViewContainer;
+import cz.muni.fi.spnp.gui.components.common.TreeViewContainer;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.DisplayableViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelCopyFactory;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionCategoryViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionView;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.ViewModelCopyFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;

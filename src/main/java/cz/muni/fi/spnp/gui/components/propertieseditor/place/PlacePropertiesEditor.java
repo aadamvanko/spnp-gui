@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.place;
 
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;
-import cz.muni.fi.spnp.gui.viewmodel.ElementViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 

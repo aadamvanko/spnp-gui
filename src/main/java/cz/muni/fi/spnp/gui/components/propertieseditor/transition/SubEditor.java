@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import javafx.scene.Node;
 
 import java.util.ArrayList;

@@ -2,6 +2,7 @@ module cz.muni.fi {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.swing;
+    requires javafx.graphics;
     requires spnp.core.models;
     requires spnp.core.transformators;
     requires org.controlsfx.controls;
@@ -9,14 +10,11 @@ module cz.muni.fi {
     requires java.desktop;
 
     exports cz.muni.fi.spnp.gui;
-    exports cz.muni.fi.spnp.gui.components.graph;
+    exports cz.muni.fi.spnp.gui.components.diagram.graph;
     exports cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
     exports cz.muni.fi.spnp.gui.components.menu.view.includes;
     exports cz.muni.fi.spnp.gui.components.menu.view.variables;
     exports cz.muni.fi.spnp.gui.components.menu.view.defines;
-    exports cz.muni.fi.spnp.gui.components.menu.view;
-    exports cz.muni.fi.spnp.gui.storing.loaders;
-    exports cz.muni.fi.spnp.gui.viewmodel;
     exports cz.muni.fi.spnp.gui.components.propertieseditor;
     exports cz.muni.fi.spnp.gui.components.menu.view.general;
 
@@ -24,10 +22,38 @@ module cz.muni.fi {
     opens cz.muni.fi.spnp.gui.components.menu.view.includes to java.base;
     opens cz.muni.fi.spnp.gui.components.menu.view.variables to java.base;
     opens cz.muni.fi.spnp.gui.components.menu.view.defines to javafx.base;
-    opens cz.muni.fi.spnp.gui.components.menu.view to javafx.fxml;
-    opens cz.muni.fi.spnp.gui.storing.loaders to javafx.fxml;
-    opens cz.muni.fi.spnp.gui.viewmodel to java.base;
     opens cz.muni.fi.spnp.gui.components.propertieseditor to javafx.fxml;
     opens cz.muni.fi.spnp.gui.components.menu.view.functions to javafx.base;
     opens cz.muni.fi.spnp.gui.components.menu.view.general to java.base;
+    exports cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models;
+    opens cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models to java.base;
+    exports cz.muni.fi.spnp.gui.storage.oldformat.converters;
+    opens cz.muni.fi.spnp.gui.storage.oldformat.converters to javafx.fxml;
+    exports cz.muni.fi.spnp.gui.storage.oldformat;
+    opens cz.muni.fi.spnp.gui.storage.oldformat to javafx.fxml;
+    opens cz.muni.fi.spnp.gui.components.diagram.graph to java.base;
+    exports cz.muni.fi.spnp.gui.components.propertieseditor.common;
+    opens cz.muni.fi.spnp.gui.components.propertieseditor.common to javafx.fxml;
+    exports cz.muni.fi.spnp.gui.components.menu.project;
+    opens cz.muni.fi.spnp.gui.components.menu.project to java.base;
+    exports cz.muni.fi.spnp.gui.components.mainwindow;
+    exports cz.muni.fi.spnp.gui.components.mainwindow.fileoperations;
+    opens cz.muni.fi.spnp.gui.components.mainwindow.fileoperations to javafx.fxml;
+    opens cz.muni.fi.spnp.gui.components.mainwindow to java.base, javafx.fxml;
+    exports cz.muni.fi.spnp.gui.components.menu.view.variables.views;
+    opens cz.muni.fi.spnp.gui.components.menu.view.variables.views to java.base;
+    exports cz.muni.fi.spnp.gui.components.diagram.graph.elements.place;
+    opens cz.muni.fi.spnp.gui.components.diagram.graph.elements.place to java.base;
+    exports cz.muni.fi.spnp.gui.components.diagram.graph.interfaces;
+    opens cz.muni.fi.spnp.gui.components.diagram.graph.interfaces to java.base;
+    exports cz.muni.fi.spnp.gui.components.diagram;
+    opens cz.muni.fi.spnp.gui.components.diagram to java.base;
+    exports cz.muni.fi.spnp.gui.components.diagram.codeview;
+    opens cz.muni.fi.spnp.gui.components.diagram.codeview to java.base;
+    exports cz.muni.fi.spnp.gui.components.diagram.graph.common;
+    opens cz.muni.fi.spnp.gui.components.diagram.graph.common to java.base;
+    exports cz.muni.fi.spnp.gui.components.menu.view.inputparameters;
+    opens cz.muni.fi.spnp.gui.components.menu.view.inputparameters to java.base;
+    exports cz.muni.fi.spnp.gui.components.common;
+    opens cz.muni.fi.spnp.gui.components.common to javafx.fxml;
 }

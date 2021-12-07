@@ -1,9 +1,9 @@
 package cz.muni.fi.spnp.gui.components.menu.view.defines;
 
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemsTableView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
-import cz.muni.fi.spnp.gui.model.Model;
 
 public class DefinesTableView extends GeneralItemsTableView<DefineViewModel> {
 

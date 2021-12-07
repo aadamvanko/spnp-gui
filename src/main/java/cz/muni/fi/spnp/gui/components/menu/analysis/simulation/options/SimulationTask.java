@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
-import cz.muni.fi.spnp.gui.model.Model;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 

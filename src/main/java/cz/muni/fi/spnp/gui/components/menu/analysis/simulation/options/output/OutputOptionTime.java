@@ -1,9 +1,9 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
 
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
-import cz.muni.fi.spnp.gui.viewmodel.DiagramViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.PlaceViewModel;
-import cz.muni.fi.spnp.gui.viewmodel.transition.TransitionViewModel;
 import org.apache.commons.lang3.StringUtils;
 
 public abstract class OutputOptionTime extends OutputOptionViewModel {

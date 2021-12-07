@@ -1,7 +1,6 @@
 package cz.muni.fi.spnp.gui.components.menu.project;
 
-import cz.muni.fi.spnp.gui.model.Model;
-import cz.muni.fi.spnp.gui.viewmodel.ProjectViewModel;
+import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.util.StringConverter;
 
 public class ProjectViewModelStringConverter extends StringConverter<ProjectViewModel> {

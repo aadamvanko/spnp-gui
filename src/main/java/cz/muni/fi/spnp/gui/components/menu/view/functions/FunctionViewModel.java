@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.view.functions;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
-import cz.muni.fi.spnp.gui.viewmodel.DisplayableViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.DisplayableViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

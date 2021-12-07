@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
-import cz.muni.fi.spnp.gui.viewmodel.transition.timed.distributions.TransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.TransitionDistributionViewModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
