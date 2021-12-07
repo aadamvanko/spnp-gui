@@ -5,6 +5,9 @@ import javafx.scene.control.TextFormatter;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
+/**
+ * Filter out string which are not integers.
+ */
 class IntegerFilter implements UnaryOperator<TextFormatter.Change> {
 
     private final static Pattern DIGIT_PATTERN = Pattern.compile("\\d*");

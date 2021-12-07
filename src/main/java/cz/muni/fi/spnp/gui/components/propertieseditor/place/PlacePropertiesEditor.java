@@ -6,6 +6,9 @@ import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * Properties editor for the place.
+ */
 public class PlacePropertiesEditor extends ElementPropertiesEditor {
 
     private final Label numberOfTokensLabel;

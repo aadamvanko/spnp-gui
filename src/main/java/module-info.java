@@ -40,8 +40,6 @@ module cz.muni.fi {
     exports cz.muni.fi.spnp.gui.components.mainwindow.fileoperations;
     opens cz.muni.fi.spnp.gui.components.mainwindow.fileoperations to javafx.fxml;
     opens cz.muni.fi.spnp.gui.components.mainwindow to java.base, javafx.fxml;
-    exports cz.muni.fi.spnp.gui.components.menu.view.variables.views;
-    opens cz.muni.fi.spnp.gui.components.menu.view.variables.views to java.base;
     exports cz.muni.fi.spnp.gui.components.diagram.graph.elements.place;
     opens cz.muni.fi.spnp.gui.components.diagram.graph.elements.place to java.base;
     exports cz.muni.fi.spnp.gui.components.diagram.graph.interfaces;

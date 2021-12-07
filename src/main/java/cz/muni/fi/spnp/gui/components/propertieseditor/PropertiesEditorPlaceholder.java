@@ -6,6 +6,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * Placeholder for showing when no element is selected, thus no properties editor can be shown.
+ */
 public class PropertiesEditorPlaceholder extends ElementPropertiesEditor {
 
     private final VBox vbox;

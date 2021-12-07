@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import javafx.util.StringConverter;
 
+/**
+ * Converts the function view model to string representation and vice versa.
+ */
 public class FunctionViewModelStringConverter extends StringConverter<FunctionViewModel> {
 
     private final DiagramViewModel diagramViewModel;

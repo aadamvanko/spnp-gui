@@ -1,10 +1,13 @@
-package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
+package cz.muni.fi.spnp.gui.components.propertieseditor.transition.immediate;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.ConstantTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.TransitionProbabilityViewModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * Subeditor for the constant probability.
+ */
 public class ConstantProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
     private Label valueLabel;

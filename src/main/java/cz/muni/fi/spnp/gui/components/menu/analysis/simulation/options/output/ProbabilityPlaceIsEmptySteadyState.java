@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 
+/**
+ * Probability place is empty in steady state output option view model.
+ */
 public class ProbabilityPlaceIsEmptySteadyState extends OutputOptionSteadyState {
 
     public ProbabilityPlaceIsEmptySteadyState() {

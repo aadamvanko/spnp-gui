@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.menu.view.includes;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * View model of the include.
+ */
 public class IncludeViewModel {
 
     private final StringProperty path;

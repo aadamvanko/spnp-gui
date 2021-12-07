@@ -15,6 +15,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * Window for the creation of a new project and its editing.
+ */
 public class ProjectDetailsView extends UIWindowComponent {
 
     private final Model model;

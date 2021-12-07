@@ -14,6 +14,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Base class for all output option view models.
+ */
 public abstract class OutputOptionViewModel {
 
     private final StringProperty title;

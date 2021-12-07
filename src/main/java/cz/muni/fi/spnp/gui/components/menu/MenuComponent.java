@@ -18,7 +18,7 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionsView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.components.menu.view.includes.IncludesTableViewWindow;
 import cz.muni.fi.spnp.gui.components.menu.view.inputparameters.InputParametersTableViewWindow;
-import cz.muni.fi.spnp.gui.components.menu.view.variables.views.VariablesTableViewWindow;
+import cz.muni.fi.spnp.gui.components.menu.view.variables.VariablesTableViewWindow;
 import cz.muni.fi.spnp.gui.storage.oldformat.OldFileLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;

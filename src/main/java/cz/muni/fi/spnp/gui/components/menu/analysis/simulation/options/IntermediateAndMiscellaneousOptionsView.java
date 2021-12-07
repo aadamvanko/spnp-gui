@@ -17,6 +17,9 @@ import javafx.scene.layout.*;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
+/**
+ * Window for the intermediate and miscellaneous options.
+ */
 public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
 
     private final IntermediateOptionsViewModel intermediateOptionsViewModel;

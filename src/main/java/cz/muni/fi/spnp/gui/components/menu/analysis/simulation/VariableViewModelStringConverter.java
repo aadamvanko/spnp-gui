@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableViewModel;
 import javafx.util.StringConverter;
 
+/**
+ * Converts the variable view model to the string representation and vice versa.
+ */
 public class VariableViewModelStringConverter extends StringConverter<VariableViewModel> {
 
     private final DiagramViewModel diagramViewModel;

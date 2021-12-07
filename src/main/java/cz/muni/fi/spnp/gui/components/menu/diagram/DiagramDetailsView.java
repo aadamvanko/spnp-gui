@@ -21,6 +21,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.stream.Collectors;
 
+/**
+ * Window for the creation of a new diagram and its editing.
+ */
 public class DiagramDetailsView extends UIWindowComponent {
 
     private final Model model;

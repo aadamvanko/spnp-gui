@@ -1,10 +1,11 @@
-package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
+package cz.muni.fi.spnp.gui.components.propertieseditor.transition.timed;
 
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.TransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.PlaceViewModelStringConverter;
+import cz.muni.fi.spnp.gui.components.propertieseditor.transition.PropertiesEditorRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
@@ -14,6 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Subeditor for the place dependent transition distribution.
+ */
 public class PlaceDependentTransitionDistributionSubEditor extends ConstantTransitionDistributionSubEditor {
 
     private final ListChangeListener<? super ElementViewModel> onPlacesChangedListener;

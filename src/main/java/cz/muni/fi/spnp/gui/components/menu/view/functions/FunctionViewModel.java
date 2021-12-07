@@ -7,6 +7,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * View model of the function.
+ */
 public class FunctionViewModel extends DisplayableViewModel {
 
     private final ObjectProperty<FunctionType> functionType;

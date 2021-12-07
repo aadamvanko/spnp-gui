@@ -17,6 +17,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * Window containing the table view with the functions and supporting operations add, edit, delete.
+ */
 public class FunctionsView extends UIWindowComponent {
 
     private final ViewModelCopyFactory viewModelCopyFactory;

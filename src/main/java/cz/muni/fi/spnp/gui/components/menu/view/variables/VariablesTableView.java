@@ -1,10 +1,9 @@
-package cz.muni.fi.spnp.gui.components.menu.view.variables.views;
+package cz.muni.fi.spnp.gui.components.menu.view.variables;
 
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemsTableView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
-import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableViewModel;
 
 public class VariablesTableView extends GeneralItemsTableView<VariableViewModel> {
 

@@ -12,6 +12,9 @@ import javafx.scene.control.Label;
 
 import java.util.stream.Collectors;
 
+/**
+ * Subeditor for the functional multiplicity of the arc.
+ */
 public class FunctionalMultiplicitySubEditor extends ArcMultiplicitySubEditor {
 
     private Label multiplicityFunctionLabel;

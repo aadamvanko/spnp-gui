@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Accumulator for the output options.
+ */
 public class OutputOptionsResult {
 
     private final String loopTimeVariableName;

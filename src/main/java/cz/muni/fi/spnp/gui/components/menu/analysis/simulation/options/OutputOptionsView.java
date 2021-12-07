@@ -28,6 +28,9 @@ import java.util.stream.Collectors;
 
 import static java.lang.Double.MAX_VALUE;
 
+/**
+ * Window for the output options setup.
+ */
 public class OutputOptionsView extends UIWindowComponent {
 
     private final Model model;

@@ -7,6 +7,9 @@ import javafx.concurrent.Task;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+/**
+ * Represents the simulation task and handles its execution.
+ */
 public class SimulationTask extends Task<Void> {
 
     private final Model model;

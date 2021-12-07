@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewMode
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 
+/**
+ * Steady state output option view model.
+ */
 public abstract class OutputOptionSteadyState extends OutputOptionViewModel {
 
     public OutputOptionSteadyState(String title) {

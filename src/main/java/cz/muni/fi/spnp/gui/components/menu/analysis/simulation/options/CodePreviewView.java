@@ -24,6 +24,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+/**
+ * Code preview before the analysis/simulation of the model. Allows modifications of the code and the model execution.
+ */
 public class CodePreviewView extends UIWindowComponent {
 
     private static final String OUTPUTS_TEMP_FOLDER = "outputs_temp";

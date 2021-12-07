@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Window for the creation of a new function and its editing.
+ */
 public class FunctionView extends UIWindowComponent {
 
     private FunctionViewModel functionViewModel;

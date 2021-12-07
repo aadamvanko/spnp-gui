@@ -10,6 +10,9 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
+/**
+ * View model of the simulation options.
+ */
 public class SimulationOptionsViewModel {
 
     private final ObjectProperty<ConstantValue> IOP_SIMULATION;

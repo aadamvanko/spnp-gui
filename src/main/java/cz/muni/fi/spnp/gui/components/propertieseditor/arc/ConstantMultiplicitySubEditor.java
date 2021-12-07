@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewM
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * Subeditor for the constant multiplicity of the arc.
+ */
 public class ConstantMultiplicitySubEditor extends ArcMultiplicitySubEditor {
 
     private Label multiplicityLabel;

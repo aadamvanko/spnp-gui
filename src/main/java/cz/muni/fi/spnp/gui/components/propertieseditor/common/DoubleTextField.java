@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.common;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 
+/**
+ * Custom text field supporting only floating point numbers as input.
+ */
 public class DoubleTextField {
 
     private final TextField textField;

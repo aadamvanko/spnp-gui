@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.storage.oldformat.OldFileSaver;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 
+/**
+ * Saves the project via dialog window.
+ */
 public class ProjectSaver {
 
     private final ProjectViewModel projectViewModel;

@@ -21,6 +21,9 @@ import javafx.util.converter.IntegerStringConverter;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
+/**
+ * Window with the simulation and analysis options.
+ */
 public class OptionsView extends UIWindowComponent {
 
     private final SimulationOptionsViewModel simulationOptionsViewModel;

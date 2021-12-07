@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemsTableView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 
+/**
+ * Table view with the input parameters supporting operations add, edit and delete.
+ */
 public class InputParametersTableView extends GeneralItemsTableView<InputParameterViewModel> {
 
     public InputParametersTableView(Model model) {

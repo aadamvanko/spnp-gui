@@ -11,6 +11,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Base class for the window with the table view filled with view model instances allowing the operations add, edit and delete.
+ */
 public abstract class GeneralItemsTableViewWindow<TViewModel> extends UIWindowComponent {
 
     protected final Model model;

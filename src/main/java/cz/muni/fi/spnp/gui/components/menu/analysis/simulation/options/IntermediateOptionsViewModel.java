@@ -6,6 +6,9 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
+/**
+ * View model of the intermediate options.
+ */
 public class IntermediateOptionsViewModel {
 
     private final ObjectProperty<ConstantValue> IOP_PR_RSET;

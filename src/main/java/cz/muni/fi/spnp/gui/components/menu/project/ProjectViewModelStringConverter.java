@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.menu.project;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.util.StringConverter;
 
+/**
+ * Converts the project view model to the string representation and vice versa.
+ */
 public class ProjectViewModelStringConverter extends StringConverter<ProjectViewModel> {
     private final Model model;
 

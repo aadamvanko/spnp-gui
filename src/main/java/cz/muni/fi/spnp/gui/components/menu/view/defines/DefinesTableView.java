@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemsTableView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 
+/**
+ * Table view of the defines.
+ */
 public class DefinesTableView extends GeneralItemsTableView<DefineViewModel> {
 
     public DefinesTableView(Model model) {

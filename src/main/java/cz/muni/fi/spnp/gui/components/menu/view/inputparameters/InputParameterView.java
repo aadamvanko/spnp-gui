@@ -6,6 +6,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableDataType;
 
+/**
+ * Window for the creation of a new input parameter and its editing.
+ */
 public class InputParameterView extends GeneralItemView<InputParameterViewModel> {
 
     public InputParameterView(Model model, InputParameterViewModel inputParameterViewModel, InputParameterViewModel original, ItemViewMode itemViewMode) {

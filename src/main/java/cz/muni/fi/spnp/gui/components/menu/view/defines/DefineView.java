@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.menu.view.general.GeneralItemView;
 import cz.muni.fi.spnp.gui.components.menu.view.general.ItemViewMode;
 
+/**
+ * Window for the creation of new define and its editing.
+ */
 public class DefineView extends GeneralItemView<DefineViewModel> {
 
     public DefineView(Model model, DefineViewModel defineViewModel, DefineViewModel original, ItemViewMode itemViewMode) {

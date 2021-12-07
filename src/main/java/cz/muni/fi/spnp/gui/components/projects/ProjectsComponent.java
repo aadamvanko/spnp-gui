@@ -17,6 +17,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.stream.Collectors;
 
+/**
+ * Projects component located in the left side panel. Shows the projects with the diagrams and support context menus.
+ */
 public class ProjectsComponent extends TreeViewContainer<DisplayableViewModel> {
 
     public ProjectsComponent(Model model) {

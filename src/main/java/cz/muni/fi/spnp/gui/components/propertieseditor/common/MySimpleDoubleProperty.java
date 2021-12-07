@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.common;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+/**
+ * Custom double property with overridden asObject method, which is used for binding.
+ */
 public class MySimpleDoubleProperty extends SimpleDoubleProperty {
 
     private ObjectProperty<Double> asObjectInstance;

@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
+package cz.muni.fi.spnp.gui.components.propertieseditor.transition.immediate;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
@@ -13,6 +13,9 @@ import javafx.scene.control.Label;
 
 import java.util.stream.Collectors;
 
+/**
+ * Subeditor for the functional probability.
+ */
 public class FunctionalProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;

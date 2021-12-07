@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 
 import javafx.scene.Node;
 
+/**
+ * Helper class for easier definition of the rows in editors.
+ */
 public class PropertiesEditorRow {
 
     private final Node left;

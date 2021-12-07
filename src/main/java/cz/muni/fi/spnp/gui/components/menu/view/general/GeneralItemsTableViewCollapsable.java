@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.common.ViewContainer;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.collections.ObservableList;
 
+/**
+ * Collapsable table view with the view model instances supporting operations add, edit and delete.
+ */
 public abstract class GeneralItemsTableViewCollapsable<TViewModel> extends ViewContainer {
 
     private final GeneralItemsTableView<TViewModel> generalItemsTableView;

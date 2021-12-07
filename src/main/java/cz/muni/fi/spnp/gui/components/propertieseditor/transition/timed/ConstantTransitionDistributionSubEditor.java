@@ -1,6 +1,7 @@
-package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
+package cz.muni.fi.spnp.gui.components.propertieseditor.transition.timed;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.TransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.components.propertieseditor.transition.PropertiesEditorRow;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -8,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Subeditor for the constant transition distribution.
+ */
 public class ConstantTransitionDistributionSubEditor extends TransitionDistributionSubEditor {
 
     private List<Label> valuesLabels;

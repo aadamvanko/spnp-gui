@@ -8,6 +8,9 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
+/**
+ * View model of the miscellaneous options.
+ */
 public class MiscellaneousOptionsViewModel {
 
     private final ObjectProperty<ConstantValue> IOP_ELIMINATION;

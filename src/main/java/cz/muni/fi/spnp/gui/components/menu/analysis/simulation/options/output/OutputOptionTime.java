@@ -6,6 +6,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.T
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Base class for all output option view models at time t.
+ */
 public abstract class OutputOptionTime extends OutputOptionViewModel {
 
     public OutputOptionTime(String title) {

@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
+package cz.muni.fi.spnp.gui.components.propertieseditor.transition.timed;
 
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.PolicyAffectedType;
@@ -13,6 +13,7 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.t
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.threevalues.HyperExponentialTransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.threevalues.NegativeBinomialTransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.twovalues.*;
+import cz.muni.fi.spnp.gui.components.propertieseditor.transition.TransitionPropertiesEditor;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
@@ -21,6 +22,9 @@ import javafx.scene.control.Label;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Properties editor for the timed transition.
+ */
 public class TimedTransitionPropertiesEditor extends TransitionPropertiesEditor {
 
     private final Map<TransitionDistributionType, TransitionDistributionSubEditor> subEditors;

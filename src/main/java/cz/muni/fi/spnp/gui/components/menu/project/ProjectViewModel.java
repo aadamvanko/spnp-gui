@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.common.DisplayableViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * View model of the project.
+ */
 public class ProjectViewModel extends DisplayableViewModel {
     private final ObservableList<DiagramViewModel> diagrams;
     private String owner;

@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.common;
 
 import javafx.util.converter.DoubleStringConverter;
 
+/**
+ * Custom double to string converter.
+ */
 public class MyDoubleStringConverter extends DoubleStringConverter {
 
     @Override

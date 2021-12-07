@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 
+/**
+ * Expected number of token in all places in time option view model.
+ */
 public class ExpectedNumberOfTokensAllPlacesTime extends OutputOptionTime {
 
     public ExpectedNumberOfTokensAllPlacesTime() {

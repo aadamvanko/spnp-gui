@@ -10,6 +10,9 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
+/**
+ * View model of the analysis options.
+ */
 public class AnalysisOptionsViewModel {
 
     private final ObjectProperty<ConstantValue> IOP_MC;

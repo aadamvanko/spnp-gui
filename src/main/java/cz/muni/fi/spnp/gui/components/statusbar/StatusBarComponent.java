@@ -15,6 +15,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * Status bar component containing the output panel for showing messages to the user.
+ */
 public class StatusBarComponent extends ApplicationComponent {
 
     private final HBox hbox;

@@ -4,6 +4,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.IntegerStringConverter;
 
+/**
+ * Custom text field accepting only integers.
+ */
 public class IntegerTextField {
 
     private final TextField textField;

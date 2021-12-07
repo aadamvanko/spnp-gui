@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 
+/**
+ * Expected accumulated rate reward in time output option view model.
+ */
 public class ExpectedAccumulatedRewardTime extends OutputOptionTime {
 
     public ExpectedAccumulatedRewardTime() {

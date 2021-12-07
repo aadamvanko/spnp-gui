@@ -3,6 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 
+
 public class UtilizationTransitionSteadyState extends OutputOptionSteadyState {
 
     public UtilizationTransitionSteadyState() {

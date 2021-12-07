@@ -8,6 +8,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.Objects;
 
+/**
+ * View model of the variable.
+ */
 public class VariableViewModel {
 
     private final StringProperty name;

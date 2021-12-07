@@ -17,6 +17,9 @@ import javafx.util.converter.IntegerStringConverter;
 
 import java.util.stream.Collectors;
 
+/**
+ * Base class for all transition properties editors.
+ */
 public abstract class TransitionPropertiesEditor extends ElementPropertiesEditor {
 
     private final Label priorityLabel;

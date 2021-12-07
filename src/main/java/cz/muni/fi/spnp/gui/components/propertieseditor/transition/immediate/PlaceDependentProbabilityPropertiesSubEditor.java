@@ -1,4 +1,4 @@
-package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
+package cz.muni.fi.spnp.gui.components.propertieseditor.transition.immediate;
 
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
@@ -12,6 +12,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * Subeditor for the place dependent probability.
+ */
 public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProbabilitySubEditor {
 
     private final ListChangeListener<? super ElementViewModel> onPlacesChangedListener;

@@ -15,6 +15,9 @@ import javafx.scene.control.Label;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Properties editor for the arc.
+ */
 public class ArcPropertiesEditor extends ElementPropertiesEditor {
 
     private final Map<ArcMultiplicityType, ArcMultiplicitySubEditor> subEditors;

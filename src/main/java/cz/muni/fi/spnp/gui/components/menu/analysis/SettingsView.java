@@ -16,6 +16,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 
+/**
+ * Window showing settings associated with the SPNP package (paths).
+ */
 public class SettingsView extends UIWindowComponent {
 
     private final Model model;

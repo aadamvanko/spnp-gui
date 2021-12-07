@@ -6,6 +6,11 @@ import javafx.scene.Node;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base class for all properties subeditors.
+ *
+ * @param <TViewModel> view model type
+ */
 public abstract class SubEditor<TViewModel> {
 
     private final List<PropertiesEditorRow> rows;

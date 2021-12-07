@@ -14,6 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
+/**
+ * Base class for all properties editors starting with the element view model.
+ */
 public abstract class ElementPropertiesEditor implements UIComponent {
 
     protected final GridPane gridPane;

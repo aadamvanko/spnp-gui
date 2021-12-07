@@ -10,6 +10,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * Base class for the table view with the view model instances supporting operations add, edit and delete.
+ */
 public abstract class GeneralItemsTableView<TViewModel> {
 
     protected final Model model;

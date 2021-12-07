@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.common;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ * Custom integer property with overridden asObject method used for binding.
+ */
 public class MySimpleIntegerProperty extends SimpleIntegerProperty {
 
     private ObjectProperty<Integer> asObjectInstance;

@@ -14,8 +14,8 @@ import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.propertieseditor.arc.InhibitorArcPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.arc.StandardArcPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.place.PlacePropertiesEditor;
-import cz.muni.fi.spnp.gui.components.propertieseditor.transition.ImmediateTransitionPropertiesEditor;
-import cz.muni.fi.spnp.gui.components.propertieseditor.transition.TimedTransitionPropertiesEditor;
+import cz.muni.fi.spnp.gui.components.propertieseditor.transition.immediate.ImmediateTransitionPropertiesEditor;
+import cz.muni.fi.spnp.gui.components.propertieseditor.transition.timed.TimedTransitionPropertiesEditor;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -23,6 +23,9 @@ import javafx.collections.ObservableList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Properties component located in the right side panel.
+ */
 public class PropertiesComponent extends ViewContainer {
 
     private final Map<Class<?>, ElementPropertiesEditor> editors;

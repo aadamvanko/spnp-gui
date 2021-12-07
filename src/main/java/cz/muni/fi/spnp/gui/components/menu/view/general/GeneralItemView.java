@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Base class for window for the creation of new view model instance and its editing.
+ */
 public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
 
     protected final Model model;

@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import javafx.util.StringConverter;
 
+/**
+ * Converts the place view model to string representation and vice versa.
+ */
 public class PlaceViewModelStringConverter extends StringConverter<PlaceViewModel> {
 
     private final DiagramViewModel diagramViewModel;

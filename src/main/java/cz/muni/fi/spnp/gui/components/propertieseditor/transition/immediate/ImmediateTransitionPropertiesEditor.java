@@ -1,8 +1,9 @@
-package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
+package cz.muni.fi.spnp.gui.components.propertieseditor.transition.immediate;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionProbabilityType;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.*;
+import cz.muni.fi.spnp.gui.components.propertieseditor.transition.TransitionPropertiesEditor;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
@@ -11,6 +12,9 @@ import javafx.scene.control.Label;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Properties editor for the immediate transition.
+ */
 public class ImmediateTransitionPropertiesEditor extends TransitionPropertiesEditor {
 
     private final Map<TransitionProbabilityType, TransitionProbabilitySubEditor> subEditors;

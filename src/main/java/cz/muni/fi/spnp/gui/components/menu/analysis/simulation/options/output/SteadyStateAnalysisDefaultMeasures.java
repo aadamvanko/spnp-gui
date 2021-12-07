@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 
+/**
+ * Default measure analysis in steady state output option view model.
+ */
 public class SteadyStateAnalysisDefaultMeasures extends OutputOptionSteadyState {
 
     public SteadyStateAnalysisDefaultMeasures() {
