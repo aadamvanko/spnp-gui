@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.core.transformators.spnp.variables.IntegerVariable;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.Variable;
 import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableViewModel;
 
+/**
+ * Maps the variables to the general model variables.
+ */
 public class VariableMapper {
 
     public Variable map(VariableViewModel variableViewModel) {

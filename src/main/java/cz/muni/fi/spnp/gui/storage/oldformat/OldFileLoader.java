@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.Map.Entry;
 
+/**
+ * Loads the data from the old format files.
+ */
 public class OldFileLoader {
 
     private final OldFormatToViewModelConverter oldFormatToViewModelConverter;

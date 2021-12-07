@@ -24,6 +24,9 @@ import java.util.stream.Collectors;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.OptionKey.*;
 
+/**
+ * Maps diagram to the general SRN model.
+ */
 public class DiagramMapper {
 
     private final Model model;

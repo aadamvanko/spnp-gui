@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.storage.oldformat.models;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Submodel in old format.
+ */
 public class Submodel {
     public String name;
     public String includes;

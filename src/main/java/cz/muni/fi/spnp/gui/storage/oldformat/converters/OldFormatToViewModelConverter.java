@@ -43,6 +43,9 @@ import java.util.stream.Stream;
 
 import static cz.muni.fi.spnp.gui.storage.oldformat.OldFormatUtils.NULL_VALUE;
 
+/**
+ * Converts the old format models to the view models.
+ */
 public class OldFormatToViewModelConverter {
 
     public DiagramViewModel convert(Submodel submodel, ProjectViewModel projectViewModel) {

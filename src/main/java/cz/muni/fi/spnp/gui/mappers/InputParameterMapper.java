@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.core.transformators.spnp.parameters.InputParameter;
 import cz.muni.fi.spnp.core.transformators.spnp.parameters.IntegerInputParameter;
 import cz.muni.fi.spnp.gui.components.menu.view.inputparameters.InputParameterViewModel;
 
+/**
+ * Maps input parameters to the general model input parameters.
+ */
 public class InputParameterMapper {
 
     public InputParameter map(InputParameterViewModel inputParameterViewModel) {

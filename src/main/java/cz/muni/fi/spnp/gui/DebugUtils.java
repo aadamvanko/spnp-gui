@@ -7,6 +7,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
+/**
+ * Utility class for easier visual debugging.
+ */
 public abstract class DebugUtils {
 
     public static void addRedBg(Region region) {

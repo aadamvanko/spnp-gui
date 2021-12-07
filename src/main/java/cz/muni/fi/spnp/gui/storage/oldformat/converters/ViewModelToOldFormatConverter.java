@@ -35,6 +35,9 @@ import java.util.stream.Stream;
 
 import static cz.muni.fi.spnp.gui.storage.oldformat.OldFormatUtils.NULL_VALUE;
 
+/**
+ * Converts the diagram view model to the old submodel.
+ */
 public class ViewModelToOldFormatConverter {
 
     public Submodel convert(DiagramViewModel diagram) {

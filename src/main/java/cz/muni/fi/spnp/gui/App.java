@@ -12,6 +12,9 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
+/**
+ * Application class.
+ */
 public class App extends Application {
 
     private final Model model;

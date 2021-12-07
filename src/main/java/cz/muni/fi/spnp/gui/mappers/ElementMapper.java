@@ -35,6 +35,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Maps the elements to the general model elements.
+ */
 public class ElementMapper {
 
     private final Map<FunctionViewModel, FunctionSPNP<?>> functionsMapping;

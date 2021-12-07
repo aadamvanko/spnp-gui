@@ -1,5 +1,8 @@
 package cz.muni.fi.spnp.gui.storage.oldformat.models;
 
+/**
+ * Variable in old format.
+ */
 public class VariableOldFormat {
     public String name;
     public String kind;

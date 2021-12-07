@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.storage.oldformat.models;
 
 import java.util.List;
 
+/**
+ * Arc in the old format.
+ */
 public class ArcOldFormat extends ElementOldFormat {
     public TwoXY twoXY;
     public String type;

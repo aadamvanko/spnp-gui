@@ -1,5 +1,8 @@
 package cz.muni.fi.spnp.gui.mappers;
 
+/**
+ * Exception for the mapping errors.
+ */
 public class MappingException extends Throwable {
 
     private final String elementName;

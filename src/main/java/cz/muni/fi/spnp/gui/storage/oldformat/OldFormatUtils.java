@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.storage.oldformat;
 
 import java.util.Set;
 
+/**
+ * Utility class for loading/saving of the old format.
+ */
 public abstract class OldFormatUtils {
 
     public static final String NULL_VALUE = "null";

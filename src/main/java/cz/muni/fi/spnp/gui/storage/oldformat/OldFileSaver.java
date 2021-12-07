@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 
 import static cz.muni.fi.spnp.gui.storage.oldformat.OldFormatUtils.NULL_VALUE;
 
+/**
+ * Saves the data to the old format files.
+ */
 public class OldFileSaver {
 
     private final ProjectConverter projectConverter;

@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.storage.oldformat.models.ProjectOldFormat;
 
 import java.util.stream.Collectors;
 
+/**
+ * Converts the project view model to the old project.
+ */
 public class ProjectConverter {
 
     public ProjectOldFormat convert(ProjectViewModel project) {

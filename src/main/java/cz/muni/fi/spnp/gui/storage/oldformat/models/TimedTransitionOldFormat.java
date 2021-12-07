@@ -1,5 +1,8 @@
 package cz.muni.fi.spnp.gui.storage.oldformat.models;
 
+/**
+ * Timed transition in old format.
+ */
 public class TimedTransitionOldFormat extends TransitionOldFormat {
     public String valueTransition;
     public String value1Transition;

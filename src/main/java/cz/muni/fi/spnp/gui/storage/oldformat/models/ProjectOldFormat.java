@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.storage.oldformat.models;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Project in old format.
+ */
 public class ProjectOldFormat {
     public String modelName;
     public String owner;
