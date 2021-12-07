@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.views;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.Intersections;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.TransitionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;

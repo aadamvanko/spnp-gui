@@ -5,7 +5,7 @@ import cz.muni.fi.spnp.gui.components.common.DialogMessages;
 import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.TransitionViewModel;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.TransitionViewModelStringConverter;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.VariableViewModelStringConverter;

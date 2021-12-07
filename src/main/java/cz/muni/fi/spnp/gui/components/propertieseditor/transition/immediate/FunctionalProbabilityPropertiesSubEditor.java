@@ -2,8 +2,8 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.transition.immediate;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.FunctionalTransitionProbabilityViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.TransitionProbabilityViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.FunctionalTransitionProbabilityViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.TransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.FunctionViewModelStringConverter;
 import javafx.collections.FXCollections;

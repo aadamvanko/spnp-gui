@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.views;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.ImmediateTransitionViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.TransitionProbabilityViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.ImmediateTransitionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.TransitionProbabilityViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;

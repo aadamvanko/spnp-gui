@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.arc;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcMultiplicityType;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcMultiplicityType;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;
 import javafx.beans.value.ChangeListener;

@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.mouseoperations;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphElementView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.canvas.GridBackgroundPane;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.DragPointViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.DragPointViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views.ArcView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views.DragPointView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.interfaces.MouseSelectable;

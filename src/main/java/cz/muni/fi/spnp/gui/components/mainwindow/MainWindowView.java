@@ -10,7 +10,7 @@ import cz.muni.fi.spnp.gui.components.menu.MenuComponent;
 import cz.muni.fi.spnp.gui.components.menu.view.defines.DefinesCollapsableView;
 import cz.muni.fi.spnp.gui.components.menu.view.includes.IncludesCollapsableView;
 import cz.muni.fi.spnp.gui.components.menu.view.inputparameters.InputParametersCollapsableView;
-import cz.muni.fi.spnp.gui.components.menu.view.variables.views.VariablesCollapsableView;
+import cz.muni.fi.spnp.gui.components.menu.view.variables.VariablesCollapsableView;
 import cz.muni.fi.spnp.gui.components.projects.ProjectsComponent;
 import cz.muni.fi.spnp.gui.components.propertieseditor.PropertiesComponent;
 import cz.muni.fi.spnp.gui.components.statusbar.StatusBarComponent;

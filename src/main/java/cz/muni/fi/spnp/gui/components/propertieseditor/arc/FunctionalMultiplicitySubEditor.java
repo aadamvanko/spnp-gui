@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.arc;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.FunctionViewModelStringConverter;
 import javafx.collections.FXCollections;

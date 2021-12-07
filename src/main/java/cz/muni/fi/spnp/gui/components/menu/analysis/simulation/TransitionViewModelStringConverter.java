@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation;
 
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.TransitionViewModel;
 import javafx.util.StringConverter;
 
 /**

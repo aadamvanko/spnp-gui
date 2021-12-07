@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views;
 
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
 import javafx.scene.Node;
 import javafx.scene.shape.Line;
 

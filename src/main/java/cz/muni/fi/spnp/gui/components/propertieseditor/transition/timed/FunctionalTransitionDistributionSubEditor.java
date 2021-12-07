@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.transition.timed;
 
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.TransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.timed.distributions.TransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.FunctionViewModelStringConverter;
 import cz.muni.fi.spnp.gui.components.propertieseditor.transition.PropertiesEditorRow;

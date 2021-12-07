@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.mainwindow;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 
 import java.util.List;

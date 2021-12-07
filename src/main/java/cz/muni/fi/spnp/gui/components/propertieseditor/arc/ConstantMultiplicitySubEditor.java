@@ -1,6 +1,6 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.arc;
 
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 

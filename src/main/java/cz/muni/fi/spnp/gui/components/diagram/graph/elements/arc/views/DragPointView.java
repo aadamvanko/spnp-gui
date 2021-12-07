@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphElementView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.DragPointViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.DragPointViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.interfaces.MouseSelectable;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;

@@ -25,8 +25,8 @@ module cz.muni.fi {
     opens cz.muni.fi.spnp.gui.components.propertieseditor to javafx.fxml;
     opens cz.muni.fi.spnp.gui.components.menu.view.functions to javafx.base;
     opens cz.muni.fi.spnp.gui.components.menu.view.general to java.base;
-    exports cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models;
-    opens cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models to java.base;
+    exports cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels;
+    opens cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels to java.base;
     exports cz.muni.fi.spnp.gui.storage.oldformat.converters;
     opens cz.muni.fi.spnp.gui.storage.oldformat.converters to javafx.fxml;
     exports cz.muni.fi.spnp.gui.storage.oldformat;

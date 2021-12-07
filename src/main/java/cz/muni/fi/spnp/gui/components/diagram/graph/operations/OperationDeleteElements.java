@@ -1,8 +1,8 @@
 package cz.muni.fi.spnp.gui.components.diagram.graph.operations;
 
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.DragPointViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.DragPointViewModel;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelUtils;
 

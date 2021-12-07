@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.transition;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.TransitionViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.views.TransitionOrientation;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;

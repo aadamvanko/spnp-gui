@@ -2,7 +2,7 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.ConnectableGraphElementView;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.StandardArcViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.StandardArcViewModel;
 
 import java.util.Objects;
 

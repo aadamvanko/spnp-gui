@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.components.propertieseditor.transition.timed;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.TransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.timed.distributions.TransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.PlaceViewModelStringConverter;
 import cz.muni.fi.spnp.gui.components.propertieseditor.transition.PropertiesEditorRow;
 import javafx.collections.FXCollections;

@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.propertieseditor.transition.immediate;
 
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.ConstantTransitionProbabilityViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.immediate.TransitionProbabilityViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.ConstantTransitionProbabilityViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.TransitionProbabilityViewModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 

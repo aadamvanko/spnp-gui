@@ -3,7 +3,7 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TransitionViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.TransitionViewModel;
 import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelUtils;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsResult;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionReturnType;
