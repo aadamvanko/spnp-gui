@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * Functional transition probability view model for the immediate transition.
+ */
 public class FunctionalTransitionProbabilityViewModel extends TransitionProbabilityViewModelBase {
 
     private final ObjectProperty<FunctionViewModel> function = new SimpleObjectProperty<>();

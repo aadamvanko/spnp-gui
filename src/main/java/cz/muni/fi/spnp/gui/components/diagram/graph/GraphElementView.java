@@ -12,6 +12,9 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+/**
+ * Base class for all graph element views.
+ */
 public abstract class GraphElementView implements VisualElement, Movable {
 
     private static final double MIN_PADDING_FACTOR = 0.3;

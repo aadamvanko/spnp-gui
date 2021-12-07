@@ -8,6 +8,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
+/**
+ * Mouse operation moving the elements in the graph.
+ */
 public class MouseOperationMoving extends MouseOperation {
 
     private Point2D oldMousePosition;

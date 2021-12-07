@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.components.common;
 
 import javafx.scene.control.Alert;
 
+/**
+ * Dialog windows for errors and warnings.
+ */
 public final class DialogMessages {
 
     private DialogMessages() {

@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Button for zooming out.
+ */
 public class ZoomOutButton extends CustomImageButton {
     public ZoomOutButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);

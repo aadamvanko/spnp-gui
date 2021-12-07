@@ -5,7 +5,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-
+/**
+ * Pane containing the grid dots by drawing them.
+ */
 public class GridBackgroundPane extends Pane {
     public static final int SPACING_X = 20;
     public static final int SPACING_Y = 20;

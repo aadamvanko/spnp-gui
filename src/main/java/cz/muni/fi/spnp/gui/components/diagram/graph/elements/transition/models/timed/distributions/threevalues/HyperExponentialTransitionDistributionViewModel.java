@@ -10,6 +10,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Hyper exponential transition distribution view model for the timed transition.
+ */
 public class HyperExponentialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
 
     public HyperExponentialTransitionDistributionViewModel() {

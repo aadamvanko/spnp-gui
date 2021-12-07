@@ -7,6 +7,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 
+/**
+ * View for the immediate transition.
+ */
 public class ImmediateTransitionView extends TransitionView {
 
     private final static double WIDTH = 9;

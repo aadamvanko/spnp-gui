@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.common.ConnectableViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * View model of the place.
+ */
 public class PlaceViewModel extends ConnectableViewModel {
 
     private final StringProperty numberOfTokens = new SimpleStringProperty("0");

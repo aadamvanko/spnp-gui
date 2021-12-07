@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
+/**
+ * Base class for the graph elements.
+ */
 public abstract class ElementViewModel extends DisplayableViewModel {
 
     private final BooleanProperty highlighted;

@@ -1,5 +1,8 @@
 package cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models;
 
+/**
+ * Represents probability types for the immediate transition.
+ */
 public enum TransitionProbabilityType {
 
     Constant("C"),

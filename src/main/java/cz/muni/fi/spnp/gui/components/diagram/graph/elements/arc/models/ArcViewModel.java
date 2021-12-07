@@ -15,6 +15,9 @@ import javafx.collections.ObservableList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+/**
+ * View model for the arc containing all the necessary data.
+ */
 public abstract class ArcViewModel extends ElementViewModel {
 
     private Callable<Void> removeStraightLinesCallback;

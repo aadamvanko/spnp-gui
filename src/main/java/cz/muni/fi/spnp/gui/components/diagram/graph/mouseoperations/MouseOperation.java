@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.GraphElementView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Base class for all mouse operations.
+ */
 public abstract class MouseOperation {
 
     protected GraphView graphView;
@@ -18,6 +21,9 @@ public abstract class MouseOperation {
 
     public abstract void mouseReleasedHandler(GraphElementView graphElementView, MouseEvent mouseEvent);
 
+    /**
+     * Called before the "destruction" of the instance.
+     */
     public void finish() {
     }
 }

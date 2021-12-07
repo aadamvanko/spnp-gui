@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Base class for the operations working with the diagram's elements (copy, cut, paste, ...).
+ */
 public abstract class GraphElementsOperationBase implements GraphElementsOperation {
 
     protected final Model model;

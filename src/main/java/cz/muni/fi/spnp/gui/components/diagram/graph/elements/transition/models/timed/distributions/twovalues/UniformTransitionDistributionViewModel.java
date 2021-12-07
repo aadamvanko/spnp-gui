@@ -10,6 +10,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Uniform transition distribution view model for the timed transition.
+ */
 public class UniformTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     public UniformTransitionDistributionViewModel() {

@@ -26,6 +26,9 @@ import javafx.scene.layout.*;
 import java.io.BufferedOutputStream;
 import java.io.PrintStream;
 
+/**
+ * Main window containing all the components.
+ */
 public class MainWindowView {
 
     private final Model model;

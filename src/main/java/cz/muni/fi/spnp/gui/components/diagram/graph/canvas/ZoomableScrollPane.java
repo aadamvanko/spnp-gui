@@ -7,6 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.transform.Scale;
 
+/**
+ * Wraps the content control and provide the scroll functionality.
+ */
 public class ZoomableScrollPane extends ScrollPane {
 
     private final Group zoomGroup;

@@ -5,6 +5,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Button for creating immediate transitions.
+ */
 public class CreateImmediateTransitionButton extends CustomImageToggleButton {
     public CreateImmediateTransitionButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);

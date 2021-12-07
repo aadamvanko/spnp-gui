@@ -5,6 +5,9 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Base class for button with an image.
+ */
 public abstract class CustomImageButton implements UIComponent {
     protected Button button;
 

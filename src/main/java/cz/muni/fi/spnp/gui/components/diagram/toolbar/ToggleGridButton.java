@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Button for toggling grid functionality.
+ */
 public class ToggleGridButton extends CustomImageToggleButton {
     public ToggleGridButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);

@@ -7,6 +7,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Mouse operations used for panning of the graph canvas.
+ */
 public class MouseOperationPanning extends MouseOperation {
 
     private static final double PANNING_SPEED;

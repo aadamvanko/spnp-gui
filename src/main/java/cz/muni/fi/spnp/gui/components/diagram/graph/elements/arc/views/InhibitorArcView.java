@@ -5,6 +5,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.Inhibito
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.views.TransitionView;
 
+/**
+ * Visual representation of the inhibitor arc.
+ */
 public class InhibitorArcView extends ArcView {
     public InhibitorArcView(GraphView graphView, InhibitorArcViewModel inhibitorArcViewModel, PlaceView from, TransitionView to) {
         super(graphView, inhibitorArcViewModel, from, to);

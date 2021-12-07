@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.mainwindow.Clipboard;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 
+/**
+ * Copy operation on the diagram's elements.
+ */
 public class OperationCopyElements extends GraphElementsOperationBase {
 
     public OperationCopyElements(Model model, DiagramViewModel diagramViewModel) {

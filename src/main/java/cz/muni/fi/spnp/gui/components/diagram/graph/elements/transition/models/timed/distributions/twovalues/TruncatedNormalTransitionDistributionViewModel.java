@@ -10,6 +10,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Truncated normal transition distribution view model for the timed transition.
+ */
 public class TruncatedNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     public TruncatedNormalTransitionDistributionViewModel() {

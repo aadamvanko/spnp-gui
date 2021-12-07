@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.common;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Represents items that can be shown in the side views, tables etc.
+ */
 public class DisplayableViewModel {
     private final StringProperty name = new SimpleStringProperty("nameUnset");
 

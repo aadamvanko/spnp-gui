@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * View for the connectable graph elements (places, transitions).
+ */
 public abstract class ConnectableGraphElementView extends GraphElementView implements Connectable, MouseSelectable {
 
     protected final static long UPDATE_DELAY = 50;

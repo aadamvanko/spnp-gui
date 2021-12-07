@@ -15,7 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 
-
+/**
+ * Base view class for transition views.
+ */
 public abstract class TransitionView extends ConnectableGraphElementView {
 
     private Label nameLabel;

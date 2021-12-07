@@ -9,6 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
+/**
+ * Loads specific parts of the model from the external file.
+ */
 public class ModelLoader extends ModelFileOperation {
 
     public void loadSPNPPaths(Model model) {

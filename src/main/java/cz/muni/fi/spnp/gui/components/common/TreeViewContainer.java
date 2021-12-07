@@ -12,6 +12,11 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
+/**
+ * General tree view inside the collapsable container.
+ *
+ * @param <T> data type of the displayed elements
+ */
 public abstract class TreeViewContainer<T extends DisplayableViewModel> extends ViewContainer {
 
     protected final TreeItemsIconsLoader treeItemsIconsLoader;

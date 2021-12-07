@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.common.ConnectableViewModel;
 
 import java.util.List;
 
+/**
+ * View model of the standard (regular) arc.
+ */
 public class StandardArcViewModel extends ArcViewModel {
 
     public StandardArcViewModel() {

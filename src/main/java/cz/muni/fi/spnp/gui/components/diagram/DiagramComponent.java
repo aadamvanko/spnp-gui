@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Diagram component located in the center panel containing tabs with the diagrams (graph editor/preview code).
+ */
 public class DiagramComponent extends ApplicationComponent {
 
     private TabPane tabPane;
@@ -88,7 +91,7 @@ public class DiagramComponent extends ApplicationComponent {
         }
         tab.getTabPane().getTabs().remove(tab);
     }
-    
+
     private void createView() {
         tabPane = new TabPane();
         tabPane.setSide(Side.BOTTOM);

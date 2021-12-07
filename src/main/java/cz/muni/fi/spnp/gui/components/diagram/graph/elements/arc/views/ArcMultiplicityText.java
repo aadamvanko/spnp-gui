@@ -7,6 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
+/**
+ * Regular multiplicity representation of the arc shown as text.
+ */
 public class ArcMultiplicityText implements ArcMultiplicityVisual {
 
     private static final double TEXT_OFFSET = 15;

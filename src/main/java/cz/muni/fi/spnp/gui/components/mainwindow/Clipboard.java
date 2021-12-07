@@ -6,6 +6,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the clipboard and holds the copied/cut elements form the graph editor.
+ */
 public class Clipboard {
 
     private final List<FunctionViewModel> functions;

@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.timed.distributions.NumberOfValuesType;
 
+/**
+ * Represents the types of distribution for timed transition.
+ */
 public enum TimedDistributionType {
     Beta(NumberOfValuesType.TWO),
     Binomial(NumberOfValuesType.THREE),

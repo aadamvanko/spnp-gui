@@ -11,6 +11,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Base class for four values transition distribution view model for timed transition.
+ */
 public abstract class FourValuesTransitionDistributionBaseViewModel extends TransitionDistributionBaseViewModel {
 
     public FourValuesTransitionDistributionBaseViewModel() {

@@ -11,6 +11,9 @@ import javafx.beans.property.StringProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base class for all transition distribution view models.
+ */
 public abstract class TransitionDistributionBaseViewModel implements TransitionDistributionViewModel {
 
     private final ObjectProperty<PlaceViewModel> dependentPlace;

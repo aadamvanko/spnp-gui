@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
 
+/**
+ * Saves specific parts of the model to the external file.
+ */
 public class ModelSaver extends ModelFileOperation {
 
     public void savePathsSPNP(Model model) {

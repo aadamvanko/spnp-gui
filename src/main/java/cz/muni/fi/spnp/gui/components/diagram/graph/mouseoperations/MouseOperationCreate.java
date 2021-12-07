@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 
+/**
+ * Base class for the mouse operations creating elements in the graph.
+ */
 public abstract class MouseOperationCreate extends MouseOperation {
 
     public MouseOperationCreate(GraphView graphView) {

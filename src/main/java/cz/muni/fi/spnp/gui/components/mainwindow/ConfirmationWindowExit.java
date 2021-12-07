@@ -11,6 +11,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Prevents the closing of the window by mistake to prevent the potential loss of the data.
+ */
 public class ConfirmationWindowExit extends UIWindowComponent {
 
     private boolean shouldExit;

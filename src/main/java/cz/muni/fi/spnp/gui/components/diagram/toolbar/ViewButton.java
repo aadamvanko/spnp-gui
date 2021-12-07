@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Button for switching back to the view mode in the editor.
+ */
 public class ViewButton extends CustomImageToggleButton {
     public ViewButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);

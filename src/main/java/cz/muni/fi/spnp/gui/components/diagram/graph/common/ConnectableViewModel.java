@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.common;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.MySimpleDoubleProperty;
 import javafx.beans.property.DoubleProperty;
 
+/**
+ * Represents the visual elements that can be connected via arcs.
+ */
 public abstract class ConnectableViewModel extends ElementViewModel {
 
     private final DoubleProperty positionX = new MySimpleDoubleProperty();

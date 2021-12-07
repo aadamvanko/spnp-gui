@@ -6,6 +6,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
+/**
+ * Button for creating standard arcs.
+ */
 public class CreateStandardArcButton extends CustomImageToggleButton {
     public CreateStandardArcButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);

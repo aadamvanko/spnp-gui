@@ -10,6 +10,9 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * View model of the timed transition.
+ */
 public class TimedTransitionViewModel extends TransitionViewModel {
 
     private final ObjectProperty<PolicyAffectedType> policy;

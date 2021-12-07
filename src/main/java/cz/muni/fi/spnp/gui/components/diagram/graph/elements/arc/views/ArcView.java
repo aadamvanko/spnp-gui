@@ -20,6 +20,9 @@ import javafx.scene.shape.Line;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Visual representation of the arc.
+ */
 public abstract class ArcView extends GraphElementView {
 
     public static int LINE_WIDTH = 1;

@@ -6,6 +6,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.Standard
 
 import java.util.Objects;
 
+/**
+ * Visual representation of the standard arc.
+ */
 public class StandardArcView extends ArcView {
 
     public StandardArcView(GraphView graphView, StandardArcViewModel standardArcViewModel, ConnectableGraphElementView from, ConnectableGraphElementView to) {

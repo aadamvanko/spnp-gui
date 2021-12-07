@@ -12,6 +12,9 @@ import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Mouse operation creating connectable elements (places, transitions).
+ */
 public class MouseOperationCreateConnectable extends MouseOperationCreate {
 
     private final Model model;

@@ -8,6 +8,9 @@ import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelUtils;
 
 import java.util.ArrayList;
 
+/**
+ * Delete operation for the diagram's elements.
+ */
 public class OperationDeleteElements extends GraphElementsOperationBase implements GraphElementsOperation {
 
     public OperationDeleteElements(Model model, DiagramViewModel diagramViewModel) {

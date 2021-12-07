@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.T
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Constant transition probability view model for the immediate transition.
+ */
 public class ConstantTransitionProbabilityViewModel extends TransitionProbabilityViewModelBase {
 
     private final StringProperty value = new SimpleStringProperty("0.0");

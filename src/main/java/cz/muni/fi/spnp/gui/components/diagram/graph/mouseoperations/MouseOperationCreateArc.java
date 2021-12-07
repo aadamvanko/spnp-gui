@@ -22,6 +22,9 @@ import javafx.scene.shape.Line;
 
 import java.util.Collections;
 
+/**
+ * Mouse operation for arc creation.
+ */
 public class MouseOperationCreateArc extends MouseOperationCreate {
 
     private final Model model;

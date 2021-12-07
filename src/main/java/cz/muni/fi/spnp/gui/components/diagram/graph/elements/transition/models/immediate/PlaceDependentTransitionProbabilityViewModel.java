@@ -7,6 +7,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Place dependent transition probability view model for the immediate transition.
+ */
 public class PlaceDependentTransitionProbabilityViewModel extends TransitionProbabilityViewModelBase {
 
     private final StringProperty value = new SimpleStringProperty("0.0");

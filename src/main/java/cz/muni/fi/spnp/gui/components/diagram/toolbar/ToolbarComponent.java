@@ -23,6 +23,9 @@ import org.controlsfx.control.SegmentedButton;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Toolbar component located on top of the graph editor/code preview.
+ */
 public class ToolbarComponent extends ApplicationComponent {
 
     private final ToolBar toolBar;

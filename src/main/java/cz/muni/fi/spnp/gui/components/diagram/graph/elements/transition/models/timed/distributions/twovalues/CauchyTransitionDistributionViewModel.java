@@ -10,6 +10,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Cauchy transition distribution view model for the timed transition.
+ */
 public class CauchyTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     public CauchyTransitionDistributionViewModel() {

@@ -10,6 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Visual representation of the drag point on arc.
+ */
 public class DragPointView extends GraphElementView implements MouseSelectable {
 
     private final ArcView arcView;

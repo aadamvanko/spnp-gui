@@ -7,6 +7,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 
+/**
+ * Visual representation of the flushing multiplicity arc depicted by the zigzag sign.
+ */
 public class ArcMultiplicityFlushing implements ArcMultiplicityVisual {
 
     private final Polyline polyline;

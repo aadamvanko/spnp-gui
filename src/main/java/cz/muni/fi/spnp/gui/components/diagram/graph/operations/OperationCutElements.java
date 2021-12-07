@@ -6,6 +6,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.models.ArcViewM
 import cz.muni.fi.spnp.gui.components.mainwindow.Clipboard;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 
+/**
+ * Cut operation for the diagram's elements.
+ */
 public class OperationCutElements extends GraphElementsOperationBase {
 
     public OperationCutElements(Model model, DiagramViewModel diagramViewModel) {

@@ -15,6 +15,9 @@ import javafx.scene.layout.VBox;
 
 import static java.lang.Double.MAX_VALUE;
 
+/**
+ * General collapsable view which expand to fill all the available vertical space.
+ */
 public abstract class ViewContainer extends ApplicationComponent {
 
     protected final String title;

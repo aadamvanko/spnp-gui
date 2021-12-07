@@ -14,6 +14,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
+/**
+ * Context menu in the graph view.
+ */
 public class MouseOperationContextMenu extends MouseOperation {
 
     private final ContextMenu contextMenu;

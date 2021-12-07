@@ -25,6 +25,9 @@ import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Main model class of the application. Holds (indirectly) all the information displayed in the application.
+ */
 public class Model {
 
     private final ObservableList<ProjectViewModel> projects;

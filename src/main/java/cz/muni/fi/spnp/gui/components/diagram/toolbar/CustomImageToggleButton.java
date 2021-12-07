@@ -6,6 +6,9 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Base class for button that can be toggled, thus providing two different actions.
+ */
 public abstract class CustomImageToggleButton implements UIComponent {
 
     protected ToggleButton toggleButton;

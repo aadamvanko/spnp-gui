@@ -15,6 +15,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
+/**
+ * Diagram outline component located in the left panel showing the elements of the diagram.
+ */
 public class DiagramOutlineComponent extends TreeViewContainer<DisplayableViewModel> {
 
     private final ListChangeListener<ElementViewModel> onElementsChangedListener;

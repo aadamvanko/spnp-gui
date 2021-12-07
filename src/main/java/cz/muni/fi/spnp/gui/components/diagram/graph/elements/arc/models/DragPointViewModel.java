@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.MySimpleDoubleProperty;
 import javafx.beans.property.DoubleProperty;
 
+/**
+ * View model for the drag points, which are located on the arcs and can are used to manipulate the arc's line.
+ */
 public class DragPointViewModel extends ElementViewModel {
 
     private final DoubleProperty positionX = new MySimpleDoubleProperty();

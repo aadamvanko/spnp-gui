@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Base class for modal windows.
+ */
 public class UIWindowComponent {
 
     protected Stage stage;

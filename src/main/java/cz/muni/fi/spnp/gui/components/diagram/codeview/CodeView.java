@@ -10,6 +10,9 @@ import cz.muni.fi.spnp.gui.mappers.MappingException;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 
+/**
+ * Preview of the CSPL code generated for the selected diagram.
+ */
 public class CodeView implements UIComponent {
 
     private final Model model;

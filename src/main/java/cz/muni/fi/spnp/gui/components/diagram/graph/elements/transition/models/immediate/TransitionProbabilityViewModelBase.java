@@ -3,6 +3,9 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Base class for all transition probability view models for the immediate transition.
+ */
 public abstract class TransitionProbabilityViewModelBase implements TransitionProbabilityViewModel {
 
     protected StringProperty representation;

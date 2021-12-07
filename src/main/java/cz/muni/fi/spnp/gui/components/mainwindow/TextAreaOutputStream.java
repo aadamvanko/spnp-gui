@@ -6,6 +6,10 @@ import javafx.scene.control.TextArea;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * Allows the redirection of output streams to the output panel located in the bottom part of the main view.
+ * Supports naive buffering functionality.
+ */
 public class TextAreaOutputStream extends OutputStream {
 
     private final TextArea textArea;

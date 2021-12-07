@@ -6,6 +6,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 
+/**
+ * Button for creating places.
+ */
 public class CreatePlaceButton extends CustomImageToggleButton {
 
     public CreatePlaceButton(EventHandler<MouseEvent> onClickHandler) {

@@ -10,6 +10,9 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 
+/**
+ * View for the timed transition.
+ */
 public class TimedTransitionView extends TransitionView {
 
     private final static double WIDTH = 15;

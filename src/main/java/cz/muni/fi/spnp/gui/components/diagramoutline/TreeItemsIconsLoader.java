@@ -14,6 +14,9 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Loader of the icons for the tree items.
+ */
 public class TreeItemsIconsLoader {
 
     private final int size;

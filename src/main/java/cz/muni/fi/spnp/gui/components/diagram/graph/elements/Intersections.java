@@ -2,6 +2,9 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.elements;
 
 import javafx.geometry.Point2D;
 
+/**
+ * Utility class for calculation of the intersection point of two vectors.
+ */
 public final class Intersections {
 
     private Intersections() {

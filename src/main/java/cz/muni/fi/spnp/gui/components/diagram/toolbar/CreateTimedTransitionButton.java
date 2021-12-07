@@ -6,6 +6,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
+/**
+ * Button for creating timed transitions.
+ */
 public class CreateTimedTransitionButton extends CustomImageToggleButton {
     public CreateTimedTransitionButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);

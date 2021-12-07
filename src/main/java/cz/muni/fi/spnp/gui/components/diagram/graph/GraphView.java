@@ -32,6 +32,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * View representing the graph. The nodes are separated in 3 layers to mimick the Z axis and allow proper rendering af all the elements.
+ * The graph elements provide the nodes, which are added to adequate layers.
+ */
 public class GraphView implements UIComponent {
 
     private final Group layerBottom;

@@ -6,6 +6,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewMode
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TimedDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 
+/**
+ * Geometric transition distribution view model for the timed transition.
+ */
 public class GeometricTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     public GeometricTransitionDistributionViewModel() {

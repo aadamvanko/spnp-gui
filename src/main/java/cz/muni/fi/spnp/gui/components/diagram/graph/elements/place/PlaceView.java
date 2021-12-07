@@ -15,6 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 
+/**
+ * Visual representation of the place.
+ */
 public class PlaceView extends ConnectableGraphElementView {
 
     public static final double RADIUS = 20;

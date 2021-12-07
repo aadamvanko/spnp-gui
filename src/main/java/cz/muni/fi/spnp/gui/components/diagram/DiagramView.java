@@ -6,6 +6,9 @@ import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
+/**
+ * View of the diagram showing the diagram's content either in graph editor or as a code preview (CSPL).
+ */
 public class DiagramView {
 
     private final GraphView graphView;

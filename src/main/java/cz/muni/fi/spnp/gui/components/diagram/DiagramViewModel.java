@@ -23,6 +23,9 @@ import javafx.collections.ObservableList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * View model of the diagram.
+ */
 public class DiagramViewModel extends DisplayableViewModel {
 
     public static final int ZOOM_STEP = 10;

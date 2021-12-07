@@ -13,6 +13,9 @@ import javafx.geometry.Point2D;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Paste operation for the diagram's elements.
+ */
 public class OperationPasteElements extends GraphElementsOperationBase {
 
     public OperationPasteElements(Model model, DiagramViewModel diagramViewModel) {

@@ -8,6 +8,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * Base view model for both types of the transitions.
+ */
 public abstract class TransitionViewModel extends ConnectableViewModel {
 
     private final IntegerProperty priority = new MySimpleIntegerProperty(0);

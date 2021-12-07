@@ -7,6 +7,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewMode
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.models.TimedDistributionType;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 
+/**
+ * Logarithmic transition distribution view model for the timed transition.
+ */
 public class LogarithmicNormalTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     public LogarithmicNormalTransitionDistributionViewModel() {

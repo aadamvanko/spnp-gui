@@ -1,5 +1,8 @@
 package cz.muni.fi.spnp.gui.components.mainwindow.fileoperations;
 
+/**
+ * Base class for the file operations concerning the model.
+ */
 public abstract class ModelFileOperation {
 
     public static final String SETTINGS_FILENAME = "settings.properties";

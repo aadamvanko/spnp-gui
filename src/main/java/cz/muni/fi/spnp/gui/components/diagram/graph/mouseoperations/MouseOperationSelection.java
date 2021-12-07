@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Mouse operation for selecting elements in the graph via the rectangular area.
+ */
 public class MouseOperationSelection extends MouseOperation {
 
     private final Rectangle rectangleSelection;

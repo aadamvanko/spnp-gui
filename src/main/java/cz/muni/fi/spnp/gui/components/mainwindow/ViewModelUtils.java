@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Utility class providing mainly search and filter capabilities on the view models collections.
+ */
 public final class ViewModelUtils {
 
     public static <T> Stream<T> onlyElements(Class<T> viewModelClass, List<ElementViewModel> elements) {

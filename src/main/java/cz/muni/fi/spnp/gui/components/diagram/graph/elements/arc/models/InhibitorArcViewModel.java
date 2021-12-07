@@ -4,6 +4,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.common.ConnectableViewModel;
 
 import java.util.List;
 
+/**
+ * View model for the inhibitor arc.
+ */
 public class InhibitorArcViewModel extends ArcViewModel {
 
     public InhibitorArcViewModel() {

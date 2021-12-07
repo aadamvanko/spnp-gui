@@ -14,6 +14,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.views.Im
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.views.TimedTransitionView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.views.TransitionView;
 
+/**
+ * Creates the view for the given view model and graph view.
+ */
 public class GraphElementViewFactory {
 
     private final GraphView graphView;

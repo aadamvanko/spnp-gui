@@ -7,6 +7,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
+/**
+ * Regular arrow ending for the standard arcs.
+ */
 public class ArcEndingArrow implements ArcEnding {
 
     public static double LENGTH = 8;

@@ -24,6 +24,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Functions categories component located in the right side panel.
+ */
 public class FunctionsCategoriesComponent extends TreeViewContainer<FunctionViewModel> {
 
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;

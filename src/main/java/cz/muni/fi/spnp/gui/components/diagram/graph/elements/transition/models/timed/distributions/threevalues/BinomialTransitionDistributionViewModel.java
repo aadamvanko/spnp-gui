@@ -8,6 +8,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Binomial transition distribution view model for the timed transition.
+ */
 public class BinomialTransitionDistributionViewModel extends ThreeValuesTransitionDistributionBaseViewModel {
 
     public BinomialTransitionDistributionViewModel() {

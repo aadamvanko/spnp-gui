@@ -9,6 +9,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Exponential transition distribution view model for the timed transition.
+ */
 public class ExponentialTransitionDistributionViewModel extends SingleValueTransitionDistributionBaseViewModel {
 
     public ExponentialTransitionDistributionViewModel() {

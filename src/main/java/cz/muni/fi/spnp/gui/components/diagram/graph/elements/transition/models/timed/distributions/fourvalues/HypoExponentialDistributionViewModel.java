@@ -7,6 +7,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Hypo exponential distribution view model for the timed transition.
+ */
 public class HypoExponentialDistributionViewModel extends FourValuesTransitionDistributionBaseViewModel {
 
     public HypoExponentialDistributionViewModel() {

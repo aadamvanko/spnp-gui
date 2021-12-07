@@ -7,6 +7,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Erlang transition distribution view model for the timed transition.
+ */
 public class ErlangTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     public ErlangTransitionDistributionViewModel() {

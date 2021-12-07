@@ -10,6 +10,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Pareto transition distribution view model for the timed transition.
+ */
 public class ParetoTransitionDistributionViewModel extends TwoValuesTransitionDistributionBaseViewModel {
 
     public ParetoTransitionDistributionViewModel() {

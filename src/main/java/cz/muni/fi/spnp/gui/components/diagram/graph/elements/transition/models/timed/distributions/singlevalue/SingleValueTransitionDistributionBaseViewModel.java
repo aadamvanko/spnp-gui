@@ -11,6 +11,9 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
+/**
+ * Base class for single value transition distribution view model for timed transition.
+ */
 public abstract class SingleValueTransitionDistributionBaseViewModel extends TransitionDistributionBaseViewModel {
 
     protected SingleValueTransitionDistributionBaseViewModel() {

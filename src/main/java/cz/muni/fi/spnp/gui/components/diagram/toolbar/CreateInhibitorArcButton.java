@@ -6,6 +6,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
+/**
+ * Button for creating inhibitor arcs.
+ */
 public class CreateInhibitorArcButton extends CustomImageToggleButton {
     public CreateInhibitorArcButton(EventHandler<MouseEvent> onClickHandler) {
         super(onClickHandler);

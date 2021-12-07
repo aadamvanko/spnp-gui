@@ -35,6 +35,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Allows copy creation of the view models. Useful for editing of the view models in the view windows.
+ */
 public class ViewModelCopyFactory {
 
     private final Map<ElementViewModel, ElementViewModel> originalToCopy;
