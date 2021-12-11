@@ -167,9 +167,6 @@ public class OptionsView extends UIWindowComponent {
 
         stage.setScene(scene);
         stage.setTitle("Simulation & Analysis Options");
-        stage.setResizable(false);
-        stage.setWidth(322);
-        stage.setHeight(519);
 
         if (simulationOptionsViewModel.getIOP_SIMULATION() == VAL_YES) {
             radioButtonSimulation.setSelected(true);

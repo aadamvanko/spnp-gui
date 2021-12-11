@@ -46,7 +46,6 @@ public class AboutWindow extends UIWindowComponent {
 
         stage.setScene(scene);
         stage.setTitle("About");
-        stage.setResizable(false);
     }
 
 }
