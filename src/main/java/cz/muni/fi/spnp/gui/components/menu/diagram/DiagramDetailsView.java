@@ -55,8 +55,7 @@ public class DiagramDetailsView extends UIWindowComponent {
         choiceBoxProject = new ChoiceBox<>();
         choiceBoxProject.setConverter(new ProjectViewModelStringConverter(model));
         choiceBoxProject.setItems(model.getProjects());
-        GridPane.setHgrow(choiceBoxProject, Priority.ALWAYS);
-        choiceBoxProject.minWidthProperty().bind(textFieldName.widthProperty());
+        choiceBoxProject.prefWidthProperty().bind(textFieldName.widthProperty());
         gridPane.add(choiceBoxProject, 1, 1);
         gridPane.setHgap(5);
         gridPane.setVgap(5);
@@ -139,7 +138,6 @@ public class DiagramDetailsView extends UIWindowComponent {
         stage.setTitle(titleMode + " Diagram");
         stage.setScene(scene);
         stage.setMinWidth(250);
-        stage.setResizable(false);
     }
 
 }

@@ -95,7 +95,6 @@ public class ProjectDetailsView extends UIWindowComponent {
         stage.setTitle(titleMode + " Project");
         stage.setScene(scene);
         stage.setMinWidth(250);
-        stage.setResizable(false);
     }
 
 }

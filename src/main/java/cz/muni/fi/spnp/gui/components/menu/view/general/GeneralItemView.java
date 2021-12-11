@@ -114,7 +114,6 @@ public abstract class GeneralItemView<TViewModel> extends UIWindowComponent {
 
         stage.setScene(scene);
         stage.setMinWidth(300);
-        stage.setResizable(false);
     }
 
     private void closeWindow() {
