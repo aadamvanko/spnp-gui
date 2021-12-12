@@ -138,7 +138,7 @@ public class DiagramDetailsView extends UIWindowComponent {
         stage.setTitle(titleMode + " Diagram");
         stage.setScene(scene);
         stage.setMinWidth(250);
-        stage.setMinHeight(140);
+        stage.setMinHeight(100);
     }
 
 }

@@ -46,7 +46,7 @@ public class AboutWindow extends UIWindowComponent {
 
         stage.setScene(scene);
         stage.setMinWidth(400);
-        stage.setMinHeight(200);
+        stage.setMinHeight(100);
         stage.setTitle("About");
     }
 

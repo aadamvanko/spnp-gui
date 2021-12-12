@@ -92,7 +92,7 @@ public class SettingsView extends UIWindowComponent {
         stage.setTitle("Settings");
         stage.setScene(scene);
         stage.setMinWidth(370);
-        stage.setMinHeight(230);
+        stage.setMinHeight(150);
     }
 
     private void chooseDirectoryPathSPNP() {
