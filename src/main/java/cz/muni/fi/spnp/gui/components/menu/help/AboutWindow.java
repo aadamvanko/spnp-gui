@@ -37,7 +37,7 @@ public class AboutWindow extends UIWindowComponent {
         vBox.setSpacing(5);
         vBox.setAlignment(Pos.CENTER);
 
-        var scene = new Scene(vBox, 400, 175);
+        var scene = new Scene(vBox, 400, 200);
         scene.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ESCAPE) {
                 stage.close();
@@ -45,6 +45,8 @@ public class AboutWindow extends UIWindowComponent {
         });
 
         stage.setScene(scene);
+        stage.setMinWidth(400);
+        stage.setMinHeight(200);
         stage.setTitle("About");
     }
 
