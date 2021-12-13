@@ -5,9 +5,9 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.FunctionViewModelStringConverter;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyChoiceBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class FunctionalMultiplicitySubEditor extends ArcMultiplicitySubEditor {
 
     private Label multiplicityFunctionLabel;
-    private ChoiceBox<FunctionViewModel> multiplicityFunctionChoiceBox;
+    private MyChoiceBox<FunctionViewModel> multiplicityFunctionChoiceBox;
 
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
 
@@ -30,7 +30,7 @@ public class FunctionalMultiplicitySubEditor extends ArcMultiplicitySubEditor {
 
     private void createView() {
         multiplicityFunctionLabel = new Label("Multiplicity function:");
-        multiplicityFunctionChoiceBox = new ChoiceBox<>();
+        multiplicityFunctionChoiceBox = new MyChoiceBox<>();
         addRow(multiplicityFunctionLabel, multiplicityFunctionChoiceBox);
     }
 
@@ -42,7 +42,7 @@ public class FunctionalMultiplicitySubEditor extends ArcMultiplicitySubEditor {
 //        System.out.println("changed");
         var functionsCopy = FXCollections.observableArrayList(arcCardinalityFunctions);
         functionsCopy.add(0, null);
-        multiplicityFunctionChoiceBox.setItems(functionsCopy);
+        multiplicityFunctionChoiceBox.setItemsWithSelected(functionsCopy);
     }
 
     @Override

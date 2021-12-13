@@ -6,9 +6,9 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmode
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.TransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.FunctionViewModelStringConverter;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyChoiceBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ public class FunctionalProbabilityPropertiesSubEditor extends TransitionProbabil
 
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
     private Label functionLabel;
-    private ChoiceBox<FunctionViewModel> functionChoiceBox;
+    private MyChoiceBox<FunctionViewModel> functionChoiceBox;
 
     public FunctionalProbabilityPropertiesSubEditor() {
         createView();
@@ -30,7 +30,7 @@ public class FunctionalProbabilityPropertiesSubEditor extends TransitionProbabil
 
     private void createView() {
         functionLabel = new Label("Function:");
-        functionChoiceBox = new ChoiceBox<>();
+        functionChoiceBox = new MyChoiceBox<>();
 
         addRow(functionLabel, functionChoiceBox);
     }
@@ -41,7 +41,7 @@ public class FunctionalProbabilityPropertiesSubEditor extends TransitionProbabil
                 .collect(Collectors.toList());
         var functionsCopy = FXCollections.observableArrayList(probabilityFunctions);
         functionsCopy.add(0, null);
-        functionChoiceBox.setItems(functionsCopy);
+        functionChoiceBox.setItemsWithSelected(functionsCopy);
     }
 
     @Override

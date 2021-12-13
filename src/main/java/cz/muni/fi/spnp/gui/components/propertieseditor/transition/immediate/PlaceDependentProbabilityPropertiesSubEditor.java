@@ -5,10 +5,10 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.PlaceDependentTransitionProbabilityViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.immediate.TransitionProbabilityViewModel;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyChoiceBox;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.PlaceViewModelStringConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -21,7 +21,7 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
     private Label valueLabel;
     private TextField valueTextField;
     private Label dependentPlaceLabel;
-    private ChoiceBox<PlaceViewModel> dependentPlaceChoiceBox;
+    private MyChoiceBox<PlaceViewModel> dependentPlaceChoiceBox;
 
     public PlaceDependentProbabilityPropertiesSubEditor() {
         createView();
@@ -35,14 +35,14 @@ public class PlaceDependentProbabilityPropertiesSubEditor extends TransitionProb
         addRow(valueLabel, valueTextField);
 
         dependentPlaceLabel = new Label("Dependent place:");
-        dependentPlaceChoiceBox = new ChoiceBox<>();
+        dependentPlaceChoiceBox = new MyChoiceBox<>();
         addRow(dependentPlaceLabel, dependentPlaceChoiceBox);
     }
 
     private void onPlacesChangedListener(ListChangeListener.Change<? extends ElementViewModel> placesChange) {
         var placesCopy = FXCollections.observableArrayList(diagramViewModel.getPlaces());
         placesCopy.add(0, null);
-        dependentPlaceChoiceBox.setItems(placesCopy);
+        dependentPlaceChoiceBox.setItemsWithSelected(placesCopy);
     }
 
     @Override

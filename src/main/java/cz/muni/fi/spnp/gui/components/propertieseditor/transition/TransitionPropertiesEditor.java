@@ -9,6 +9,7 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.ElementPropertiesEditor;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.FunctionViewModelStringConverter;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.IntegerTextField;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyChoiceBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
@@ -25,7 +26,7 @@ public abstract class TransitionPropertiesEditor extends ElementPropertiesEditor
     private final Label priorityLabel;
     private final IntegerTextField priorityTextField;
     private final Label guardFunctionLabel;
-    private final ChoiceBox<FunctionViewModel> guardFunctionChoiceBox;
+    private final MyChoiceBox<FunctionViewModel> guardFunctionChoiceBox;
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
     private final Label orientationLabel;
     private final ChoiceBox<TransitionOrientation> orientationChoiceBox;
@@ -36,7 +37,7 @@ public abstract class TransitionPropertiesEditor extends ElementPropertiesEditor
         addRow(priorityLabel, priorityTextField.getTextField());
 
         guardFunctionLabel = new Label("Guard function:");
-        guardFunctionChoiceBox = new ChoiceBox<>();
+        guardFunctionChoiceBox = new MyChoiceBox<>();
         addRow(guardFunctionLabel, guardFunctionChoiceBox);
 
         orientationLabel = new Label("Orientation:");
@@ -58,7 +59,7 @@ public abstract class TransitionPropertiesEditor extends ElementPropertiesEditor
                 .collect(Collectors.toList());
         var functionsCopy = FXCollections.observableArrayList(guardFunctions);
         functionsCopy.add(0, null);
-        guardFunctionChoiceBox.setItems(functionsCopy);
+        guardFunctionChoiceBox.setItemsWithSelected(functionsCopy);
     }
 
     @Override

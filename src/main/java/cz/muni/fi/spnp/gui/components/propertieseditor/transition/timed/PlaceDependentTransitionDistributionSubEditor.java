@@ -4,11 +4,11 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.timed.distributions.TransitionDistributionViewModel;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyChoiceBox;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.PlaceViewModelStringConverter;
 import cz.muni.fi.spnp.gui.components.propertieseditor.transition.PropertiesEditorRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class PlaceDependentTransitionDistributionSubEditor extends ConstantTrans
 
     private final ListChangeListener<? super ElementViewModel> onPlacesChangedListener;
     private Label dependentPlaceLabel;
-    private ChoiceBox<PlaceViewModel> dependentPlaceChoiceBox;
+    private MyChoiceBox<PlaceViewModel> dependentPlaceChoiceBox;
     private PropertiesEditorRow dependentPlaceRow;
 
     public PlaceDependentTransitionDistributionSubEditor() {
@@ -33,14 +33,14 @@ public class PlaceDependentTransitionDistributionSubEditor extends ConstantTrans
 
     private void createView() {
         dependentPlaceLabel = new Label("Dependent place:");
-        dependentPlaceChoiceBox = new ChoiceBox<>();
+        dependentPlaceChoiceBox = new MyChoiceBox<>();
         dependentPlaceRow = new PropertiesEditorRow(dependentPlaceLabel, dependentPlaceChoiceBox);
     }
 
     private void onPlacesChangedListener(ListChangeListener.Change<? extends ElementViewModel> placesChange) {
         var placesCopy = FXCollections.observableArrayList(diagramViewModel.getPlaces());
         placesCopy.add(0, null);
-        dependentPlaceChoiceBox.setItems(placesCopy);
+        dependentPlaceChoiceBox.setItemsWithSelected(placesCopy);
     }
 
     @Override

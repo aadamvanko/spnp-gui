@@ -5,10 +5,10 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.timed.distributions.TransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.FunctionViewModelStringConverter;
+import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyChoiceBox;
 import cz.muni.fi.spnp.gui.components.propertieseditor.transition.PropertiesEditorRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class FunctionalTransitionDistributionSubEditor extends TransitionDistrib
 
     private final ListChangeListener<? super FunctionViewModel> onFunctionsChangedListener;
     private List<Label> valuesLabels;
-    private List<ChoiceBox<FunctionViewModel>> functionsChoiceBoxes;
+    private List<MyChoiceBox<FunctionViewModel>> functionsChoiceBoxes;
 
     public FunctionalTransitionDistributionSubEditor() {
         createView();
@@ -36,7 +36,7 @@ public class FunctionalTransitionDistributionSubEditor extends TransitionDistrib
         for (int i = 0; i < 4; i++) {
             var valueLabel = new Label("Value:");
             valuesLabels.add(valueLabel);
-            var functionChoiceBox = new ChoiceBox<FunctionViewModel>();
+            var functionChoiceBox = new MyChoiceBox<FunctionViewModel>();
             functionsChoiceBoxes.add(functionChoiceBox);
             addRow(valueLabel, functionChoiceBox);
         }
@@ -48,7 +48,7 @@ public class FunctionalTransitionDistributionSubEditor extends TransitionDistrib
                 .collect(Collectors.toList());
         var functionsCopy = FXCollections.observableArrayList(distributionFunctions);
         functionsCopy.add(0, null);
-        functionsChoiceBoxes.forEach(functionChoiceBox -> functionChoiceBox.setItems(functionsCopy));
+        functionsChoiceBoxes.forEach(functionChoiceBox -> functionChoiceBox.setItemsWithSelected(functionsCopy));
     }
 
     @Override
