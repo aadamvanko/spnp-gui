@@ -19,6 +19,7 @@ import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Visual representation of the arc.
@@ -427,6 +428,14 @@ public abstract class ArcView extends GraphElementView {
 
     public Group getGroupSymbols() {
         return groupSymbols;
+    }
+
+    public List<Point2D> getAllPoints() {
+        var lineSegments = new ArrayList<Point2D>();
+        lineSegments.add(fromElementView.getShapeCenter());
+        lineSegments.addAll(dragPointViews.stream().map(DragPointView::getShapeCenter).collect(Collectors.toList()));
+        lineSegments.add(toElementView.getShapeCenter());
+        return lineSegments;
     }
 
 }

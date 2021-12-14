@@ -7,6 +7,7 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.Drag
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views.ArcView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views.DragPointView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.interfaces.MouseSelectable;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
@@ -83,6 +84,34 @@ public class MouseOperationSelection extends MouseOperation {
                     arcView.getViewModel().highlightedProperty().set(true);
                     selected.add(arcView);
                 }
+            }
+        }
+
+        // try selecting the nearest arc
+        if (selected.isEmpty() && rectangleSelection.getWidth() <= 1 && rectangleSelection.getHeight() <= 1) {
+            var mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+            ArcView nearestArc = null;
+            double minimalDistance = Double.MAX_VALUE;
+            final double LINE_SELECTION_DISTANCE = 7;
+
+            for (var element : graphView.getGraphElementViews()) {
+                if (element instanceof ArcView) {
+                    var arcView = (ArcView) element;
+                    var allPoints = arcView.getAllPoints();
+                    for (int i = 0; i < allPoints.size() - 1; i++) {
+                        var distance = VectorOperations.calculateDistance(allPoints.get(i), allPoints.get(i + 1), mousePosition);
+                        if (distance <= LINE_SELECTION_DISTANCE) {
+                            if (nearestArc == null || distance < minimalDistance) {
+                                nearestArc = arcView;
+                                minimalDistance = distance;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (nearestArc != null) {
+                selected.add(nearestArc);
             }
         }
 
