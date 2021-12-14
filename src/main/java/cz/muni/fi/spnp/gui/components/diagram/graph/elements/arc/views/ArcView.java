@@ -438,4 +438,8 @@ public abstract class ArcView extends GraphElementView {
         return lineSegments;
     }
 
+    public List<Line> getLines() {
+        return lines;
+    }
+
 }

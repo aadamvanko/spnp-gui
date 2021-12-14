@@ -9,6 +9,7 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views.DragPoint
 import cz.muni.fi.spnp.gui.components.diagram.graph.interfaces.MouseSelectable;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -36,6 +37,41 @@ public class MouseOperationSelection extends MouseOperation {
         rectangleSelection.setVisible(true);
         rectangleSelection.setTranslateX(mouseEvent.getX());
         rectangleSelection.setTranslateY(mouseEvent.getY());
+
+        // try selecting the nearest arc
+        var mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+        ArcView nearestArc = null;
+        Line lineSegment = null;
+        double minimalDistance = Double.MAX_VALUE;
+        final double LINE_SELECTION_DISTANCE = 7;
+
+        for (var element : graphView.getGraphElementViews()) {
+            if (element instanceof ArcView) {
+                var arcView = (ArcView) element;
+                var allPoints = arcView.getAllPoints();
+                for (int i = 0; i < allPoints.size() - 1; i++) {
+                    var distance = VectorOperations.calculateDistance(allPoints.get(i), allPoints.get(i + 1), mousePosition);
+                    if (distance <= LINE_SELECTION_DISTANCE) {
+                        if (nearestArc == null || distance < minimalDistance) {
+                            nearestArc = arcView;
+                            minimalDistance = distance;
+                            lineSegment = arcView.getLines().get(i);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (nearestArc != null) {
+            var enrichedMouseEvent = new MouseEvent(lineSegment, lineSegment, mouseEvent.getEventType(),
+                    mouseEvent.getX(), mouseEvent.getY(),
+                    mouseEvent.getScreenX(), mouseEvent.getScreenY(),
+                    mouseEvent.getButton(), mouseEvent.getClickCount(),
+                    mouseEvent.isShiftDown(), mouseEvent.isControlDown(), mouseEvent.isAltDown(), mouseEvent.isMetaDown(),
+                    mouseEvent.isPrimaryButtonDown(), mouseEvent.isMiddleButtonDown(), mouseEvent.isSecondaryButtonDown(),
+                    mouseEvent.isSynthesized(), mouseEvent.isPopupTrigger(), mouseEvent.isStillSincePress(), null);
+            nearestArc.onMousePressedHandler(enrichedMouseEvent);
+        }
     }
 
     @Override
@@ -84,34 +120,6 @@ public class MouseOperationSelection extends MouseOperation {
                     arcView.getViewModel().highlightedProperty().set(true);
                     selected.add(arcView);
                 }
-            }
-        }
-
-        // try selecting the nearest arc
-        if (selected.isEmpty() && rectangleSelection.getWidth() <= 1 && rectangleSelection.getHeight() <= 1) {
-            var mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-            ArcView nearestArc = null;
-            double minimalDistance = Double.MAX_VALUE;
-            final double LINE_SELECTION_DISTANCE = 7;
-
-            for (var element : graphView.getGraphElementViews()) {
-                if (element instanceof ArcView) {
-                    var arcView = (ArcView) element;
-                    var allPoints = arcView.getAllPoints();
-                    for (int i = 0; i < allPoints.size() - 1; i++) {
-                        var distance = VectorOperations.calculateDistance(allPoints.get(i), allPoints.get(i + 1), mousePosition);
-                        if (distance <= LINE_SELECTION_DISTANCE) {
-                            if (nearestArc == null || distance < minimalDistance) {
-                                nearestArc = arcView;
-                                minimalDistance = distance;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (nearestArc != null) {
-                selected.add(nearestArc);
             }
         }
 

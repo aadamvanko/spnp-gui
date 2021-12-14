@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.mouseoperations;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphElementView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
+import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views.DragPointView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.interfaces.Movable;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
@@ -51,5 +52,9 @@ public class MouseOperationMoving extends MouseOperation {
         }
 
         graphView.adjustCanvasSize();
+        if (graphView.getSelectedViews().size() == 1 && graphView.getSelectedViews().get(0) instanceof DragPointView) {
+            var dragPointView = (DragPointView) graphView.getSelectedViews().get(0);
+            dragPointView.getArcView().removeStraightConnections();
+        }
     }
 }

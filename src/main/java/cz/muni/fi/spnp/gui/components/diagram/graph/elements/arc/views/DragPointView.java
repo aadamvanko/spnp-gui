@@ -152,4 +152,9 @@ public class DragPointView extends GraphElementView implements MouseSelectable {
     public Node getContextMenuNode() {
         return rectangle;
     }
+
+    public ArcView getArcView() {
+        return arcView;
+    }
+
 }
