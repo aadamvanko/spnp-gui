@@ -1,12 +1,14 @@
 package cz.muni.fi.spnp.gui.components.diagram.graph.operations;
 
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.DragPointUtils;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.DragPointViewModel;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Delete operation for the diagram's elements.
@@ -29,6 +31,14 @@ public class OperationDeleteElements extends GraphElementsOperationBase implemen
             }
         });
         diagramViewModel.getElements().removeAll(selectedCopy);
+
+        // select the parent arc if possible
+        ArcViewModel arcToSelect = null;
+        if (!selectedCopy.isEmpty() && DragPointUtils.allSelectedAreSameArcDragPoints(diagramViewModel.getElements(), selectedCopy)) {
+            var dragPoint = (DragPointViewModel) selectedCopy.get(0);
+            arcToSelect = DragPointUtils.findArcByDragPoint(diagramViewModel.getElements(), dragPoint);
+        }
+
         selectedCopy.stream()
                 .filter(elementViewModel -> elementViewModel instanceof DragPointViewModel)
                 .forEach(dragPointViewModel -> {
@@ -43,6 +53,10 @@ public class OperationDeleteElements extends GraphElementsOperationBase implemen
                     });
                 });
         diagramViewModel.removeDisconnectedArcs();
+
+        if (arcToSelect != null) {
+            diagramViewModel.select(List.of(arcToSelect));
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels;
 
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
+import cz.muni.fi.spnp.gui.components.diagram.graph.canvas.VoidFunction;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ConnectableViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
@@ -13,14 +14,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * View model for the arc containing all the necessary data.
  */
 public abstract class ArcViewModel extends ElementViewModel {
 
-    private Callable<Void> removeStraightLinesCallback;
+    private VoidFunction removeStraightLinesCallback;
     private final ObjectProperty<ArcMultiplicityType> multiplicityType = new SimpleObjectProperty<>(ArcMultiplicityType.Constant);
     private final StringProperty multiplicity = new SimpleStringProperty("1");
     private final ObjectProperty<FunctionViewModel> multiplicityFunction = new SimpleObjectProperty<>();
@@ -76,11 +76,11 @@ public abstract class ArcViewModel extends ElementViewModel {
         }
     }
 
-    public Callable<Void> getRemoveStraightLinesCallback() {
+    public VoidFunction getRemoveStraightLinesCallback() {
         return removeStraightLinesCallback;
     }
 
-    public void setRemoveStraightLinesCallback(Callable<Void> removeStraightLinesCallback) {
+    public void setRemoveStraightLinesCallback(VoidFunction removeStraightLinesCallback) {
         this.removeStraightLinesCallback = removeStraightLinesCallback;
     }
 

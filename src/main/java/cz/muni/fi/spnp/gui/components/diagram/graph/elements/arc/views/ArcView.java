@@ -2,6 +2,7 @@ package cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.views;
 
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphElementView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphView;
+import cz.muni.fi.spnp.gui.components.diagram.graph.common.DragPointUtils;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.ConnectableGraphElementView;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcMultiplicityType;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
@@ -153,7 +154,6 @@ public abstract class ArcView extends GraphElementView {
         super.onMousePressedHandler(mouseEvent);
 
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            Point2D mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
             Line sourceLine = (Line) mouseEvent.getSource();
             getViewModel().getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
             lastAddedDragPointView.onMousePressedHandler(mouseEvent);
@@ -190,7 +190,6 @@ public abstract class ArcView extends GraphElementView {
         getViewModel().isFlushingProperty().addListener(this.onIsFlushingChangedListener);
         getViewModel().setRemoveStraightLinesCallback(() -> {
             this.removeStraightConnections();
-            return null;
         });
 
         onMultiplicityChangedListener(null, null, getViewModel().getMultiplicity());
@@ -372,14 +371,24 @@ public abstract class ArcView extends GraphElementView {
     }
 
     public void removeStraightConnections() {
+        var removedDragPoints = new ArrayList<DragPointViewModel>();
         for (int i = 0; i < dragPointViews.size(); ) {
             Line lineTo = lines.get(i);
             Line lineFrom = lines.get(i + 1);
             if (areInLine(getLineStart(lineTo), getLineEnd(lineTo), getLineEnd(lineFrom))) {
-                getViewModel().getDragPoints().remove(dragPointViews.get(i).getViewModel());
+                var dragPointViewModel = dragPointViews.get(i).getViewModel();
+                getViewModel().getDragPoints().remove(dragPointViewModel);
+                removedDragPoints.add(dragPointViewModel);
             } else {
                 i++;
             }
+        }
+
+        var viewModels = graphView.getDiagramViewModel().getElements();
+        var selectedViewModels = graphView.getDiagramViewModel().getSelected();
+        if (!selectedViewModels.isEmpty() && DragPointUtils.allSelectedAreSameArcDragPoints(viewModels, selectedViewModels) &&
+                removedDragPoints.containsAll(selectedViewModels)) {
+            graphView.getDiagramViewModel().select(List.of(getViewModel()));
         }
     }
 
@@ -404,7 +413,7 @@ public abstract class ArcView extends GraphElementView {
     public void destroyDragPointView(DragPointView dragPointView) {
         groupSymbols.getChildren().remove(dragPointView.getMiddleLayerContainer());
         dragPointView.removedFromParent();
-        dragPointView.setGraphView(null);
+//        dragPointView.setGraphView(null);
         dragPointView.unbindViewModel();
 
         int index = dragPointViews.indexOf(dragPointView);
