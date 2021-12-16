@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -255,11 +256,19 @@ public class GraphView implements UIComponent {
 
         initialMousePosition = new Point2D(mouseEvent.getScreenX(), mouseEvent.getScreenY());
         if (mouseEvent.getButton() == MouseButton.PRIMARY && model.getCursorMode() == CursorMode.VIEW) {
-            mouseOperation = new MouseOperationSelection(this);
+            if (trySelectingNearestArc(mouseEvent)) {
+                return;
+            } else {
+                mouseOperation = new MouseOperationSelection(this);
+            }
         } else if (mouseEvent.getButton() == MouseButton.PRIMARY && isCreateModeConnectable()) {
             mouseOperation = new MouseOperationCreateConnectable(this, model);
         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            mouseOperation = new MouseOperationPanning(this);
+            if (trySelectingNearestArc(mouseEvent)) {
+                return;
+            } else {
+                mouseOperation = new MouseOperationPanning(this);
+            }
         } else {
             model.cursorModeProperty().set(CursorMode.VIEW);
         }
@@ -268,6 +277,45 @@ public class GraphView implements UIComponent {
             return;
         }
         mouseOperation.mousePressedHandler(null, mouseEvent);
+    }
+
+    private boolean trySelectingNearestArc(MouseEvent mouseEvent) {
+        var mousePosition = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+        ArcView nearestArc = null;
+        Line lineSegment = null;
+        double minimalDistance = Double.MAX_VALUE;
+        final double LINE_SELECTION_DISTANCE = 7;
+
+        for (var element : graphElementViews) {
+            if (element instanceof ArcView) {
+                var arcView = (ArcView) element;
+                var allPoints = arcView.getAllPoints();
+                for (int i = 0; i < allPoints.size() - 1; i++) {
+                    var distance = VectorOperations.calculateDistance(allPoints.get(i), allPoints.get(i + 1), mousePosition);
+                    if (distance <= LINE_SELECTION_DISTANCE) {
+                        if (nearestArc == null || distance < minimalDistance) {
+                            nearestArc = arcView;
+                            minimalDistance = distance;
+                            lineSegment = arcView.getLines().get(i);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (nearestArc != null) {
+            var enrichedMouseEvent = new MouseEvent(lineSegment, lineSegment, mouseEvent.getEventType(),
+                    mouseEvent.getX(), mouseEvent.getY(),
+                    mouseEvent.getScreenX(), mouseEvent.getScreenY(),
+                    mouseEvent.getButton(), mouseEvent.getClickCount(),
+                    mouseEvent.isShiftDown(), mouseEvent.isControlDown(), mouseEvent.isAltDown(), mouseEvent.isMetaDown(),
+                    mouseEvent.isPrimaryButtonDown(), mouseEvent.isMiddleButtonDown(), mouseEvent.isSecondaryButtonDown(),
+                    mouseEvent.isSynthesized(), mouseEvent.isPopupTrigger(), mouseEvent.isStillSincePress(), null);
+            nearestArc.onMousePressedHandler(enrichedMouseEvent);
+            return true;
+        }
+
+        return false;
     }
 
     private boolean isCreateModeConnectable() {
