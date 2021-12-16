@@ -118,6 +118,7 @@ public class MenuComponent extends ApplicationComponent {
         menuItemDelete.setAccelerator(new KeyCodeCombination(KeyCode.DELETE));
         menuItemDelete.setOnAction(actionEvent -> new OperationDeleteElements(model, model.selectedDiagramProperty().get()).execute());
         menuEdit.getItems().addAll(menuItemSelectAll, menuItemPaste, menuItemCopy, menuItemCut, menuItemDelete);
+        menuEdit.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuBar.getMenus().add(menuEdit);
 
         Menu menuView = new Menu("_View");
@@ -132,37 +133,34 @@ public class MenuComponent extends ApplicationComponent {
         definesWindowView = new DefinesTableViewWindow(model);
         menuItemViewDefines = new MenuItem("_Defines");
         menuItemViewDefines.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN));
-        menuItemViewDefines.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewDefines.setOnAction(actionEvent -> definesWindowView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewDefines);
 
         variablesWindowView = new VariablesTableViewWindow(model);
         menuItemViewVariables = new MenuItem("Varia_bles");
         menuItemViewVariables.setAccelerator(new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN));
-        menuItemViewVariables.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewVariables.setOnAction(actionEvent -> variablesWindowView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewVariables);
 
         inputParametersTableViewWindow = new InputParametersTableViewWindow(model);
         menuItemViewInputParameters = new MenuItem("Input _Parameters");
         menuItemViewInputParameters.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN));
-        menuItemViewInputParameters.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewInputParameters.setOnAction(actionEvent -> inputParametersTableViewWindow.getStage().showAndWait());
 //        menuView.getItems().add(menuItemViewInputParameters);
 
         functionsView = new FunctionsView();
         menuItemViewFunctions = new MenuItem("_Functions");
         menuItemViewFunctions.setAccelerator(new KeyCodeCombination(KeyCode.F, KeyCombination.CONTROL_DOWN));
-        menuItemViewFunctions.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuItemViewFunctions.setOnAction(actionEvent -> functionsView.getStage().showAndWait());
         menuView.getItems().add(menuItemViewFunctions);
-        menuBar.getMenus().add(menuView);
 
         menuView.getItems().add(new SeparatorMenuItem());
 
         menuItemShowTransitionDetails = new CheckMenuItem("_Show Transition Details");
-        menuItemShowTransitionDetails.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuView.getItems().add(menuItemShowTransitionDetails);
+
+        menuView.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuBar.getMenus().add(menuView);
 
         var menuSimulation = new Menu("_Analysis");
 
