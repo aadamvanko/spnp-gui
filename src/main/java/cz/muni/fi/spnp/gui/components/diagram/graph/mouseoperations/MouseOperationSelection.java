@@ -105,23 +105,34 @@ public class MouseOperationSelection extends MouseOperation {
                     element.getViewModel().highlightedProperty().set(true);
                     selected.add(element);
                 }
-            } else if (element instanceof ArcView) {
+            }
+        }
+
+        for (var element : graphView.getGraphElementViews()) {
+            if (element instanceof ArcView) {
                 var arcView = (ArcView) element;
-                for (var dragPointView : arcView.getDragPointViews()) {
-                    if (rectangleSelection.getBoundsInParent().contains(dragPointView.getShapeCenter())) {
-                        dragPointView.getViewModel().highlightedProperty().set(true);
-                        selected.add(dragPointView);
+                if (arcView.hasHighlightedEnds()) {
+                    arcView.getViewModel().highlightedProperty().set(true);
+                    selected.add(arcView);
+
+                    // add all drag points, otherwise they cannot be moved
+                    arcView.getDragPointViews().forEach(dragPointView -> {
+                        if (!selected.contains(dragPointView)) {
+                            dragPointView.getViewModel().highlightedProperty().set(true);
+                            selected.add(dragPointView);
+                        }
+                    });
+                } else {
+                    for (var dragPointView : arcView.getDragPointViews()) {
+                        if (rectangleSelection.getBoundsInParent().contains(dragPointView.getShapeCenter())) {
+                            dragPointView.getViewModel().highlightedProperty().set(true);
+                            selected.add(dragPointView);
+                        }
                     }
-                }
-                if (!arcView.getDragPointViews().isEmpty() && areAllDragPointsHighlighted(arcView)) {
-                    arcView.getViewModel().highlightedProperty().set(true);
-                    selected.add(arcView);
-                } else if (arcView.getDragPointViews().isEmpty() && arcView.hasHighlightedEnds()) {
-                    arcView.getViewModel().highlightedProperty().set(true);
-                    selected.add(arcView);
                 }
             }
         }
+
 
         var selectedViewModels = selected.stream().map(GraphElementView::getViewModel).collect(Collectors.toList());
         graphView.getDiagramViewModel().select(selectedViewModels);
