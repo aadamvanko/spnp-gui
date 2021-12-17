@@ -37,11 +37,28 @@ public abstract class GraphElementsOperationBase implements GraphElementsOperati
         this.diagramViewModel = diagramViewModel;
     }
 
-
     protected List<ElementViewModel> filterOutDragPoints(List<ElementViewModel> selected) {
         return selected.stream()
                 .filter(elementViewModel -> !(elementViewModel instanceof DragPointViewModel))
                 .collect(Collectors.toList());
+    }
+
+    protected List<ElementViewModel> filterOutDisconnectedArcs(List<ElementViewModel> elements) {
+        return elements.stream()
+                .filter(elementViewModel -> !isDisconnectedArc(elements, elementViewModel))
+                .collect(Collectors.toList());
+    }
+
+    protected boolean isDisconnectedArc(List<ElementViewModel> elements, ElementViewModel elementViewModel) {
+        if (elementViewModel instanceof ArcViewModel) {
+            var arcViewModel = (ArcViewModel) elementViewModel;
+            var containsFrom = elements.contains(arcViewModel.getFromViewModel());
+            var containsTo = elements.contains(arcViewModel.getToViewModel());
+            var connected = containsTo && containsFrom;
+            var disconnected = !connected;
+            return disconnected;
+        }
+        return false;
     }
 
     protected List<ElementViewModel> createViewModelsCopies(List<ElementViewModel> selectedWithoutDragPoints) {

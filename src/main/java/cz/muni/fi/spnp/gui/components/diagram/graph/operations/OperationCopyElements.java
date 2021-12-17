@@ -16,6 +16,7 @@ public class OperationCopyElements extends GraphElementsOperationBase {
     @Override
     public void execute() {
         var selectedWithoutDragPoints = filterOutDragPoints(diagramViewModel.getSelected());
+        selectedWithoutDragPoints = filterOutDisconnectedArcs(selectedWithoutDragPoints);
         removeUncutPlaceReferences(selectedWithoutDragPoints);
 
         model.getClipboardElements().clear();

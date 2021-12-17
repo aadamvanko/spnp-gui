@@ -1,8 +1,6 @@
 package cz.muni.fi.spnp.gui.components.diagram.graph.operations;
 
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
-import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcViewModel;
 import cz.muni.fi.spnp.gui.components.mainwindow.Clipboard;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 
@@ -18,6 +16,7 @@ public class OperationCutElements extends GraphElementsOperationBase {
     @Override
     public void execute() {
         var selectedWithoutDragPoints = filterOutDragPoints(diagramViewModel.getSelected());
+        selectedWithoutDragPoints = filterOutDisconnectedArcs(selectedWithoutDragPoints);
         removeUncutPlaceReferences(selectedWithoutDragPoints);
         model.getClipboardElements().clear();
         model.getClipboardElements().addAll(selectedWithoutDragPoints);
@@ -27,18 +26,7 @@ public class OperationCutElements extends GraphElementsOperationBase {
 
         diagramViewModel.getSelected().removeAll(selectedWithoutDragPoints);
         diagramViewModel.getElements().removeAll(selectedWithoutDragPoints);
-        diagramViewModel.getElements().removeIf(this::isDisconnectedArc);
-    }
-
-    private boolean isDisconnectedArc(ElementViewModel elementViewModel) {
-        if (elementViewModel instanceof ArcViewModel) {
-            var arcViewModel = (ArcViewModel) elementViewModel;
-            var containsFrom = diagramViewModel.getElements().contains(arcViewModel.getFromViewModel());
-            var containsTo = diagramViewModel.getElements().contains(arcViewModel.getToViewModel());
-            var containsExactlyOne = (containsFrom && !containsTo) || (!containsFrom && containsTo);
-            return containsExactlyOne;
-        }
-        return false;
+        diagramViewModel.getElements().removeIf(elementViewModel -> isDisconnectedArc(diagramViewModel.getElements(), elementViewModel));
     }
 
 }
