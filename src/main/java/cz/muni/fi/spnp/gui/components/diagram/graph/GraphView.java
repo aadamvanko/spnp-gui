@@ -304,14 +304,18 @@ public class GraphView implements UIComponent {
         }
 
         if (nearestArc != null) {
-            var enrichedMouseEvent = new MouseEvent(lineSegment, lineSegment, mouseEvent.getEventType(),
-                    mouseEvent.getX(), mouseEvent.getY(),
-                    mouseEvent.getScreenX(), mouseEvent.getScreenY(),
-                    mouseEvent.getButton(), mouseEvent.getClickCount(),
-                    mouseEvent.isShiftDown(), mouseEvent.isControlDown(), mouseEvent.isAltDown(), mouseEvent.isMetaDown(),
-                    mouseEvent.isPrimaryButtonDown(), mouseEvent.isMiddleButtonDown(), mouseEvent.isSecondaryButtonDown(),
-                    mouseEvent.isSynthesized(), mouseEvent.isPopupTrigger(), mouseEvent.isStillSincePress(), null);
-            nearestArc.onMousePressedHandler(enrichedMouseEvent);
+            if (mouseEvent.isControlDown()) {
+                diagramViewModel.select(List.of(nearestArc.getViewModel()));
+            } else {
+                var enrichedMouseEvent = new MouseEvent(lineSegment, lineSegment, mouseEvent.getEventType(),
+                        mouseEvent.getX(), mouseEvent.getY(),
+                        mouseEvent.getScreenX(), mouseEvent.getScreenY(),
+                        mouseEvent.getButton(), mouseEvent.getClickCount(),
+                        mouseEvent.isShiftDown(), mouseEvent.isControlDown(), mouseEvent.isAltDown(), mouseEvent.isMetaDown(),
+                        mouseEvent.isPrimaryButtonDown(), mouseEvent.isMiddleButtonDown(), mouseEvent.isSecondaryButtonDown(),
+                        mouseEvent.isSynthesized(), mouseEvent.isPopupTrigger(), mouseEvent.isStillSincePress(), null);
+                nearestArc.onMousePressedHandler(enrichedMouseEvent);
+            }
             return true;
         }
 
@@ -348,7 +352,6 @@ public class GraphView implements UIComponent {
 
     private void onMouseReleased(MouseEvent mouseEvent) {
         if (mouseOperation == null) {
-            diagramViewModel.resetSelection();
             return;
         }
         mouseOperation.mouseReleasedHandler(null, mouseEvent);

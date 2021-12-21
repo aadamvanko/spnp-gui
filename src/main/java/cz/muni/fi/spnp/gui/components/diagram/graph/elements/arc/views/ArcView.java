@@ -154,6 +154,10 @@ public abstract class ArcView extends GraphElementView {
         super.onMousePressedHandler(mouseEvent);
 
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+            if (mouseEvent.isControlDown()) {
+                return;
+            }
+
             Line sourceLine = (Line) mouseEvent.getSource();
             getViewModel().getDragPoints().add(lines.indexOf(sourceLine), new DragPointViewModel(mouseEvent.getX(), mouseEvent.getY()));
             lastAddedDragPointView.onMousePressedHandler(mouseEvent);
