@@ -22,9 +22,9 @@ import javafx.util.converter.IntegerStringConverter;
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
 /**
- * Window with the simulation and analysis options.
+ * View with the simulation and analysis options.
  */
-public class OptionsView extends UIWindowComponent {
+public class SimulationAndAnalysisOptionsView {
 
     private final SimulationOptionsViewModel simulationOptionsViewModel;
     private final AnalysisOptionsViewModel analysisOptionsViewModel;
@@ -56,8 +56,9 @@ public class OptionsView extends UIWindowComponent {
     private DoubleTextField textField_FOP_PRECISION;
 
     private Pane mainPane;
+    private BorderPane borderPane;
 
-    public OptionsView(Model model) {
+    public SimulationAndAnalysisOptionsView(Model model) {
         simulationOptionsViewModel = model.getSimulationOptions();
         analysisOptionsViewModel = model.getAnalysisOptions();
 
@@ -140,35 +141,13 @@ public class OptionsView extends UIWindowComponent {
         textField_FOP_PRECISION = new DoubleTextField();
         addRow(gridPaneNumericAnalysis, new Label("FOP_PRECISION"), textField_FOP_PRECISION.getTextField());
 
-        var paneSpacer = new Pane();
-        HBox.setHgrow(paneSpacer, Priority.ALWAYS);
-        var buttonClose = new Button("Close");
-        buttonClose.setOnAction(this::onButtonCloseHandler);
-
-        var buttonsPane = new HBox(paneSpacer, buttonClose);
-        buttonsPane.setSpacing(5);
-        buttonsPane.setPadding(new Insets(5));
-
         var topPane = new VBox(labelTitle, hboxSimulationMethods, new Separator(Orientation.HORIZONTAL));
         topPane.setSpacing(5);
 
-        var borderPane = new BorderPane();
+        borderPane = new BorderPane();
         borderPane.setTop(topPane);
         borderPane.setCenter(mainPane);
-        borderPane.setBottom(buttonsPane);
         borderPane.setPadding(new Insets(5));
-
-        var scene = new Scene(borderPane);
-        scene.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ESCAPE) {
-                stage.close();
-            }
-        });
-
-        stage.setScene(scene);
-        stage.setTitle("Simulation & Analysis Options");
-        stage.setMinWidth(325);
-        stage.setMinHeight(400);
 
         if (simulationOptionsViewModel.getIOP_SIMULATION() == VAL_YES) {
             radioButtonSimulation.setSelected(true);
@@ -177,12 +156,11 @@ public class OptionsView extends UIWindowComponent {
         }
     }
 
-    private void onButtonCloseHandler(ActionEvent actionEvent) {
-        unbindViewModels();
-        stage.close();
+    public Node getRoot() {
+        return borderPane;
     }
 
-    private void bindViewModels() {
+    public void bindViewModels() {
         textField_IOP_SIM_RUNS.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SIM_RUNSProperty().asObject(), new IntegerStringConverter());
         choiceBox_IOP_SIM_RUNMETHOD.valueProperty().bindBidirectional(simulationOptionsViewModel.IOP_SIM_RUNMETHODProperty());
         textField_IOP_SIM_SEED.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SIM_SEEDProperty().asObject(), new IntegerStringConverter());
@@ -208,7 +186,7 @@ public class OptionsView extends UIWindowComponent {
         textField_FOP_PRECISION.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.FOP_PRECISIONProperty().asObject(), new MyDoubleStringConverter());
     }
 
-    private void unbindViewModels() {
+    public void unbindViewModels() {
         textField_IOP_SIM_RUNS.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SIM_RUNSProperty().asObject());
         choiceBox_IOP_SIM_RUNMETHOD.valueProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SIM_RUNMETHODProperty());
         textField_IOP_SIM_SEED.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SIM_SEEDProperty().asObject());

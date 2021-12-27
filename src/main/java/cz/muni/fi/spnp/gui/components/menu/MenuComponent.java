@@ -5,9 +5,8 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramComponent;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.operations.*;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.menu.analysis.OptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.SettingsView;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateAndMiscellaneousOptionsView;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.OutputOptionsView;
 import cz.muni.fi.spnp.gui.components.menu.diagram.DiagramDetailsView;
 import cz.muni.fi.spnp.gui.components.menu.help.AboutWindow;
@@ -168,13 +167,11 @@ public class MenuComponent extends ApplicationComponent {
         menuItemSettings.setOnAction(actionEvent -> new SettingsView(model).getStage().showAndWait());
         menuSimulation.getItems().add(menuItemSettings);
 
-        var menuItemSimulationAnalysisOptions = new MenuItem("Simulation & _Analysis Options");
-        menuItemSimulationAnalysisOptions.setOnAction(actionEvent -> new OptionsView(model).getStage().showAndWait());
-        menuSimulation.getItems().add(menuItemSimulationAnalysisOptions);
-
-        var menuItemIntermediateMiscellaneousOptions = new MenuItem("_Intermediate & Miscellaneous Options");
-        menuItemIntermediateMiscellaneousOptions.setOnAction(actionEvent -> new IntermediateAndMiscellaneousOptionsView(model).getStage().showAndWait());
-        menuSimulation.getItems().add(menuItemIntermediateMiscellaneousOptions);
+        var menuItemOptions = new MenuItem("_Options");
+        menuItemOptions.setOnAction(actionEvent -> new OptionsView(model).getStage().showAndWait());
+        menuItemOptions.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
+        menuItemOptions.disableProperty().bind(model.selectedDiagramProperty().isNull());
+        menuSimulation.getItems().add(menuItemOptions);
 
         var menuItemRun = new MenuItem("_Run");
         menuItemRun.setOnAction(actionEvent -> new OutputOptionsView(model, model.selectedDiagramProperty().get(), false).getStage().showAndWait());

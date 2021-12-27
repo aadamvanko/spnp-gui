@@ -1,26 +1,24 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
 import cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue;
-import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.DoubleTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyDoubleStringConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
 /**
- * Window for the intermediate and miscellaneous options.
+ * View for the intermediate and miscellaneous options.
  */
-public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
+public class IntermediateAndMiscellaneousOptionsView {
 
     private final IntermediateOptionsViewModel intermediateOptionsViewModel;
     private final MiscellaneousOptionsViewModel miscellaneousOptionsViewModel;
@@ -49,6 +47,8 @@ public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
     private ChoiceBox<ConstantValue> choiceBox_IOP_DEBUG;
     private DoubleTextField textField_FOP_FLUID_EPSILON;
     private DoubleTextField textField_FOP_TIME_EPSILON;
+    private VBox vBoxIntermediate;
+    private VBox vBoxMiscellaneous;
 
     public IntermediateAndMiscellaneousOptionsView(Model model) {
         intermediateOptionsViewModel = model.getIntermediateOptions();
@@ -113,49 +113,22 @@ public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
         textField_FOP_TIME_EPSILON = new DoubleTextField();
         addRow(gridPaneMiscellaneous, new Label("FOP_TIME_EPSILON"), textField_FOP_TIME_EPSILON.getTextField());
 
-        var paneSpacer = new Pane();
-        HBox.setHgrow(paneSpacer, Priority.ALWAYS);
-        var buttonClose = new Button("Close");
-        buttonClose.setOnAction(this::onButtonCloseHandler);
-
-        var buttonsPane = new HBox(paneSpacer, buttonClose);
-        buttonsPane.setSpacing(5);
-        buttonsPane.setPadding(new Insets(5));
-
-        var vBoxIntermediate = new VBox(gridPaneIntermediate);
+        vBoxIntermediate = new VBox(gridPaneIntermediate);
         vBoxIntermediate.setPadding(new Insets(5));
-        var tabIntermediate = new Tab("Intermediate Options", vBoxIntermediate);
 
-        var vBoxMiscellaneous = new VBox(gridPaneMiscellaneous);
+        vBoxMiscellaneous = new VBox(gridPaneMiscellaneous);
         vBoxMiscellaneous.setPadding(new Insets(5));
-        var tabMiscellaneous = new Tab("Miscellaneous Options", vBoxMiscellaneous);
-
-        var tabPane = new TabPane(tabIntermediate, tabMiscellaneous);
-
-        var borderPane = new BorderPane();
-        borderPane.setCenter(tabPane);
-        borderPane.setBottom(buttonsPane);
-        borderPane.setPadding(new Insets(5));
-
-        var scene = new Scene(borderPane);
-        scene.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ESCAPE) {
-                stage.close();
-            }
-        });
-
-        stage.setScene(scene);
-        stage.setTitle("Intermediate & Miscellaneous Options");
-        stage.setMinWidth(315);
-        stage.setMinHeight(400);
     }
 
-    private void onButtonCloseHandler(ActionEvent actionEvent) {
-        unbindViewModels();
-        stage.close();
+    public Node getIntermediateView() {
+        return vBoxIntermediate;
     }
 
-    private void bindViewModels() {
+    public Node getMiscellaneousView() {
+        return vBoxMiscellaneous;
+    }
+
+    public void bindViewModels() {
         choiceBox_IOP_PR_RSET.valueProperty().bindBidirectional(intermediateOptionsViewModel.IOP_PR_RSETProperty());
         choiceBox_IOP_PR_RGRAPH.valueProperty().bindBidirectional(intermediateOptionsViewModel.IOP_PR_RGRAPHProperty());
         choiceBox_IOP_PR_MARK_ORDER.valueProperty().bindBidirectional(intermediateOptionsViewModel.IOP_PR_MARK_ORDERProperty());
@@ -180,7 +153,7 @@ public class IntermediateAndMiscellaneousOptionsView extends UIWindowComponent {
         textField_FOP_TIME_EPSILON.getTextField().textProperty().bindBidirectional(miscellaneousOptionsViewModel.FOP_TIME_EPSILONProperty().asObject(), new MyDoubleStringConverter());
     }
 
-    private void unbindViewModels() {
+    public void unbindViewModels() {
         choiceBox_IOP_PR_RSET.valueProperty().unbindBidirectional(intermediateOptionsViewModel.IOP_PR_RSETProperty());
         choiceBox_IOP_PR_RGRAPH.valueProperty().unbindBidirectional(intermediateOptionsViewModel.IOP_PR_RGRAPHProperty());
         choiceBox_IOP_PR_MARK_ORDER.valueProperty().unbindBidirectional(intermediateOptionsViewModel.IOP_PR_MARK_ORDERProperty());
