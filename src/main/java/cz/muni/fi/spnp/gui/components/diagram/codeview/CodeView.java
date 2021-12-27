@@ -39,7 +39,7 @@ public class CodeView implements UIComponent {
     public void prepare() {
         diagramViewModel.needsCodeRefreshProperty().set(false);
 
-        var diagramMapper = new DiagramMapper(model, diagramViewModel);
+        var diagramMapper = new DiagramMapper(diagramViewModel);
         PetriNet petriNet = null;
         try {
             petriNet = diagramMapper.createPetriNet();

@@ -123,7 +123,7 @@ public class CodePreviewView extends UIWindowComponent {
 
         diagramViewModel.getFunctions().addAll(outputOptionsResult.getFunctions());
 
-        var diagramMapper = new DiagramMapper(model, diagramViewModel);
+        var diagramMapper = new DiagramMapper(diagramViewModel);
         PetriNet petriNet = null;
         try {
             petriNet = diagramMapper.createPetriNet();

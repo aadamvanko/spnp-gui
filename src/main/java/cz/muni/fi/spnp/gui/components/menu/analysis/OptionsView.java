@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis;
 
 import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
-import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateAndMiscellaneousOptionsView;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationAndAnalysisOptionsView;
 import javafx.event.ActionEvent;
@@ -21,20 +21,20 @@ import javafx.scene.layout.Priority;
  */
 public class OptionsView extends UIWindowComponent {
 
-    private final Model model;
+    private final DiagramViewModel diagramViewModel;
 
     private SimulationAndAnalysisOptionsView simulationAndAnalysisOptionsView;
     private IntermediateAndMiscellaneousOptionsView intermediateAndMiscellaneousOptionsView;
 
-    public OptionsView(Model model) {
-        this.model = model;
+    public OptionsView(DiagramViewModel diagramViewModel) {
+        this.diagramViewModel = diagramViewModel;
 
         createView();
     }
 
     private void createView() {
-        simulationAndAnalysisOptionsView = new SimulationAndAnalysisOptionsView(model);
-        intermediateAndMiscellaneousOptionsView = new IntermediateAndMiscellaneousOptionsView(model);
+        simulationAndAnalysisOptionsView = new SimulationAndAnalysisOptionsView(diagramViewModel);
+        intermediateAndMiscellaneousOptionsView = new IntermediateAndMiscellaneousOptionsView(diagramViewModel);
 
         var simulationAnalysisTab = new Tab("Simulation & Analysis", simulationAndAnalysisOptionsView.getRoot());
         var intermediateTab = new Tab("Intermediate", intermediateAndMiscellaneousOptionsView.getIntermediateView());

@@ -1,7 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
 import cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue;
-import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.DoubleTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyDoubleStringConverter;
 import javafx.collections.FXCollections;
@@ -50,9 +50,9 @@ public class IntermediateAndMiscellaneousOptionsView {
     private VBox vBoxIntermediate;
     private VBox vBoxMiscellaneous;
 
-    public IntermediateAndMiscellaneousOptionsView(Model model) {
-        intermediateOptionsViewModel = model.getIntermediateOptions();
-        miscellaneousOptionsViewModel = model.getMiscellaneousOptions();
+    public IntermediateAndMiscellaneousOptionsView(DiagramViewModel diagramViewModel) {
+        intermediateOptionsViewModel = diagramViewModel.getIntermediateOptions();
+        miscellaneousOptionsViewModel = diagramViewModel.getMiscellaneousOptions();
 
         createView();
         bindViewModels();

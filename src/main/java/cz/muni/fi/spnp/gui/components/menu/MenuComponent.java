@@ -168,7 +168,7 @@ public class MenuComponent extends ApplicationComponent {
         menuSimulation.getItems().add(menuItemSettings);
 
         var menuItemOptions = new MenuItem("_Options");
-        menuItemOptions.setOnAction(actionEvent -> new OptionsView(model).getStage().showAndWait());
+        menuItemOptions.setOnAction(actionEvent -> new OptionsView(model.selectedDiagramProperty().get()).getStage().showAndWait());
         menuItemOptions.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
         menuItemOptions.disableProperty().bind(model.selectedDiagramProperty().isNull());
         menuSimulation.getItems().add(menuItemOptions);

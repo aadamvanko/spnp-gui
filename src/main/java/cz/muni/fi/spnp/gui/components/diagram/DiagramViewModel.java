@@ -7,6 +7,10 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcV
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.TransitionViewModel;
 import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelUtils;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.MiscellaneousOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationOptionsViewModel;
 import cz.muni.fi.spnp.gui.components.menu.project.ProjectViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionReturnType;
@@ -47,6 +51,11 @@ public class DiagramViewModel extends DisplayableViewModel {
     private final BooleanProperty needsCodeRefresh;
     private final BooleanProperty showTransitionDetails;
 
+    private final SimulationOptionsViewModel simulationOptions;
+    private final AnalysisOptionsViewModel analysisOptions;
+    private final IntermediateOptionsViewModel intermediateOptions;
+    private final MiscellaneousOptionsViewModel miscellaneousOptions;
+
     public DiagramViewModel(ProjectViewModel projectViewModel) {
         this(projectViewModel,
                 FXCollections.observableArrayList(),
@@ -80,6 +89,11 @@ public class DiagramViewModel extends DisplayableViewModel {
         selected = FXCollections.observableArrayList();
         needsCodeRefresh = new SimpleBooleanProperty(false);
         showTransitionDetails = new SimpleBooleanProperty(false);
+
+        simulationOptions = new SimulationOptionsViewModel();
+        analysisOptions = new AnalysisOptionsViewModel();
+        intermediateOptions = new IntermediateOptionsViewModel();
+        miscellaneousOptions = new MiscellaneousOptionsViewModel();
 
         this.elements.addListener(this::onElementsChangedListener);
         this.functions.addListener(this::onFunctionsChangedListener);
@@ -325,6 +339,23 @@ public class DiagramViewModel extends DisplayableViewModel {
                 .filter(elementViewModel -> elementViewModel.getName().equals(name))
                 .filter(elementClass::isInstance)
                 .count() >= 2;
+    }
+
+
+    public SimulationOptionsViewModel getSimulationOptions() {
+        return simulationOptions;
+    }
+
+    public AnalysisOptionsViewModel getAnalysisOptions() {
+        return analysisOptions;
+    }
+
+    public IntermediateOptionsViewModel getIntermediateOptions() {
+        return intermediateOptions;
+    }
+
+    public MiscellaneousOptionsViewModel getMiscellaneousOptions() {
+        return miscellaneousOptions;
     }
 
 }

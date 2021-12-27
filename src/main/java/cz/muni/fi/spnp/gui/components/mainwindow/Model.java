@@ -4,10 +4,6 @@ import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.CursorMode;
 import cz.muni.fi.spnp.gui.components.diagram.graph.GraphElementType;
 import cz.muni.fi.spnp.gui.components.diagram.graph.common.ElementViewModel;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateOptionsViewModel;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.MiscellaneousOptionsViewModel;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationOptionsViewModel;
 import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.output.OutputOptionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.project.ProjectViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
@@ -42,10 +38,6 @@ public class Model {
     private final StringProperty pathPlotsLibrary;
 
     private final List<OutputOptionViewModel> outputOptions;
-    private final SimulationOptionsViewModel simulationOptions;
-    private final AnalysisOptionsViewModel analysisOptions;
-    private final IntermediateOptionsViewModel intermediateOptions;
-    private final MiscellaneousOptionsViewModel miscellaneousOptions;
 
     private final ExecutorService executorService;
     private final ObjectProperty<Task<Void>> runningSimulationTask;
@@ -64,10 +56,6 @@ public class Model {
         pathPlotsLibrary = new SimpleStringProperty("C:\\Spnp-Gui\\GRAPH_examples");
 
         outputOptions = new ArrayList<>();
-        simulationOptions = new SimulationOptionsViewModel();
-        analysisOptions = new AnalysisOptionsViewModel();
-        intermediateOptions = new IntermediateOptionsViewModel();
-        miscellaneousOptions = new MiscellaneousOptionsViewModel();
 
         executorService = Executors.newSingleThreadExecutor();
         runningSimulationTask = new SimpleObjectProperty<>();
@@ -145,22 +133,6 @@ public class Model {
 
     public List<OutputOptionViewModel> getOutputOptions() {
         return outputOptions;
-    }
-
-    public SimulationOptionsViewModel getSimulationOptions() {
-        return simulationOptions;
-    }
-
-    public AnalysisOptionsViewModel getAnalysisOptions() {
-        return analysisOptions;
-    }
-
-    public IntermediateOptionsViewModel getIntermediateOptions() {
-        return intermediateOptions;
-    }
-
-    public MiscellaneousOptionsViewModel getMiscellaneousOptions() {
-        return miscellaneousOptions;
     }
 
     public Task<Void> getRunningSimulationTask() {

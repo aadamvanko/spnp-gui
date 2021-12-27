@@ -1,21 +1,17 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
 import cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue;
-import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
-import cz.muni.fi.spnp.gui.components.mainwindow.Model;
+import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.DoubleTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.IntegerTextField;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyDoubleStringConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -58,9 +54,9 @@ public class SimulationAndAnalysisOptionsView {
     private Pane mainPane;
     private BorderPane borderPane;
 
-    public SimulationAndAnalysisOptionsView(Model model) {
-        simulationOptionsViewModel = model.getSimulationOptions();
-        analysisOptionsViewModel = model.getAnalysisOptions();
+    public SimulationAndAnalysisOptionsView(DiagramViewModel diagramViewModel) {
+        simulationOptionsViewModel = diagramViewModel.getSimulationOptions();
+        analysisOptionsViewModel = diagramViewModel.getAnalysisOptions();
 
         createView();
         bindViewModels();
