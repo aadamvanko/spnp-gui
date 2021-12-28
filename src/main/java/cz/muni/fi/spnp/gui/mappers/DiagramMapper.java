@@ -10,10 +10,7 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.arc.viewmodels.ArcV
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.place.PlaceViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.TransitionViewModel;
 import cz.muni.fi.spnp.gui.components.mainwindow.ViewModelUtils;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateOptionsViewModel;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.MiscellaneousOptionsViewModel;
-import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -143,17 +140,37 @@ public class DiagramMapper {
     }
 
     private Collection<? extends Option> mapAnalysisOptions(AnalysisOptionsViewModel analysisOptions) {
-        return List.of(
-                new ConstantTypeOption(IOP_MC, analysisOptions.getIOP_MC()),
-                new ConstantTypeOption(IOP_SSMETHOD, analysisOptions.getIOP_SSMETHOD()),
-                new ConstantTypeOption(IOP_SSDETECT, analysisOptions.getIOP_SSDETECT()),
-                new DoubleTypeOption(FOP_SSPRES, analysisOptions.getFOP_SSPRES()),
-                new ConstantTypeOption(IOP_TSMETHOD, analysisOptions.getIOP_TSMETHOD()),
-                new ConstantTypeOption(IOP_CUMULATIVE, analysisOptions.getIOP_CUMULATIVE()),
-                new ConstantTypeOption(IOP_SENSITIVITY, analysisOptions.getIOP_SENSITIVITY()),
-                new IntegerTypeOption(IOP_ITERATIONS, analysisOptions.getIOP_ITERATIONS()),
-                new DoubleTypeOption(FOP_PRECISION, analysisOptions.getFOP_PRECISION())
-        );
+        var options = new ArrayList<Option>();
+
+        addOptionIfUsed(options, IOP_MC, analysisOptions.getIOP_MC());
+        addOptionIfUsed(options, IOP_SSMETHOD, analysisOptions.getIOP_SSMETHOD());
+        addOptionIfUsed(options, IOP_SSDETECT, analysisOptions.getIOP_SSDETECT());
+        addOptionIfUsed(options, FOP_SSPRES, analysisOptions.getFOP_SSPRES());
+        addOptionIfUsed(options, IOP_TSMETHOD, analysisOptions.getIOP_TSMETHOD());
+        addOptionIfUsed(options, IOP_CUMULATIVE, analysisOptions.getIOP_CUMULATIVE());
+        addOptionIfUsed(options, IOP_SENSITIVITY, analysisOptions.getIOP_SENSITIVITY());
+        addOptionIfUsed(options, IOP_ITERATIONS, analysisOptions.getIOP_ITERATIONS());
+        addOptionIfUsed(options, FOP_PRECISION, analysisOptions.getFOP_PRECISION());
+
+        return options;
+    }
+
+    private void addOptionIfUsed(List<Option> options, OptionKey optionKey, ConstantValueOptionViewModel constantValueOptionViewModel) {
+        if (constantValueOptionViewModel.useProperty().get()) {
+            options.add(new ConstantTypeOption(optionKey, constantValueOptionViewModel.getValue()));
+        }
+    }
+
+    private void addOptionIfUsed(List<Option> options, OptionKey optionKey, IntegerOptionViewModel integerOptionViewModel) {
+        if (integerOptionViewModel.useProperty().get()) {
+            options.add(new IntegerTypeOption(optionKey, integerOptionViewModel.getValue()));
+        }
+    }
+
+    private void addOptionIfUsed(List<Option> options, OptionKey optionKey, DoubleOptionViewModel doubleOptionViewModel) {
+        if (doubleOptionViewModel.useProperty().get()) {
+            options.add(new DoubleTypeOption(optionKey, doubleOptionViewModel.getValue()));
+        }
     }
 
     private Collection<? extends Option> mapIntermediateOptions(IntermediateOptionsViewModel intermediateOptions) {

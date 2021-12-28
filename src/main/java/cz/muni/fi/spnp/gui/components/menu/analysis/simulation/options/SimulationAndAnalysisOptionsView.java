@@ -41,15 +41,15 @@ public class SimulationAndAnalysisOptionsView {
     private DoubleTextField textField_FOP_SIM_ERROR;
 
     private GridPane gridPaneNumericAnalysis;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_MC;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_SSMETHOD;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_SSDETECT;
-    private DoubleTextField textField_FOP_SSPRES;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_TSMETHOD;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_CUMULATIVE;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_SENSITIVTY;
-    private IntegerTextField textField_IOP_ITERATIONS;
-    private DoubleTextField textField_FOP_PRECISION;
+    private ChoiceOptionView IOP_MC;
+    private ChoiceOptionView IOP_SSMETHOD;
+    private ChoiceOptionView IOP_SSDETECT;
+    private DoubleOptionView FOP_SSPRES;
+    private ChoiceOptionView IOP_TSMETHOD;
+    private ChoiceOptionView IOP_CUMULATIVE;
+    private ChoiceOptionView IOP_SENSITIVTY;
+    private IntegerOptionView IOP_ITERATIONS;
+    private DoubleOptionView FOP_PRECISION;
 
     private Pane mainPane;
     private BorderPane borderPane;
@@ -117,25 +117,26 @@ public class SimulationAndAnalysisOptionsView {
         gridPaneNumericAnalysis = new GridPane();
         gridPaneNumericAnalysis.setHgap(5);
         gridPaneNumericAnalysis.setVgap(5);
+        gridPaneNumericAnalysis.addRow(0, new Label("Option"), new Label("Value"), new Label("Use"));
 
-        choiceBox_IOP_MC = new ChoiceBox<>(FXCollections.observableArrayList(VAL_CTMC, VAL_DTMC));
-        addRow(gridPaneNumericAnalysis, new Label("IOP_MC"), choiceBox_IOP_MC);
-        choiceBox_IOP_SSMETHOD = new ChoiceBox<>(FXCollections.observableArrayList(VAL_SSSOR, VAL_GASEI, VAL_POWER));
-        addRow(gridPaneNumericAnalysis, new Label("IOP_SSMETHOD"), choiceBox_IOP_SSMETHOD);
-        choiceBox_IOP_SSDETECT = new ChoiceBox<>(createBooleanConstants());
-        addRow(gridPaneNumericAnalysis, new Label("IOP_SSDETECT"), choiceBox_IOP_SSDETECT);
-        textField_FOP_SSPRES = new DoubleTextField();
-        addRow(gridPaneNumericAnalysis, new Label("FOP_SSPRES"), textField_FOP_SSPRES.getTextField());
-        choiceBox_IOP_TSMETHOD = new ChoiceBox<>(FXCollections.observableArrayList(VAL_TSUNIF, VAL_FOXUNIF));
-        addRow(gridPaneNumericAnalysis, new Label("IOP_TSMETHOD"), choiceBox_IOP_TSMETHOD);
-        choiceBox_IOP_CUMULATIVE = new ChoiceBox<>(createBooleanConstants());
-        addRow(gridPaneNumericAnalysis, new Label("IOP_CUMULATIVE"), choiceBox_IOP_CUMULATIVE);
-        choiceBox_IOP_SENSITIVTY = new ChoiceBox<>(createBooleanConstants());
-        addRow(gridPaneNumericAnalysis, new Label("IOP_SENSITIVITY"), choiceBox_IOP_SENSITIVTY);
-        textField_IOP_ITERATIONS = new IntegerTextField();
-        addRow(gridPaneNumericAnalysis, new Label("IOP_ITERATIONS"), textField_IOP_ITERATIONS.getTextField());
-        textField_FOP_PRECISION = new DoubleTextField();
-        addRow(gridPaneNumericAnalysis, new Label("FOP_PRECISION"), textField_FOP_PRECISION.getTextField());
+        IOP_MC = new ChoiceOptionView("IOP_MC", FXCollections.observableArrayList(VAL_CTMC, VAL_DTMC));
+        addRow(gridPaneNumericAnalysis, IOP_MC);
+        IOP_SSMETHOD = new ChoiceOptionView("IOP_SSMETHOD", FXCollections.observableArrayList(VAL_SSSOR, VAL_GASEI, VAL_POWER));
+        addRow(gridPaneNumericAnalysis, IOP_SSMETHOD);
+        IOP_SSDETECT = new ChoiceOptionView("IOP_SSDETECT", createBooleanConstants());
+        addRow(gridPaneNumericAnalysis, IOP_SSDETECT);
+        FOP_SSPRES = new DoubleOptionView("FOP_SSPRES");
+        addRow(gridPaneNumericAnalysis, FOP_SSPRES);
+        IOP_TSMETHOD = new ChoiceOptionView("IOP_TSMETHOD", FXCollections.observableArrayList(VAL_TSUNIF, VAL_FOXUNIF));
+        addRow(gridPaneNumericAnalysis, IOP_TSMETHOD);
+        IOP_CUMULATIVE = new ChoiceOptionView("IOP_CUMULATIVE", createBooleanConstants());
+        addRow(gridPaneNumericAnalysis, IOP_CUMULATIVE);
+        IOP_SENSITIVTY = new ChoiceOptionView("IOP_SENSITIVITY", createBooleanConstants());
+        addRow(gridPaneNumericAnalysis, IOP_SENSITIVTY);
+        IOP_ITERATIONS = new IntegerOptionView("IOP_ITERATIONS");
+        addRow(gridPaneNumericAnalysis, IOP_ITERATIONS);
+        FOP_PRECISION = new DoubleOptionView("FOP_PRECISION");
+        addRow(gridPaneNumericAnalysis, FOP_PRECISION);
 
         var topPane = new VBox(labelTitle, hboxSimulationMethods, new Separator(Orientation.HORIZONTAL));
         topPane.setSpacing(5);
@@ -171,15 +172,15 @@ public class SimulationAndAnalysisOptionsView {
         textField_FOP_SIM_CONFIDENCE.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_CONFIDENCEProperty().asObject(), new MyDoubleStringConverter());
         textField_FOP_SIM_ERROR.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_ERRORProperty().asObject(), new MyDoubleStringConverter());
 
-        choiceBox_IOP_MC.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_MCProperty());
-        choiceBox_IOP_SSMETHOD.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_SSMETHODProperty());
-        choiceBox_IOP_SSDETECT.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_SSDETECTProperty());
-        textField_FOP_SSPRES.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.FOP_SSPRESProperty().asObject(), new MyDoubleStringConverter());
-        choiceBox_IOP_TSMETHOD.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_TSMETHODProperty());
-        choiceBox_IOP_CUMULATIVE.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_CUMULATIVEProperty());
-        choiceBox_IOP_SENSITIVTY.valueProperty().bindBidirectional(analysisOptionsViewModel.IOP_SENSITIVITYProperty());
-        textField_IOP_ITERATIONS.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.IOP_ITERATIONSProperty().asObject(), new IntegerStringConverter());
-        textField_FOP_PRECISION.getTextField().textProperty().bindBidirectional(analysisOptionsViewModel.FOP_PRECISIONProperty().asObject(), new MyDoubleStringConverter());
+        IOP_MC.bind(analysisOptionsViewModel.getIOP_MC());
+        IOP_SSMETHOD.bind(analysisOptionsViewModel.getIOP_SSMETHOD());
+        IOP_SSDETECT.bind(analysisOptionsViewModel.getIOP_SSDETECT());
+        FOP_SSPRES.bind(analysisOptionsViewModel.getFOP_SSPRES());
+        IOP_TSMETHOD.bind(analysisOptionsViewModel.getIOP_TSMETHOD());
+        IOP_CUMULATIVE.bind(analysisOptionsViewModel.getIOP_CUMULATIVE());
+        IOP_SENSITIVTY.bind(analysisOptionsViewModel.getIOP_SENSITIVITY());
+        IOP_ITERATIONS.bind(analysisOptionsViewModel.getIOP_ITERATIONS());
+        FOP_PRECISION.bind(analysisOptionsViewModel.getFOP_PRECISION());
     }
 
     public void unbindViewModels() {
@@ -197,15 +198,15 @@ public class SimulationAndAnalysisOptionsView {
         textField_FOP_SIM_CONFIDENCE.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.FOP_SIM_CONFIDENCEProperty().asObject());
         textField_FOP_SIM_ERROR.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.FOP_SIM_ERRORProperty().asObject());
 
-        choiceBox_IOP_MC.valueProperty().unbindBidirectional(analysisOptionsViewModel.IOP_MCProperty());
-        choiceBox_IOP_SSMETHOD.valueProperty().unbindBidirectional(analysisOptionsViewModel.IOP_SSMETHODProperty());
-        choiceBox_IOP_SSDETECT.valueProperty().unbindBidirectional(analysisOptionsViewModel.IOP_SSDETECTProperty());
-        textField_FOP_SSPRES.getTextField().textProperty().unbindBidirectional(analysisOptionsViewModel.FOP_SSPRESProperty().asObject());
-        choiceBox_IOP_TSMETHOD.valueProperty().unbindBidirectional(analysisOptionsViewModel.IOP_TSMETHODProperty());
-        choiceBox_IOP_CUMULATIVE.valueProperty().unbindBidirectional(analysisOptionsViewModel.IOP_CUMULATIVEProperty());
-        choiceBox_IOP_SENSITIVTY.valueProperty().unbindBidirectional(analysisOptionsViewModel.IOP_SENSITIVITYProperty());
-        textField_IOP_ITERATIONS.getTextField().textProperty().unbindBidirectional(analysisOptionsViewModel.IOP_ITERATIONSProperty().asObject());
-        textField_FOP_PRECISION.getTextField().textProperty().unbindBidirectional(analysisOptionsViewModel.FOP_PRECISIONProperty().asObject());
+        IOP_MC.unbind();
+        IOP_SSMETHOD.unbind();
+        IOP_SSDETECT.unbind();
+        FOP_SSPRES.unbind();
+        IOP_TSMETHOD.unbind();
+        IOP_CUMULATIVE.unbind();
+        IOP_SENSITIVTY.unbind();
+        IOP_ITERATIONS.unbind();
+        FOP_PRECISION.unbind();
     }
 
     private void onSimulationSelectedHandler(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -232,6 +233,20 @@ public class SimulationAndAnalysisOptionsView {
 
     private void addRow(GridPane gridPane, Node left, Node right) {
         gridPane.addRow(gridPane.getRowCount(), left, right);
+    }
+
+    private void addRow(GridPane gridPane, ChoiceOptionView choiceOptionView) {
+        gridPane.addRow(gridPane.getRowCount(), choiceOptionView.getLabelName(), choiceOptionView.getChoiceBoxValue(), choiceOptionView.getCheckBoxUse());
+    }
+
+    private void addRow(GridPane gridPane, IntegerOptionView integerOptionView) {
+        gridPane.addRow(gridPane.getRowCount(), integerOptionView.getLabelName(),
+                integerOptionView.getIntegerTextFieldValue().getTextField(), integerOptionView.getCheckBoxUse());
+    }
+
+    private void addRow(GridPane gridPane, DoubleOptionView doubleOptionView) {
+        gridPane.addRow(gridPane.getRowCount(), doubleOptionView.getLabelName(),
+                doubleOptionView.getDoubleTextFieldValue().getTextField(), doubleOptionView.getCheckBoxUse());
     }
 
 }
