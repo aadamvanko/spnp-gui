@@ -2,18 +2,17 @@ package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
 import cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
-import cz.muni.fi.spnp.gui.components.propertieseditor.common.DoubleTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.common.IntegerTextField;
-import cz.muni.fi.spnp.gui.components.propertieseditor.common.MyDoubleStringConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.*;
-import javafx.util.converter.IntegerStringConverter;
 
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
@@ -26,19 +25,19 @@ public class SimulationAndAnalysisOptionsView {
     private final AnalysisOptionsViewModel analysisOptionsViewModel;
 
     private GridPane gridPaneSimulation;
-    private IntegerTextField textField_IOP_SIM_RUNS;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_SIM_RUNMETHOD;
-    private IntegerTextField textField_IOP_SIM_SEED;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_SIM_CUMULATIVE;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_SIM_STD_REPORT;
-    private IntegerTextField textField_IOP_SPLIT_LEVEL_DOWN;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_SPLIT_PRESIM;
-    private IntegerTextField textField_IOP_SPLIT_NUMBER;
-    private ChoiceBox<ConstantValue> choiceBox_IOP_SPLIT_RESTART_FINISH;
-    private IntegerTextField textField_IOP_SPLIT_PRESIM_RUNS;
-    private DoubleTextField textField_FOP_SIM_LENGTH;
-    private DoubleTextField textField_FOP_SIM_CONFIDENCE;
-    private DoubleTextField textField_FOP_SIM_ERROR;
+    private IntegerOptionView IOP_SIM_RUNS;
+    private ChoiceOptionView IOP_SIM_RUNMETHOD;
+    private IntegerOptionView IOP_SIM_SEED;
+    private ChoiceOptionView IOP_SIM_CUMULATIVE;
+    private ChoiceOptionView IOP_SIM_STD_REPORT;
+    private IntegerOptionView IOP_SPLIT_LEVEL_DOWN;
+    private ChoiceOptionView IOP_SPLIT_PRESIM;
+    private IntegerOptionView IOP_SPLIT_NUMBER;
+    private ChoiceOptionView IOP_SPLIT_RESTART_FINISH;
+    private IntegerOptionView IOP_SPLIT_PRESIM_RUNS;
+    private DoubleOptionView FOP_SIM_LENGTH;
+    private DoubleOptionView FOP_SIM_CONFIDENCE;
+    private DoubleOptionView FOP_SIM_ERROR;
 
     private GridPane gridPaneNumericAnalysis;
     private ChoiceOptionView IOP_MC;
@@ -85,34 +84,35 @@ public class SimulationAndAnalysisOptionsView {
         gridPaneSimulation = new GridPane();
         gridPaneSimulation.setHgap(5);
         gridPaneSimulation.setVgap(5);
+        gridPaneSimulation.addRow(0, new Label("Option"), new Label("Value"), new Label("Use"));
 
-        textField_IOP_SIM_RUNS = new IntegerTextField();
-        addRow(gridPaneSimulation, new Label("IOP_SIM_RUNS"), textField_IOP_SIM_RUNS.getTextField());
-        choiceBox_IOP_SIM_RUNMETHOD = new ChoiceBox<>(FXCollections.observableArrayList(
-                VAL_REPL, VAL_BATCH, VAL_RESTART, VAL_SPLIT, VAL_IS, VAL_THIN, VAL_ISTHIN, VAL_REG, VAL_ISREG));
-        addRow(gridPaneSimulation, new Label("IOP_SIM_RUNMETHOD"), choiceBox_IOP_SIM_RUNMETHOD);
-        textField_IOP_SIM_SEED = new IntegerTextField();
-        addRow(gridPaneSimulation, new Label("IOP_SIM_SEED"), textField_IOP_SIM_SEED.getTextField());
-        choiceBox_IOP_SIM_CUMULATIVE = new ChoiceBox<>(createBooleanConstants());
-        addRow(gridPaneSimulation, new Label("IOP_SIM_CUMULATIVE"), choiceBox_IOP_SIM_CUMULATIVE);
-        choiceBox_IOP_SIM_STD_REPORT = new ChoiceBox<>(createBooleanConstants());
-        addRow(gridPaneSimulation, new Label("IOP_SIM_STD_REPORT"), choiceBox_IOP_SIM_STD_REPORT);
-        textField_IOP_SPLIT_LEVEL_DOWN = new IntegerTextField();
-        addRow(gridPaneSimulation, new Label("IOP_SPLIT_LEVEL_DOWN"), textField_IOP_SPLIT_LEVEL_DOWN.getTextField());
-        choiceBox_IOP_SPLIT_PRESIM = new ChoiceBox<>(createBooleanConstants());
-        addRow(gridPaneSimulation, new Label("IOP_SPLIT_PRESIM"), choiceBox_IOP_SPLIT_PRESIM);
-        textField_IOP_SPLIT_NUMBER = new IntegerTextField();
-        addRow(gridPaneSimulation, new Label("IOP_SPLIT_NUMBER"), textField_IOP_SPLIT_NUMBER.getTextField());
-        choiceBox_IOP_SPLIT_RESTART_FINISH = new ChoiceBox<>(createBooleanConstants());
-        addRow(gridPaneSimulation, new Label("IOP_SPLIT_RESTART_FINISH"), choiceBox_IOP_SPLIT_RESTART_FINISH);
-        textField_IOP_SPLIT_PRESIM_RUNS = new IntegerTextField();
-        addRow(gridPaneSimulation, new Label("IOP_SPLIT_PRESIM_RUNS"), textField_IOP_SPLIT_PRESIM_RUNS.getTextField());
-        textField_FOP_SIM_LENGTH = new DoubleTextField();
-        addRow(gridPaneSimulation, new Label("FOP_SIM_LENGTH"), textField_FOP_SIM_LENGTH.getTextField());
-        textField_FOP_SIM_CONFIDENCE = new DoubleTextField();
-        addRow(gridPaneSimulation, new Label("FOP_SIM_CONFIDENCE"), textField_FOP_SIM_CONFIDENCE.getTextField());
-        textField_FOP_SIM_ERROR = new DoubleTextField();
-        addRow(gridPaneSimulation, new Label("FOP_SIM_ERROR"), textField_FOP_SIM_ERROR.getTextField());
+        IOP_SIM_RUNS = new IntegerOptionView("IOP_SIM_RUNS");
+        addRow(gridPaneSimulation, IOP_SIM_RUNS);
+        IOP_SIM_RUNMETHOD = new ChoiceOptionView("IOP_SIM_RUNMETHOD",
+                FXCollections.observableArrayList(VAL_REPL, VAL_BATCH, VAL_RESTART, VAL_SPLIT, VAL_IS, VAL_THIN, VAL_ISTHIN, VAL_REG, VAL_ISREG));
+        addRow(gridPaneSimulation, IOP_SIM_RUNMETHOD);
+        IOP_SIM_SEED = new IntegerOptionView("IOP_SIM_SEED");
+        addRow(gridPaneSimulation, IOP_SIM_SEED);
+        IOP_SIM_CUMULATIVE = new ChoiceOptionView("IOP_SIM_CUMULATIVE", createBooleanConstants());
+        addRow(gridPaneSimulation, IOP_SIM_CUMULATIVE);
+        IOP_SIM_STD_REPORT = new ChoiceOptionView("IOP_SIM_STD_REPORT", createBooleanConstants());
+        addRow(gridPaneSimulation, IOP_SIM_STD_REPORT);
+        IOP_SPLIT_LEVEL_DOWN = new IntegerOptionView("IOP_SPLIT_LEVEL_DOWN");
+        addRow(gridPaneSimulation, IOP_SPLIT_LEVEL_DOWN);
+        IOP_SPLIT_PRESIM = new ChoiceOptionView("IOP_SPLIT_PRESIM", createBooleanConstants());
+        addRow(gridPaneSimulation, IOP_SPLIT_PRESIM);
+        IOP_SPLIT_NUMBER = new IntegerOptionView("IOP_SPLIT_NUMBER");
+        addRow(gridPaneSimulation, IOP_SPLIT_NUMBER);
+        IOP_SPLIT_RESTART_FINISH = new ChoiceOptionView("IOP_SPLIT_RESTART_FINISH", createBooleanConstants());
+        addRow(gridPaneSimulation, IOP_SPLIT_RESTART_FINISH);
+        IOP_SPLIT_PRESIM_RUNS = new IntegerOptionView("IOP_SPLIT_PRESIM_RUNS");
+        addRow(gridPaneSimulation, IOP_SPLIT_PRESIM_RUNS);
+        FOP_SIM_LENGTH = new DoubleOptionView("FOP_SIM_LENGTH");
+        addRow(gridPaneSimulation, FOP_SIM_LENGTH);
+        FOP_SIM_CONFIDENCE = new DoubleOptionView("FOP_SIM_CONFIDENCE");
+        addRow(gridPaneSimulation, FOP_SIM_CONFIDENCE);
+        FOP_SIM_ERROR = new DoubleOptionView("FOP_SIM_ERROR");
+        addRow(gridPaneSimulation, FOP_SIM_ERROR);
 
         gridPaneNumericAnalysis = new GridPane();
         gridPaneNumericAnalysis.setHgap(5);
@@ -146,7 +146,7 @@ public class SimulationAndAnalysisOptionsView {
         borderPane.setCenter(mainPane);
         borderPane.setPadding(new Insets(5));
 
-        if (simulationOptionsViewModel.getIOP_SIMULATION() == VAL_YES) {
+        if (simulationOptionsViewModel.getIOP_SIMULATION().getValue() == VAL_YES) {
             radioButtonSimulation.setSelected(true);
         } else {
             radioButtonNumericAnalysis.setSelected(true);
@@ -158,19 +158,19 @@ public class SimulationAndAnalysisOptionsView {
     }
 
     public void bindViewModels() {
-        textField_IOP_SIM_RUNS.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SIM_RUNSProperty().asObject(), new IntegerStringConverter());
-        choiceBox_IOP_SIM_RUNMETHOD.valueProperty().bindBidirectional(simulationOptionsViewModel.IOP_SIM_RUNMETHODProperty());
-        textField_IOP_SIM_SEED.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SIM_SEEDProperty().asObject(), new IntegerStringConverter());
-        choiceBox_IOP_SIM_CUMULATIVE.valueProperty().bindBidirectional(simulationOptionsViewModel.IOP_SIM_CUMULATIVEProperty());
-        choiceBox_IOP_SIM_STD_REPORT.valueProperty().bindBidirectional(simulationOptionsViewModel.IOP_SIM_STD_REPORTProperty());
-        textField_IOP_SPLIT_LEVEL_DOWN.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SPLIT_LEVEL_DOWNProperty().asObject(), new IntegerStringConverter());
-        choiceBox_IOP_SPLIT_PRESIM.valueProperty().bindBidirectional(simulationOptionsViewModel.IOP_SPLIT_PRESIMProperty());
-        textField_IOP_SPLIT_NUMBER.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SPLIT_NUMBERProperty().asObject(), new IntegerStringConverter());
-        choiceBox_IOP_SPLIT_RESTART_FINISH.valueProperty().bindBidirectional(simulationOptionsViewModel.IOP_SPLIT_RESTART_FINISHProperty());
-        textField_IOP_SPLIT_PRESIM_RUNS.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.IOP_SPLIT_PRESIM_RUNSProperty().asObject(), new IntegerStringConverter());
-        textField_FOP_SIM_LENGTH.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_LENGTHProperty().asObject(), new MyDoubleStringConverter());
-        textField_FOP_SIM_CONFIDENCE.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_CONFIDENCEProperty().asObject(), new MyDoubleStringConverter());
-        textField_FOP_SIM_ERROR.getTextField().textProperty().bindBidirectional(simulationOptionsViewModel.FOP_SIM_ERRORProperty().asObject(), new MyDoubleStringConverter());
+        IOP_SIM_RUNS.bind(simulationOptionsViewModel.getIOP_SIM_RUNS());
+        IOP_SIM_RUNMETHOD.bind(simulationOptionsViewModel.getIOP_SIM_RUNMETHOD());
+        IOP_SIM_SEED.bind(simulationOptionsViewModel.getIOP_SIM_SEED());
+        IOP_SIM_CUMULATIVE.bind(simulationOptionsViewModel.getIOP_SIM_CUMULATIVE());
+        IOP_SIM_STD_REPORT.bind(simulationOptionsViewModel.getIOP_SIM_STD_REPORT());
+        IOP_SPLIT_LEVEL_DOWN.bind(simulationOptionsViewModel.getIOP_SPLIT_LEVEL_DOWN());
+        IOP_SPLIT_PRESIM.bind(simulationOptionsViewModel.getIOP_SPLIT_PRESIM());
+        IOP_SPLIT_NUMBER.bind(simulationOptionsViewModel.getIOP_SPLIT_NUMBER());
+        IOP_SPLIT_RESTART_FINISH.bind(simulationOptionsViewModel.getIOP_SPLIT_RESTART_FINISH());
+        IOP_SPLIT_PRESIM_RUNS.bind(simulationOptionsViewModel.getIOP_SPLIT_PRESIM_RUNS());
+        FOP_SIM_LENGTH.bind(simulationOptionsViewModel.getFOP_SIM_LENGTH());
+        FOP_SIM_CONFIDENCE.bind(simulationOptionsViewModel.getFOP_SIM_CONFIDENCE());
+        FOP_SIM_ERROR.bind(simulationOptionsViewModel.getFOP_SIM_ERROR());
 
         IOP_MC.bind(analysisOptionsViewModel.getIOP_MC());
         IOP_SSMETHOD.bind(analysisOptionsViewModel.getIOP_SSMETHOD());
@@ -184,19 +184,19 @@ public class SimulationAndAnalysisOptionsView {
     }
 
     public void unbindViewModels() {
-        textField_IOP_SIM_RUNS.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SIM_RUNSProperty().asObject());
-        choiceBox_IOP_SIM_RUNMETHOD.valueProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SIM_RUNMETHODProperty());
-        textField_IOP_SIM_SEED.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SIM_SEEDProperty().asObject());
-        choiceBox_IOP_SIM_CUMULATIVE.valueProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SIM_CUMULATIVEProperty());
-        choiceBox_IOP_SIM_STD_REPORT.valueProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SIM_STD_REPORTProperty());
-        textField_IOP_SPLIT_LEVEL_DOWN.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SPLIT_LEVEL_DOWNProperty().asObject());
-        choiceBox_IOP_SPLIT_PRESIM.valueProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SPLIT_PRESIMProperty());
-        textField_IOP_SPLIT_NUMBER.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SPLIT_NUMBERProperty().asObject());
-        choiceBox_IOP_SPLIT_RESTART_FINISH.valueProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SPLIT_RESTART_FINISHProperty());
-        textField_IOP_SPLIT_PRESIM_RUNS.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.IOP_SPLIT_PRESIM_RUNSProperty().asObject());
-        textField_FOP_SIM_LENGTH.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.FOP_SIM_LENGTHProperty().asObject());
-        textField_FOP_SIM_CONFIDENCE.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.FOP_SIM_CONFIDENCEProperty().asObject());
-        textField_FOP_SIM_ERROR.getTextField().textProperty().unbindBidirectional(simulationOptionsViewModel.FOP_SIM_ERRORProperty().asObject());
+        IOP_SIM_RUNS.unbind();
+        IOP_SIM_RUNMETHOD.unbind();
+        IOP_SIM_SEED.unbind();
+        IOP_SIM_CUMULATIVE.unbind();
+        IOP_SIM_STD_REPORT.unbind();
+        IOP_SPLIT_LEVEL_DOWN.unbind();
+        IOP_SPLIT_PRESIM.unbind();
+        IOP_SPLIT_NUMBER.unbind();
+        IOP_SPLIT_RESTART_FINISH.unbind();
+        IOP_SPLIT_PRESIM_RUNS.unbind();
+        FOP_SIM_LENGTH.unbind();
+        FOP_SIM_CONFIDENCE.unbind();
+        FOP_SIM_ERROR.unbind();
 
         IOP_MC.unbind();
         IOP_SSMETHOD.unbind();
@@ -214,7 +214,7 @@ public class SimulationAndAnalysisOptionsView {
 
         if (newValue) {
             mainPane.getChildren().add(gridPaneSimulation);
-            simulationOptionsViewModel.IOP_SIMULATIONProperty().set(VAL_YES);
+            simulationOptionsViewModel.getIOP_SIMULATION().valueProperty().set(VAL_YES);
         }
     }
 
@@ -223,7 +223,7 @@ public class SimulationAndAnalysisOptionsView {
 
         if (newValue) {
             mainPane.getChildren().add(gridPaneNumericAnalysis);
-            simulationOptionsViewModel.IOP_SIMULATIONProperty().set(VAL_NO);
+            simulationOptionsViewModel.getIOP_SIMULATION().valueProperty().set(VAL_NO);
         }
     }
 

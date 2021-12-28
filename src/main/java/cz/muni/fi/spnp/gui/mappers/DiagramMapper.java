@@ -108,7 +108,7 @@ public class DiagramMapper {
         diagramViewModel.getInputParameters().forEach(inputParameter -> inputParameters.add(inputParameterMapper.map(inputParameter)));
 
         var allOptions = new ArrayList<Option>();
-        if (diagramViewModel.getSimulationOptions().getIOP_SIMULATION() == ConstantValue.VAL_NO) {
+        if (diagramViewModel.getSimulationOptions().getIOP_SIMULATION().getValue() == ConstantValue.VAL_NO) {
             allOptions.add(new ConstantTypeOption(IOP_SIMULATION, ConstantValue.VAL_NO));
             allOptions.addAll(mapAnalysisOptions(diagramViewModel.getAnalysisOptions()));
         } else {
@@ -121,22 +121,24 @@ public class DiagramMapper {
     }
 
     private Collection<? extends Option> mapSimulationOptions(SimulationOptionsViewModel simulationOptions) {
-        return List.of(
-                new ConstantTypeOption(IOP_SIMULATION, simulationOptions.getIOP_SIMULATION()),
-                new IntegerTypeOption(IOP_SIM_RUNS, simulationOptions.getIOP_SIM_RUNS()),
-                new ConstantTypeOption(IOP_SIM_RUNMETHOD, simulationOptions.getIOP_SIM_RUNMETHOD()),
-                new IntegerTypeOption(IOP_SIM_SEED, simulationOptions.getIOP_SIM_SEED()),
-                new ConstantTypeOption(IOP_SIM_CUMULATIVE, simulationOptions.getIOP_SIM_CUMULATIVE()),
-                new ConstantTypeOption(IOP_SIM_STD_REPORT, simulationOptions.getIOP_SIM_STD_REPORT()),
-                new IntegerTypeOption(IOP_SPLIT_LEVEL_DOWN, simulationOptions.getIOP_SPLIT_LEVEL_DOWN()),
-                new ConstantTypeOption(IOP_SPLIT_PRESIM, simulationOptions.getIOP_SPLIT_PRESIM()),
-                new IntegerTypeOption(IOP_SPLIT_NUMBER, simulationOptions.getIOP_SPLIT_NUMBER()),
-                new ConstantTypeOption(IOP_SPLIT_RESTART_FINISH, simulationOptions.getIOP_SPLIT_RESTART_FINISH()),
-                new IntegerTypeOption(IOP_SPLIT_PRESIM_RUNS, simulationOptions.getIOP_SPLIT_PRESIM_RUNS()),
-                new DoubleTypeOption(FOP_SIM_LENGTH, simulationOptions.getFOP_SIM_LENGTH()),
-                new DoubleTypeOption(FOP_SIM_CONFIDENCE, simulationOptions.getFOP_SIM_CONFIDENCE()),
-                new DoubleTypeOption(FOP_SIM_ERROR, simulationOptions.getFOP_SIM_ERROR())
-        );
+        var options = new ArrayList<Option>();
+
+        addOptionIfUsed(options, IOP_SIMULATION, simulationOptions.getIOP_SIMULATION());
+        addOptionIfUsed(options, IOP_SIM_RUNS, simulationOptions.getIOP_SIM_RUNS());
+        addOptionIfUsed(options, IOP_SIM_RUNMETHOD, simulationOptions.getIOP_SIM_RUNMETHOD());
+        addOptionIfUsed(options, IOP_SIM_SEED, simulationOptions.getIOP_SIM_SEED());
+        addOptionIfUsed(options, IOP_SIM_CUMULATIVE, simulationOptions.getIOP_SIM_CUMULATIVE());
+        addOptionIfUsed(options, IOP_SIM_STD_REPORT, simulationOptions.getIOP_SIM_STD_REPORT());
+        addOptionIfUsed(options, IOP_SPLIT_LEVEL_DOWN, simulationOptions.getIOP_SPLIT_LEVEL_DOWN());
+        addOptionIfUsed(options, IOP_SPLIT_PRESIM, simulationOptions.getIOP_SPLIT_PRESIM());
+        addOptionIfUsed(options, IOP_SPLIT_NUMBER, simulationOptions.getIOP_SPLIT_NUMBER());
+        addOptionIfUsed(options, IOP_SPLIT_RESTART_FINISH, simulationOptions.getIOP_SPLIT_RESTART_FINISH());
+        addOptionIfUsed(options, IOP_SPLIT_PRESIM_RUNS, simulationOptions.getIOP_SPLIT_PRESIM_RUNS());
+        addOptionIfUsed(options, FOP_SIM_LENGTH, simulationOptions.getFOP_SIM_LENGTH());
+        addOptionIfUsed(options, FOP_SIM_CONFIDENCE, simulationOptions.getFOP_SIM_CONFIDENCE());
+        addOptionIfUsed(options, FOP_SIM_ERROR, simulationOptions.getFOP_SIM_ERROR());
+
+        return options;
     }
 
     private Collection<? extends Option> mapAnalysisOptions(AnalysisOptionsViewModel analysisOptions) {
