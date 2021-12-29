@@ -176,34 +176,39 @@ public class DiagramMapper {
     }
 
     private Collection<? extends Option> mapIntermediateOptions(IntermediateOptionsViewModel intermediateOptions) {
-        return List.of(
-                new ConstantTypeOption(IOP_PR_RSET, intermediateOptions.getIOP_PR_RSET()),
-                new ConstantTypeOption(IOP_PR_RGRAPH, intermediateOptions.getIOP_PR_RGRAPH()),
-                new ConstantTypeOption(IOP_PR_MARK_ORDER, intermediateOptions.getIOP_PR_MARK_ORDER()),
-                new ConstantTypeOption(IOP_PR_MERG_MARK, intermediateOptions.getIOP_PR_MERG_MARK()),
-                new ConstantTypeOption(IOP_PR_FULL_MARK, intermediateOptions.getIOP_PR_FULL_MARK()),
-                new ConstantTypeOption(IOP_USENAME, intermediateOptions.getIOP_USENAME()),
-                new ConstantTypeOption(IOP_PR_MC, intermediateOptions.getIOP_PR_MC()),
-                new ConstantTypeOption(IOP_PR_DERMC, intermediateOptions.getIOP_PR_DERMC()),
-                new ConstantTypeOption(IOP_PR_MC_ORDER, intermediateOptions.getIOP_PR_MC_ORDER()),
-                new ConstantTypeOption(IOP_PR_PROB, intermediateOptions.getIOP_PR_PROB()),
-                new ConstantTypeOption(IOP_PR_PROBDTMC, intermediateOptions.getIOP_PR_PROBDTMC()),
-                new ConstantTypeOption(IOP_PR_DOT, intermediateOptions.getIOP_PR_DOT())
-        );
+        var options = new ArrayList<Option>();
+
+        addOptionIfUsed(options, IOP_PR_RSET, intermediateOptions.getIOP_PR_RSET());
+        addOptionIfUsed(options, IOP_PR_RGRAPH, intermediateOptions.getIOP_PR_RGRAPH());
+        addOptionIfUsed(options, IOP_PR_MARK_ORDER, intermediateOptions.getIOP_PR_MARK_ORDER());
+        addOptionIfUsed(options, IOP_PR_MERG_MARK, intermediateOptions.getIOP_PR_MERG_MARK());
+        addOptionIfUsed(options, IOP_PR_FULL_MARK, intermediateOptions.getIOP_PR_FULL_MARK());
+        addOptionIfUsed(options, IOP_USENAME, intermediateOptions.getIOP_USENAME());
+        addOptionIfUsed(options, IOP_PR_MC, intermediateOptions.getIOP_PR_MC());
+        addOptionIfUsed(options, IOP_PR_DERMC, intermediateOptions.getIOP_PR_DERMC());
+        addOptionIfUsed(options, IOP_PR_MC_ORDER, intermediateOptions.getIOP_PR_MC_ORDER());
+        addOptionIfUsed(options, IOP_PR_PROB, intermediateOptions.getIOP_PR_PROB());
+        addOptionIfUsed(options, IOP_PR_PROBDTMC, intermediateOptions.getIOP_PR_PROBDTMC());
+        addOptionIfUsed(options, IOP_PR_DOT, intermediateOptions.getIOP_PR_DOT());
+
+        return options;
     }
 
     private Collection<? extends Option> mapMiscellaneousOptions(MiscellaneousOptionsViewModel miscellaneousOptions) {
-        return List.of(
-                new ConstantTypeOption(IOP_ELIMINATION, miscellaneousOptions.getIOP_ELIMINATION()),
-                new ConstantTypeOption(IOP_OK_ABSMARK, miscellaneousOptions.getIOP_OK_ABSMARK()),
-                new ConstantTypeOption(IOP_OK_VANLOOP, miscellaneousOptions.getIOP_OK_VANLOOP()),
-                new ConstantTypeOption(IOP_OK_TRANS_M0, miscellaneousOptions.getIOP_OK_TRANS_M0()),
-                new ConstantTypeOption(IOP_OK_VAN_M0, miscellaneousOptions.getIOP_OK_VAN_M0()),
-                new DoubleTypeOption(FOP_ABS_RET_M0, miscellaneousOptions.getFOP_ABS_RET_M0()),
-                new ConstantTypeOption(IOP_DEBUG, miscellaneousOptions.getIOP_DEBUG()),
-                new DoubleTypeOption(FOP_FLUID_EPSILON, miscellaneousOptions.getFOP_FLUID_EPSILON()),
-                new DoubleTypeOption(FOP_TIME_EPSILON, miscellaneousOptions.getFOP_TIME_EPSILON())
-        );
+        var options = new ArrayList<Option>();
+
+        addOptionIfUsed(options, IOP_ELIMINATION, miscellaneousOptions.getIOP_ELIMINATION());
+        addOptionIfUsed(options, IOP_OK_ABSMARK, miscellaneousOptions.getIOP_OK_ABSMARK());
+        addOptionIfUsed(options, IOP_OK_VANLOOP, miscellaneousOptions.getIOP_OK_VANLOOP());
+        addOptionIfUsed(options, IOP_OK_TRANS_M0, miscellaneousOptions.getIOP_OK_TRANS_M0());
+        addOptionIfUsed(options, IOP_OK_VAN_M0, miscellaneousOptions.getIOP_OK_VAN_M0());
+        addOptionIfUsed(options, FOP_ABS_RET_M0, miscellaneousOptions.getFOP_ABS_RET_M0());
+        addOptionIfUsed(options, IOP_DEBUG, miscellaneousOptions.getIOP_DEBUG());
+        addOptionIfUsed(options, FOP_FLUID_EPSILON, miscellaneousOptions.getFOP_FLUID_EPSILON());
+        addOptionIfUsed(options, FOP_TIME_EPSILON, miscellaneousOptions.getFOP_TIME_EPSILON());
+
+        return options;
+
     }
 
 }
