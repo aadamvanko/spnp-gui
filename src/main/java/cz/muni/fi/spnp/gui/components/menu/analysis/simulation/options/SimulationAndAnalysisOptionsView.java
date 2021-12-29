@@ -24,7 +24,7 @@ public class SimulationAndAnalysisOptionsView {
     private final SimulationOptionsViewModel simulationOptionsViewModel;
     private final AnalysisOptionsViewModel analysisOptionsViewModel;
 
-    private GridPane gridPaneSimulation;
+    private OptionsGridPane gridPaneSimulation;
     private IntegerOptionView IOP_SIM_RUNS;
     private ChoiceOptionView IOP_SIM_RUNMETHOD;
     private IntegerOptionView IOP_SIM_SEED;
@@ -39,7 +39,7 @@ public class SimulationAndAnalysisOptionsView {
     private DoubleOptionView FOP_SIM_CONFIDENCE;
     private DoubleOptionView FOP_SIM_ERROR;
 
-    private GridPane gridPaneNumericAnalysis;
+    private OptionsGridPane gridPaneNumericAnalysis;
     private ChoiceOptionView IOP_MC;
     private ChoiceOptionView IOP_SSMETHOD;
     private ChoiceOptionView IOP_SSDETECT;
@@ -81,62 +81,56 @@ public class SimulationAndAnalysisOptionsView {
         mainPane = new Pane();
         mainPane.setPadding(new Insets(5));
 
-        gridPaneSimulation = new GridPane();
-        gridPaneSimulation.setHgap(5);
-        gridPaneSimulation.setVgap(5);
-        gridPaneSimulation.addRow(0, new Label("Option"), new Label("Value"), new Label("Use"));
+        gridPaneSimulation = new OptionsGridPane();
 
         IOP_SIM_RUNS = new IntegerOptionView("IOP_SIM_RUNS");
-        addRow(gridPaneSimulation, IOP_SIM_RUNS);
+        gridPaneSimulation.addRow(IOP_SIM_RUNS);
         IOP_SIM_RUNMETHOD = new ChoiceOptionView("IOP_SIM_RUNMETHOD",
                 FXCollections.observableArrayList(VAL_REPL, VAL_BATCH, VAL_RESTART, VAL_SPLIT, VAL_IS, VAL_THIN, VAL_ISTHIN, VAL_REG, VAL_ISREG));
-        addRow(gridPaneSimulation, IOP_SIM_RUNMETHOD);
+        gridPaneSimulation.addRow(IOP_SIM_RUNMETHOD);
         IOP_SIM_SEED = new IntegerOptionView("IOP_SIM_SEED");
-        addRow(gridPaneSimulation, IOP_SIM_SEED);
+        gridPaneSimulation.addRow(IOP_SIM_SEED);
         IOP_SIM_CUMULATIVE = new ChoiceOptionView("IOP_SIM_CUMULATIVE", createBooleanConstants());
-        addRow(gridPaneSimulation, IOP_SIM_CUMULATIVE);
+        gridPaneSimulation.addRow(IOP_SIM_CUMULATIVE);
         IOP_SIM_STD_REPORT = new ChoiceOptionView("IOP_SIM_STD_REPORT", createBooleanConstants());
-        addRow(gridPaneSimulation, IOP_SIM_STD_REPORT);
+        gridPaneSimulation.addRow(IOP_SIM_STD_REPORT);
         IOP_SPLIT_LEVEL_DOWN = new IntegerOptionView("IOP_SPLIT_LEVEL_DOWN");
-        addRow(gridPaneSimulation, IOP_SPLIT_LEVEL_DOWN);
+        gridPaneSimulation.addRow(IOP_SPLIT_LEVEL_DOWN);
         IOP_SPLIT_PRESIM = new ChoiceOptionView("IOP_SPLIT_PRESIM", createBooleanConstants());
-        addRow(gridPaneSimulation, IOP_SPLIT_PRESIM);
+        gridPaneSimulation.addRow(IOP_SPLIT_PRESIM);
         IOP_SPLIT_NUMBER = new IntegerOptionView("IOP_SPLIT_NUMBER");
-        addRow(gridPaneSimulation, IOP_SPLIT_NUMBER);
+        gridPaneSimulation.addRow(IOP_SPLIT_NUMBER);
         IOP_SPLIT_RESTART_FINISH = new ChoiceOptionView("IOP_SPLIT_RESTART_FINISH", createBooleanConstants());
-        addRow(gridPaneSimulation, IOP_SPLIT_RESTART_FINISH);
+        gridPaneSimulation.addRow(IOP_SPLIT_RESTART_FINISH);
         IOP_SPLIT_PRESIM_RUNS = new IntegerOptionView("IOP_SPLIT_PRESIM_RUNS");
-        addRow(gridPaneSimulation, IOP_SPLIT_PRESIM_RUNS);
+        gridPaneSimulation.addRow(IOP_SPLIT_PRESIM_RUNS);
         FOP_SIM_LENGTH = new DoubleOptionView("FOP_SIM_LENGTH");
-        addRow(gridPaneSimulation, FOP_SIM_LENGTH);
+        gridPaneSimulation.addRow(FOP_SIM_LENGTH);
         FOP_SIM_CONFIDENCE = new DoubleOptionView("FOP_SIM_CONFIDENCE");
-        addRow(gridPaneSimulation, FOP_SIM_CONFIDENCE);
+        gridPaneSimulation.addRow(FOP_SIM_CONFIDENCE);
         FOP_SIM_ERROR = new DoubleOptionView("FOP_SIM_ERROR");
-        addRow(gridPaneSimulation, FOP_SIM_ERROR);
+        gridPaneSimulation.addRow(FOP_SIM_ERROR);
 
-        gridPaneNumericAnalysis = new GridPane();
-        gridPaneNumericAnalysis.setHgap(5);
-        gridPaneNumericAnalysis.setVgap(5);
-        gridPaneNumericAnalysis.addRow(0, new Label("Option"), new Label("Value"), new Label("Use"));
+        gridPaneNumericAnalysis = new OptionsGridPane();
 
         IOP_MC = new ChoiceOptionView("IOP_MC", FXCollections.observableArrayList(VAL_CTMC, VAL_DTMC));
-        addRow(gridPaneNumericAnalysis, IOP_MC);
+        gridPaneNumericAnalysis.addRow(IOP_MC);
         IOP_SSMETHOD = new ChoiceOptionView("IOP_SSMETHOD", FXCollections.observableArrayList(VAL_SSSOR, VAL_GASEI, VAL_POWER));
-        addRow(gridPaneNumericAnalysis, IOP_SSMETHOD);
+        gridPaneNumericAnalysis.addRow(IOP_SSMETHOD);
         IOP_SSDETECT = new ChoiceOptionView("IOP_SSDETECT", createBooleanConstants());
-        addRow(gridPaneNumericAnalysis, IOP_SSDETECT);
+        gridPaneNumericAnalysis.addRow(IOP_SSDETECT);
         FOP_SSPRES = new DoubleOptionView("FOP_SSPRES");
-        addRow(gridPaneNumericAnalysis, FOP_SSPRES);
+        gridPaneNumericAnalysis.addRow(FOP_SSPRES);
         IOP_TSMETHOD = new ChoiceOptionView("IOP_TSMETHOD", FXCollections.observableArrayList(VAL_TSUNIF, VAL_FOXUNIF));
-        addRow(gridPaneNumericAnalysis, IOP_TSMETHOD);
+        gridPaneNumericAnalysis.addRow(IOP_TSMETHOD);
         IOP_CUMULATIVE = new ChoiceOptionView("IOP_CUMULATIVE", createBooleanConstants());
-        addRow(gridPaneNumericAnalysis, IOP_CUMULATIVE);
+        gridPaneNumericAnalysis.addRow(IOP_CUMULATIVE);
         IOP_SENSITIVTY = new ChoiceOptionView("IOP_SENSITIVITY", createBooleanConstants());
-        addRow(gridPaneNumericAnalysis, IOP_SENSITIVTY);
+        gridPaneNumericAnalysis.addRow(IOP_SENSITIVTY);
         IOP_ITERATIONS = new IntegerOptionView("IOP_ITERATIONS");
-        addRow(gridPaneNumericAnalysis, IOP_ITERATIONS);
+        gridPaneNumericAnalysis.addRow(IOP_ITERATIONS);
         FOP_PRECISION = new DoubleOptionView("FOP_PRECISION");
-        addRow(gridPaneNumericAnalysis, FOP_PRECISION);
+        gridPaneNumericAnalysis.addRow(FOP_PRECISION);
 
         var topPane = new VBox(labelTitle, hboxSimulationMethods, new Separator(Orientation.HORIZONTAL));
         topPane.setSpacing(5);
@@ -229,24 +223,6 @@ public class SimulationAndAnalysisOptionsView {
 
     private ObservableList<ConstantValue> createBooleanConstants() {
         return FXCollections.observableArrayList(VAL_YES, VAL_NO);
-    }
-
-    private void addRow(GridPane gridPane, Node left, Node right) {
-        gridPane.addRow(gridPane.getRowCount(), left, right);
-    }
-
-    private void addRow(GridPane gridPane, ChoiceOptionView choiceOptionView) {
-        gridPane.addRow(gridPane.getRowCount(), choiceOptionView.getLabelName(), choiceOptionView.getChoiceBoxValue(), choiceOptionView.getCheckBoxUse());
-    }
-
-    private void addRow(GridPane gridPane, IntegerOptionView integerOptionView) {
-        gridPane.addRow(gridPane.getRowCount(), integerOptionView.getLabelName(),
-                integerOptionView.getIntegerTextFieldValue().getTextField(), integerOptionView.getCheckBoxUse());
-    }
-
-    private void addRow(GridPane gridPane, DoubleOptionView doubleOptionView) {
-        gridPane.addRow(gridPane.getRowCount(), doubleOptionView.getLabelName(),
-                doubleOptionView.getDoubleTextFieldValue().getTextField(), doubleOptionView.getCheckBoxUse());
     }
 
 }
