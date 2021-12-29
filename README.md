@@ -30,6 +30,7 @@ project.
 - right click context menu
 - right click panning with the mouse
 - zooming via Ctrl + MouseWheel
+- Ctrl + left click for selection of the arc without creating the drag point
 
 ### Technologies
 
