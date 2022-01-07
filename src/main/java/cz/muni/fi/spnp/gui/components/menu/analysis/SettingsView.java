@@ -56,17 +56,17 @@ public class SettingsView extends UIWindowComponent {
         pathPlotsLibraryTextField.setOnMouseClicked(mouseEvent -> chooseDirectoryPathPlotsLibrary());
         pathPlotsLibraryTextField.setOnKeyPressed(keyEvent -> chooseDirectoryPathPlotsLibrary());
 
-        var okButton = new Button("OK");
-        HBox.setHgrow(okButton, Priority.ALWAYS);
-        okButton.setMaxWidth(Double.MAX_VALUE);
-        okButton.setOnAction(this::onOkButtonClickedHandler);
-
         var saveButton = new Button("Save");
         HBox.setHgrow(saveButton, Priority.ALWAYS);
         saveButton.setMaxWidth(Double.MAX_VALUE);
         saveButton.setOnAction(this::onSaveButtonClickedHandler);
 
-        var buttonsHbox = new HBox(okButton, saveButton);
+        var closeButton = new Button("Close");
+        HBox.setHgrow(closeButton, Priority.ALWAYS);
+        closeButton.setMaxWidth(Double.MAX_VALUE);
+        closeButton.setOnAction(this::onCloseButtonClickedHandler);
+
+        var buttonsHbox = new HBox(saveButton, closeButton);
         buttonsHbox.setSpacing(5);
 
         var vbox = new VBox();
@@ -115,13 +115,14 @@ public class SettingsView extends UIWindowComponent {
         }
     }
 
-    private void onOkButtonClickedHandler(ActionEvent actionEvent) {
-        stage.close();
-    }
-
     private void onSaveButtonClickedHandler(ActionEvent actionEvent) {
         var modelSaver = new ModelSaver();
         modelSaver.savePathsSPNP(model);
+        stage.close();
+    }
+
+    private void onCloseButtonClickedHandler(ActionEvent actionEvent) {
+        stage.close();
     }
 
     private void bindViewModel() {
