@@ -1,6 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis;
 
 import cz.muni.fi.spnp.gui.components.common.UIWindowComponent;
+import cz.muni.fi.spnp.gui.components.diagram.graph.canvas.VoidFunction;
 import cz.muni.fi.spnp.gui.components.mainwindow.Model;
 import cz.muni.fi.spnp.gui.components.mainwindow.fileoperations.ModelSaver;
 import javafx.beans.property.StringProperty;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -42,19 +44,19 @@ public class SettingsView extends UIWindowComponent {
         pathSPNPTextField = new TextField();
         pathSPNPTextField.setEditable(false);
         pathSPNPTextField.setOnMouseClicked(mouseEvent -> chooseDirectoryPathSPNP());
-        pathSPNPTextField.setOnKeyPressed(keyEvent -> chooseDirectoryPathSPNP());
+        pathSPNPTextField.setOnKeyPressed(keyEvent -> callMethodIgnoreEscape(keyEvent, this::chooseDirectoryPathSPNP));
 
         pathSPNPExamplesLabel = new Label("Directory for the SPNP examples:");
         pathSPNPExamplesTextField = new TextField();
         pathSPNPExamplesTextField.setEditable(false);
         pathSPNPExamplesTextField.setOnMouseClicked(mouseEvent -> chooseDirectoryPathSPNPExamples());
-        pathSPNPExamplesTextField.setOnKeyPressed(keyEvent -> chooseDirectoryPathSPNPExamples());
+        pathSPNPExamplesTextField.setOnKeyPressed(keyEvent -> callMethodIgnoreEscape(keyEvent, this::chooseDirectoryPathSPNPExamples));
 
         pathPlotsLibraryLabel = new Label("Directory for the plots library:");
         pathPlotsLibraryTextField = new TextField();
         pathPlotsLibraryTextField.setEditable(false);
         pathPlotsLibraryTextField.setOnMouseClicked(mouseEvent -> chooseDirectoryPathPlotsLibrary());
-        pathPlotsLibraryTextField.setOnKeyPressed(keyEvent -> chooseDirectoryPathPlotsLibrary());
+        pathPlotsLibraryTextField.setOnKeyPressed(keyEvent -> callMethodIgnoreEscape(keyEvent, this::chooseDirectoryPathPlotsLibrary));
 
         var saveButton = new Button("Save");
         HBox.setHgrow(saveButton, Priority.ALWAYS);
@@ -93,6 +95,13 @@ public class SettingsView extends UIWindowComponent {
         stage.setScene(scene);
         stage.setMinWidth(370);
         stage.setMinHeight(150);
+    }
+
+    private void callMethodIgnoreEscape(KeyEvent keyEvent, VoidFunction voidFunction) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            return;
+        }
+        voidFunction.call();
     }
 
     private void chooseDirectoryPathSPNP() {
