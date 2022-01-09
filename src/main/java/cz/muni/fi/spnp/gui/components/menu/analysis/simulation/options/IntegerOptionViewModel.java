@@ -1,5 +1,6 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
+import cz.muni.fi.spnp.core.transformators.spnp.options.OptionKey;
 import cz.muni.fi.spnp.gui.components.propertieseditor.common.MySimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;
 
@@ -8,12 +9,12 @@ import javafx.beans.property.IntegerProperty;
  */
 public class IntegerOptionViewModel extends OptionViewModel<IntegerProperty> {
 
-    public IntegerOptionViewModel(int value) {
-        this(value, false);
+    public IntegerOptionViewModel(OptionKey optionKey, int value) {
+        this(optionKey, value, false);
     }
 
-    public IntegerOptionViewModel(int value, boolean use) {
-        super(new MySimpleIntegerProperty(value), use);
+    public IntegerOptionViewModel(OptionKey optionKey, int value, boolean use) {
+        super(optionKey, new MySimpleIntegerProperty(value), use);
     }
 
     public int getValue() {

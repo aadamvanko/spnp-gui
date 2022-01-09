@@ -59,51 +59,51 @@ public class IntermediateAndMiscellaneousOptionsView {
 
         gridPaneIntermediate = new OptionsGridPane();
 
-        IOP_PR_RSET = new ChoiceOptionView("IOP_PR_RSET", FXCollections.observableArrayList(VAL_YES, VAL_NO, VAL_TAN));
+        IOP_PR_RSET = new ChoiceOptionView(FXCollections.observableArrayList(VAL_YES, VAL_NO, VAL_TAN));
         gridPaneIntermediate.addRow(IOP_PR_RSET);
-        IOP_PR_RGRAPH = new ChoiceOptionView("IOP_PR_RGRAPH", createBooleanConstants());
+        IOP_PR_RGRAPH = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_PR_RGRAPH);
-        IOP_PR_MARK_ORDER = new ChoiceOptionView("IOP_PR_MARK_ORDER", FXCollections.observableArrayList(VAL_CANONIC, VAL_LEXICAL, VAL_MATRIX));
+        IOP_PR_MARK_ORDER = new ChoiceOptionView(FXCollections.observableArrayList(VAL_CANONIC, VAL_LEXICAL, VAL_MATRIX));
         gridPaneIntermediate.addRow(IOP_PR_MARK_ORDER);
-        IOP_PR_MERG_MARK = new ChoiceOptionView("IOP_PR_MERG_MARK", createBooleanConstants());
+        IOP_PR_MERG_MARK = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_PR_MERG_MARK);
-        IOP_PR_FULL_MARK = new ChoiceOptionView("IOP_PR_FULL_MARK", createBooleanConstants());
+        IOP_PR_FULL_MARK = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_PR_FULL_MARK);
-        IOP_USENAME = new ChoiceOptionView("IOP_USENAME", createBooleanConstants());
+        IOP_USENAME = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_USENAME);
-        IOP_PR_MC = new ChoiceOptionView("IOP_PR_MC", createBooleanConstants());
+        IOP_PR_MC = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_PR_MC);
-        IOP_PR_DERMC = new ChoiceOptionView("IOP_PR_DERMC", createBooleanConstants());
+        IOP_PR_DERMC = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_PR_DERMC);
-        IOP_PR_MC_ORDER = new ChoiceOptionView("IOP_PR_MC_ORDER", FXCollections.observableArrayList(VAL_FROMTO, VAL_TOFROM));
+        IOP_PR_MC_ORDER = new ChoiceOptionView(FXCollections.observableArrayList(VAL_FROMTO, VAL_TOFROM));
         gridPaneIntermediate.addRow(IOP_PR_MC_ORDER);
-        IOP_PR_PROB = new ChoiceOptionView("IOP_PR_PROB", createBooleanConstants());
+        IOP_PR_PROB = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_PR_PROB);
-        IOP_PR_PROBDTMC = new ChoiceOptionView("IOP_PR_PROBDTMC", createBooleanConstants());
+        IOP_PR_PROBDTMC = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_PR_PROBDTMC);
-        IOP_PR_DOT = new ChoiceOptionView("IOP_PR_DOT", createBooleanConstants());
+        IOP_PR_DOT = new ChoiceOptionView(createBooleanConstants());
         gridPaneIntermediate.addRow(IOP_PR_DOT);
 
 
         gridPaneMiscellaneous = new OptionsGridPane();
 
-        IOP_ELIMINATION = new ChoiceOptionView("IOP_ELIMINATION", FXCollections.observableArrayList(VAL_REDONTHEFLY, VAL_REDAFTERRG, VAL_REDNEVER));
+        IOP_ELIMINATION = new ChoiceOptionView(FXCollections.observableArrayList(VAL_REDONTHEFLY, VAL_REDAFTERRG, VAL_REDNEVER));
         gridPaneMiscellaneous.addRow(IOP_ELIMINATION);
-        IOP_OK_ABSMARK = new ChoiceOptionView("IOP_OK_ABSMARK", createBooleanConstants());
+        IOP_OK_ABSMARK = new ChoiceOptionView(createBooleanConstants());
         gridPaneMiscellaneous.addRow(IOP_OK_ABSMARK);
-        IOP_OK_VANLOOP = new ChoiceOptionView("IOP_OK_VANLOOP", createBooleanConstants());
+        IOP_OK_VANLOOP = new ChoiceOptionView(createBooleanConstants());
         gridPaneMiscellaneous.addRow(IOP_OK_VANLOOP);
-        IOP_OK_TRANS_M0 = new ChoiceOptionView("IOP_OK_TRANS_M0", createBooleanConstants());
+        IOP_OK_TRANS_M0 = new ChoiceOptionView(createBooleanConstants());
         gridPaneMiscellaneous.addRow(IOP_OK_TRANS_M0);
-        IOP_OK_VAN_M0 = new ChoiceOptionView("IOP_OK_VAN_M0", createBooleanConstants());
+        IOP_OK_VAN_M0 = new ChoiceOptionView(createBooleanConstants());
         gridPaneMiscellaneous.addRow(IOP_OK_VAN_M0);
-        FOP_ABS_RET_M0 = new DoubleOptionView("FOP_ABS_RET_M0");
+        FOP_ABS_RET_M0 = new DoubleOptionView();
         gridPaneMiscellaneous.addRow(FOP_ABS_RET_M0);
-        IOP_DEBUG = new ChoiceOptionView("IOP_DEBUG", createBooleanConstants());
+        IOP_DEBUG = new ChoiceOptionView(createBooleanConstants());
         gridPaneMiscellaneous.addRow(IOP_DEBUG);
-        FOP_FLUID_EPSILON = new DoubleOptionView("FOP_FLUID_EPSILON");
+        FOP_FLUID_EPSILON = new DoubleOptionView();
         gridPaneMiscellaneous.addRow(FOP_FLUID_EPSILON);
-        FOP_TIME_EPSILON = new DoubleOptionView("FOP_TIME_EPSILON");
+        FOP_TIME_EPSILON = new DoubleOptionView();
         gridPaneMiscellaneous.addRow(FOP_TIME_EPSILON);
 
         vBoxIntermediate = new VBox(gridPaneIntermediate);

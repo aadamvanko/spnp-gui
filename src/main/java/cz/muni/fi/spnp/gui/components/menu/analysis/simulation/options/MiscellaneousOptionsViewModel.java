@@ -1,5 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
+import cz.muni.fi.spnp.core.transformators.spnp.options.OptionKey;
+
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
 /**
@@ -18,15 +20,15 @@ public class MiscellaneousOptionsViewModel {
     private final DoubleOptionViewModel FOP_TIME_EPSILON;
 
     public MiscellaneousOptionsViewModel() {
-        IOP_ELIMINATION = new ConstantValueOptionViewModel(VAL_REDONTHEFLY);
-        IOP_OK_ABSMARK = new ConstantValueOptionViewModel(VAL_NO);
-        IOP_OK_VANLOOP = new ConstantValueOptionViewModel(VAL_NO);
-        IOP_OK_TRANS_M0 = new ConstantValueOptionViewModel(VAL_YES);
-        IOP_OK_VAN_M0 = new ConstantValueOptionViewModel(VAL_YES);
-        FOP_ABS_RET_M0 = new DoubleOptionViewModel(0.0);
-        IOP_DEBUG = new ConstantValueOptionViewModel(VAL_NO);
-        FOP_FLUID_EPSILON = new DoubleOptionViewModel(0.000001);
-        FOP_TIME_EPSILON = new DoubleOptionViewModel(0.000001);
+        IOP_ELIMINATION = new ConstantValueOptionViewModel(OptionKey.IOP_ELIMINATION, VAL_REDONTHEFLY);
+        IOP_OK_ABSMARK = new ConstantValueOptionViewModel(OptionKey.IOP_OK_ABSMARK, VAL_NO);
+        IOP_OK_VANLOOP = new ConstantValueOptionViewModel(OptionKey.IOP_OK_VANLOOP, VAL_NO);
+        IOP_OK_TRANS_M0 = new ConstantValueOptionViewModel(OptionKey.IOP_OK_TRANS_M0, VAL_YES);
+        IOP_OK_VAN_M0 = new ConstantValueOptionViewModel(OptionKey.IOP_OK_VAN_M0, VAL_YES);
+        FOP_ABS_RET_M0 = new DoubleOptionViewModel(OptionKey.FOP_ABS_RET_M0, 0.0);
+        IOP_DEBUG = new ConstantValueOptionViewModel(OptionKey.IOP_DEBUG, VAL_NO);
+        FOP_FLUID_EPSILON = new DoubleOptionViewModel(OptionKey.FOP_FLUID_EPSILON, 0.000001);
+        FOP_TIME_EPSILON = new DoubleOptionViewModel(OptionKey.FOP_TIME_EPSILON, 0.000001);
     }
 
     public ConstantValueOptionViewModel getIOP_ELIMINATION() {

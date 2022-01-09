@@ -1,5 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
+import cz.muni.fi.spnp.core.transformators.spnp.options.OptionKey;
+
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
 /**
@@ -18,15 +20,15 @@ public class AnalysisOptionsViewModel {
     private final DoubleOptionViewModel FOP_PRECISION;
 
     public AnalysisOptionsViewModel() {
-        this.IOP_MC = new ConstantValueOptionViewModel(VAL_CTMC);
-        this.IOP_SSMETHOD = new ConstantValueOptionViewModel(VAL_SSSOR);
-        this.IOP_SSDETECT = new ConstantValueOptionViewModel(VAL_YES);
-        this.FOP_SSPRES = new DoubleOptionViewModel(0.25);
-        this.IOP_TSMETHOD = new ConstantValueOptionViewModel(VAL_FOXUNIF);
-        this.IOP_CUMULATIVE = new ConstantValueOptionViewModel(VAL_YES);
-        this.IOP_SENSITIVITY = new ConstantValueOptionViewModel(VAL_NO);
-        this.IOP_ITERATIONS = new IntegerOptionViewModel(2000);
-        this.FOP_PRECISION = new DoubleOptionViewModel(0.000001);
+        this.IOP_MC = new ConstantValueOptionViewModel(OptionKey.IOP_MC, VAL_CTMC);
+        this.IOP_SSMETHOD = new ConstantValueOptionViewModel(OptionKey.IOP_SSMETHOD, VAL_SSSOR);
+        this.IOP_SSDETECT = new ConstantValueOptionViewModel(OptionKey.IOP_SSDETECT, VAL_YES);
+        this.FOP_SSPRES = new DoubleOptionViewModel(OptionKey.FOP_SSPRES, 0.25);
+        this.IOP_TSMETHOD = new ConstantValueOptionViewModel(OptionKey.IOP_TSMETHOD, VAL_FOXUNIF);
+        this.IOP_CUMULATIVE = new ConstantValueOptionViewModel(OptionKey.IOP_CUMULATIVE, VAL_YES);
+        this.IOP_SENSITIVITY = new ConstantValueOptionViewModel(OptionKey.IOP_SENSITIVITY, VAL_NO);
+        this.IOP_ITERATIONS = new IntegerOptionViewModel(OptionKey.IOP_ITERATIONS, 2000);
+        this.FOP_PRECISION = new DoubleOptionViewModel(OptionKey.FOP_PRECISION, 0.000001);
     }
 
     public ConstantValueOptionViewModel getIOP_MC() {

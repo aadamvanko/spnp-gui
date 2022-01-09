@@ -11,9 +11,7 @@ public class IntegerOptionView extends OptionView {
     private IntegerTextField integerTextFieldValue;
     private IntegerOptionViewModel optionViewModel;
 
-    public IntegerOptionView(String name) {
-        super(name);
-
+    public IntegerOptionView() {
         createView();
     }
 
@@ -22,6 +20,8 @@ public class IntegerOptionView extends OptionView {
     }
 
     public void bind(IntegerOptionViewModel optionViewModel) {
+        setNameLabelText(optionViewModel);
+
         this.optionViewModel = optionViewModel;
 
         integerTextFieldValue.getTextField().textProperty().bindBidirectional(optionViewModel.valueProperty().asObject(), new IntegerStringConverter());

@@ -12,13 +12,13 @@ public class ChoiceOptionView extends OptionView {
     private final ChoiceBox<ConstantValue> choiceBoxValue;
     private ConstantValueOptionViewModel optionViewModel;
 
-    public ChoiceOptionView(String name, ObservableList<ConstantValue> allowedValues) {
-        super(name);
-
+    public ChoiceOptionView(ObservableList<ConstantValue> allowedValues) {
         choiceBoxValue = new ChoiceBox<>(allowedValues);
     }
 
     public void bind(ConstantValueOptionViewModel optionViewModel) {
+        setNameLabelText(optionViewModel);
+
         this.optionViewModel = optionViewModel;
 
         choiceBoxValue.valueProperty().bindBidirectional(optionViewModel.valueProperty());

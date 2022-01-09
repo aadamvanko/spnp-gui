@@ -1,5 +1,7 @@
 package cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options;
 
+import cz.muni.fi.spnp.core.transformators.spnp.options.OptionKey;
+
 import static cz.muni.fi.spnp.core.transformators.spnp.options.ConstantValue.*;
 
 /**
@@ -23,20 +25,20 @@ public class SimulationOptionsViewModel {
     private final DoubleOptionViewModel FOP_SIM_ERROR;
 
     public SimulationOptionsViewModel() {
-        this.IOP_SIMULATION = new ConstantValueOptionViewModel(VAL_YES);
-        this.IOP_SIM_RUNS = new IntegerOptionViewModel(0);
-        this.IOP_SIM_RUNMETHOD = new ConstantValueOptionViewModel(VAL_REPL);
-        this.IOP_SIM_SEED = new IntegerOptionViewModel(52836);
-        this.IOP_SIM_CUMULATIVE = new ConstantValueOptionViewModel(VAL_YES);
-        this.IOP_SIM_STD_REPORT = new ConstantValueOptionViewModel(VAL_YES);
-        this.IOP_SPLIT_LEVEL_DOWN = new IntegerOptionViewModel(60);
-        this.IOP_SPLIT_PRESIM = new ConstantValueOptionViewModel(VAL_YES);
-        this.IOP_SPLIT_NUMBER = new IntegerOptionViewModel(6);
-        this.IOP_SPLIT_RESTART_FINISH = new ConstantValueOptionViewModel(VAL_NO);
-        this.IOP_SPLIT_PRESIM_RUNS = new IntegerOptionViewModel(10);
-        this.FOP_SIM_LENGTH = new DoubleOptionViewModel(0.0);
-        this.FOP_SIM_CONFIDENCE = new DoubleOptionViewModel(0.95);
-        this.FOP_SIM_ERROR = new DoubleOptionViewModel(0.1);
+        this.IOP_SIMULATION = new ConstantValueOptionViewModel(OptionKey.IOP_SIMULATION, VAL_YES);
+        this.IOP_SIM_RUNS = new IntegerOptionViewModel(OptionKey.IOP_SIM_RUNS, 0);
+        this.IOP_SIM_RUNMETHOD = new ConstantValueOptionViewModel(OptionKey.IOP_SIM_RUNMETHOD, VAL_REPL);
+        this.IOP_SIM_SEED = new IntegerOptionViewModel(OptionKey.IOP_SIM_SEED, 52836);
+        this.IOP_SIM_CUMULATIVE = new ConstantValueOptionViewModel(OptionKey.IOP_SIM_CUMULATIVE, VAL_YES);
+        this.IOP_SIM_STD_REPORT = new ConstantValueOptionViewModel(OptionKey.IOP_SIM_STD_REPORT, VAL_YES);
+        this.IOP_SPLIT_LEVEL_DOWN = new IntegerOptionViewModel(OptionKey.IOP_SPLIT_LEVEL_DOWN, 60);
+        this.IOP_SPLIT_PRESIM = new ConstantValueOptionViewModel(OptionKey.IOP_SPLIT_PRESIM, VAL_YES);
+        this.IOP_SPLIT_NUMBER = new IntegerOptionViewModel(OptionKey.IOP_SPLIT_NUMBER, 6);
+        this.IOP_SPLIT_RESTART_FINISH = new ConstantValueOptionViewModel(OptionKey.IOP_SPLIT_RESTART_FINISH, VAL_NO);
+        this.IOP_SPLIT_PRESIM_RUNS = new IntegerOptionViewModel(OptionKey.IOP_SPLIT_PRESIM_RUNS, 10);
+        this.FOP_SIM_LENGTH = new DoubleOptionViewModel(OptionKey.FOP_SIM_LENGTH, 0.0);
+        this.FOP_SIM_CONFIDENCE = new DoubleOptionViewModel(OptionKey.FOP_SIM_CONFIDENCE, 0.95);
+        this.FOP_SIM_ERROR = new DoubleOptionViewModel(OptionKey.FOP_SIM_ERROR, 0.1);
     }
 
     public ConstantValueOptionViewModel getIOP_SIMULATION() {

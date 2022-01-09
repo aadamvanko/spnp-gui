@@ -8,18 +8,15 @@ import javafx.scene.control.Label;
  */
 public abstract class OptionView {
 
-    private final String name;
     protected Label labelName;
     protected CheckBox checkBoxUse;
 
-    public OptionView(String name) {
-        this.name = name;
-
+    public OptionView() {
         createView();
     }
 
     private void createView() {
-        labelName = new Label(name);
+        labelName = new Label("Option");
         checkBoxUse = new CheckBox();
     }
 
@@ -29,6 +26,10 @@ public abstract class OptionView {
 
     public CheckBox getCheckBoxUse() {
         return checkBoxUse;
+    }
+
+    protected void setNameLabelText(OptionViewModel optionViewModel) {
+        labelName.setText(optionViewModel.getOptionKey().toString());
     }
 
 }

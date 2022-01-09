@@ -11,9 +11,7 @@ public class DoubleOptionView extends OptionView {
     private DoubleTextField doubleTextFieldValue;
     private DoubleOptionViewModel optionViewModel;
 
-    public DoubleOptionView(String name) {
-        super(name);
-
+    public DoubleOptionView() {
         createView();
     }
 
@@ -22,6 +20,8 @@ public class DoubleOptionView extends OptionView {
     }
 
     public void bind(DoubleOptionViewModel optionViewModel) {
+        setNameLabelText(optionViewModel);
+
         this.optionViewModel = optionViewModel;
 
         doubleTextFieldValue.getTextField().textProperty().bindBidirectional(optionViewModel.valueProperty().asObject(), new MyDoubleStringConverter());

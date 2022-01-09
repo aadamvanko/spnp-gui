@@ -83,53 +83,52 @@ public class SimulationAndAnalysisOptionsView {
 
         gridPaneSimulation = new OptionsGridPane();
 
-        IOP_SIM_RUNS = new IntegerOptionView("IOP_SIM_RUNS");
+        IOP_SIM_RUNS = new IntegerOptionView();
         gridPaneSimulation.addRow(IOP_SIM_RUNS);
-        IOP_SIM_RUNMETHOD = new ChoiceOptionView("IOP_SIM_RUNMETHOD",
-                FXCollections.observableArrayList(VAL_REPL, VAL_BATCH, VAL_RESTART, VAL_SPLIT, VAL_IS, VAL_THIN, VAL_ISTHIN, VAL_REG, VAL_ISREG));
+        IOP_SIM_RUNMETHOD = new ChoiceOptionView(FXCollections.observableArrayList(VAL_REPL, VAL_BATCH, VAL_RESTART, VAL_SPLIT, VAL_IS, VAL_THIN, VAL_ISTHIN, VAL_REG, VAL_ISREG));
         gridPaneSimulation.addRow(IOP_SIM_RUNMETHOD);
-        IOP_SIM_SEED = new IntegerOptionView("IOP_SIM_SEED");
+        IOP_SIM_SEED = new IntegerOptionView();
         gridPaneSimulation.addRow(IOP_SIM_SEED);
-        IOP_SIM_CUMULATIVE = new ChoiceOptionView("IOP_SIM_CUMULATIVE", createBooleanConstants());
+        IOP_SIM_CUMULATIVE = new ChoiceOptionView(createBooleanConstants());
         gridPaneSimulation.addRow(IOP_SIM_CUMULATIVE);
-        IOP_SIM_STD_REPORT = new ChoiceOptionView("IOP_SIM_STD_REPORT", createBooleanConstants());
+        IOP_SIM_STD_REPORT = new ChoiceOptionView(createBooleanConstants());
         gridPaneSimulation.addRow(IOP_SIM_STD_REPORT);
-        IOP_SPLIT_LEVEL_DOWN = new IntegerOptionView("IOP_SPLIT_LEVEL_DOWN");
+        IOP_SPLIT_LEVEL_DOWN = new IntegerOptionView();
         gridPaneSimulation.addRow(IOP_SPLIT_LEVEL_DOWN);
-        IOP_SPLIT_PRESIM = new ChoiceOptionView("IOP_SPLIT_PRESIM", createBooleanConstants());
+        IOP_SPLIT_PRESIM = new ChoiceOptionView(createBooleanConstants());
         gridPaneSimulation.addRow(IOP_SPLIT_PRESIM);
-        IOP_SPLIT_NUMBER = new IntegerOptionView("IOP_SPLIT_NUMBER");
+        IOP_SPLIT_NUMBER = new IntegerOptionView();
         gridPaneSimulation.addRow(IOP_SPLIT_NUMBER);
-        IOP_SPLIT_RESTART_FINISH = new ChoiceOptionView("IOP_SPLIT_RESTART_FINISH", createBooleanConstants());
+        IOP_SPLIT_RESTART_FINISH = new ChoiceOptionView(createBooleanConstants());
         gridPaneSimulation.addRow(IOP_SPLIT_RESTART_FINISH);
-        IOP_SPLIT_PRESIM_RUNS = new IntegerOptionView("IOP_SPLIT_PRESIM_RUNS");
+        IOP_SPLIT_PRESIM_RUNS = new IntegerOptionView();
         gridPaneSimulation.addRow(IOP_SPLIT_PRESIM_RUNS);
-        FOP_SIM_LENGTH = new DoubleOptionView("FOP_SIM_LENGTH");
+        FOP_SIM_LENGTH = new DoubleOptionView();
         gridPaneSimulation.addRow(FOP_SIM_LENGTH);
-        FOP_SIM_CONFIDENCE = new DoubleOptionView("FOP_SIM_CONFIDENCE");
+        FOP_SIM_CONFIDENCE = new DoubleOptionView();
         gridPaneSimulation.addRow(FOP_SIM_CONFIDENCE);
-        FOP_SIM_ERROR = new DoubleOptionView("FOP_SIM_ERROR");
+        FOP_SIM_ERROR = new DoubleOptionView();
         gridPaneSimulation.addRow(FOP_SIM_ERROR);
 
         gridPaneNumericAnalysis = new OptionsGridPane();
 
-        IOP_MC = new ChoiceOptionView("IOP_MC", FXCollections.observableArrayList(VAL_CTMC, VAL_DTMC));
+        IOP_MC = new ChoiceOptionView(FXCollections.observableArrayList(VAL_CTMC, VAL_DTMC));
         gridPaneNumericAnalysis.addRow(IOP_MC);
-        IOP_SSMETHOD = new ChoiceOptionView("IOP_SSMETHOD", FXCollections.observableArrayList(VAL_SSSOR, VAL_GASEI, VAL_POWER));
+        IOP_SSMETHOD = new ChoiceOptionView(FXCollections.observableArrayList(VAL_SSSOR, VAL_GASEI, VAL_POWER));
         gridPaneNumericAnalysis.addRow(IOP_SSMETHOD);
-        IOP_SSDETECT = new ChoiceOptionView("IOP_SSDETECT", createBooleanConstants());
+        IOP_SSDETECT = new ChoiceOptionView(createBooleanConstants());
         gridPaneNumericAnalysis.addRow(IOP_SSDETECT);
-        FOP_SSPRES = new DoubleOptionView("FOP_SSPRES");
+        FOP_SSPRES = new DoubleOptionView();
         gridPaneNumericAnalysis.addRow(FOP_SSPRES);
-        IOP_TSMETHOD = new ChoiceOptionView("IOP_TSMETHOD", FXCollections.observableArrayList(VAL_TSUNIF, VAL_FOXUNIF));
+        IOP_TSMETHOD = new ChoiceOptionView(FXCollections.observableArrayList(VAL_TSUNIF, VAL_FOXUNIF));
         gridPaneNumericAnalysis.addRow(IOP_TSMETHOD);
-        IOP_CUMULATIVE = new ChoiceOptionView("IOP_CUMULATIVE", createBooleanConstants());
+        IOP_CUMULATIVE = new ChoiceOptionView(createBooleanConstants());
         gridPaneNumericAnalysis.addRow(IOP_CUMULATIVE);
-        IOP_SENSITIVTY = new ChoiceOptionView("IOP_SENSITIVITY", createBooleanConstants());
+        IOP_SENSITIVTY = new ChoiceOptionView(createBooleanConstants());
         gridPaneNumericAnalysis.addRow(IOP_SENSITIVTY);
-        IOP_ITERATIONS = new IntegerOptionView("IOP_ITERATIONS");
+        IOP_ITERATIONS = new IntegerOptionView();
         gridPaneNumericAnalysis.addRow(IOP_ITERATIONS);
-        FOP_PRECISION = new DoubleOptionView("FOP_PRECISION");
+        FOP_PRECISION = new DoubleOptionView();
         gridPaneNumericAnalysis.addRow(FOP_PRECISION);
 
         var topPane = new VBox(labelTitle, hboxSimulationMethods, new Separator(Orientation.HORIZONTAL));
