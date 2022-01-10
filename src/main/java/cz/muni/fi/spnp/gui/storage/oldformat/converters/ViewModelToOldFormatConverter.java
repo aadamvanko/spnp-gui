@@ -344,7 +344,20 @@ Textwidth: 0
         if (index >= transitionDistributionViewModel.getValues().size()) {
             return NULL_VALUE;
         }
-        return transitionDistributionViewModel.getValues().get(index).get();
+
+        var distributionType = transitionDistributionViewModel.distributionTypeProperty().get();
+        if (distributionType == TransitionDistributionType.Constant || distributionType == TransitionDistributionType.PlaceDependent) {
+            return transitionDistributionViewModel.getValues().get(index).get();
+        } else if (distributionType == TransitionDistributionType.Functional) {
+            var function = transitionDistributionViewModel.getFunctions().get(index).get();
+            if (function == null) {
+                return NULL_VALUE;
+            } else {
+                return function.getName();
+            }
+        } else {
+            throw new AssertionError("Unknown distribution type " + distributionType);
+        }
     }
 
     private String convertProbability(TransitionProbabilityViewModel transitionProbabilityViewModel) {
