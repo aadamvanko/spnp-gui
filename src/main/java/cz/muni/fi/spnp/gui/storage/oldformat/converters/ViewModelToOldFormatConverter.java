@@ -1,8 +1,11 @@
 package cz.muni.fi.spnp.gui.storage.oldformat.converters;
 
+import cz.muni.fi.spnp.core.models.PetriNet;
 import cz.muni.fi.spnp.core.models.arcs.ArcDirection;
 import cz.muni.fi.spnp.core.models.functions.FunctionType;
 import cz.muni.fi.spnp.core.models.transitions.distributions.TransitionDistributionType;
+import cz.muni.fi.spnp.core.transformators.spnp.SPNPTransformator;
+import cz.muni.fi.spnp.core.transformators.spnp.code.SPNPCode;
 import cz.muni.fi.spnp.core.transformators.spnp.elements.PolicyAffectedType;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.diagram.DiagramViewModel;
@@ -23,13 +26,11 @@ import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.inputparameters.InputParameterViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableDataType;
 import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableViewModel;
+import cz.muni.fi.spnp.gui.mappers.DiagramMapper;
 import cz.muni.fi.spnp.gui.storage.oldformat.OldFormatUtils;
 import cz.muni.fi.spnp.gui.storage.oldformat.models.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -503,9 +504,62 @@ Textwidth: 0
     }
 
     private List<FunctionOldFormat> convertFunctions(DiagramViewModel diagram) {
-        return diagram.getFunctions().stream()
+        var oldFunctions = diagram.getFunctions().stream()
                 .map(this::convertFunction)
                 .collect(Collectors.toList());
+
+        var oldFormatOptions = getOldFunctionByName(oldFunctions, "options");
+        if (oldFormatOptions == null) {
+            var newFunctionOptions = new FunctionOldFormat();
+            newFunctionOptions.name = "options";
+            newFunctionOptions.kind = convertFunctionKind(FunctionType.Other);
+            newFunctionOptions.returnType = convertFunctionReturnType(FunctionReturnType.VOID);
+            newFunctionOptions.body = prepareOptionsFunctionBody(diagram);
+            oldFunctions.add(newFunctionOptions);
+        } else {
+            oldFormatOptions.body = prepareOptionsFunctionBody(diagram);
+        }
+
+        return oldFunctions;
+    }
+
+    private String prepareOptionsFunctionBody(DiagramViewModel diagram) {
+        var diagramMapper = new DiagramMapper(diagram);
+        var spnpOptions = diagramMapper.createSPNPOptions();
+        var transformator = new SPNPTransformator(new SPNPCode(), spnpOptions);
+        var csplCode = transformator.transform(new PetriNet());
+        return extractOptionsFunctionBody(csplCode);
+    }
+
+    private String extractOptionsFunctionBody(String csplCode) {
+        var lines = Arrays.stream(csplCode.split(System.lineSeparator())).collect(Collectors.toList());
+        var optionsStart = findIndexOfLineBeginningWith(lines, "void options()", 0);
+        var optionsEnd = findIndexOfLineBeginningWith(lines, "}", optionsStart);
+        return concatStrippedLines(lines, optionsStart, optionsEnd);
+    }
+
+    private int findIndexOfLineBeginningWith(List<String> lines, String pattern, int fromIndex) {
+        for (int i = fromIndex; i < lines.size(); i++) {
+            if (lines.get(i).startsWith(pattern)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private String concatStrippedLines(List<String> lines, int startExclusive, int endExclusive) {
+        StringBuilder concatenatedLines = new StringBuilder();
+        for (int i = startExclusive + 1; i < endExclusive; i++) {
+            concatenatedLines.append(lines.get(i).strip() + System.lineSeparator());
+        }
+        return concatenatedLines.toString();
+    }
+
+    private FunctionOldFormat getOldFunctionByName(List<FunctionOldFormat> oldFunctions, String functionName) {
+        return oldFunctions.stream()
+                .filter(oldFunction -> oldFunction.name.equals(functionName))
+                .findAny()
+                .orElse(null);
     }
 
     private FunctionOldFormat convertFunction(FunctionViewModel functionViewModel) {

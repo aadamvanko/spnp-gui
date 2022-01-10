@@ -24,6 +24,10 @@ import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmode
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.timed.distributions.threevalues.NegativeBinomialTransitionDistributionViewModel;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.viewmodels.timed.distributions.twovalues.*;
 import cz.muni.fi.spnp.gui.components.diagram.graph.elements.transition.views.TransitionOrientation;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.AnalysisOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.IntermediateOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.MiscellaneousOptionsViewModel;
+import cz.muni.fi.spnp.gui.components.menu.analysis.simulation.options.SimulationOptionsViewModel;
 import cz.muni.fi.spnp.gui.components.menu.project.ProjectViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.defines.DefineViewModel;
 import cz.muni.fi.spnp.gui.components.menu.view.functions.FunctionReturnType;
@@ -58,7 +62,77 @@ public class OldFormatToViewModelConverter {
 
         var diagram = new DiagramViewModel(projectViewModel, elements, includes, defines, variables, inputParameters, functions);
         diagram.nameProperty().set(submodel.name);
+        parseOptions(diagram);
         return diagram;
+    }
+
+    private void parseOptions(DiagramViewModel diagram) {
+        var optionsFunction = diagram.getFunctionByName("options");
+        if (optionsFunction == null) {
+            return;
+        }
+
+        var optionsParser = new OptionsParser(optionsFunction);
+        parseSimulationOptions(diagram.getSimulationOptions(), optionsParser);
+        parseAnalysisOptions(diagram.getAnalysisOptions(), optionsParser);
+        parseIntermediateOptions(diagram.getIntermediateOptions(), optionsParser);
+        parseMiscellaneousOptions(diagram.getMiscellaneousOptions(), optionsParser);
+    }
+
+    private void parseSimulationOptions(SimulationOptionsViewModel simulationOptions, OptionsParser optionsParser) {
+        optionsParser.parseOption(simulationOptions.getIOP_SIMULATION());
+        optionsParser.parseOption(simulationOptions.getIOP_SIM_RUNS());
+        optionsParser.parseOption(simulationOptions.getIOP_SIM_RUNMETHOD());
+        optionsParser.parseOption(simulationOptions.getIOP_SIM_SEED());
+        optionsParser.parseOption(simulationOptions.getIOP_SIM_CUMULATIVE());
+        optionsParser.parseOption(simulationOptions.getIOP_SIM_STD_REPORT());
+        optionsParser.parseOption(simulationOptions.getIOP_SPLIT_LEVEL_DOWN());
+        optionsParser.parseOption(simulationOptions.getIOP_SPLIT_PRESIM());
+        optionsParser.parseOption(simulationOptions.getIOP_SPLIT_NUMBER());
+        optionsParser.parseOption(simulationOptions.getIOP_SPLIT_RESTART_FINISH());
+        optionsParser.parseOption(simulationOptions.getIOP_SPLIT_PRESIM_RUNS());
+        optionsParser.parseOption(simulationOptions.getFOP_SIM_LENGTH());
+        optionsParser.parseOption(simulationOptions.getFOP_SIM_CONFIDENCE());
+        optionsParser.parseOption(simulationOptions.getFOP_SIM_ERROR());
+    }
+
+    private void parseAnalysisOptions(AnalysisOptionsViewModel analysisOptions, OptionsParser optionsParser) {
+        optionsParser.parseOption(analysisOptions.getIOP_MC());
+        optionsParser.parseOption(analysisOptions.getIOP_SSMETHOD());
+        optionsParser.parseOption(analysisOptions.getIOP_SSDETECT());
+        optionsParser.parseOption(analysisOptions.getFOP_SSPRES());
+        optionsParser.parseOption(analysisOptions.getIOP_TSMETHOD());
+        optionsParser.parseOption(analysisOptions.getIOP_CUMULATIVE());
+        optionsParser.parseOption(analysisOptions.getIOP_SENSITIVITY());
+        optionsParser.parseOption(analysisOptions.getIOP_ITERATIONS());
+        optionsParser.parseOption(analysisOptions.getFOP_PRECISION());
+    }
+
+    private void parseIntermediateOptions(IntermediateOptionsViewModel intermediateOptions, OptionsParser optionsParser) {
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_RSET());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_RGRAPH());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_MARK_ORDER());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_MERG_MARK());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_FULL_MARK());
+        optionsParser.parseOption(intermediateOptions.getIOP_USENAME());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_MC());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_DERMC());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_MC_ORDER());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_PROB());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_PROBDTMC());
+        optionsParser.parseOption(intermediateOptions.getIOP_PR_DOT());
+    }
+
+    private void parseMiscellaneousOptions(MiscellaneousOptionsViewModel miscellaneousOptions, OptionsParser optionsParser) {
+        optionsParser.parseOption(miscellaneousOptions.getIOP_ELIMINATION());
+        optionsParser.parseOption(miscellaneousOptions.getIOP_OK_ABSMARK());
+        optionsParser.parseOption(miscellaneousOptions.getIOP_OK_VANLOOP());
+        optionsParser.parseOption(miscellaneousOptions.getIOP_OK_TRANS_M0());
+        optionsParser.parseOption(miscellaneousOptions.getIOP_OK_VAN_M0());
+        optionsParser.parseOption(miscellaneousOptions.getFOP_ABS_RET_M0());
+        optionsParser.parseOption(miscellaneousOptions.getIOP_DEBUG());
+        optionsParser.parseOption(miscellaneousOptions.getFOP_FLUID_EPSILON());
+        optionsParser.parseOption(miscellaneousOptions.getFOP_TIME_EPSILON());
     }
 
     private List<VariableViewModel> convertVariables(List<VariableOldFormat> oldVariables) {
