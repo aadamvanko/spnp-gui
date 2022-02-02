@@ -3,7 +3,9 @@
 This is a replacement for the old GUI tool for modelling of the Petri Nets with the extensions as defined by the SPNP
 package. The old GUI is aged and has usability issues. This new open-source application offers the same basic
 functionality with the better user experience and possibilities for further development by anyone interested in this
-project.
+project. This application is the output of my Master's
+thesis (https://is.muni.cz/th/trvza/?fakulta=1451;lang=en;id=239803), which covers the whole development process in
+detail.
 
 ### Main Features
 
