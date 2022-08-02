@@ -1,5 +1,7 @@
 package cz.muni.fi.spnp.gui.mappers;
 
+import cz.muni.fi.spnp.core.transformators.spnp.variables.DoubleVariable;
+import cz.muni.fi.spnp.core.transformators.spnp.variables.IntegerVariable;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.Variable;
 import cz.muni.fi.spnp.core.transformators.spnp.variables.VariableType;
 import cz.muni.fi.spnp.gui.components.menu.view.variables.VariableDataType;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VariableMapperTest {
 
@@ -25,6 +28,7 @@ public class VariableMapperTest {
         var intVariable = variableMapper.map(variableViewModel);
 
         assertEqualsVariable(variableViewModel, intVariable);
+        assertTrue(intVariable instanceof IntegerVariable);
     }
 
     @Test
@@ -34,6 +38,7 @@ public class VariableMapperTest {
         var doubleVariable = variableMapper.map(variableViewModel);
 
         assertEqualsVariable(variableViewModel, doubleVariable);
+        assertTrue(doubleVariable instanceof DoubleVariable);
     }
 
     @Test
@@ -43,6 +48,7 @@ public class VariableMapperTest {
         var intVariable = variableMapper.map(variableViewModel);
 
         assertEqualsVariable(variableViewModel, intVariable);
+        assertTrue(intVariable instanceof IntegerVariable);
     }
 
     @Test
@@ -52,6 +58,7 @@ public class VariableMapperTest {
         var doubleVariable = variableMapper.map(variableViewModel);
 
         assertEqualsVariable(variableViewModel, doubleVariable);
+        assertTrue(doubleVariable instanceof DoubleVariable);
     }
 
     private void assertEqualsVariable(VariableViewModel variableViewModel, Variable intVariable) {
